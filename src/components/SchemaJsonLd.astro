@@ -1,7 +1,10 @@
 ---
+import { serviceSchemasRecord } from '../data/serviceSchemas';
+
 interface Props {
   type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
   serviceData?: {
+    slug?: string;
     name: string;
     description: string;
     techStack?: string[];
@@ -12,6 +15,9 @@ interface Props {
 
 const { type = 'home', serviceData, customSchema } = Astro.props;
 
+// Confirmed Organization Schema (Steps 7 & 8)
+// Social URLs confirmed from codebase: Instagram, YouTube, WhatsApp.
+// Telephone field omitted as calling number is currently placeholder in docs.
 const organizationBase = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -19,26 +25,12 @@ const organizationBase = {
   alternateName: 'Alpha AI Services',
   url: 'https://infohq.in',
   logo: 'https://infohq.in/images/infohq-logo.webp',
+  description: 'InfoHQ (Alpha AI Services) is a Pune & Prayagraj-based AI and software engineering studio helping startups and enterprises across India build, automate, and grow — from custom AI systems to full-scale digital products.',
   email: 'contact@infohq.in',
   sameAs: [
-    'https://www.linkedin.com/in/tiwarijii',
-    'https://www.youtube.com/@infohq28',
     'https://www.instagram.com/infohq.in/?hl=en',
-    'https://x.com/CodeWithTiwari'
-  ],
-  address: [
-    {
-      '@type': 'PostalAddress',
-      addressLocality: 'Pune',
-      addressRegion: 'Maharashtra',
-      addressCountry: 'IN'
-    },
-    {
-      '@type': 'PostalAddress',
-      addressLocality: 'Prayagraj',
-      addressRegion: 'Uttar Pradesh',
-      addressCountry: 'IN'
-    }
+    'https://www.youtube.com/@infohq28',
+    'https://wa.me/918381835420'
   ],
   areaServed: {
     '@type': 'Country',
@@ -51,54 +43,155 @@ let schemas: any[] = [];
 if (customSchema) {
   schemas.push(customSchema);
 } else if (type === 'home') {
+  // 1. Top-Level Organization Schema
   schemas.push(organizationBase);
+
+  // 2. LocalBusiness Block 1: Pune
   schemas.push({
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    name: 'InfoHQ — AI & Software Development Studio',
-    image: 'https://infohq.in/images/infohq-logo.webp',
-    '@id': 'https://infohq.in',
+    '@type': 'LocalBusiness',
+    name: 'InfoHQ — Pune',
     url: 'https://infohq.in',
+    image: 'https://infohq.in/images/infohq-logo.webp',
     email: 'contact@infohq.in',
-    priceRange: '₹9,999 - ₹49,999+',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Pune',
       addressRegion: 'Maharashtra',
       addressCountry: 'IN'
     },
-    areaServed: 'India',
-    description: 'InfoHQ is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow.'
-  });
-} else if (type === 'service-detail' && serviceData) {
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    serviceType: serviceData.name,
-    name: serviceData.name,
-    description: serviceData.description,
-    url: serviceData.url,
-    provider: {
+    parentOrganization: {
       '@type': 'Organization',
       name: 'InfoHQ',
-      alternateName: 'Alpha AI Services',
       url: 'https://infohq.in'
-    },
-    areaServed: {
-      '@type': 'Country',
-      name: 'India'
     }
   });
+
+  // 3. LocalBusiness Block 2: Prayagraj
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'InfoHQ — Prayagraj',
+    url: 'https://infohq.in',
+    image: 'https://infohq.in/images/infohq-logo.webp',
+    email: 'contact@infohq.in',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Prayagraj',
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN'
+    },
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    }
+  });
+
+  // 4. FAQPage Schema (Home Page - Step 9)
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Do you only work with startups, or enterprises too?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Both. Our One-Time Project model suits startups and new builds, while our Monthly Retainer plans (especially Technology Partner) are built for growing and enterprise-scale operations.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I own the code and IP?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — 100% client ownership on all code, design, and database schemas, always.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you work with businesses outside Pune/Prayagraj?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, we deliver pan-India — our physical presence is in Pune and Prayagraj, but our team works with clients anywhere in the country.'
+        }
+      }
+    ]
+  });
+} else if (type === 'service-detail' && serviceData) {
+  // Individual Service Page Schema (Steps 5 & 6)
+  const slug = serviceData.slug || '';
+  const schemaConfig = serviceSchemasRecord[slug];
+
+  if (schemaConfig) {
+    const offerPayload: Record<string, any> = {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      description: schemaConfig.priceDescription
+    };
+
+    // Only include price if not a Custom Quote
+    if (schemaConfig.price) {
+      offerPayload.price = schemaConfig.price;
+    }
+
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: schemaConfig.serviceType,
+      provider: {
+        '@type': 'Organization',
+        name: 'InfoHQ',
+        alternateName: 'Alpha AI Services',
+        url: 'https://infohq.in'
+      },
+      areaServed: 'IN',
+      description: schemaConfig.description,
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: schemaConfig.category,
+        itemListElement: schemaConfig.subFeatures.map((subFeature) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: subFeature
+          }
+        }))
+      },
+      offers: offerPayload
+    });
+  } else {
+    // Fallback if slug mapping not found
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: serviceData.name,
+      provider: {
+        '@type': 'Organization',
+        name: 'InfoHQ',
+        alternateName: 'Alpha AI Services',
+        url: 'https://infohq.in'
+      },
+      areaServed: 'IN',
+      description: serviceData.description
+    });
+  }
 } else if (type === 'pricing') {
+  schemas.push(organizationBase);
+
+  // Retainers & One-Time Projects Offer Catalog
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'InfoHQ Engineering Retainer Plans',
+    serviceType: 'Engineering Retainers & Projects',
+    name: 'InfoHQ Engineering Retainer & Project Plans',
     provider: {
       '@type': 'Organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     },
+    areaServed: 'IN',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Engineering Retainers & One-Time Projects',
@@ -111,8 +204,7 @@ if (customSchema) {
           },
           price: '9999',
           priceCurrency: 'INR',
-          billingDuration: 'P1M',
-          description: 'Essential digital care and reliable routine maintenance for small businesses.'
+          description: 'Essential digital care and reliable routine maintenance for small businesses (₹9,999/month).'
         },
         {
           '@type': 'Offer',
@@ -122,8 +214,7 @@ if (customSchema) {
           },
           price: '24999',
           priceCurrency: 'INR',
-          billingDuration: 'P1M',
-          description: '1 Dedicated Senior Engineer for continuous improvements, features, and fast problem solving.'
+          description: '1 Dedicated Senior Engineer for continuous improvements, features, and fast problem solving (₹24,999/month).'
         },
         {
           '@type': 'Offer',
@@ -133,18 +224,62 @@ if (customSchema) {
           },
           price: '49999',
           priceCurrency: 'INR',
-          billingDuration: 'P1M',
-          description: '3-Person Dedicated Engineering Team for multi-system digital operations.'
+          description: '3-Person Dedicated Engineering Team for multi-system digital operations (₹49,999/month).'
         }
       ]
     }
   });
-} else if (type === 'contact') {
+
+  // FAQPage Schema (Pricing Page - Step 9)
   schemas.push({
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'InfoHQ',
-    url: 'https://infohq.in',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What do I get with a monthly plan?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Predictable monthly cost for continuous engineering capacity across your digital assets — maintenance, bug fixing, and feature additions.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can you manage a website another developer built?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — we run a code and architecture audit first, then onboard it into our system.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will a monthly plan build me a new website or app from scratch?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No — monthly retainers are for maintaining and scaling existing systems. New projects are built under the fixed-scope milestone model.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are hosting and API charges included?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Technical setup and management are included. Third-party bills (AWS, Google Cloud, OpenAI API credits, domain) are paid directly from the client\'s own account, so ownership stays with the client.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who owns the code and IP?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: '100% Client Ownership. All code, design, database schemas, and assets are handed over into the client\'s own repositories.'
+        }
+      }
+    ]
+  });
+} else if (type === 'contact') {
+  schemas.push({
+    ...organizationBase,
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -159,6 +294,48 @@ if (customSchema) {
         areaServed: 'IN'
       }
     ]
+  });
+} else if (type === 'company') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About InfoHQ — AI & Software Engineering Studio',
+    url: 'https://infohq.in/company',
+    description: 'InfoHQ (Alpha AI Services) is an AI and software engineering studio based in Pune and Prayagraj, building and running digital products for businesses across India.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    }
+  });
+} else if (type === 'services') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Our Services — AI, Software, Web & Mobile Development | InfoHQ',
+    url: 'https://infohq.in/services',
+    description: 'Explore InfoHQ\'s full range of services: AI & intelligent systems, custom software, web & mobile app development, cloud & DevOps, automation, and digital marketing.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    }
+  });
+} else if (type === 'blogs') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'InfoHQ Engineering Blog',
+    url: 'https://infohq.in/blogs',
+    description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    }
   });
 } else if (type === 'portfolio') {
   schemas.push(organizationBase);
