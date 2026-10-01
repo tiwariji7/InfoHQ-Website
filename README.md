@@ -153,4 +153,4 @@ For project inquiries, technical partnerships, or consultations:
 
 ---
 
-&copy; 2026 InfoHQ (Alpha AI Services). All rights reserved.
+&copy; 2026 InfoHQ. All rights reserved.
