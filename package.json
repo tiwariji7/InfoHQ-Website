@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "latest",
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "latest",
     "gsap": "latest",
     "lenis": "latest",

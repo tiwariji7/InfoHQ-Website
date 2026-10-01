@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +13,14 @@ export default defineConfig({
     imageService: 'passthrough'
   }),
   output: 'static',
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        !page.includes('/api/') &&
+        !page.includes('/privacy-policy') &&
+        !page.includes('/terms-of-service')
+    })
+  ],
   vite: {
     optimizeDeps: {
       exclude: ['lucide-astro', 'lenis']
