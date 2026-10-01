@@ -1,0 +1,22 @@
+# InfoHQ
+> InfoHQ (Alpha AI Services) is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow — operating a hybrid model of B2B client engineering and proprietary AI SaaS products.
+
+## Services
+- [AI & Intelligent Systems](https://infohq.in/services/ai-intelligent-systems): Practical AI agents, RAG systems, and custom-built business software.
+- [Custom Software Development](https://infohq.in/services/custom-software): Purpose-built business software, end-to-end multi-tenant SaaS platforms, robust REST/GraphQL APIs, and internal portals.
+- [Modern Web Development](https://infohq.in/services/web-development): High-converting business websites, interactive client portals & dashboards, headless CMS platforms, sub-second page performance, and full SEO optimization.
+- [Mobile App Development (iOS & Android)](https://infohq.in/services/mobile-app-development): Cross-platform and native mobile apps with offline-first local database caching, background sync, biometric security, and app store deployment.
+- [Business Automation](https://infohq.in/services/business-automation): Custom workflow automation, bi-directional tool/app synchronization (CRMs, payments, email, accounting), and automated document pipelines.
+- [Cloud & DevOps](https://infohq.in/services/cloud-devops): Cloud architecture (AWS, GCP, Cloudflare), zero-downtime automated CI/CD pipelines via GitHub Actions, Docker containerization, and proactive health/uptime monitoring.
+- [Cybersecurity](https://infohq.in/services/cybersecurity): OWASP Top 10 application security audits, secure authentication systems (JWT, MFA, RBAC), server and firewall hardening, and TLS encryption.
+- [Website Maintenance & Support](https://infohq.in/services/website-maintenance): Routine security and plugin updates, automated daily backups with 1-click restore, ongoing Core Web Vitals speed optimization, and fast bug fixes.
+- [UI/UX Design](https://infohq.in/services/ui-ux-design): User journey mapping, wireframing, high-fidelity responsive UI design, interactive Figma prototypes, and scalable component design systems.
+- [Graphic & Brand Design](https://infohq.in/services/brand-design): Modern logos and visual identities, complete brand style guidelines, investor pitch decks & presentation decks, and marketing/social asset kits.
+- [Social Media Management](https://infohq.in/services/social-media-management): Monthly content calendar planning, custom branded post/carousel design for LinkedIn, X/Twitter, and Instagram, technical copywriting, and analytics.
+- [Digital Marketing](https://infohq.in/services/digital-marketing): Search Engine Optimization (SEO), high-intent Google Search and LinkedIn paid ad campaigns, conversion funnel tracking with GA4, and landing page optimization.
+
+## Pricing
+InfoHQ offers two engagement models — fixed-scope One-Time Projects and structured Monthly Engineering Retainers (starting at ₹9,999/month with 100% code and IP ownership). View full pricing details at: https://infohq.in/pricing
+
+## Company
+InfoHQ (also known as Alpha AI Services) — Pune & Prayagraj, India. Contact: contact@infohq.in
