@@ -1,0 +1,39 @@
+# Build & cache outputs
+dist/
+.astro/
+.wrangler/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Internal project documentation & prompts (not deployed)
+websiteDocs/
+development-master-prompt.md
+
+# Scratch scripts & temporary test artifacts
+scratch/
+*.tmp
+*.temp

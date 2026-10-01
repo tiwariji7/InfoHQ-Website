@@ -1,0 +1,1568 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import { 
+  Users, 
+  Lightbulb, 
+  Settings, 
+  Award, 
+  Code, 
+  Clock, 
+  MessageSquare, 
+  User, 
+  Mail, 
+  Building2, 
+  Globe, 
+  Smartphone, 
+  Sparkles, 
+  Code2, 
+  Database, 
+  Cloud, 
+  Palette, 
+  HelpCircle, 
+  FileText, 
+  IndianRupee, 
+  Calendar, 
+  Phone, 
+  Lock, 
+  Check 
+} from 'lucide-astro';
+
+const meta = {
+  title: 'Contact InfoHQ — Get a Free Consultation',
+  description: 'Reach InfoHQ for your AI, software, or digital project. Based in Pune & Prayagraj, serving clients pan-India. Get a response within 1 business day.',
+  keywords: 'contact software development company India, hire AI developers India, software company contact Pune'
+};
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  schemaType="contact"
+  showMobileCTA={false}
+>
+  <!-- Main Two-Column Contact Section -->
+  <section class="section contact-section" aria-labelledby="contact-heading">
+    <!-- Subtle Background Dot-Grid & Corner Blob -->
+    <div class="contact-bg-pattern" aria-hidden="true"></div>
+    <div class="contact-bg-blob" aria-hidden="true"></div>
+
+    <div class="container contact-container">
+      <div class="contact-split-grid">
+        
+        <!-- LEFT COLUMN: Studio Info & Assurance -->
+        <div class="contact-info-column">
+          <!-- Top Pill Badge -->
+          <div class="studio-pill-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            <span class="badge-text">Pune • Prayagraj • Pan-India Engineering Studio</span>
+          </div>
+
+          <!-- Main H1 Headline -->
+          <h1 id="contact-heading" class="contact-hero-title">
+            <span class="title-line-solid">Let's Talk About</span>
+            <span class="title-line-gradient">Your Idea.</span>
+          </h1>
+
+          <!-- Subtext -->
+          <p class="contact-hero-subtext">
+            Not sure where to start? Tell us what you're trying to build or solve. We'll help you figure out the right approach, suggest the best solution, and guide you with a clear plan.
+          </p>
+
+          <!-- 3 Feature Rows -->
+          <div class="feature-rows-list">
+            <!-- Row 1: Free Consultation -->
+            <div class="feature-row-item">
+              <div class="feature-icon-tile tile-purple" aria-hidden="true">
+                <Users size={26} stroke-width={2} />
+              </div>
+              <div class="feature-row-content">
+                <h2 class="feature-row-title">Free Consultation</h2>
+                <p class="feature-row-desc">
+                  Discuss your idea with our senior engineers. Get honest guidance, not a sales pitch.
+                </p>
+              </div>
+            </div>
+
+            <!-- Row 2: Right Solution -->
+            <div class="feature-row-item">
+              <div class="feature-icon-tile tile-coral" aria-hidden="true">
+                <Lightbulb size={26} stroke-width={2} />
+              </div>
+              <div class="feature-row-content">
+                <h2 class="feature-row-title">Right Solution</h2>
+                <p class="feature-row-desc">
+                  We'll suggest the best approach, technology and roadmap for your goals.
+                </p>
+              </div>
+            </div>
+
+            <!-- Row 3: Practical Plan -->
+            <div class="feature-row-item">
+              <div class="feature-icon-tile tile-blue" aria-hidden="true">
+                <Settings size={26} stroke-width={2} />
+              </div>
+              <div class="feature-row-content">
+                <h2 class="feature-row-title">Practical Plan</h2>
+                <p class="feature-row-desc">
+                  Clear scope, timeline and cost estimate based on your requirements.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Horizontal Divider -->
+          <hr class="contact-divider" />
+
+          <!-- Bottom Row: 3-Item Stats & Handwritten Accent Line -->
+          <div class="stats-and-accent-row">
+            <!-- 3-Item Stats Row -->
+            <div class="stats-items-grid">
+              <div class="stat-box">
+                <div class="stat-icon-wrapper" aria-hidden="true">
+                  <Award size={20} stroke-width={2.2} />
+                </div>
+                <div class="stat-text-group">
+                  <span class="stat-number">100%</span>
+                  <span class="stat-label">Client Focused</span>
+                </div>
+              </div>
+
+              <div class="stat-box">
+                <div class="stat-icon-wrapper" aria-hidden="true">
+                  <Code size={20} stroke-width={2.2} />
+                </div>
+                <div class="stat-text-group">
+                  <span class="stat-number">Dedicated</span>
+                  <span class="stat-label">Engineers</span>
+                </div>
+              </div>
+
+              <div class="stat-box">
+                <div class="stat-icon-wrapper" aria-hidden="true">
+                  <Clock size={20} stroke-width={2.2} />
+                </div>
+                <div class="stat-text-group">
+                  <span class="stat-number">Response</span>
+                  <span class="stat-label">within 1 business day</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Handwritten Accent Line (Real Text, Caveat Font) -->
+            <div class="handwritten-accent" aria-label="Ideas, Discussions, Solutions, Growth">
+              <div class="handwritten-text">
+                <span>Ideas</span>
+                <span>Discussions</span>
+                <span>Solutions</span>
+                <span>Growth</span>
+              </div>
+              <svg class="handwritten-arrow" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 32 C 14 26, 22 19, 32 10" />
+                <path d="M21 8 L33 9 L31 21" />
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- RIGHT COLUMN: Consultation Form Card -->
+        <div class="contact-form-column">
+          <div class="card consultation-form-card">
+            
+            <!-- Card Header Row -->
+            <div class="form-card-header">
+              <div class="form-header-icon" aria-hidden="true">
+                <MessageSquare size={22} stroke-width={2.2} />
+              </div>
+              <div class="form-header-text">
+                <h2 class="form-card-title">Book a Free Consultation</h2>
+                <p class="form-card-subtext">
+                  Tell us a little about yourself and your idea. We'll get back to you soon.
+                </p>
+              </div>
+            </div>
+
+            <!-- Form -->
+            <form id="consultation-form" class="consultation-form" novalidate>
+              
+              <!-- 1. Row: Full Name * | Work Email * -->
+              <div class="form-fields-row-2">
+                <div class="form-field-group">
+                  <label for="contact-name" class="field-label">Full Name <span class="req" aria-hidden="true">*</span></label>
+                  <div class="field-input-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <User size={18} stroke-width={2} />
+                    </span>
+                    <input 
+                      type="text" 
+                      id="contact-name" 
+                      name="fullName" 
+                      required 
+                      class="field-input" 
+                      placeholder="e.g. Rahul Sharma"
+                      autocomplete="name"
+                    />
+                  </div>
+                  <span class="field-error-message" id="name-error" role="alert"></span>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-email" class="field-label">Work Email <span class="req" aria-hidden="true">*</span></label>
+                  <div class="field-input-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <Mail size={18} stroke-width={2} />
+                    </span>
+                    <input 
+                      type="email" 
+                      id="contact-email" 
+                      name="email" 
+                      required 
+                      class="field-input" 
+                      placeholder="e.g. rahul@company.com"
+                      autocomplete="email"
+                    />
+                  </div>
+                  <span class="field-error-message" id="email-error" role="alert"></span>
+                </div>
+              </div>
+
+              <!-- 2. Row: Phone / WhatsApp (Optional) | Company Name (Optional) -->
+              <div class="form-fields-row-2">
+                <div class="form-field-group">
+                  <label for="contact-phone" class="field-label">Phone / WhatsApp <span class="optional-tag">(Optional)</span></label>
+                  <div class="field-input-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <!-- WhatsApp/Phone Icon -->
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                      </svg>
+                    </span>
+                    <input 
+                      type="tel" 
+                      id="contact-phone" 
+                      name="phone" 
+                      class="field-input" 
+                      placeholder="+91 98765 43210"
+                      autocomplete="tel"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-company" class="field-label">Company Name <span class="optional-tag">(Optional)</span></label>
+                  <div class="field-input-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <Building2 size={18} stroke-width={2} />
+                    </span>
+                    <input 
+                      type="text" 
+                      id="contact-company" 
+                      name="company" 
+                      class="field-input" 
+                      placeholder="e.g. Acme Tech Solutions"
+                      autocomplete="organization"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. What do you need help with? * (Selectable cards grid) -->
+              <div class="form-field-group">
+                <fieldset class="selectable-fieldset">
+                  <legend class="field-label">What do you need help with? <span class="req" aria-hidden="true">*</span></legend>
+                  
+                  <div class="service-cards-grid" role="radiogroup" aria-labelledby="service-grid-label">
+                    
+                    <!-- 1. Website / Web App -->
+                    <label class="service-chip-label" for="service-web">
+                      <input type="radio" id="service-web" name="serviceType" value="Website / Web App" class="sr-only-radio" required />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Globe size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Website / Web App</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 2. Mobile App -->
+                    <label class="service-chip-label" for="service-mobile">
+                      <input type="radio" id="service-mobile" name="serviceType" value="Mobile App" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Smartphone size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Mobile App</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 3. AI / Automation -->
+                    <label class="service-chip-label" for="service-ai">
+                      <input type="radio" id="service-ai" name="serviceType" value="AI / Automation" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Sparkles size={18} stroke-width={2} /></span>
+                        <span class="chip-text">AI / Automation</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 4. Custom Software -->
+                    <label class="service-chip-label" for="service-software">
+                      <input type="radio" id="service-software" name="serviceType" value="Custom Software" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Code2 size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Custom Software</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 5. Business Process / CRM -->
+                    <label class="service-chip-label" for="service-crm">
+                      <input type="radio" id="service-crm" name="serviceType" value="Business Process / CRM" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Database size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Business Process / CRM</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 6. Cloud / DevOps & Infrastructure -->
+                    <label class="service-chip-label" for="service-cloud">
+                      <input type="radio" id="service-cloud" name="serviceType" value="Cloud / DevOps & Infrastructure" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Cloud size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Cloud / DevOps &amp; Infrastructure</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 7. Design & Marketing (Added per Flag #2) -->
+                    <label class="service-chip-label" for="service-design">
+                      <input type="radio" id="service-design" name="serviceType" value="Design & Marketing" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Palette size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Design &amp; Marketing</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- 8. Not Sure / Need Guidance -->
+                    <label class="service-chip-label" for="service-guidance">
+                      <input type="radio" id="service-guidance" name="serviceType" value="Not Sure / Need Guidance" class="sr-only-radio" />
+                      <div class="service-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><HelpCircle size={18} stroke-width={2} /></span>
+                        <span class="chip-text">Not Sure / Need Guidance</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={11} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                  </div>
+                </fieldset>
+                <span class="field-error-message" id="service-error" role="alert"></span>
+              </div>
+
+              <!-- 4. Tell us about your idea or requirement * -->
+              <div class="form-field-group">
+                <label for="contact-brief" class="field-label field-label-with-icon">
+                  <FileText size={16} stroke-width={2} aria-hidden="true" />
+                  <span>Tell us about your idea or requirement <span class="req" aria-hidden="true">*</span></span>
+                </label>
+                <div class="textarea-wrapper">
+                  <textarea 
+                    id="contact-brief" 
+                    name="projectBrief" 
+                    rows="4" 
+                    maxlength="1000" 
+                    required 
+                    class="field-textarea" 
+                    placeholder="What are you trying to build, improve, or solve? Feel free to share any details."
+                  ></textarea>
+                  <div class="textarea-bottom-row">
+                    <span class="field-error-message" id="brief-error" role="alert"></span>
+                    <span id="char-counter" class="char-counter" aria-live="polite">0/1000</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Row: Estimated Budget (Optional) | When would you like to start? (Optional) -->
+              <div class="form-fields-row-2">
+                <div class="form-field-group">
+                  <label for="contact-budget" class="field-label">Estimated Budget <span class="optional-tag">(Optional)</span></label>
+                  <div class="field-input-wrapper select-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <IndianRupee size={18} stroke-width={2} />
+                    </span>
+                    <select id="contact-budget" name="budget" class="field-select">
+                      <option value="" selected>Select budget range</option>
+                      <option value="Under ₹15,000">Under ₹15,000</option>
+                      <option value="₹15,000 - ₹30,000">₹15,000 - ₹30,000</option>
+                      <option value="₹30,000 - ₹50,000">₹30,000 - ₹50,000</option>
+                      <option value="₹50,000+">₹50,000+</option>
+                      <option value="Not sure yet">Not sure yet</option>
+                    </select>
+                    <span class="select-chevron" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-field-group">
+                  <label for="contact-timeline" class="field-label">When would you like to start? <span class="optional-tag">(Optional)</span></label>
+                  <div class="field-input-wrapper select-wrapper">
+                    <span class="input-leading-icon" aria-hidden="true">
+                      <Calendar size={18} stroke-width={2} />
+                    </span>
+                    <select id="contact-timeline" name="timeline" class="field-select">
+                      <option value="" selected>Select timeline</option>
+                      <option value="Immediately">Immediately</option>
+                      <option value="Within 1 month">Within 1 month</option>
+                      <option value="1-3 months">1-3 months</option>
+                      <option value="Just exploring">Just exploring</option>
+                    </select>
+                    <span class="select-chevron" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 6. Preferred way to connect (Optional) -->
+              <div class="form-field-group">
+                <fieldset class="selectable-fieldset">
+                  <legend class="field-label">Preferred way to connect <span class="optional-tag">(Optional)</span></legend>
+                  
+                  <div class="preferred-chips-grid" role="radiogroup">
+                    
+                    <!-- Email (default checked) -->
+                    <label class="preferred-chip-label" for="pref-email">
+                      <input type="radio" id="pref-email" name="preferredContact" value="Email" class="sr-only-radio" checked />
+                      <div class="preferred-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Mail size={16} stroke-width={2} /></span>
+                        <span class="chip-text">Email</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={10} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- WhatsApp -->
+                    <label class="preferred-chip-label" for="pref-whatsapp">
+                      <input type="radio" id="pref-whatsapp" name="preferredContact" value="WhatsApp" class="sr-only-radio" />
+                      <div class="preferred-chip-box">
+                        <span class="chip-icon" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                          </svg>
+                        </span>
+                        <span class="chip-text">WhatsApp</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={10} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                    <!-- Phone Call -->
+                    <label class="preferred-chip-label" for="pref-phone">
+                      <input type="radio" id="pref-phone" name="preferredContact" value="Phone Call" class="sr-only-radio" />
+                      <div class="preferred-chip-box">
+                        <span class="chip-icon" aria-hidden="true"><Phone size={16} stroke-width={2} /></span>
+                        <span class="chip-text">Phone Call</span>
+                        <span class="chip-check-badge" aria-hidden="true"><Check size={10} stroke-width={3} /></span>
+                      </div>
+                    </label>
+
+                  </div>
+                </fieldset>
+              </div>
+
+              <!-- 7. Submit button: Full Width, Brand Gradient, Trailing Arrow -->
+              <div class="form-submit-wrapper">
+                <Button
+                  type="submit"
+                  variant="gradient"
+                  size="lg"
+                  label="Book Free Consultation"
+                  icon="arrow-inline"
+                  fullWidth={true}
+                  id="contact-submit-btn"
+                  class="submit-gradient-btn"
+                />
+              </div>
+
+              <!-- 8. Trust Microcopy -->
+              <div class="form-trust-copy">
+                <span class="trust-icon" aria-hidden="true"><Lock size={14} stroke-width={2.2} /></span>
+                <span class="trust-text">No commitment. Just a conversation about your idea. Your information is safe with us.</span>
+              </div>
+
+              <!-- Feedback Banner (aria-live) -->
+              <div id="form-feedback-message" class="feedback-banner" style="display: none;" role="status" aria-live="polite"></div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA: Prefer to Just Talk It Through? -->
+  <FinalCTA page="contact" />
+</BaseLayout>
+
+<style>
+  /* Import Caveat cursive font for the handwritten accent line only */
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
+  /* Contact Page Base Section */
+  .contact-section {
+    position: relative;
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+    background: var(--color-bg-page);
+    overflow: hidden;
+  }
+
+  /* Decorative CSS-only dot grid in top-left */
+  .contact-bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 60%;
+    background-image: radial-gradient(circle, rgba(124, 92, 232, 0.14) 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.85;
+    mask-image: radial-gradient(ellipse at 20% 20%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 20% 20%, black 30%, transparent 75%);
+  }
+
+  /* Decorative soft gradient blob in bottom-right */
+  .contact-bg-blob {
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(221, 73, 133, 0.09) 0%, rgba(124, 92, 232, 0.08) 40%, rgba(87, 130, 224, 0.04) 70%, transparent 80%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .contact-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Two Column Split Grid */
+  .contact-split-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+
+  /* ==========================================================================
+     LEFT COLUMN STYLES
+     ========================================================================== */
+  .contact-info-column {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+  }
+
+  /* Top Pill Badge */
+  .studio-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-border-card);
+    box-shadow: 0 2px 8px rgba(26, 8, 92, 0.04);
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .badge-text {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    letter-spacing: 0.02em;
+  }
+
+  /* H1 Headline */
+  .contact-hero-title {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(2.35rem, 4.4vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .title-line-solid {
+    color: var(--color-text-heading); /* Solid Navy #1A085C */
+  }
+
+  .title-line-gradient {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--color-text-heading); /* Fallback */
+    display: inline-block;
+  }
+
+  /* Subtext */
+  .contact-hero-subtext {
+    font-size: clamp(0.95rem, 1.15vw, 1.125rem);
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    margin-bottom: 2.25rem;
+    max-width: 520px;
+  }
+
+  /* 3 Feature Rows */
+  .feature-rows-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .feature-row-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .feature-icon-tile {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .feature-row-item:hover .feature-icon-tile {
+    transform: translateY(-2px);
+  }
+
+  .tile-purple {
+    background: rgba(124, 92, 232, 0.12);
+    color: var(--color-primary);
+  }
+
+  .tile-coral {
+    background: rgba(232, 96, 78, 0.12);
+    color: var(--color-grad-coral);
+  }
+
+  .tile-blue {
+    background: rgba(87, 130, 224, 0.14);
+    color: var(--color-grad-blue);
+  }
+
+  .feature-row-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 2px;
+  }
+
+  .feature-row-title {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    line-height: 1.3;
+  }
+
+  .feature-row-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+    line-height: 1.5;
+  }
+
+  /* Divider */
+  .contact-divider {
+    border: none;
+    border-top: 1px solid var(--color-border-card);
+    margin: 0.5rem 0 2rem;
+  }
+
+  /* Bottom Row: Stats & Handwritten Touch */
+  .stats-and-accent-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  /* 3-Item Stats Grid */
+  .stats-items-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .stat-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .stat-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .stat-text-group {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .stat-number {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-heading);
+  }
+
+  .stat-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  /* Handwritten Accent (Caveat Font) */
+  .handwritten-accent {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-primary);
+    transform: rotate(-6deg);
+    user-select: none;
+    padding-left: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .handwritten-text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--color-primary);
+  }
+
+  .handwritten-arrow {
+    color: var(--color-primary);
+    margin-top: -12px;
+  }
+
+  /* ==========================================================================
+     RIGHT COLUMN: FORM CARD STYLES
+     ========================================================================== */
+  .contact-form-column {
+    position: relative;
+    width: 100%;
+  }
+
+  .consultation-form-card {
+    background: var(--color-surface-white);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border-card);
+    box-shadow: 0 16px 40px rgba(26, 8, 92, 0.07), 0 2px 8px rgba(26, 8, 92, 0.03);
+    padding: clamp(1.25rem, 2.8vw, 2.5rem);
+    position: relative;
+  }
+
+  /* Header Row inside card */
+  .form-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .form-header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: rgba(124, 92, 232, 0.12);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .form-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .form-card-title {
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .form-card-subtext {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Form Elements & Layout */
+  .consultation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-fields-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .field-label-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-heading);
+  }
+
+  .req {
+    color: var(--color-grad-coral);
+    font-weight: 700;
+  }
+
+  .optional-tag {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    margin-left: 2px;
+  }
+
+  /* Input with leading icon wrapper */
+  .field-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .input-leading-icon {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .field-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px 0 42px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border-card);
+    background: var(--color-surface-white);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+  }
+
+  .field-input::placeholder {
+    color: var(--color-text-light);
+  }
+
+  .field-input.has-error,
+  .field-textarea.has-error {
+    border-color: var(--color-grad-coral);
+    box-shadow: 0 0 0 2px rgba(232, 96, 78, 0.15);
+  }
+
+  .field-error-message {
+    font-size: 0.75rem;
+    color: var(--color-grad-coral);
+    min-height: 16px;
+    line-height: 1.3;
+  }
+
+  /* Select Dropdowns */
+  .select-wrapper {
+    cursor: pointer;
+  }
+
+  .field-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 36px 0 42px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border-card);
+    background: var(--color-surface-white);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+  }
+
+  .select-chevron {
+    position: absolute;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  /* Fieldsets for Radio Groups */
+  .selectable-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .selectable-fieldset legend {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Hidden native radios */
+  .sr-only-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* 3. Service Cards Grid (4 across desktop, 2 across mobile) */
+  .service-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .service-chip-label {
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    min-width: 0;
+  }
+
+  .service-chip-box {
+    position: relative;
+    min-height: 52px;
+    padding: 7px 6px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border-card);
+    background: var(--color-surface-white);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    min-width: 0;
+  }
+
+  .service-chip-label:hover .service-chip-box {
+    border-color: rgba(124, 92, 232, 0.4);
+    background: rgba(124, 92, 232, 0.02);
+  }
+
+  .service-chip-label:focus-within .service-chip-box {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .chip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .chip-text {
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--color-text-heading);
+    line-height: 1.22;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  .chip-check-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 4px rgba(124, 92, 232, 0.3);
+  }
+
+  /* Checked state for service cards */
+  .service-chip-label input:checked + .service-chip-box {
+    border-color: var(--color-primary);
+    background-color: rgba(124, 92, 232, 0.08);
+  }
+
+  .service-chip-label input:checked + .service-chip-box .chip-text {
+    font-weight: 600;
+  }
+
+  .service-chip-label input:checked + .service-chip-box .chip-check-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* 4. Textarea & Live Character Counter */
+  .textarea-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .field-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border-card);
+    background: var(--color-surface-white);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    resize: vertical;
+    min-height: 105px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+  }
+
+  .field-textarea::placeholder {
+    color: var(--color-text-light);
+  }
+
+  .textarea-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .char-counter {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    margin-left: auto;
+  }
+
+  .char-counter.warning {
+    color: var(--color-grad-coral);
+    font-weight: 700;
+  }
+
+  /* 6. Preferred Way to Connect Chips */
+  .preferred-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .preferred-chip-label {
+    display: block;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .preferred-chip-box {
+    position: relative;
+    height: 44px;
+    padding: 0 12px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border-card);
+    background: var(--color-surface-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+  }
+
+  .preferred-chip-label:hover .preferred-chip-box {
+    border-color: rgba(124, 92, 232, 0.4);
+    background: rgba(124, 92, 232, 0.02);
+  }
+
+  .preferred-chip-label:focus-within .preferred-chip-box {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .preferred-chip-label input:checked + .preferred-chip-box {
+    border-color: var(--color-primary);
+    background-color: rgba(124, 92, 232, 0.08);
+  }
+
+  .preferred-chip-label input:checked + .preferred-chip-box .chip-text {
+    font-weight: 600;
+  }
+
+  .preferred-chip-label input:checked + .preferred-chip-box .chip-check-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* 7. Submit Button Row */
+  .form-submit-wrapper {
+    margin-top: 0.5rem;
+  }
+
+  .form-submit-wrapper :global(.infohq-btn) {
+    width: 100%;
+    justify-content: center;
+    height: 52px;
+  }
+
+  /* 8. Trust Microcopy */
+  .form-trust-copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    padding: 0 0.5rem;
+  }
+
+  .trust-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  /* Feedback Banner States */
+  .feedback-banner {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .feedback-banner.success {
+    background: #DCFCE7;
+    color: #166534;
+    border: 1px solid #86EFAC;
+  }
+
+  .feedback-banner.error {
+    background: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #FCA5A5;
+  }
+
+  /* ==========================================================================
+     RESPONSIVE BREAKPOINTS (Desktop 1024+, Tablet 768-1023, Mobile <768)
+     ========================================================================== */
+  
+  /* Tablet View (768px - 1023px) */
+  @media (max-width: 1023px) {
+    .contact-split-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .contact-hero-subtext {
+      max-width: 100%;
+    }
+
+    .service-cards-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Small Desktop / Laptop (1024px - 1180px) */
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    .contact-split-grid {
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 1.5rem;
+    }
+
+    .consultation-form-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .service-cards-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .service-chip-box {
+      padding: 6px 5px;
+      gap: 5px;
+    }
+
+    .chip-text {
+      font-size: 0.69rem;
+    }
+
+    .stats-items-grid {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .stats-and-accent-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .handwritten-accent {
+      align-self: flex-start;
+      padding-left: 0.5rem;
+    }
+  }
+
+  /* Mobile View (<768px) */
+  @media (max-width: 767px) {
+    .contact-section {
+      padding-top: 2rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .consultation-form-card {
+      padding: 1.5rem 1.15rem;
+      border-radius: var(--radius-xl);
+    }
+
+    .form-fields-row-2 {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    /* 4-across becomes 2-across on mobile per spec */
+    .service-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .service-chip-box {
+      min-height: 48px;
+      padding: 8px 8px;
+    }
+
+    .chip-text {
+      font-size: 0.74rem;
+    }
+
+    /* Preferred contact chips stack on very narrow or stay 3-across */
+    .preferred-chips-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .preferred-chip-box {
+      padding: 0 6px;
+      font-size: 0.75rem;
+    }
+
+    .stats-and-accent-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.75rem;
+    }
+
+    .stats-items-grid {
+      width: 100%;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .handwritten-accent {
+      align-self: center;
+      margin: 0.25rem auto 0;
+      transform: rotate(-3deg);
+      padding-left: 0;
+    }
+  }
+
+  /* Small Mobile View (<400px) */
+  @media (max-width: 399px) {
+    .preferred-chips-grid {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>
+
+<script>
+  function setupConsultationForm() {
+    const form = document.getElementById('consultation-form') as HTMLFormElement | null;
+    if (!form) return;
+
+    const textarea = document.getElementById('contact-brief') as HTMLTextAreaElement | null;
+    const charCounter = document.getElementById('char-counter');
+    const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement | null;
+    const feedbackBanner = document.getElementById('form-feedback-message');
+
+    // Live Character Counter
+    if (textarea && charCounter) {
+      const updateCounter = () => {
+        const len = textarea.value.length;
+        charCounter.textContent = `${len}/1000`;
+        if (len >= 900) {
+          charCounter.classList.add('warning');
+        } else {
+          charCounter.classList.remove('warning');
+        }
+      };
+
+      textarea.addEventListener('input', updateCounter);
+      updateCounter();
+    }
+
+    // Form Submission Handling
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('contact-name') as HTMLInputElement | null;
+      const emailInput = document.getElementById('contact-email') as HTMLInputElement | null;
+      const phoneInput = document.getElementById('contact-phone') as HTMLInputElement | null;
+      const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
+      const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
+      const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
+
+      const nameError = document.getElementById('name-error');
+      const emailError = document.getElementById('email-error');
+      const serviceError = document.getElementById('service-error');
+      const briefError = document.getElementById('brief-error');
+
+      // Clear errors
+      if (nameError) nameError.textContent = '';
+      if (emailError) emailError.textContent = '';
+      if (serviceError) serviceError.textContent = '';
+      if (briefError) briefError.textContent = '';
+      if (feedbackBanner) feedbackBanner.style.display = 'none';
+
+      nameInput?.classList.remove('has-error');
+      emailInput?.classList.remove('has-error');
+      textarea?.classList.remove('has-error');
+
+      let hasError = false;
+
+      // 1. Validate Full Name
+      const fullName = nameInput?.value.trim() || '';
+      if (!fullName) {
+        if (nameError) nameError.textContent = 'Please enter your full name.';
+        nameInput?.classList.add('has-error');
+        hasError = true;
+      }
+
+      // 2. Validate Work Email
+      const email = emailInput?.value.trim() || '';
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        if (emailError) emailError.textContent = 'Please enter a valid work email address.';
+        emailInput?.classList.add('has-error');
+        hasError = true;
+      }
+
+      // 3. Validate Service Selection
+      const selectedServiceRadio = form.querySelector('input[name="serviceType"]:checked') as HTMLInputElement | null;
+      const serviceType = selectedServiceRadio ? selectedServiceRadio.value : '';
+      if (!serviceType) {
+        if (serviceError) serviceError.textContent = 'Please select what you need help with.';
+        hasError = true;
+      }
+
+      // 4. Validate Project Brief / Requirement text
+      const projectBrief = textarea?.value.trim() || '';
+      if (!projectBrief || projectBrief.length < 10) {
+        if (briefError) briefError.textContent = 'Please provide details about your idea (at least 10 characters).';
+        textarea?.classList.add('has-error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        // Focus first field with error
+        if (!fullName) nameInput?.focus();
+        else if (!email || !emailRegex.test(email)) emailInput?.focus();
+        else if (!serviceType) form.querySelector('input[name="serviceType"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        else if (!projectBrief || projectBrief.length < 10) textarea?.focus();
+        return;
+      }
+
+      // Retrieve optional fields
+      const phone = phoneInput?.value.trim() || '';
+      const company = companyInput?.value.trim() || '';
+      const budget = budgetSelect?.value || '';
+      const timeline = timelineSelect?.value || '';
+      const selectedContactRadio = form.querySelector('input[name="preferredContact"]:checked') as HTMLInputElement | null;
+      const preferredContact = selectedContactRadio ? selectedContactRadio.value : 'Email';
+
+      // Submit state
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Book Free Consultation';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute('aria-disabled', 'true');
+        submitBtn.textContent = 'Booking Consultation...';
+      }
+
+      const payload = {
+        fullName,
+        email,
+        phone,
+        company,
+        serviceType,
+        projectBrief,
+        budget,
+        timeline,
+        preferredContact
+      };
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok) {
+          if (feedbackBanner) {
+            feedbackBanner.className = 'feedback-banner success';
+            feedbackBanner.style.display = 'block';
+            feedbackBanner.innerHTML = `
+              <strong>✓ Free Consultation Booked!</strong><br />
+              Thank you, <strong>${fullName}</strong>. Your consultation details have been sent to our engineering leadership at <code>${data.targetEmail || 'contact@infohq.in'}</code>. We will review your idea and get back to you within 1 business day.
+            `;
+            feedbackBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+          form.reset();
+          // Reset default radios & counter
+          const defaultContactRadio = document.getElementById('pref-email') as HTMLInputElement | null;
+          if (defaultContactRadio) defaultContactRadio.checked = true;
+          if (charCounter) charCounter.textContent = '0/1000';
+        } else {
+          if (feedbackBanner) {
+            feedbackBanner.className = 'feedback-banner error';
+            feedbackBanner.style.display = 'block';
+            feedbackBanner.textContent = data.error || 'Submission failed. Please email us directly at contact@infohq.in.';
+          }
+        }
+      } catch (err) {
+        if (feedbackBanner) {
+          feedbackBanner.className = 'feedback-banner error';
+          feedbackBanner.style.display = 'block';
+          feedbackBanner.textContent = 'Network transmission error. Please check your connection or email contact@infohq.in directly.';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-disabled');
+          submitBtn.innerHTML = originalBtnText;
+        }
+      }
+    });
+  }
+
+  setupConsultationForm();
+  document.addEventListener('astro:page-load', setupConsultationForm);
+</script>

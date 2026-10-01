@@ -1,0 +1,344 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import Button from '../../components/Button.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { servicesData, type ServiceItem } from '../../data/servicesData';
+
+export function getStaticPaths() {
+  return servicesData.map((service) => ({
+    params: { slug: service.slug },
+    props: { service }
+  }));
+}
+
+interface Props {
+  service: ServiceItem;
+}
+
+const { service } = Astro.props;
+
+// Related services (other services in same category or adjacent)
+const relatedServices = servicesData
+  .filter(s => s.slug !== service.slug)
+  .slice(0, 3);
+---
+
+<BaseLayout 
+  title={service.metaTitle}
+  description={service.metaDesc}
+  keywords={service.keywords}
+  schemaType="service-detail"
+  serviceData={{
+    name: service.title,
+    description: service.shortDesc,
+    techStack: service.techStack,
+    url: `https://infohq.in/services/${service.slug}`
+  }}
+>
+  <!-- Service Detail Hero -->
+  <section class="section service-detail-hero" aria-labelledby="service-title-heading">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a> &gt; <a href="/services">Services</a> &gt; <span>{service.title}</span>
+      </div>
+
+      <div class="service-hero-grid">
+        <div class="service-hero-content">
+          <span class="text-eyebrow">{service.category}</span>
+          <h1 id="service-title-heading" class="service-h1">
+            {service.title}
+          </h1>
+          <p class="service-lead">
+            {service.fullDesc}
+          </p>
+
+          <div class="service-hero-ctas">
+            <Button
+              variant="primary"
+              size="lg"
+              href="/contact"
+              label="Start Your Project"
+              icon="arrow"
+            />
+            <Button
+              variant="secondary"
+              tone="light"
+              size="lg"
+              href="/pricing"
+              label="View Pricing Models"
+              icon="none"
+            />
+          </div>
+        </div>
+
+        <div class="service-hero-sidebar">
+          <div class="card sidebar-tech-card">
+            <div class="sidebar-icon-box">
+              <ServiceIcon name={service.icon} size={32} />
+            </div>
+            <h3>Core Engineering Stack</h3>
+            <p class="sidebar-sub">Production-grade technologies deployed by our team:</p>
+            
+            <div class="tech-chips-large">
+              {service.techStack.map((tech) => (
+                <span class="chip chip-accent">{tech}</span>
+              ))}
+            </div>
+
+            <div class="sidebar-features">
+              <div class="s-feat">
+                <span class="s-check">&check;</span>
+                <span>100% Client Code &amp; IP Ownership</span>
+              </div>
+              <div class="s-feat">
+                <span class="s-check">&check;</span>
+                <span>Senior Dedicated Engineers</span>
+              </div>
+              <div class="s-feat">
+                <span class="s-check">&check;</span>
+                <span>Fixed Scope or Monthly Retainer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deliverables & Capabilities -->
+  <section class="section section-alt deliverables-section" aria-labelledby="deliverables-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-eyebrow">Deliverables &amp; Scope</span>
+        <h2 id="deliverables-heading">What We Build &amp; Deliver</h2>
+        <p>Comprehensive engineering execution without shortcuts or unmaintained code.</p>
+      </div>
+
+      <div class="deliverables-grid">
+        {service.deliverables.map((deliv, index) => (
+          <article class="card deliverable-card">
+            <div class="deliv-num">0{index + 1}</div>
+            <h3 class="deliv-title">{deliv}</h3>
+            <p class="deliv-desc">
+              Engineered adhering to strict security, sub-second latency, and scalable architecture benchmarks.
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Services -->
+  <section class="section related-section" aria-labelledby="related-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-eyebrow">Explore Next</span>
+        <h2 id="related-heading">Complementary Services</h2>
+      </div>
+
+      <div class="grid-3 related-grid">
+        {relatedServices.map((rel) => (
+          <article class="card related-card">
+            <div class="icon-box" style="background-color: var(--color-primary-light);">
+              <ServiceIcon name={rel.icon} size={22} />
+            </div>
+            <h3>{rel.title}</h3>
+            <div class="card-cta-pin">
+              <a href={`/services/${rel.slug}`} class="service-learn-more">
+                Learn More &rarr;
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <FinalCTA page="home" />
+</BaseLayout>
+
+<style>
+  .service-detail-hero {
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .breadcrumb {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-body);
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .service-hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .service-h1 {
+    font-size: var(--text-5xl);
+    line-height: 1.15;
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .service-lead {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-text-body);
+    margin-bottom: 2rem;
+  }
+
+  .service-hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .sidebar-tech-card {
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .sidebar-icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .sidebar-tech-card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: 0.5rem;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--color-text-heading);
+    display: inline-block;
+  }
+
+  .sidebar-sub {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-chips-large {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chip-accent {
+    background: #FAF9FE;
+    color: var(--color-primary);
+    border: 1px solid rgba(124, 92, 232, 0.2);
+    font-size: var(--text-sm);
+    padding: 6px 12px;
+  }
+
+  .sidebar-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border-card);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+
+  .s-feat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .s-check {
+    color: #10B981;
+    font-weight: 800;
+  }
+
+  /* Deliverables */
+  .deliverables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.5rem;
+  }
+
+  .deliverable-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+  }
+
+  .deliv-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: rgba(124, 92, 232, 0.2);
+    margin-bottom: 0.75rem;
+  }
+
+  .deliv-title {
+    font-size: var(--text-lg);
+    margin-bottom: 0.5rem;
+  }
+
+  .deliv-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* Related */
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+  }
+
+  .related-card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+    margin-top: auto;
+  }
+
+  @media (max-width: 1023px) {
+    .service-hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .deliverables-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

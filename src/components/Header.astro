@@ -1,0 +1,691 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Company', href: '/company' },
+  { label: 'Blogs', href: '/blogs' },
+  { label: 'Contact', href: '/contact' }
+];
+
+const isActive = (href: string) => {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+};
+---
+
+<header class="site-header" id="site-header">
+  <div class="floating-nav-wrapper">
+    <div class="header-container">
+      <!-- Brand Logo -->
+      <a href="/" class="brand-link" aria-label="InfoHQ Home">
+        <img 
+          src="/images/infohq-logo.webp" 
+          alt="InfoHQ Logo - AI & Software Engineering Studio" 
+          width="160" 
+          height="53" 
+          class="brand-logo"
+          loading="eager"
+          decoding="async"
+        />
+      </a>
+
+      <!-- Desktop Navigation (>= 1024px) -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          {navItems.map((item) => (
+            <li>
+              <a 
+                href={item.href} 
+                class={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Header Actions (Desktop, Tablet, and Mobile navbar) -->
+      <div class="header-actions">
+        <Button
+          variant="primary"
+          size="md"
+          href="/contact"
+          icon="none"
+          id="nav-header-cta"
+        >
+          <span class="nav-cta-full">Free Consultation</span>
+          <span class="nav-cta-short">Let's Talk</span>
+        </Button>
+
+        <!-- Mobile/Tablet Hamburger Toggle (< 1024px) -->
+        <button 
+          type="button" 
+          class="hamburger-btn" 
+          id="hamburger-btn" 
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer / Overlay Navigation (Rendered outside header to escape backdrop-filter containing block) -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
+  <div class="mobile-menu-drawer">
+    <div class="mobile-menu-header">
+      <img 
+        src="/images/infohq-logo.webp" 
+        alt="InfoHQ" 
+        width="130" 
+        height="43" 
+      />
+      <button 
+        type="button" 
+        class="close-menu-btn" 
+        id="close-menu-btn" 
+        aria-label="Close menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile Navigation">
+      <ul class="mobile-nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a 
+              href={item.href} 
+              class={`mobile-nav-link ${isActive(item.href) ? 'active' : ''}`}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="mobile-menu-footer">
+      <Button
+        variant="primary"
+        size="lg"
+        href="/contact"
+        label="Free Consultation"
+        icon="none"
+        class="mobile-drawer-cta"
+      />
+      <div class="mobile-menu-contact">
+        <p class="contact-email">contact@infohq.in</p>
+        <p class="contact-loc">Pune &bull; Prayagraj &bull; Pan-India</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Sticky Outer Shell with Zero Background */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Floating Outer Spacing Container */
+  .floating-nav-wrapper {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: clamp(12px, 1.8vw, 18px) var(--container-pad, 20px) 0;
+  }
+
+  /* The Floating Pill Bar */
+  .header-container {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 14px 0 22px;
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 26px; /* 24-28px rounded corners */
+    border: 1px solid rgba(120, 110, 220, 0.16);
+    box-shadow: 
+      0 12px 32px -4px rgba(20, 10, 60, 0.08),
+      0 4px 12px -2px rgba(20, 10, 60, 0.03),
+      inset 0 1px 1px rgba(255, 255, 255, 0.95);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+
+  .header-container:hover {
+    border-color: rgba(120, 110, 220, 0.24);
+    box-shadow: 
+      0 16px 36px -4px rgba(20, 10, 60, 0.1),
+      0 6px 16px -2px rgba(20, 10, 60, 0.04),
+      inset 0 1px 1px rgba(255, 255, 255, 1);
+  }
+
+  /* Brand Logo */
+  .brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .brand-link:hover {
+    opacity: 0.92;
+    transform: scale(0.99);
+  }
+
+  .brand-logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Desktop Navigation Links */
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.35rem, 0.9vw, 1.25rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--nav-link-color, #14143C);
+    padding: 6px clamp(8px, 0.85vw, 13px);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .nav-link:hover {
+    color: var(--nav-link-hover, #5B4BF0);
+    background-color: rgba(91, 75, 240, 0.06);
+  }
+
+  .nav-link.active {
+    color: var(--nav-link-active, #5B4BF0);
+    font-weight: 600;
+    background-color: rgba(91, 75, 240, 0.09);
+  }
+
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    .nav-list {
+      gap: 0.25rem;
+    }
+    .nav-link {
+      font-size: 13px;
+      padding: 5px 8px;
+    }
+  }
+
+  /* Header Actions */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* CTA Text Switching */
+  .nav-cta-full {
+    display: inline;
+  }
+
+  .nav-cta-short {
+    display: none;
+  }
+
+  :global(#nav-header-cta),
+  :global(.mobile-drawer-cta) {
+    background: linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%) !important;
+    background-color: #5B4CF5 !important;
+    color: #FFFFFF !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 18px !important;
+    border-radius: var(--radius-full) !important;
+    box-shadow: 0 4px 14px rgba(99, 88, 240, 0.3) !important;
+    white-space: nowrap !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(#nav-header-cta:hover),
+  :global(.mobile-drawer-cta:hover) {
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 18px rgba(99, 88, 240, 0.42) !important;
+    filter: brightness(1.06) !important;
+  }
+
+  :global(#nav-header-cta .btn-label),
+  :global(.mobile-drawer-cta .btn-label) {
+    color: #FFFFFF !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+  }
+
+  :global(#nav-header-cta svg),
+  :global(.mobile-drawer-cta svg) {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  /* Hamburger Button - Modern 3 Lines */
+  .hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4.5px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    background: rgba(91, 75, 240, 0.05);
+    border: 1px solid rgba(120, 110, 220, 0.2);
+    border-radius: 11px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 1px 3px rgba(20, 10, 60, 0.03);
+  }
+
+  .hamburger-btn:hover {
+    background: rgba(91, 75, 240, 0.1);
+    border-color: rgba(91, 75, 240, 0.32);
+  }
+
+  .hamburger-btn:hover .hamburger-bar {
+    background-color: #5B4CF5;
+  }
+
+  .hamburger-bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: #1A085C;
+    border-radius: 9999px;
+  }
+
+  /* Mobile Drawer Menu */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0.3s ease;
+  }
+
+  .mobile-menu.open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 6, 42, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu.open .mobile-menu-backdrop {
+    opacity: 1;
+  }
+
+  .mobile-menu-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 86%;
+    max-width: 360px;
+    height: 100vh;
+    height: 100dvh;
+    background: #FFFFFF;
+    border-left: 1px solid rgba(120, 110, 220, 0.16);
+    box-shadow: -10px 0 40px rgba(12, 6, 42, 0.22);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1201;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-menu.open .mobile-menu-drawer {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--divider-color, rgba(20, 20, 60, 0.12));
+    flex-shrink: 0;
+  }
+
+  .close-menu-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--icon-btn-bg, #EEEEF8);
+    border: 1px solid rgba(120, 110, 220, 0.12);
+    border-radius: 12px;
+    color: var(--icon-btn-color, #14143C);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .close-menu-btn:hover {
+    background: var(--icon-btn-hover, #E4E3F6);
+    transform: rotate(90deg);
+  }
+
+  .mobile-nav {
+    flex: 1;
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--nav-link-color, #14143C);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .mobile-nav-link:hover, .mobile-nav-link.active {
+    background-color: var(--dropdown-item-hover, #F1F0FF);
+    color: var(--nav-link-hover, #5B4BF0);
+    transform: translateX(3px);
+  }
+
+  .mobile-nav-link.active {
+    font-weight: 700;
+    border-left: 3px solid #5B4BF0;
+    padding-left: calc(1rem - 3px);
+  }
+
+  .mobile-menu-footer {
+    padding-top: 1.25rem;
+    margin-top: auto;
+    border-top: 1px solid var(--divider-color, rgba(20, 20, 60, 0.12));
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .mobile-drawer-cta {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-menu-contact {
+    text-align: center;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  /* Responsive Breakpoint: Tablet (768px - 1023px) */
+  @media (max-width: 1023px) {
+    .floating-nav-wrapper {
+      padding: 12px 16px 0;
+    }
+
+    .header-container {
+      height: 56px;
+      padding: 0 12px 0 18px;
+      border-radius: 26px;
+    }
+
+    .brand-logo {
+      height: 30px;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    .hamburger-btn {
+      display: flex;
+    }
+  }
+
+  /* Responsive Breakpoint: Mobile (< 768px) */
+  @media (max-width: 767px) {
+    .floating-nav-wrapper {
+      padding: 10px 12px 0;
+    }
+
+    .header-container {
+      height: 50px;
+      padding: 0 8px 0 14px;
+      border-radius: 25px; /* Rounded 24-28px */
+    }
+
+    .nav-cta-full {
+      display: none !important;
+    }
+
+    .nav-cta-short {
+      display: inline !important;
+    }
+
+    .header-actions {
+      gap: 8px;
+    }
+
+    /* Small "Let's Talk" button on mobile with identical desktop/tab brand gradient */
+    :global(#nav-header-cta) {
+      display: inline-flex !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      padding: 0 13px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      border-radius: var(--radius-full) !important;
+      background: linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%) !important;
+      background-color: #5B4CF5 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 3px 10px rgba(99, 88, 240, 0.3) !important;
+      white-space: nowrap !important;
+      letter-spacing: -0.01em;
+    }
+
+    :global(#nav-header-cta .btn-label) {
+      font-size: 12.5px !important;
+      line-height: 1;
+    }
+
+    .brand-logo {
+      height: 26px;
+    }
+
+    .hamburger-btn {
+      display: flex;
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      gap: 4px;
+    }
+
+    .hamburger-bar {
+      width: 16px;
+      height: 2px;
+    }
+  }
+
+  /* Extra compact mobile (< 360px) */
+  @media (max-width: 359px) {
+    .floating-nav-wrapper {
+      padding: 8px 8px 0;
+    }
+
+    .header-container {
+      height: 48px;
+      padding: 0 6px 0 12px;
+      border-radius: 24px;
+    }
+
+    .header-actions {
+      gap: 6px;
+    }
+
+    :global(#nav-header-cta) {
+      height: 29px !important;
+      min-height: 29px !important;
+      padding: 0 10px !important;
+      font-size: 11.5px !important;
+    }
+
+    :global(#nav-header-cta .btn-label) {
+      font-size: 11.5px !important;
+    }
+
+    .brand-logo {
+      height: 24px;
+    }
+
+    .hamburger-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      gap: 3.5px;
+    }
+
+    .hamburger-bar {
+      width: 14px;
+      height: 1.8px;
+    }
+  }
+</style>
+
+<script>
+  function setupMobileMenu() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const closeBtn = document.getElementById('close-menu-btn');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const menu = document.getElementById('mobile-menu');
+    const stickyCTA = document.getElementById('sticky-mobile-cta');
+
+    function openMenu() {
+      if (!menu) return;
+      menu.classList.add('open');
+      menu.setAttribute('aria-hidden', 'false');
+      hamburgerBtn?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      stickyCTA?.classList.add('hidden-by-final-cta');
+    }
+
+    function closeMenu() {
+      if (!menu) return;
+      menu.classList.remove('open');
+      menu.setAttribute('aria-hidden', 'true');
+      hamburgerBtn?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      stickyCTA?.classList.remove('hidden-by-final-cta');
+    }
+
+    function toggleMenu() {
+      if (!menu) return;
+      if (menu.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    hamburgerBtn?.addEventListener('click', toggleMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    backdrop?.addEventListener('click', closeMenu);
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu?.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    // Close menu when clicking any nav link
+    const mobileLinks = menu?.querySelectorAll('.mobile-nav-link');
+    mobileLinks?.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  // Run on initial load and view transitions
+  setupMobileMenu();
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

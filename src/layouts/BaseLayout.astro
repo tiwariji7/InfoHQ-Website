@@ -1,0 +1,172 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
+import SchemaJsonLd from '../components/SchemaJsonLd.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  serviceData?: any;
+  showMobileCTA?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  ogImage = '/images/infohq-logo.webp',
+  ogType = 'website',
+  schemaType = 'home',
+  serviceData,
+  showMobileCTA = true
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://infohq.in');
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/webp" href="/images/infohq-favicon.webp" />
+    <link rel="apple-touch-icon" href="/images/infohq-favicon.webp" />
+    <meta name="theme-color" content="#7C5CE8" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, 'https://infohq.in')} />
+    <meta property="og:site_name" content="InfoHQ" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, 'https://infohq.in')} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <SchemaJsonLd type={schemaType} serviceData={serviceData} />
+
+    <!-- Tracking scripts placeholder - controlled by Cookie Consent (Rule 2 + Phase 9) -->
+    <script is:inline>
+      // Listen for cookie consent changes and only initialize when consented
+      window.addEventListener('infohq_consent_changed', function(e) {
+        var consent = e.detail;
+        if (consent && consent.analytics) {
+          // Initialize GA4 only when consented
+          if (!window._gaLoaded && window.GA_MEASUREMENT_ID) {
+            window._gaLoaded = true;
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', window.GA_MEASUREMENT_ID);
+          }
+        }
+        if (consent && consent.marketing) {
+          // Initialize Meta Pixel only when consented
+          if (!window._pixelLoaded && window.META_PIXEL_ID) {
+            window._pixelLoaded = true;
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', window.META_PIXEL_ID);
+            fbq('track', 'PageView');
+          }
+        }
+      });
+    </script>
+  </head>
+  <body class={schemaType === 'home' ? 'page-home' : ''}>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only-focusable">Skip to main content</a>
+
+    <slot name="top-wash" />
+
+    <Header currentPath={currentPath} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <StickyMobileCTA show={showMobileCTA && currentPath !== '/contact'} />
+    <CookieBanner />
+
+    <!-- Lenis Smooth Scroll per Rule 2 -->
+    <script>
+      import Lenis from 'lenis';
+
+      // Check if user prefers reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReducedMotion) {
+        const lenis = new Lenis({
+          duration: 1.1,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          touchMultiplier: 1.5,
+        });
+
+        (window as any).lenis = lenis;
+        (window as any).Lenis = Lenis;
+
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .sr-only-focusable {
+    position: absolute;
+    top: -9999px;
+    left: 1rem;
+    z-index: 99999;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+  }
+  .sr-only-focusable:focus {
+    top: 1rem;
+  }
+
+  :global(body.page-home) {
+    background-color: var(--color-bg-section);
+  }
+</style>

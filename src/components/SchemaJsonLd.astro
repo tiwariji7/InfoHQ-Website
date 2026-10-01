@@ -1,0 +1,248 @@
+---
+interface Props {
+  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  serviceData?: {
+    name: string;
+    description: string;
+    techStack?: string[];
+    url: string;
+  };
+  customSchema?: Record<string, any>;
+}
+
+const { type = 'home', serviceData, customSchema } = Astro.props;
+
+const organizationBase = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'InfoHQ',
+  alternateName: 'Alpha AI Services',
+  url: 'https://infohq.in',
+  logo: 'https://infohq.in/images/infohq-logo.webp',
+  email: 'contact@infohq.in',
+  sameAs: [],
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Pune',
+      addressRegion: 'Maharashtra',
+      addressCountry: 'IN'
+    },
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Prayagraj',
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN'
+    }
+  ],
+  areaServed: {
+    '@type': 'Country',
+    name: 'India'
+  }
+};
+
+let schemas: any[] = [];
+
+if (customSchema) {
+  schemas.push(customSchema);
+} else if (type === 'home') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: 'InfoHQ — AI & Software Development Studio',
+    image: 'https://infohq.in/images/infohq-logo.webp',
+    '@id': 'https://infohq.in',
+    url: 'https://infohq.in',
+    email: 'contact@infohq.in',
+    priceRange: '₹9,999 - ₹49,999+',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Pune',
+      addressRegion: 'Maharashtra',
+      addressCountry: 'IN'
+    },
+    areaServed: 'India',
+    description: 'InfoHQ is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow.'
+  });
+} else if (type === 'service-detail' && serviceData) {
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: serviceData.name,
+    name: serviceData.name,
+    description: serviceData.description,
+    url: serviceData.url,
+    provider: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      alternateName: 'Alpha AI Services',
+      url: 'https://infohq.in'
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'India'
+    }
+  });
+} else if (type === 'pricing') {
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'InfoHQ Engineering Retainer Plans',
+    provider: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Engineering Retainers & One-Time Projects',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Digital Starter Retainer'
+          },
+          price: '9999',
+          priceCurrency: 'INR',
+          billingDuration: 'P1M',
+          description: 'Essential digital care and reliable routine maintenance for small businesses.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Business Growth Retainer'
+          },
+          price: '24999',
+          priceCurrency: 'INR',
+          billingDuration: 'P1M',
+          description: '1 Dedicated Senior Engineer for continuous improvements, features, and fast problem solving.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Technology Partner Retainer'
+          },
+          price: '49999',
+          priceCurrency: 'INR',
+          billingDuration: 'P1M',
+          description: '3-Person Dedicated Engineering Team for multi-system digital operations.'
+        }
+      ]
+    }
+  });
+} else if (type === 'contact') {
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'InfoHQ',
+    url: 'https://infohq.in',
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        email: 'contact@infohq.in',
+        contactType: 'customer support',
+        areaServed: 'IN'
+      },
+      {
+        '@type': 'ContactPoint',
+        email: 'services@infohq.in',
+        contactType: 'sales',
+        areaServed: 'IN'
+      }
+    ]
+  });
+} else if (type === 'portfolio') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Portfolio & Case Studies — InfoHQ',
+    url: 'https://infohq.in/portfolio',
+    description: 'Explore InfoHQ\'s portfolio of shipped projects, engineering case studies, enterprise AI systems, web platforms, and mobile apps.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@type': 'CreativeWork',
+            name: 'Alpha Studio Tech — High-Speed Digital Agency Web Platform',
+            url: 'https://alphastudiotech.online',
+            description: 'High-performance responsive web platform with sub-second page loads and zero layout shift.',
+            genre: 'Web Platform Development',
+            keywords: 'Astro, TypeScript, Cloudflare Pages, Vanilla CSS, Modern SVG',
+            creator: {
+              '@type': 'Organization',
+              name: 'InfoHQ'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@type': 'CreativeWork',
+            name: 'SeHAT SmartCare AI — AI-Powered Health Assistance Platform',
+            url: 'https://infohq.in/portfolio#sehat',
+            description: 'Cross-platform Android healthcare platform with trilingual RAG chatbot, lab report OCR, and emergency SOS.',
+            genre: 'Mobile & Healthcare AI',
+            keywords: 'Android, Kotlin, Python, FastAPI, RAG, FAISS, SentenceTransformers, OCR, Firebase',
+            creator: {
+              '@type': 'Organization',
+              name: 'InfoHQ'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          item: {
+            '@type': 'CreativeWork',
+            name: 'CogniFlow AI — Autonomous Enterprise RAG & Knowledge Agent',
+            url: 'https://infohq.in/portfolio#cogniflow-ai',
+            description: 'Enterprise document intelligence system with pgvector semantic vector search and sub-second contextual responses.',
+            genre: 'Enterprise AI & Automation',
+            keywords: 'Python, FastAPI, LangChain, Claude, pgvector, Docker',
+            creator: {
+              '@type': 'Organization',
+              name: 'InfoHQ'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          item: {
+            '@type': 'CreativeWork',
+            name: 'OmniFlow B2B — Automated Multi-Channel Order & WhatsApp Dispatch Pipeline',
+            url: 'https://infohq.in/portfolio#omniflow-b2b',
+            description: 'Event-driven order and invoicing automation connecting ERP, Razorpay, and WhatsApp Business API.',
+            genre: 'Business Automation & SaaS',
+            keywords: 'Next.js, Node.js, PostgreSQL, Redis, Razorpay API, WhatsApp Business API',
+            creator: {
+              '@type': 'Organization',
+              name: 'InfoHQ'
+            }
+          }
+        }
+      ]
+    }
+  });
+} else {
+  schemas.push(organizationBase);
+}
+---
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
+))}

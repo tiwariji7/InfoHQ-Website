@@ -1,0 +1,374 @@
+---
+import { ArrowRight, Mail, MessageSquare } from 'lucide-astro';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'gradient';
+  tone?: 'dark' | 'light';
+  href?: string;
+  label?: string;
+  icon?: 'arrow' | 'arrow-inline' | 'mail' | 'chat' | 'none';
+  size?: 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  id?: string;
+  class?: string;
+  className?: string;
+  disabled?: boolean;
+  target?: string;
+  rel?: string;
+  ariaLabel?: string;
+  fullWidth?: boolean;
+}
+
+const {
+  variant = 'primary',
+  tone = 'dark',
+  href,
+  label,
+  icon,
+  size = 'md',
+  type = 'button',
+  id,
+  class: customClass = '',
+  className = '',
+  disabled = false,
+  target,
+  rel,
+  ariaLabel,
+  fullWidth = false,
+  ...rest
+} = Astro.props;
+
+// Determine icon automatically if not explicitly given:
+// Primary buttons default to arrow icon, secondary default to none (or mail if specified)
+const resolvedIcon = icon !== undefined ? icon : (variant === 'primary' ? 'arrow' : 'none');
+const isLink = Boolean(href);
+const combinedClasses = [
+  'infohq-btn',
+  `btn-${variant}`,
+  variant === 'secondary' ? `tone-${tone}` : '',
+  `size-${size}`,
+  resolvedIcon === 'none' ? 'has-no-icon' : '',
+  fullWidth ? 'btn-full' : '',
+  customClass,
+  className
+].filter(Boolean).join(' ');
+
+// Set safe rel attribute if external link
+const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
+---
+
+{isLink ? (
+  <a
+    href={href}
+    class={combinedClasses}
+    id={id}
+    target={target}
+    rel={computedRel}
+    aria-label={ariaLabel}
+    {...rest}
+  >
+    <span class="btn-overlay" aria-hidden="true"></span>
+    {resolvedIcon === 'mail' && (
+      <span class="btn-icon-mail" aria-hidden="true">
+        <Mail size={18} stroke-width={2} />
+      </span>
+    )}
+    <span class="btn-label">{label}<slot /></span>
+    {resolvedIcon === 'chat' && (
+      <span class="btn-icon-chat" aria-hidden="true">
+        <MessageSquare size={17} stroke-width={2.2} />
+      </span>
+    )}
+    {resolvedIcon === 'arrow' && (
+      <span class="btn-icon-circle" aria-hidden="true">
+        <ArrowRight size={17} stroke-width={2.5} />
+      </span>
+    )}
+    {resolvedIcon === 'arrow-inline' && (
+      <span class="btn-icon-inline" aria-hidden="true">
+        <ArrowRight size={18} stroke-width={2.5} />
+      </span>
+    )}
+  </a>
+) : (
+  <button
+    type={type}
+    class={combinedClasses}
+    id={id}
+    disabled={disabled}
+    aria-label={ariaLabel}
+    {...rest}
+  >
+    <span class="btn-overlay" aria-hidden="true"></span>
+    {resolvedIcon === 'mail' && (
+      <span class="btn-icon-mail" aria-hidden="true">
+        <Mail size={18} stroke-width={2} />
+      </span>
+    )}
+    <span class="btn-label">{label}<slot /></span>
+    {resolvedIcon === 'chat' && (
+      <span class="btn-icon-chat" aria-hidden="true">
+        <MessageSquare size={17} stroke-width={2.2} />
+      </span>
+    )}
+    {resolvedIcon === 'arrow' && (
+      <span class="btn-icon-circle" aria-hidden="true">
+        <ArrowRight size={17} stroke-width={2.5} />
+      </span>
+    )}
+    {resolvedIcon === 'arrow-inline' && (
+      <span class="btn-icon-inline" aria-hidden="true">
+        <ArrowRight size={18} stroke-width={2.5} />
+      </span>
+    )}
+  </button>
+)}
+
+<style>
+  .infohq-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    user-select: none;
+    white-space: nowrap;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, filter 0.2s ease;
+    border: none;
+    outline: none;
+    isolation: isolate;
+  }
+
+  /* Sizes */
+  .size-lg {
+    height: 52px;
+    min-height: 52px;
+    padding: 0 28px;
+  }
+
+  .size-md {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 24px;
+  }
+
+  /* When button contains arrow circle, adjust right padding to balance visually */
+  .btn-primary.size-lg {
+    padding-right: 8px;
+    padding-left: 24px;
+  }
+
+  .btn-primary.size-md {
+    padding-right: 6px;
+    padding-left: 20px;
+  }
+
+  .btn-primary.has-no-icon.size-lg {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .btn-primary.has-no-icon.size-md {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Primary Variant */
+  .btn-primary {
+    background: var(--btn-cta-bg, linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%));
+    color: var(--color-text-white);
+    box-shadow: var(--btn-cta-shadow, 0 8px 20px rgba(99, 88, 240, 0.35));
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Gradient Variant (Coral to Pink to Purple) */
+  .btn-gradient {
+    background: linear-gradient(90deg, #E8604E 0%, #DD4985 45%, #914FBB 80%, #7C5CE8 100%);
+    color: var(--color-text-white);
+    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.35);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .btn-gradient:hover {
+    box-shadow: 0 10px 28px rgba(221, 73, 133, 0.45);
+    filter: brightness(1.05);
+  }
+
+  .btn-full {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Inline Arrow Icon */
+  .btn-icon-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    color: #FFFFFF;
+    flex-shrink: 0;
+    z-index: 2;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .infohq-btn:hover .btn-icon-inline {
+    transform: translateX(4px);
+  }
+
+  /* Overlay fading in on hover (opacity only) */
+  .btn-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.14);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+
+  .infohq-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 10px 24px rgba(99, 88, 240, 0.45);
+    filter: brightness(1.05);
+  }
+
+  .infohq-btn:hover .btn-overlay {
+    opacity: 1;
+  }
+
+  .infohq-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Arrow Circle in Primary */
+  .btn-icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface-white);
+    color: var(--color-primary);
+    margin-left: 14px;
+    flex-shrink: 0;
+    z-index: 2;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary:hover .btn-icon-circle {
+    transform: translateX(2px);
+  }
+
+  /* Chat icon in Primary */
+  .btn-icon-chat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    margin-left: 10px;
+    flex-shrink: 0;
+    z-index: 2;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover .btn-icon-chat {
+    transform: scale(1.1);
+  }
+
+  /* Mail icon on the left */
+  .btn-icon-mail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .btn-label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Secondary Variant - Dark Tone */
+  .btn-secondary.tone-dark {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    color: var(--color-text-white);
+  }
+
+  .btn-secondary.tone-dark:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.32);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Secondary Variant - Light Tone */
+  .btn-secondary.tone-light {
+    background: transparent;
+    border: 1.5px solid var(--color-primary);
+    color: var(--color-text-heading);
+  }
+
+  .btn-secondary.tone-light:hover {
+    background: var(--color-primary-light);
+    box-shadow: 0 4px 16px rgba(124, 92, 232, 0.15);
+  }
+
+  /* Focus-visible ring */
+  .infohq-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .tone-dark:focus-visible, .btn-primary:focus-visible {
+    outline-color: var(--color-surface-white);
+  }
+
+  /* Disabled */
+  .infohq-btn:disabled, .infohq-btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 767px) {
+    .infohq-btn {
+      min-height: 44px;
+      font-size: 15px;
+    }
+    
+    .size-lg, .size-md {
+      height: 48px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .infohq-btn, .btn-icon-circle, .btn-overlay {
+      transition: none !important;
+    }
+    .infohq-btn:hover {
+      transform: none !important;
+    }
+    .btn-primary:hover .btn-icon-circle {
+      transform: none !important;
+    }
+  }
+</style>

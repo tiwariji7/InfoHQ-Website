@@ -1,0 +1,1164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+
+const meta = {
+  title: 'Pricing — Web, App & AI Development Costs | InfoHQ',
+  description: 'Transparent pricing for websites, apps, AI solutions & SaaS MVPs starting ₹14,999, plus monthly engineering retainers from ₹9,999/month. 100% code ownership.',
+  keywords: 'software development cost India, website development pricing India, monthly retainer engineering plans, app development cost India'
+};
+
+const oneTimeProjects = [
+  {
+    type: 'Business Website',
+    price: '₹14,999',
+    desc: 'Custom responsive design, SEO optimization & meta setup, fast loading, mobile-ready, easy CMS content updates.'
+  },
+  {
+    type: 'E-Commerce Website',
+    price: '₹29,999',
+    desc: 'Full online store, payment gateway, product catalog & inventory sync, cart & checkout, automated notifications.'
+  },
+  {
+    type: 'Web Application',
+    price: '₹24,999',
+    desc: 'Dynamic database, user auth & roles, custom dashboard & admin views, REST/GraphQL API integrations.'
+  },
+  {
+    type: 'Mobile Application',
+    price: '₹39,999',
+    desc: 'iOS & Android app, push notification pipeline, offline caching, App Store & Play Store submission setup.'
+  },
+  {
+    type: 'AI Solution',
+    price: '₹19,999',
+    desc: 'Custom LLM integration, domain-specific RAG knowledge bot, automated workflow triggers, telemetry & logs.'
+  },
+  {
+    type: 'SaaS Platform MVP',
+    price: '₹49,999',
+    desc: 'Multi-tenant schema, Stripe/Razorpay automated subscription billing, user & team dashboard, admin telemetry.'
+  },
+  {
+    type: 'Custom Software / ERP',
+    price: 'Custom Quote',
+    desc: 'Bespoke enterprise system architecture, multi-role permissions, legacy migration, dedicated SLA & warranty.'
+  }
+];
+
+const retainerPlans = [
+  {
+    name: 'Digital Starter',
+    subtitle: 'Essential Digital Care',
+    price: '₹9,999',
+    period: '/ month',
+    popular: false,
+    desc: 'For small businesses that already have a website/digital presence and need reliable, routine maintenance — without hiring a full-time developer.',
+    included: [
+      'Existing website management & health checks',
+      'Content & image updates, small layout/UI changes',
+      'Basic bug fixing & mobile responsiveness fixes',
+      'Domain, DNS, hosting & SSL certificate monitoring',
+      'Backup assistance & basic security checks',
+      'Basic SEO maintenance & Google Analytics monitoring',
+      'WhatsApp / contact form integrations',
+      'Basic social media support',
+      'Monthly maintenance summary report',
+      'Email support (response within 1 business day)'
+    ],
+    notIncluded: 'Dedicated engineer, direct developer chat, full social media management, mobile app development, new software from scratch, major redesigns, 24/7 emergency support.'
+  },
+  {
+    name: 'Business Growth',
+    subtitle: 'Dedicated Engineering Support',
+    price: '₹24,999',
+    period: '/ month',
+    popular: true,
+    desc: 'For growing businesses with live digital products that need continuous improvements, new features, and fast problem-solving — backed by 1 Dedicated Senior Engineer with direct communication.',
+    included: [
+      'Direct 1-on-1 engineer communication & priority support',
+      'New feature additions to existing website/apps',
+      'Web & mobile application maintenance & bug fixing',
+      'Hosting & server troubleshooting, deployment support',
+      'Performance optimization (speed & database tuning)',
+      'API & payment gateway integrations (Razorpay, Stripe, WhatsApp API)',
+      'Active SEO tuning & analytics tracking improvements',
+      'Dedicated organic social media management',
+      'Monthly 1-on-1 technology consultation & performance report'
+    ],
+    commonTasks: 'Landing pages, booking forms, inquiry workflows, dashboards, CRM connections, payment gateways, app bug fixes, speed tuning, AI integrations into existing systems.',
+    notIncluded: 'Completely new website/app/SaaS from scratch, large ERP builds, unlimited revisions, ad spend budget, third-party API costs.'
+  },
+  {
+    name: 'Technology Partner',
+    subtitle: 'Multi-Engineer Technology Support',
+    price: '₹49,999',
+    period: '/ month',
+    popular: false,
+    desc: 'For businesses running multiple digital systems that need a complete tech squad across websites, apps, cloud, automation, and AI — backed by a 3-Person Dedicated Engineering Team.',
+    included: [
+      'Multi-disciplinary 3-person engineering squad',
+      'Advanced website, web app & mobile app maintenance',
+      'Custom API architecture & complex third-party integrations',
+      'Advanced AI integrations (RAG, agents, LLMs, document analysis)',
+      'Complex automation workflows & database support',
+      'Cloud infrastructure (AWS/GCP), CI/CD, and deployment support',
+      'Security hardening, disaster recovery & 24/7 uptime alerting',
+      'Advanced multi-channel social media management',
+      'Strategic monthly roadmap, executive review & architecture planning'
+    ],
+    notIncluded: 'Large greenfield products outside capacity, paid advertising spend, third-party API bills & cloud hosting charges.'
+  }
+];
+
+const comparisonMatrix = [
+  { feature: 'Engineering Resource', starter: 'Support Queue', growth: '1 Dedicated Engineer', partner: '3-Person Team' },
+  { feature: 'Communication', starter: 'Email (1-day SLA)', growth: 'Direct Engineer Access', partner: 'Team Squad Access' },
+  { feature: 'Existing Website Mgmt', starter: '✓ Basic Updates', growth: '✓ Full Updates', partner: '✓ Full Updates' },
+  { feature: 'UI/UX Improvements', starter: 'Small changes', growth: '✓ Included', partner: '✓ Advanced UI/UX' },
+  { feature: 'Bug Fixing', starter: 'Basic fixes', growth: '✓ Priority fixes', partner: '✓ Immediate handling' },
+  { feature: 'Hosting & DNS/SSL', starter: 'Basic check', growth: '✓ Full management', partner: '✓ Full infrastructure' },
+  { feature: 'Backups & Security', starter: 'Periodic scan', growth: '✓ Scheduled backups', partner: '✓ Continuous & recovery' },
+  { feature: 'SEO Support', starter: 'Basic check', growth: '✓ Active tuning', partner: '✓ Advanced optimization' },
+  { feature: 'Social Media', starter: 'Basic support', growth: '✓ Full management', partner: '✓ Multi-channel suite' },
+  { feature: 'Mobile App Support', starter: '—', growth: 'Existing app support', partner: '✓ Full mobile maintenance' },
+  { feature: 'API & Payments', starter: 'Basic', growth: '✓ Full integrations', partner: '✓ Custom API architecture' },
+  { feature: 'AI Integrations', starter: '—', growth: 'Existing AI additions', partner: '✓ Advanced AI & LLMs' },
+  { feature: 'Cloud & DevOps', starter: '—', growth: 'Hosting & deployments', partner: '✓ Cloud & DB management' },
+  { feature: 'Uptime Monitoring', starter: 'Health checks', growth: '✓ Included', partner: '✓ 24/7 Proactive Alerting' },
+  { feature: 'Monthly Roadmap/Review', starter: 'Summary report', growth: 'Performance report', partner: 'Full Strategic Review' }
+];
+
+const systemsManaged = [
+  { title: '1. Websites', desc: 'Existing websites, landing pages, CMS platforms, e-commerce stores, speed tuning, SEO.' },
+  { title: '2. Web Applications', desc: 'Admin dashboards, client portals, APIs, authentication, existing SaaS backends.' },
+  { title: '3. Mobile Apps', desc: 'Android & iOS apps, cross-platform (Flutter/React Native), bug fixes, store updates.' },
+  { title: '4. AI & Automation', desc: 'Support chatbots, RAG document processing, API workflows, prompt tuning.' },
+  { title: '5. Cloud & Infrastructure', desc: 'Hosting configs, deployment pipelines, DNS/SSL, automated backups, monitoring.' },
+  { title: '6. Digital Growth', desc: 'Technical SEO, GA4 analytics, social media creatives, conversion rate optimization.' }
+];
+
+const typicalRequests = [
+  '"Add a new section / landing page to my website"',
+  '"Fix mobile layout and responsive design issues"',
+  '"Connect payment gateway (Razorpay/Stripe) and WhatsApp API"',
+  '"Fix server downtime, hosting or deployment errors"',
+  '"Improve website speed and Core Web Vitals"',
+  '"Connect CRM or automate a multi-step workflow"',
+  '"Integrate an AI chatbot or document search"',
+  '"Fix bugs or add features in our existing mobile/web app"'
+];
+
+const faqs = [
+  {
+    q: 'What do I get with a monthly plan?',
+    a: 'Predictable monthly cost for continuous engineering capacity across your digital assets — maintenance, bug fixing, and feature additions.'
+  },
+  {
+    q: 'Can you manage a website another developer built?',
+    a: 'Yes — we run a code and architecture audit first, then onboard it into our system.'
+  },
+  {
+    q: 'Will a monthly plan build me a new website or app from scratch?',
+    a: 'No — monthly retainers are for maintaining and scaling existing systems. New projects are built under the fixed-scope milestone model.'
+  },
+  {
+    q: 'Are hosting and API charges included?',
+    a: 'Technical setup and management are included. Third-party bills (AWS, Google Cloud, OpenAI API credits, domain) are paid directly from the client\'s own account, so ownership stays with the client.'
+  },
+  {
+    q: 'Who owns the code and IP?',
+    a: '100% Client Ownership. All code, design, database schemas, and assets are handed over into the client\'s own repositories.'
+  }
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  schemaType="pricing"
+>
+  <!-- Hero Section -->
+  <section class="section pricing-hero" aria-labelledby="pricing-heading">
+    <div class="container text-center">
+      <span class="text-eyebrow">Predictable Investment</span>
+      <h1 id="pricing-heading" class="pricing-headline">
+        Transparent Pricing. <span class="text-gradient">Real Ownership.</span> No Surprises.
+      </h1>
+      <p class="pricing-subheadline">
+        Whether you need something built from scratch or a dedicated team to run what already exists &mdash; pick the model that fits.
+      </p>
+    </div>
+  </section>
+
+  <!-- 1. One-Time Projects Section -->
+  <section class="section section-alt" id="one-time" aria-labelledby="one-time-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-eyebrow">Built From Scratch</span>
+        <h2 id="one-time-heading">One-Time Projects</h2>
+        <p>Need a new digital product built end-to-end? Fixed-scope, milestone payments, and 100% IP ownership.</p>
+      </div>
+
+      <!-- Desktop View: Table -->
+      <div class="table-container desktop-table-view">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 28%;">Project Type</th>
+              <th scope="col" style="width: 22%;">Starting Price</th>
+              <th scope="col" style="width: 50%;">Description &amp; Key Deliverables</th>
+            </tr>
+          </thead>
+          <tbody>
+            {oneTimeProjects.map((proj) => (
+              <tr>
+                <td class="proj-type-cell">
+                  <strong>{proj.type}</strong>
+                </td>
+                <td class="proj-price-cell">
+                  <span class="price-val">{proj.price}</span>
+                </td>
+                <td class="proj-desc-cell">
+                  {proj.desc}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile View: Stacked Cards per Responsive Device Checklist -->
+      <div class="mobile-project-cards">
+        {oneTimeProjects.map((proj) => (
+          <article class="card mobile-proj-card">
+            <div class="mobile-proj-header">
+              <h3 class="mobile-proj-title">{proj.type}</h3>
+              <span class="mobile-proj-price">{proj.price}</span>
+            </div>
+            <p class="mobile-proj-desc">{proj.desc}</p>
+            <div class="mobile-proj-action card-cta-pin">
+              <Button
+                variant="secondary"
+                tone="light"
+                size="md"
+                href="/contact"
+                label="Request Scoping"
+                icon="arrow"
+                class="mobile-proj-btn"
+              />
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-cta-wrap">
+        <Button
+          variant="primary"
+          size="lg"
+          href="/contact"
+          icon="arrow"
+          class="section-cta-btn"
+        >
+          <span class="hide-mobile">Inquire About a One-Time Project</span>
+          <span class="show-mobile">Inquire About a Project</span>
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Monthly Engineering Retainer Plans -->
+  <section class="section" id="retainers" aria-labelledby="retainers-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-eyebrow">Continuous Support</span>
+        <h2 id="retainers-heading">Monthly Engineering Retainer Plans</h2>
+        <p>Keep your digital infrastructure running, secure, and constantly improving without the overhead of full-time hiring.</p>
+      </div>
+
+      <div class="retainer-cards-grid">
+        {retainerPlans.map((plan) => (
+          <article class={`card retainer-card ${plan.popular ? 'popular-card' : ''}`}>
+            {plan.popular && (
+              <div class="popular-ribbon">★ Most Popular</div>
+            )}
+
+            <div class="retainer-card-header">
+              <h3 class="retainer-plan-name">{plan.name}</h3>
+              <span class="retainer-plan-sub">({plan.subtitle})</span>
+              <div class="retainer-price-wrap">
+                <span class="retainer-amount">{plan.price}</span>
+                <span class="retainer-period">{plan.period}</span>
+              </div>
+              <p class="retainer-plan-desc">{plan.desc}</p>
+            </div>
+
+            <div class="retainer-card-body">
+              <h4 class="inc-title">What's Included:</h4>
+              <ul class="retainer-checklist">
+                {plan.included.map((item) => (
+                  <li>
+                    <span class="check-icon">&check;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {plan.commonTasks && (
+                <div class="common-tasks-box">
+                  <strong>Common tasks handled:</strong>
+                  <p>{plan.commonTasks}</p>
+                </div>
+              )}
+
+              <div class="not-included-box">
+                <strong>Not Included:</strong>
+                <p>{plan.notIncluded}</p>
+              </div>
+            </div>
+
+            <div class="retainer-card-footer card-cta-pin">
+              <Button
+                variant={plan.popular ? 'primary' : 'secondary'}
+                tone={plan.popular ? 'dark' : 'light'}
+                size="lg"
+                href="/contact"
+                icon="arrow"
+                class="retainer-cta-btn"
+              >
+                <span class="hide-mobile">Inquire About {plan.name}</span>
+                <span class="show-mobile">Inquire — {plan.name.replace('Technology', 'Tech')}</span>
+              </Button>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Plan Comparison Matrix (Horizontal Scroll Container with Hint) -->
+  <section class="section section-alt" id="matrix" aria-labelledby="matrix-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-eyebrow">Feature By Feature</span>
+        <h2 id="matrix-heading">Plan Comparison Matrix</h2>
+        <p>Compare exact deliverables, communication SLAs, and support depths across our retainer tiers.</p>
+        <span class="mobile-scroll-hint" aria-hidden="true">&larr; Swipe sideways to compare plans &rarr;</span>
+      </div>
+
+      <div class="comparison-scroll-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th scope="col" class="sticky-col">Feature</th>
+              <th scope="col">Digital Starter (₹9,999)</th>
+              <th scope="col" class="highlight-col">Business Growth (₹24,999) ★</th>
+              <th scope="col">Technology Partner (₹49,999)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparisonMatrix.map((row) => (
+              <tr>
+                <td class="sticky-col feature-label">{row.feature}</td>
+                <td>{row.starter}</td>
+                <td class="highlight-cell">{row.growth}</td>
+                <td>{row.partner}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Systems We Manage & Typical Requests -->
+  <section class="section section-wash" aria-labelledby="systems-heading">
+    <div class="container">
+      <div class="grid-2 systems-grid">
+        <!-- Systems We Manage -->
+        <div>
+          <span class="text-eyebrow">Scope of Care</span>
+          <h2 id="systems-heading" class="systems-sec-title">Systems We Manage</h2>
+          <div class="systems-list">
+            {systemsManaged.map((sys) => (
+              <div class="card system-item-card">
+                <h4>{sys.title}</h4>
+                <p>{sys.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Typical Requests -->
+        <div>
+          <span class="text-eyebrow">Real Everyday Tasks</span>
+          <h2 class="systems-sec-title">Typical Requests You Can Assign</h2>
+          <div class="card requests-card">
+            <p class="requests-intro">
+              On retainer plans, simply dispatch tasks directly to your assigned senior engineer or squad via chat/email:
+            </p>
+            <ul class="requests-list">
+              {typicalRequests.map((req) => (
+                <li>
+                  <span class="quote-bullet">&ldquo;</span>
+                  <span>{req.replace(/^"|"$/g, '')}</span>
+                </li>
+              ))}
+            </ul>
+            <div class="requests-action">
+              <Button
+                variant="primary"
+                size="lg"
+                href="/contact"
+                label="Start Assigning Tasks"
+                icon="arrow"
+                class="w-full-btn"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Pricing FAQs -->
+  <section class="section section-alt" id="faqs" aria-labelledby="pricing-faqs-heading">
+    <div class="container faq-container">
+      <div class="section-header">
+        <span class="text-eyebrow">Pricing &amp; Retainer Details</span>
+        <h2 id="pricing-faqs-heading">Frequently Asked Questions</h2>
+        <p>Everything you need to know about contracts, ownership, billing, and code handover.</p>
+      </div>
+
+      <div class="faq-accordion">
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>{faq.q}</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>{faq.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <FinalCTA page="pricing" />
+</BaseLayout>
+
+<style>
+  .pricing-hero {
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    text-align: center;
+  }
+
+  .pricing-headline {
+    margin: 0.75rem 0 1.25rem;
+    font-size: var(--text-5xl);
+  }
+
+  .pricing-subheadline {
+    font-size: var(--text-lg);
+    color: var(--color-text-body);
+    max-width: 760px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* One-Time Projects Table */
+  .table-container {
+    background: #FFFFFF;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-card);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .pricing-table th {
+    background: #FAF9FE;
+    padding: 1.25rem 1.5rem;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .pricing-table td {
+    padding: 1.25rem 1.5rem;
+    font-size: var(--text-sm);
+    border-bottom: 1px solid #F1EFFA;
+    vertical-align: top;
+  }
+
+  .pricing-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pricing-table tbody tr:hover td {
+    background-color: #FAF9FE;
+  }
+
+  .price-val {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  /* Utility for Responsive Button Spans */
+  .show-mobile {
+    display: none;
+  }
+
+  /* Mobile Stacked Project Cards */
+  .mobile-project-cards {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-proj-card {
+    padding: 1.25rem;
+  }
+
+  .mobile-proj-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-proj-title {
+    font-size: var(--text-base);
+    font-weight: 700;
+  }
+
+  .mobile-proj-price {
+    font-size: var(--text-base);
+    font-weight: 800;
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  .mobile-proj-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    word-break: normal;
+  }
+
+  .mobile-proj-action {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .section-cta-wrap {
+    margin-top: clamp(2rem, 3.5vw, 2.75rem);
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .section-cta-btn {
+    max-width: 100%;
+  }
+
+  /* Retainer Cards */
+  .retainer-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2vw, 1.75rem);
+    align-items: stretch;
+  }
+
+  .retainer-card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+    position: relative;
+  }
+
+  .popular-card {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .popular-ribbon {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--brand-gradient);
+    color: #FFFFFF;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 12px rgba(221, 73, 133, 0.4);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .retainer-card-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .retainer-plan-name {
+    font-size: var(--text-2xl);
+    margin-bottom: 0.25rem;
+  }
+
+  .popular-card .retainer-plan-name {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--color-text-heading);
+    display: inline-block;
+  }
+
+  .retainer-plan-sub {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .retainer-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .retainer-amount {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text-heading);
+    line-height: 1;
+  }
+
+  .retainer-period {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .retainer-plan-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-body);
+    line-height: 1.5;
+  }
+
+  .inc-title {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-heading);
+    margin-bottom: 0.75rem;
+  }
+
+  .retainer-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .retainer-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: var(--text-xs);
+    color: var(--color-text-heading);
+    line-height: 1.4;
+  }
+
+  .check-icon {
+    color: #10B981;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .common-tasks-box {
+    background: #FAF9FE;
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    color: var(--color-text-body);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    word-break: normal;
+  }
+
+  .common-tasks-box strong {
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .not-included-box {
+    background: #FFF5F5;
+    border: 1px solid #FFE3E3;
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    color: #991B1B;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    word-break: normal;
+  }
+
+  .not-included-box strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .retainer-card-footer {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  .retainer-card-footer :global(.infohq-btn),
+  .retainer-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Comparison Matrix */
+  .mobile-scroll-hint {
+    display: none;
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-top: 0.75rem;
+  }
+
+  .comparison-scroll-wrapper {
+    overflow-x: auto;
+    background: #FFFFFF;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-card);
+    box-shadow: var(--shadow-md);
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  .comparison-table {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+  }
+
+  .comparison-table th {
+    padding: 1.25rem 1.5rem;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    background: #FAF9FE;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .comparison-table td {
+    padding: 1rem 1.5rem;
+    font-size: var(--text-sm);
+    border-bottom: 1px solid #F1EFFA;
+  }
+
+  .comparison-table tbody tr:hover td {
+    background-color: #FAF9FE;
+  }
+
+  /* Sticky First Column */
+  .sticky-col {
+    position: sticky;
+    left: 0;
+    background: #FFFFFF;
+    z-index: 2;
+    box-shadow: 3px 0 8px rgba(0, 0, 0, 0.05);
+    min-width: 140px;
+    width: 140px;
+  }
+
+  th.sticky-col {
+    background: #FAF9FE;
+    z-index: 3;
+  }
+
+  .comparison-table tbody tr:hover td.sticky-col {
+    background: #F4F2FC;
+  }
+
+  .highlight-col {
+    background-color: var(--color-primary-light) !important;
+    color: var(--color-primary) !important;
+  }
+
+  .highlight-cell {
+    background-color: rgba(229, 222, 255, 0.2);
+    font-weight: 600;
+  }
+
+  .feature-label {
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+
+  /* Systems & Requests */
+  .systems-grid {
+    gap: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+
+  .systems-sec-title {
+    margin: 0.5rem 0 1.5rem;
+    font-size: var(--text-3xl);
+  }
+
+  .systems-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .system-item-card {
+    padding: 1.25rem;
+  }
+
+  .system-item-card h4 {
+    margin-bottom: 0.25rem;
+    font-size: var(--text-base);
+  }
+
+  .system-item-card p {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .requests-card {
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .requests-intro {
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+    margin-bottom: 1.25rem;
+  }
+
+  .requests-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .requests-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: var(--text-sm);
+    color: var(--color-text-heading);
+    font-style: italic;
+  }
+
+  .quote-bullet {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 800;
+  }
+
+  .requests-action {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-card);
+    display: flex;
+    width: 100%;
+  }
+
+  .requests-action :global(.infohq-btn),
+  .w-full-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Pricing FAQs Accordion */
+  .faq-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .faq-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .faq-item[open] {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.25rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1023px) {
+    .retainer-cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .popular-card {
+      transform: none;
+    }
+    .systems-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Mobile Responsive (< 768px) */
+  @media (max-width: 767px) {
+    .hide-mobile {
+      display: none !important;
+    }
+    .show-mobile {
+      display: inline !important;
+    }
+
+    /* Hero Section */
+    .pricing-hero {
+      padding-top: 2.25rem;
+      padding-bottom: 2rem;
+    }
+    .pricing-headline {
+      font-size: clamp(1.85rem, 6.5vw, 2.35rem);
+      line-height: 1.2;
+      margin: 0.5rem 0 0.85rem;
+    }
+    .pricing-subheadline {
+      font-size: var(--text-sm);
+      line-height: 1.55;
+    }
+
+    /* One-time projects */
+    .desktop-table-view {
+      display: none;
+    }
+    .mobile-project-cards {
+      display: flex;
+      gap: 0.85rem;
+    }
+    .mobile-proj-card {
+      padding: 1.15rem;
+      gap: 8px;
+    }
+    .mobile-proj-header {
+      gap: 4px 10px;
+    }
+    .mobile-proj-title {
+      font-size: 15px;
+    }
+    .mobile-proj-price {
+      font-size: 15px;
+    }
+    .mobile-proj-desc {
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      margin-bottom: 0.5rem;
+    }
+    .mobile-proj-action {
+      width: 100%;
+    }
+    .mobile-proj-action :global(.infohq-btn) {
+      width: 100%;
+      min-height: 42px;
+      height: 42px;
+      font-size: 14px;
+      justify-content: center;
+    }
+
+    .section-cta-wrap {
+      margin-top: 1.5rem;
+    }
+    .section-cta-wrap :global(.infohq-btn) {
+      width: 100%;
+      max-width: 100%;
+      min-height: 46px;
+      height: 46px;
+      font-size: 14px;
+      padding-left: 18px;
+      padding-right: 6px;
+      justify-content: center;
+    }
+
+    /* Retainers */
+    .retainer-cards-grid {
+      gap: 1.5rem;
+    }
+    .retainer-card {
+      padding: 1.25rem;
+    }
+    .popular-card {
+      margin-top: 10px;
+    }
+    .retainer-card-header {
+      margin-bottom: 1.15rem;
+      padding-bottom: 1rem;
+    }
+    .retainer-plan-name {
+      font-size: 1.35rem;
+    }
+    .retainer-amount {
+      font-size: 2.15rem;
+    }
+    .retainer-card-footer :global(.infohq-btn) {
+      width: 100%;
+      min-height: 46px;
+      height: 46px;
+      font-size: 14px;
+      padding-left: 16px;
+      padding-right: 6px;
+    }
+
+    /* Matrix Table */
+    .mobile-scroll-hint {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.75rem;
+      letter-spacing: 0.01em;
+    }
+    .comparison-table {
+      min-width: 580px;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.85rem 1rem;
+      font-size: 0.8125rem;
+    }
+    .sticky-col {
+      min-width: 120px;
+      width: 120px;
+      box-shadow: 3px 0 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Systems & Requests */
+    .systems-sec-title {
+      font-size: 1.5rem;
+      margin: 0.25rem 0 1rem;
+    }
+    .requests-card {
+      padding: 1.25rem;
+    }
+    .requests-intro {
+      font-size: 0.8125rem;
+      margin-bottom: 1rem;
+    }
+    .requests-list li {
+      font-size: 0.8125rem;
+    }
+    .requests-action :global(.infohq-btn) {
+      min-height: 46px;
+      height: 46px;
+      font-size: 14px;
+    }
+
+    /* FAQs */
+    .faq-question {
+      padding: 1rem 1.15rem;
+      font-size: 0.9375rem;
+    }
+    .faq-answer {
+      padding: 0 1.15rem 1rem;
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* Narrow Mobile screens (< 380px) */
+  @media (max-width: 379px) {
+    .retainer-card-footer :global(.infohq-btn),
+    .section-cta-wrap :global(.infohq-btn),
+    .requests-action :global(.infohq-btn) {
+      font-size: 13px;
+      padding-left: 12px;
+      padding-right: 4px;
+    }
+    .retainer-amount {
+      font-size: 1.85rem;
+    }
+    .sticky-col {
+      min-width: 105px;
+      width: 105px;
+      font-size: 0.75rem;
+    }
+  }
+</style>

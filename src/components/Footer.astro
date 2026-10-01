@@ -1,0 +1,1037 @@
+---
+import { Mail } from 'lucide-astro';
+
+// Current year generated at build time
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="infohq-footer" id="site-footer">
+  <!-- Decorative Background Elements -->
+  <div class="footer-bg-glows" aria-hidden="true">
+    <div class="footer-glow-blue"></div>
+    <div class="footer-glow-purple"></div>
+    <div class="footer-glow-primary"></div>
+  </div>
+
+  <!-- Decorative SVG Curved Arcs (under 2KB, aria-hidden, pointer-events: none) -->
+  <svg class="footer-curves-svg" viewBox="0 0 1440 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Top-Right Curved Arcs -->
+    <path d="M960 0 C 1100 80, 1260 90, 1440 40" stroke="rgba(145, 79, 187, 0.35)" stroke-width="1.5" />
+    <path d="M1080 0 C 1180 120, 1320 130, 1440 90" stroke="rgba(87, 130, 224, 0.25)" stroke-width="1.2" stroke-dasharray="6 6" />
+    <!-- Faint Curve at Bottom-Left -->
+    <path d="M0 260 C 140 250, 280 310, 420 380" stroke="rgba(87, 130, 224, 0.18)" stroke-width="1.5" />
+  </svg>
+
+  <div class="container footer-container">
+    <!-- Main Footer Body -->
+    <div class="footer-main">
+      <!-- 1. Brand Block (~34%) -->
+      <div class="footer-brand-col">
+        <a href="/" class="footer-logo-link" aria-label="InfoHQ - Home">
+          <img 
+            src="/images/infohq-logo-footer.webp" 
+            alt="InfoHQ" 
+            width="135" 
+            height="45" 
+            class="footer-logo"
+            loading="lazy"
+          />
+        </a>
+
+        <p class="footer-tagline">
+          Engineering AI, Software &amp; Digital Growth to help ambitious businesses scale.
+        </p>
+
+        <!-- Social Media Links (LinkedIn, YouTube, Instagram, Twitter) with authentic brand colors -->
+        <div class="footer-social-links" aria-label="Social Media">
+          <a 
+            href="https://linkedin.com/company/infohq" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="footer-social-icon social-linkedin" 
+            aria-label="InfoHQ on LinkedIn"
+            title="LinkedIn"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+            </svg>
+          </a>
+          <a 
+            href="https://youtube.com/@infohq" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="footer-social-icon social-youtube" 
+            aria-label="InfoHQ on YouTube"
+            title="YouTube"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+          <a 
+            href="https://instagram.com/infohq" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="footer-social-icon social-instagram" 
+            aria-label="InfoHQ on Instagram"
+            title="Instagram"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FFD600" />
+                  <stop offset="25%" stop-color="#FF7A00" />
+                  <stop offset="50%" stop-color="#FF0069" />
+                  <stop offset="75%" stop-color="#D300C5" />
+                  <stop offset="100%" stop-color="#7638FA" />
+                </linearGradient>
+              </defs>
+              <path fill="url(#instagram-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a 
+            href="https://twitter.com/infohq" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="footer-social-icon social-twitter" 
+            aria-label="InfoHQ on Twitter"
+            title="Twitter"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Services Column (~17%) - Exactly 5 links -->
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Services</p>
+        <nav aria-label="Footer - Services">
+          <ul class="footer-link-list">
+            <li><a href="/services/ai-intelligent-systems">AI &amp; <span class="hide-mobile">Intelligent </span>Systems</a></li>
+            <li><a href="/services/web-development">Web <span class="hide-mobile">Development</span><span class="show-mobile">Dev</span></a></li>
+            <li><a href="/services/mobile-app-development">Mobile Apps</a></li>
+            <li><a href="/services/cloud-devops">Cloud &amp; DevOps</a></li>
+            <li><a href="/services/business-automation"><span class="hide-mobile">Business </span>Automation</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- 3. Company Column (~17%) - Exactly 5 links -->
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Company</p>
+        <nav aria-label="Footer - Company">
+          <ul class="footer-link-list">
+            <li><a href="/company">About Us</a></li>
+            <li><a href="/services">All Services</a></li>
+            <li><a href="/pricing">Pricing<span class="hide-mobile"> &amp; Retainers</span></a></li>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/blogs">Blogs</a></li>
+            <li><a href="/contact">Contact<span class="hide-mobile"> &amp; Inquiries</span></a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Vertical Divider (Desktop only) -->
+      <div class="footer-vertical-divider" aria-hidden="true"></div>
+
+      <!-- 4. Newsletter Block (~28%) -->
+      <div class="footer-newsletter-col">
+        <p class="footer-col-title">Stay Updated</p>
+        <p class="newsletter-sub">
+          Get practical insights on AI, software and digital growth. No spam.
+        </p>
+
+        <!-- Newsletter Form - Operable with and without JS -->
+        <form 
+          method="post" 
+          action="/api/newsletter" 
+          class="newsletter-form" 
+          id="footer-newsletter-form"
+          novalidate
+        >
+          <!-- Visually hidden label -->
+          <label for="newsletter-email-input" class="sr-only">Enter your email</label>
+
+          <!-- Hidden honeypot field -->
+          <input 
+            type="text" 
+            name="b_honeypot" 
+            id="newsletter-hp" 
+            tabindex="-1" 
+            autocomplete="off" 
+            class="honeypot-field" 
+            aria-hidden="true" 
+          />
+
+          <div class="newsletter-pill-input">
+            <span class="newsletter-mail-icon" aria-hidden="true">
+              <Mail size={16} stroke-width={1.8} />
+            </span>
+            <input 
+              type="email" 
+              name="email" 
+              id="newsletter-email-input" 
+              placeholder="Your email" 
+              required 
+              autocomplete="email"
+              class="newsletter-input"
+            />
+            <button 
+              type="submit" 
+              class="newsletter-btn" 
+              id="newsletter-submit-btn"
+              aria-label="Subscribe"
+            >
+              <span class="btn-text-full">Subscribe</span>
+              <span class="btn-icon-arrow" aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+
+          <p class="newsletter-privacy-note">
+            By subscribing you agree to our <a href="/privacy">Privacy Policy</a>.
+          </p>
+
+          <!-- ARIA Live status feedback region -->
+          <div 
+            class="newsletter-live-status" 
+            id="newsletter-live-status" 
+            role="status" 
+            aria-live="polite"
+          ></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <!-- Left: Copyright -->
+      <div class="footer-copyright">
+        &copy; {currentYear} <span class="footer-brand-strong">InfoHQ Pvt Ltd</span>. All rights reserved.
+      </div>
+
+      <!-- Right: Legal Links -->
+      <div class="footer-bottom-right">
+        <div class="footer-legal-links">
+          <a href="/privacy" class="legal-link">Privacy</a>
+          <a href="/terms" class="legal-link">Terms</a>
+          <button type="button" class="cookie-prefs-button" id="footer-cookie-prefs">
+            Cookie Preferences
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Newsletter Form Progressive Enhancement (No JS required for base POST)
+  function initFooterNewsletter() {
+    const form = document.getElementById('footer-newsletter-form') as HTMLFormElement | null;
+    const input = document.getElementById('newsletter-email-input') as HTMLInputElement | null;
+    const button = document.getElementById('newsletter-submit-btn') as HTMLButtonElement | null;
+    const status = document.getElementById('newsletter-live-status') as HTMLDivElement | null;
+
+    if (!form || !input || !button || !status) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = input.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!email || !emailRegex.test(email)) {
+        status.textContent = 'Please enter a valid email.';
+        status.className = 'newsletter-live-status is-invalid';
+        input.focus();
+        return;
+      }
+
+      const btnTextSpan = button.querySelector('.btn-text-full');
+      function setBtn(label: string, disabled: boolean) {
+        if (!button) return;
+        button.disabled = disabled;
+        if (btnTextSpan) {
+          btnTextSpan.textContent = label;
+        } else {
+          button.textContent = label;
+        }
+      }
+
+      // State: Loading
+      setBtn('Subscribing...', true);
+      status.textContent = '';
+      status.className = 'newsletter-live-status';
+
+      try {
+        const hp = (document.getElementById('newsletter-hp') as HTMLInputElement)?.value || '';
+        const res = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ email, b_honeypot: hp })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data?.success) {
+          // State: Success
+          status.textContent = "Thanks — you're subscribed.";
+          status.className = 'newsletter-live-status is-success';
+          input.value = '';
+          setBtn('Subscribed', true);
+        } else {
+          // State: Error
+          status.textContent = data?.error || 'Something went wrong. Please try again.';
+          status.className = 'newsletter-live-status is-error';
+          setBtn('Subscribe', false);
+        }
+      } catch (err) {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.className = 'newsletter-live-status is-error';
+        setBtn('Subscribe', false);
+      }
+    });
+  }
+
+  // Cookie Preferences Button Hook (re-opens the consent panel per legal requirements)
+  function initCookiePrefsButton() {
+    const btn = document.getElementById('footer-cookie-prefs');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('infohq_open_cookie_prefs'));
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initFooterNewsletter();
+      initCookiePrefsButton();
+    });
+  } else {
+    initFooterNewsletter();
+    initCookiePrefsButton();
+  }
+</script>
+
+<style>
+  /* Base Footer Container */
+  .infohq-footer {
+    position: relative;
+    background: linear-gradient(180deg, var(--color-dark-navy) 0%, var(--color-dark-indigo) 100%);
+    color: var(--color-text-white);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+    isolation: isolate;
+    margin-top: auto;
+  }
+
+  /* Screen reader utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .honeypot-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Radial Glows */
+  .footer-bg-glows {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .footer-glow-blue {
+    position: absolute;
+    top: -40px;
+    left: 8%;
+    width: 380px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(87, 130, 224, 0.22) 0%, transparent 70%);
+  }
+
+  .footer-glow-purple {
+    position: absolute;
+    top: -40px;
+    right: 4%;
+    width: 420px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(145, 79, 187, 0.22) 0%, transparent 70%);
+  }
+
+  .footer-glow-primary {
+    position: absolute;
+    bottom: -60px;
+    left: 45%;
+    transform: translateX(-50%);
+    width: 460px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.18) 0%, transparent 70%);
+  }
+
+  /* Curved SVG Arcs */
+  .footer-curves-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Footer Content Layout */
+  .footer-container {
+    position: relative;
+    z-index: 3;
+    max-width: var(--container-max);
+  }
+
+  /* Main Footer Section - Compact height */
+  .footer-main {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 30px;
+    padding-bottom: 18px;
+    gap: clamp(14px, 2vw, 30px);
+  }
+
+  /* 1. Brand Column (~34%) */
+  .footer-brand-col {
+    flex: 0 0 34%;
+    max-width: 34%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-logo-link {
+    display: inline-block;
+    line-height: 1;
+  }
+
+  .footer-logo {
+    width: 120px;
+    height: auto;
+    display: block;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-text-dark-muted);
+    margin: 0;
+    max-width: 340px;
+  }
+
+  /* Social Media Links in Brand Column with Original Brand Colors */
+  .footer-social-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 2px;
+  }
+
+  .footer-social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 0;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    text-decoration: none;
+  }
+
+  .footer-social-icon.social-linkedin {
+    color: #0A66C2;
+  }
+
+  .footer-social-icon.social-youtube {
+    color: #FF0000;
+  }
+
+  .footer-social-icon.social-instagram {
+    /* Instagram uses direct SVG gradient fill */
+  }
+
+  .footer-social-icon.social-twitter {
+    color: #1DA1F2;
+  }
+
+  .footer-social-icon:hover {
+    transform: translateY(-2px) scale(1.12);
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.25));
+  }
+
+  .footer-social-icon:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+  }
+
+  /* 2 & 3. Navigation Columns (~17% each) */
+  .footer-nav-col {
+    flex: 0 0 17%;
+    max-width: 17%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Distinct Column Header Title */
+  .footer-col-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-white);
+    margin: 0 0 2px 0;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-link-list li {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 24px;
+  }
+
+  .footer-link-list a {
+    font-size: 13px;
+    color: var(--color-text-dark-muted);
+    text-decoration: none;
+    transition: color 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+  }
+
+  .footer-link-list a:hover {
+    color: var(--color-text-white);
+    transform: translateX(2px);
+  }
+
+  .footer-link-list a:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .show-mobile {
+    display: none;
+  }
+
+  .btn-icon-arrow {
+    display: none;
+  }
+
+  /* Vertical Divider */
+  .footer-vertical-divider {
+    width: 1px;
+    align-self: stretch;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent);
+    margin: 0 4px;
+  }
+
+  /* 4. Newsletter Column (~28%) */
+  .footer-newsletter-col {
+    flex: 0 0 28%;
+    max-width: 28%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .newsletter-sub {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--color-text-dark-muted);
+    margin: 0;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+
+  /* Pill input container - Compact */
+  .newsletter-pill-input {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-full);
+    padding: 3px 4px 3px 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    height: 40px;
+  }
+
+  .newsletter-pill-input:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .newsletter-mail-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-dark-muted);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-text-white);
+    font-size: 13px;
+    font-family: var(--font-sans);
+    min-width: 0;
+  }
+
+  .newsletter-input::placeholder {
+    color: rgba(230, 223, 254, 0.6);
+  }
+
+  .newsletter-btn {
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-balance-top) 0%, var(--color-balance-bottom) 100%);
+    color: var(--color-text-white);
+    font-weight: 600;
+    font-size: 12.5px;
+    border: none;
+    height: 32px;
+    padding: 0 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .newsletter-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(124, 92, 232, 0.45);
+  }
+
+  .newsletter-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .newsletter-privacy-note {
+    font-size: 11.5px;
+    color: var(--color-text-dark-muted);
+    margin: 0;
+  }
+
+  .newsletter-privacy-note a {
+    color: var(--color-text-white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .newsletter-privacy-note a:hover {
+    color: var(--color-primary-light);
+  }
+
+  .newsletter-live-status {
+    font-size: 12px;
+    min-height: 16px;
+    margin-top: 2px;
+  }
+
+  .newsletter-live-status.is-success {
+    color: #4ADE80;
+  }
+
+  .newsletter-live-status.is-error, .newsletter-live-status.is-invalid {
+    color: #F87171;
+  }
+
+  /* Bottom Bar - Clean straight divider line & compact padding */
+  .footer-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    padding-top: 10px;
+    padding-bottom: 12px;
+  }
+
+  .footer-copyright {
+    font-size: 12.5px;
+    color: var(--color-text-dark-muted);
+  }
+
+  .footer-brand-strong {
+    font-weight: 600;
+    color: var(--color-text-white);
+  }
+
+  .footer-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .legal-link, .cookie-prefs-button {
+    font-size: 12.5px;
+    color: var(--color-text-dark-muted);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+    transition: color 0.15s ease;
+  }
+
+  .legal-link:hover, .cookie-prefs-button:hover {
+    color: var(--color-text-white);
+  }
+
+  .legal-link:focus-visible, .cookie-prefs-button:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Tablet Responsive (768 - 1023px): All 3 (Services, Company, Stay Updated) in parallel */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.35fr;
+      padding-top: 28px;
+      padding-bottom: 20px;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .footer-brand-col {
+      grid-column: 1 / -1;
+      max-width: 100%;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      max-width: 520px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    .footer-vertical-divider {
+      display: none;
+    }
+
+    .footer-nav-col {
+      flex: none;
+      max-width: 100%;
+    }
+
+    .footer-newsletter-col {
+      flex: none;
+      max-width: 100%;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .newsletter-form {
+      max-width: 100%;
+    }
+
+    .footer-link-list li {
+      height: auto;
+      min-height: 24px;
+      margin-bottom: 4px;
+    }
+
+    .footer-link-list a {
+      font-size: 13px;
+      line-height: 1.4;
+      color: rgba(230, 223, 254, 0.9);
+    }
+  }
+
+  /* Mobile Responsive (< 768px) */
+  @media (max-width: 767px) {
+    .infohq-footer {
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+    }
+
+    /* All 3 columns parallel across mobile viewports: Services | Company | Stay Updated */
+    .footer-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.95fr) minmax(0, 1.35fr);
+      padding-top: 20px;
+      padding-bottom: 16px;
+      gap: 16px 8px;
+      align-items: flex-start;
+    }
+
+    .footer-brand-col {
+      grid-column: 1 / -1;
+      max-width: 100%;
+      gap: 8px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 2px;
+    }
+
+    .footer-logo {
+      width: 108px;
+      height: auto;
+    }
+
+    .footer-tagline {
+      max-width: 100%;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .footer-social-links {
+      margin-top: 2px;
+      gap: 12px;
+    }
+
+    .footer-vertical-divider {
+      display: none;
+    }
+
+    .footer-nav-col,
+    .footer-newsletter-col {
+      max-width: 100%;
+      flex: none;
+      grid-column: auto;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    /* Column titles */
+    .footer-col-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    /* Subtext links: Crisp, perfectly readable, identical quality as desktop */
+    .hide-mobile {
+      display: none !important;
+    }
+
+    .show-mobile {
+      display: inline !important;
+    }
+
+    .footer-link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .footer-link-list li {
+      height: auto;
+      min-height: 22px;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-link-list a {
+      font-size: 12px;
+      line-height: 1.35;
+      color: rgba(230, 223, 254, 0.92);
+      white-space: nowrap;
+      display: inline-block;
+      min-height: auto;
+      width: auto;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .footer-link-list a:hover {
+      color: #FFFFFF;
+      transform: translateX(2px);
+    }
+
+    /* Clean & short Stay Updated column on mobile - remove unnecessary elements */
+    .newsletter-sub,
+    .newsletter-privacy-note,
+    .newsletter-mail-icon,
+    .btn-text-full {
+      display: none !important;
+    }
+
+    .btn-icon-arrow {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .newsletter-form {
+      max-width: 100%;
+      width: 100%;
+      gap: 4px;
+    }
+
+    .newsletter-pill-input {
+      height: 36px;
+      padding: 2px 3px 2px 8px;
+      width: 100%;
+      gap: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-full);
+      box-sizing: border-box;
+    }
+
+    .newsletter-input {
+      font-size: 12px;
+      width: 100%;
+      min-width: 0;
+      padding: 0 4px;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+    }
+
+    .newsletter-input::placeholder {
+      font-size: 11px;
+      color: rgba(230, 223, 254, 0.6);
+    }
+
+    .newsletter-btn {
+      width: 30px;
+      min-width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: none;
+      background: linear-gradient(135deg, var(--color-balance-top) 0%, var(--color-balance-bottom) 100%);
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+
+    .newsletter-live-status {
+      font-size: 11px;
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+
+    /* Extra compact adjustments for very small screens (< 360px) */
+    @media (max-width: 359px) {
+      .footer-main {
+        gap: 14px 6px;
+      }
+      .footer-col-title {
+        font-size: 12px;
+      }
+      .footer-link-list a {
+        font-size: 11px;
+      }
+      .newsletter-pill-input {
+        height: 34px;
+        padding: 2px 2px 2px 6px;
+      }
+      .newsletter-btn {
+        width: 28px;
+        min-width: 28px;
+        height: 28px;
+      }
+      .newsletter-input {
+        font-size: 11px;
+      }
+    }
+
+    /* Bottom Bar Mobile Centered Stack */
+    .footer-bottom-bar {
+      height: auto;
+      flex-direction: column-reverse;
+      gap: 10px;
+      padding-top: 12px;
+      padding-bottom: calc(var(--sticky-cta-h, 0px) + env(safe-area-inset-bottom, 0px) + 16px);
+      text-align: center;
+    }
+
+    .footer-bottom-right {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .footer-legal-links {
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .legal-link, .cookie-prefs-button {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 6px;
+    }
+  }
+</style>

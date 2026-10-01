@@ -1,0 +1,679 @@
+---
+import { Sparkles, ChartColumn, CodeXml, Cloud } from 'lucide-astro';
+import Button from './Button.astro';
+
+interface Props {
+  page?: 'home' | 'services' | 'pricing' | 'portfolio' | 'company' | 'blogs' | 'contact' | 'service-detail' | 'blog-post';
+  id?: string;
+}
+
+const { page = 'home', id = 'final-cta-section' } = Astro.props;
+
+interface CTAConfig {
+  headlinePrefix: string;
+  headlineGradient: string;
+  headlineSuffix?: string;
+  body: string;
+  primary: {
+    label: string;
+    href: string;
+    icon?: 'arrow' | 'mail' | 'none';
+  };
+  secondary?: {
+    label: string;
+    href: string;
+    icon?: 'arrow' | 'mail' | 'none';
+  } | null;
+}
+
+const ctaConfigs: Record<string, CTAConfig> = {
+  home: {
+    headlinePrefix: 'Ready to Build Something That ',
+    headlineGradient: 'Actually Scales?',
+    body: "Tell us what you're working on — we'll get back within 1 business day with a clear plan from a senior engineer.",
+    primary: {
+      label: 'Get Free Consultation',
+      href: '/contact',
+      icon: 'arrow'
+    },
+    secondary: {
+      label: 'Email Us Directly',
+      href: 'mailto:contact@infohq.in',
+      icon: 'mail'
+    }
+  },
+  services: {
+    headlinePrefix: 'Not Sure Which ',
+    headlineGradient: 'Service You Need?',
+    body: "Tell us your problem, not the solution — we'll figure out the right service mix for you.",
+    primary: {
+      label: 'Talk to Our Team',
+      href: '/contact',
+      icon: 'arrow'
+    },
+    secondary: {
+      label: 'Email Us Directly',
+      href: 'mailto:services@infohq.in',
+      icon: 'mail'
+    }
+  },
+  pricing: {
+    headlinePrefix: 'Not Sure ',
+    headlineGradient: 'Which Plan Fits?',
+    body: "Tell us what you're running today — we'll tell you exactly which plan (or one-time project) makes sense.",
+    primary: {
+      label: 'Talk to Our Team',
+      href: '/contact',
+      icon: 'arrow'
+    },
+    secondary: {
+      label: 'Email Us Directly',
+      href: 'mailto:services@infohq.in',
+      icon: 'mail'
+    }
+  },
+  company: {
+    headlinePrefix: 'Want to ',
+    headlineGradient: 'Work With Us?',
+    body: '',
+    primary: {
+      label: 'Get in Touch',
+      href: '/contact',
+      icon: 'arrow'
+    },
+    secondary: {
+      label: 'Email Us Directly',
+      href: 'mailto:contact@infohq.in',
+      icon: 'mail'
+    }
+  },
+  blogs: {
+    headlinePrefix: 'Have a ',
+    headlineGradient: 'Topic You Want Us to Cover?',
+    body: '',
+    primary: {
+      label: 'Suggest a Topic',
+      href: 'mailto:contact@infohq.in?subject=Blog%20topic%20suggestion',
+      icon: 'mail'
+    },
+    secondary: null
+  },
+  portfolio: {
+    headlinePrefix: 'Have a Project in Mind That Needs ',
+    headlineGradient: 'Real Engineering?',
+    body: "From fast MVPs to enterprise AI systems and continuous retainers — let's build your next success story.",
+    primary: {
+      label: 'Start Your Project',
+      href: '/contact',
+      icon: 'arrow'
+    },
+    secondary: {
+      label: 'Email Us Directly',
+      href: 'mailto:contact@infohq.in',
+      icon: 'mail'
+    }
+  },
+  contact: {
+    headlinePrefix: 'Prefer to ',
+    headlineGradient: 'Just Talk It Through?',
+    body: 'Email us directly at contact@infohq.in — a real engineer will respond, not a bot.',
+    primary: {
+      label: 'Email Us Directly',
+      href: 'mailto:contact@infohq.in',
+      icon: 'mail'
+    },
+    secondary: null
+  }
+};
+
+// Aliases for subpages
+const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
+---
+
+<section class="final-cta-section" id={id} aria-labelledby="final-cta-title">
+  <div class="container cta-container-wrap">
+    <div class="cta-banner">
+      <!-- Gradient Border Outer Glow -->
+      <div class="cta-border-glow" aria-hidden="true"></div>
+
+      <!-- Radial Background Glows -->
+      <div class="cta-glow-left" aria-hidden="true"></div>
+      <div class="cta-glow-top" aria-hidden="true"></div>
+      <div class="cta-glow-right" aria-hidden="true"></div>
+
+      <!-- Dot matrix grids on left and right -->
+      <div class="dot-matrix dot-matrix-left" aria-hidden="true"></div>
+      <div class="dot-matrix dot-matrix-right" aria-hidden="true"></div>
+
+      <!-- Decorative SVG Wave Lines (under 2KB) -->
+      <svg class="cta-waves-svg" viewBox="0 0 1200 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M-50 280 C 250 350, 450 180, 800 240 C 1000 280, 1150 160, 1250 140" stroke="rgba(145, 79, 187, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" />
+        <path d="M-20 220 C 300 160, 600 320, 950 200 C 1100 140, 1200 170, 1250 180" stroke="rgba(87, 130, 224, 0.22)" stroke-width="1.5" />
+        <!-- Glowing Dots along paths -->
+        <circle cx="280" cy="245" r="3.5" fill="#5782E0" opacity="0.6" filter="blur(0.5px)" />
+        <circle cx="780" cy="235" r="4.5" fill="#914FBB" opacity="0.7" filter="blur(0.5px)" />
+        <circle cx="980" cy="185" r="3" fill="#E8604E" opacity="0.6" />
+        <circle cx="480" cy="275" r="3.5" fill="#7C5CE8" opacity="0.5" />
+      </svg>
+
+      <!-- Floating Glass Cards (Left) -->
+      <div class="glass-card glass-card-1 float-anim" aria-hidden="true">
+        <div class="glass-icon-box">
+          <ChartColumn size={20} class="glass-icon" />
+        </div>
+        <span class="glass-label">AI Solutions</span>
+      </div>
+
+      <div class="glass-card glass-card-2 float-anim-alt" aria-hidden="true">
+        <div class="glass-icon-box">
+          <CodeXml size={20} class="glass-icon" />
+        </div>
+        <span class="glass-label">Custom Development</span>
+      </div>
+
+      <!-- Floating Glass Card (Right) -->
+      <div class="glass-card glass-card-3 float-anim" aria-hidden="true">
+        <div class="glass-icon-box">
+          <Cloud size={20} class="glass-icon" />
+        </div>
+        <span class="glass-label">Scalable Infrastructure</span>
+      </div>
+
+      <!-- Glossy 3D-style Curved Slabs (Right, CSS gradients only) -->
+      <div class="glossy-shape-group" aria-hidden="true">
+        <div class="glossy-slab slab-1">
+          <div class="slab-highlight"></div>
+        </div>
+        <div class="glossy-slab slab-2">
+          <div class="slab-highlight"></div>
+        </div>
+      </div>
+
+      <!-- Main Banner Content -->
+      <div class="cta-inner-content">
+        <!-- Eyebrow Badge -->
+        <div class="cta-badge">
+          <Sparkles size={14} class="badge-sparkle" aria-hidden="true" />
+          <span>LET'S BUILD TOGETHER</span>
+        </div>
+
+        <!-- Headline with Gradient text -->
+        <h2 id="final-cta-title" class="cta-headline">
+          {activeConfig.headlinePrefix}
+          <span class="cta-gradient-text">{activeConfig.headlineGradient}</span>
+          {activeConfig.headlineSuffix || ''}
+        </h2>
+
+        <!-- Body text (with min-height reserved when empty so layout never shifts) -->
+        <div class="cta-body-wrapper">
+          {activeConfig.body ? (
+            <p class="cta-body">{activeConfig.body}</p>
+          ) : (
+            <div class="cta-body-spacer" aria-hidden="true"></div>
+          )}
+        </div>
+
+        <!-- Buttons Row -->
+        <div class="cta-buttons-row">
+          <Button
+            variant="primary"
+            size="lg"
+            href={activeConfig.primary.href}
+            label={activeConfig.primary.label}
+            icon={activeConfig.primary.icon || 'arrow'}
+          />
+
+          {activeConfig.secondary && (
+            <Button
+              variant="secondary"
+              tone="dark"
+              size="lg"
+              href={activeConfig.secondary.href}
+              label={activeConfig.secondary.label}
+              icon={activeConfig.secondary.icon || 'mail'}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Hide sticky mobile CTA while any FinalCTA is in viewport
+  function initFinalCTAObserver() {
+    const finalCTAs = document.querySelectorAll('.final-cta-section');
+    const stickyCTA = document.getElementById('sticky-mobile-cta');
+    
+    if (!finalCTAs.length || !stickyCTA) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyCTA.classList.add('hidden-by-final-cta');
+        } else {
+          stickyCTA.classList.remove('hidden-by-final-cta');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    finalCTAs.forEach(cta => observer.observe(cta));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFinalCTAObserver);
+  } else {
+    initFinalCTAObserver();
+  }
+</script>
+
+<style>
+  .final-cta-section {
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5rem);
+    position: relative;
+    background: transparent;
+  }
+
+  .cta-container-wrap {
+    width: 100%;
+  }
+
+  /* Banner Card */
+  .cta-banner {
+    position: relative;
+    min-height: 300px;
+    padding: clamp(36px, 4.5vw, 48px) clamp(20px, 3.5vw, 36px);
+    border-radius: 40px;
+    background: linear-gradient(135deg, var(--color-dark-navy) 0%, var(--color-dark-indigo) 100%);
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 1px Gradient Border & Outer Glow */
+  .cta-border-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(145, 79, 187, 0.6) 0%, rgba(87, 130, 224, 0.6) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 5;
+    box-shadow: 0 0 25px rgba(124, 92, 232, 0.2);
+  }
+
+  /* Radial glows */
+  .cta-glow-left {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    transform: translateY(-50%);
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.28) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cta-glow-top {
+    position: absolute;
+    top: -20%;
+    left: 45%;
+    transform: translateX(-50%);
+    width: 440px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(145, 79, 187, 0.22) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cta-glow-right {
+    position: absolute;
+    top: 40%;
+    right: -10%;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(87, 130, 224, 0.26) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Dot matrix grids */
+  .dot-matrix {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+    background-size: 16px 16px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .dot-matrix-left {
+    left: 0;
+    mask-image: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+  }
+
+  .dot-matrix-right {
+    right: 0;
+    mask-image: linear-gradient(270deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(270deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+  }
+
+  /* Waves SVG */
+  .cta-waves-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Glass Cards */
+  .glass-card {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+    pointer-events: none;
+    z-index: 3;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  @supports (backdrop-filter: blur(10px)) {
+    @media (min-width: 1024px) {
+      .glass-card {
+        backdrop-filter: blur(10px);
+      }
+    }
+  }
+
+  .glass-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-light);
+  }
+
+  .glass-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-white);
+    letter-spacing: -0.01em;
+  }
+
+  /* Glass card placements */
+  .glass-card-1 {
+    top: 18%;
+    left: 4%;
+    transform: rotate(-6deg);
+  }
+
+  .glass-card-2 {
+    bottom: 16%;
+    left: 8%;
+    transform: rotate(4deg);
+  }
+
+  .glass-card-3 {
+    top: 24%;
+    right: 12%;
+    transform: rotate(-8deg);
+  }
+
+  /* Floating animations */
+  @keyframes floatVertical {
+    0% { transform: translateY(0px) rotate(-6deg); }
+    100% { transform: translateY(-6px) rotate(-6deg); }
+  }
+
+  @keyframes floatVerticalAlt {
+    0% { transform: translateY(0px) rotate(4deg); }
+    100% { transform: translateY(6px) rotate(4deg); }
+  }
+
+  @keyframes floatVertical3 {
+    0% { transform: translateY(0px) rotate(-8deg); }
+    100% { transform: translateY(-6px) rotate(-8deg); }
+  }
+
+  @media (min-width: 1024px) {
+    .glass-card-1.float-anim {
+      animation: floatVertical 6s ease-in-out infinite alternate;
+    }
+    .glass-card-2.float-anim-alt {
+      animation: floatVerticalAlt 6s ease-in-out infinite alternate 1s;
+    }
+    .glass-card-3.float-anim {
+      animation: floatVertical3 6s ease-in-out infinite alternate 2s;
+    }
+  }
+
+  /* Glossy 3D-style Shapes (Bottom-Right) */
+  .glossy-shape-group {
+    position: absolute;
+    bottom: -25px;
+    right: -20px;
+    width: 220px;
+    height: 180px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .glossy-slab {
+    position: absolute;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--color-balance-top) 0%, var(--color-grad-blue) 100%);
+    box-shadow: 0 12px 30px rgba(8, 30, 113, 0.45);
+    overflow: hidden;
+  }
+
+  .slab-highlight {
+    position: absolute;
+    inset: 1px;
+    border-radius: 27px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .slab-1 {
+    width: 150px;
+    height: 100px;
+    bottom: 20px;
+    right: 25px;
+    transform: rotate(-25deg);
+  }
+
+  .slab-2 {
+    width: 130px;
+    height: 90px;
+    bottom: 0px;
+    right: -10px;
+    transform: rotate(20deg);
+    background: linear-gradient(135deg, var(--color-grad-purple) 0%, var(--color-balance-bottom) 100%);
+    opacity: 0.9;
+  }
+
+  /* Inner Main Content */
+  .cta-inner-content {
+    position: relative;
+    z-index: 4;
+    text-align: center;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto;
+  }
+
+  /* Eyebrow badge */
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-full);
+    color: var(--color-text-white);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .badge-sparkle {
+    color: var(--color-grad-pink);
+  }
+
+  /* Headline */
+  .cta-headline {
+    color: var(--color-text-white);
+    font-weight: 800;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .cta-gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: var(--color-grad-pink); /* Fallback */
+    display: inline;
+  }
+
+  /* Body wrapper */
+  .cta-body-wrapper {
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta-body {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 560px;
+    margin: 0;
+  }
+
+  .cta-body-spacer {
+    height: 8px;
+  }
+
+  /* Buttons Row */
+  .cta-buttons-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* Tablet Responsive (768 - 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .cta-banner {
+      border-radius: 28px;
+      padding: 40px 24px;
+    }
+    .cta-border-glow {
+      border-radius: 28px;
+    }
+    .glass-card {
+      transform: scale(0.8);
+      opacity: 0.55;
+    }
+    .glass-card-2 {
+      display: none; /* Hide one left card to prevent overlap on tablet */
+    }
+    .glass-card-1 {
+      left: 1%;
+    }
+    .glass-card-3 {
+      right: 2%;
+    }
+    .glossy-shape-group {
+      transform: scale(0.7);
+      right: -30px;
+    }
+  }
+
+  /* Mobile Responsive (< 768px) */
+  @media (max-width: 767px) {
+    .final-cta-section {
+      padding-top: 2.5rem;
+      padding-bottom: 3rem;
+    }
+
+    .cta-banner {
+      border-radius: 24px;
+      padding: 32px 20px;
+      min-height: auto;
+    }
+
+    .cta-border-glow {
+      border-radius: 24px;
+    }
+
+    /* All glass cards and glossy shapes hidden per spec */
+    .glass-card, .glossy-shape-group {
+      display: none !important;
+    }
+
+    .cta-inner-content {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .cta-headline {
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .cta-body {
+      font-size: 14px;
+    }
+
+    /* Buttons stack full-width on mobile */
+    .cta-buttons-row {
+      width: 100%;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cta-buttons-row :global(.infohq-btn) {
+      width: 100%;
+      min-height: 48px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-anim, .float-anim-alt {
+      animation: none !important;
+    }
+  }
+</style>

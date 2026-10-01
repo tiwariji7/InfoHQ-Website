@@ -1,0 +1,175 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  show?: boolean;
+}
+
+const { show = true } = Astro.props;
+---
+
+{show && (
+  <div class="sticky-mobile-cta" id="sticky-mobile-cta" aria-hidden="true">
+    <div class="sticky-cta-content">
+      <div class="sticky-text">
+        <span class="sticky-headline">Ready to build?</span>
+        <span class="sticky-sub">Engineering consultation is free</span>
+      </div>
+      <Button
+        variant="primary"
+        size="md"
+        href="/contact"
+        label="Get Free Consultation"
+        icon="chat"
+        id="sticky-mobile-cta-btn"
+      />
+    </div>
+  </div>
+)}
+
+<style>
+  .sticky-mobile-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--color-border-subtle);
+    box-shadow: 0 -4px 16px rgba(26, 8, 92, 0.08);
+    padding: 0.75rem 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none;
+  }
+
+  .sticky-mobile-cta.visible {
+    transform: translateY(0);
+  }
+
+  .sticky-mobile-cta.hidden-by-final-cta {
+    transform: translateY(100%) !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sticky-cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .sticky-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sticky-headline {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    line-height: 1.2;
+  }
+
+  .sticky-sub {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .sticky-btn {
+    min-height: 44px;
+    padding: 0.5rem 1.25rem;
+    font-size: var(--text-xs);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Only display on mobile/tablet viewports (< 768px) */
+  @media (max-width: 767px) {
+    .sticky-mobile-cta {
+      display: block;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .sticky-mobile-cta {
+      padding: 0.6rem 0.85rem;
+    }
+    .sticky-sub {
+      display: none;
+    }
+    .sticky-cta-content {
+      gap: 0.5rem;
+    }
+    :global(#sticky-mobile-cta-btn) {
+      height: 42px !important;
+      min-height: 42px !important;
+      padding: 0 14px !important;
+      font-size: 13.5px !important;
+    }
+  }
+</style>
+
+<script>
+  function setupStickyCTA() {
+    const cta = document.getElementById('sticky-mobile-cta');
+    if (!cta) return;
+
+    let hasScrolled = false;
+    let isOverFooter = false;
+
+    function updateCTA() {
+      if (hasScrolled && !isOverFooter) {
+        cta?.classList.add('visible');
+        cta?.classList.remove('hidden-by-final-cta');
+        cta?.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('has-mobile-cta');
+      } else {
+        if (isOverFooter) {
+          cta?.classList.add('hidden-by-final-cta');
+        } else {
+          cta?.classList.remove('visible');
+        }
+        cta?.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('has-mobile-cta');
+      }
+    }
+
+    function handleScroll() {
+      // Show when scrolled past 280px (past hero)
+      const scrolled = window.scrollY > 280;
+      if (scrolled !== hasScrolled) {
+        hasScrolled = scrolled;
+        updateCTA();
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Auto-hide sticky CTA when approaching footer or final CTA
+    const footer = document.getElementById('site-footer') || document.querySelector('footer');
+    const finalCTA = document.getElementById('final-cta') || document.querySelector('.final-cta-section');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        isOverFooter = entries.some(entry => entry.isIntersecting);
+        updateCTA();
+      }, {
+        rootMargin: '0px 0px 50px 0px',
+        threshold: 0.05
+      });
+
+      if (footer) observer.observe(footer);
+      if (finalCTA) observer.observe(finalCTA);
+    }
+  }
+
+  setupStickyCTA();
+  document.addEventListener('astro:page-load', setupStickyCTA);
+</script>

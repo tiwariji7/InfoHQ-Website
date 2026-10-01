@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const meta = {
+  title: 'Terms of Service | InfoHQ',
+  description: 'Terms of Service for InfoHQ (Alpha AI Services). Standard terms governing the use of infohq.in and scope of engineering service engagements.',
+  keywords: 'InfoHQ terms of service, legal terms, engineering agreements'
+};
+
+const lastUpdated = 'September 2026';
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  schemaType="legal"
+  showMobileCTA={false}
+>
+  <section class="section legal-section" aria-labelledby="tos-heading">
+    <div class="container legal-container">
+      <div class="legal-header">
+        <span class="text-eyebrow">Legal &amp; Compliance</span>
+        <h1 id="tos-heading" class="legal-title">Terms of Service</h1>
+        <p class="legal-meta"><strong>Last Updated:</strong> {lastUpdated}</p>
+      </div>
+
+      <!-- Mandatory Lawyer Review Notice per Golden Rule & Phase 9 -->
+      <div class="legal-review-alert" role="note">
+        <strong>Important Compliance Notice:</strong>
+        <p>
+          This document represents the preliminary drafted Terms of Service for InfoHQ (Alpha AI Services). These terms are scheduled for formal commercial review and final sign-off by qualified legal counsel prior to formal corporate execution.
+        </p>
+      </div>
+
+      <div class="legal-body card">
+        <section class="legal-block">
+          <h2>1. Acceptance of Terms</h2>
+          <p>
+            By accessing or browsing this website (<a href="https://infohq.in">infohq.in</a>), you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use this website.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>2. Who We Are</h2>
+          <p>
+            InfoHQ (operating under Alpha AI Services) is an artificial intelligence, mobile, web, and custom software development studio based in Pune, Maharashtra and Prayagraj, Uttar Pradesh, India.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>3. Use of This Website</h2>
+          <p>You agree to use this site only for legitimate commercial inquiry and technical evaluation:</p>
+          <ul class="legal-list">
+            <li>You will not attempt to compromise website security, bypass access controls, or inject malicious payloads.</li>
+            <li>You will not scrape, harvest, or extract website content systematically without prior written authorization.</li>
+            <li>You will not utilize contact forms or interactive components for spam, phishing, or abusive activities.</li>
+          </ul>
+        </section>
+
+        <section class="legal-block">
+          <h2>4. Intellectual Property</h2>
+          <p>
+            All original website design elements, brand assets, logos, copy, typography hierarchy, and proprietary illustrations displayed on this site are the exclusive intellectual property of InfoHQ (Alpha AI Services).
+          </p>
+          <p>
+            <strong>Client Work &amp; Retainer IP:</strong> For paid client projects, 100% ownership of client application source code, designs, and database architectures is transferred to the client upon full payment under the terms of the individual client agreement.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>5. Service Engagements &amp; Pricing Quotes</h2>
+          <p>
+            The service descriptions, starting price indications, and retainer plans listed on this website provide general informational estimates. 
+          </p>
+          <p>
+            <strong>Binding Agreements:</strong> Actual commercial engagements are governed by a separate, bilateral Master Services Agreement (MSA) or Statement of Work (SOW) executed between InfoHQ and the client. The provisions of any executed agreement supersede any general descriptions contained on this website.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>6. No Warranty</h2>
+          <p>
+            This website and all information provided herein are made available on an "as is" and "as available" basis without warranties of any kind, whether express or implied. InfoHQ makes no guarantees that site functions will be uninterrupted, error-free, or free of harmful components.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>7. Limitation of Liability</h2>
+          <p>
+            To the maximum extent permitted by applicable Indian law, InfoHQ and its team shall not be held liable for any indirect, incidental, punitive, or consequential damages resulting from your use of or inability to use this website.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>8. External Links</h2>
+          <p>
+            This site may include external links to client deployments, public references, or third-party tools. InfoHQ exercises no operational control over external websites and is not responsible for their content, policies, or practices.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>9. Governing Jurisdiction</h2>
+          <p>
+            These Terms shall be interpreted and governed in accordance with the laws of India. Any legal dispute or proceeding arising out of these Terms shall be subject to the exclusive jurisdiction of the competent courts in Pune, Maharashtra, India.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>10. Changes to These Terms</h2>
+          <p>
+            InfoHQ reserves the right to modify or revise these Terms at any time. Continued use of the website following any update signifies your acceptance of the updated Terms.
+          </p>
+        </section>
+
+        <section class="legal-block">
+          <h2>11. Contact Us</h2>
+          <p>
+            For questions regarding these Terms of Service:
+          </p>
+          <p>
+            <strong>InfoHQ (Alpha AI Services)</strong><br />
+            Email: <a href="mailto:contact@infohq.in">contact@infohq.in</a><br />
+            Locations: Pune, Maharashtra &bull; Prayagraj, Uttar Pradesh, India
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-section {
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: clamp(3.5rem, 6vw, 6rem);
+  }
+
+  .legal-container {
+    max-width: 840px;
+  }
+
+  .legal-header {
+    margin-bottom: 2rem;
+  }
+
+  .legal-title {
+    font-size: var(--text-5xl);
+    margin: 0.5rem 0 0.5rem;
+  }
+
+  .legal-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .legal-review-alert {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: var(--text-xs);
+    color: #92400E;
+    line-height: 1.5;
+  }
+
+  .legal-review-alert strong {
+    display: block;
+    font-size: var(--text-sm);
+    margin-bottom: 0.25rem;
+    color: #B45309;
+  }
+
+  .legal-body {
+    padding: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .legal-block h2 {
+    font-size: var(--text-xl);
+    margin-bottom: 0.75rem;
+    color: var(--color-text-heading);
+  }
+
+  .legal-block p {
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-block a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .legal-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+</style>
