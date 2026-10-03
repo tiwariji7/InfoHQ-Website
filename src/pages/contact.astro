@@ -230,10 +230,10 @@ const meta = {
                 </div>
               </div>
 
-              <!-- 2. Row: Phone / WhatsApp (Optional) | Company Name (Optional) -->
+              <!-- 2. Row: Phone / WhatsApp (Mandatory) | Company Name (Optional) -->
               <div class="form-fields-row-2">
                 <div class="form-field-group">
-                  <label for="contact-phone" class="field-label">Phone / WhatsApp <span class="optional-tag">(Optional)</span></label>
+                  <label for="contact-phone" class="field-label">Phone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
                   <div class="field-input-wrapper">
                     <span class="input-leading-icon" aria-hidden="true">
                       <!-- WhatsApp/Phone Icon -->
@@ -245,11 +245,13 @@ const meta = {
                       type="tel" 
                       id="contact-phone" 
                       name="phone" 
+                      required
                       class="field-input" 
                       placeholder="+91 98765 43210"
                       autocomplete="tel"
                     />
                   </div>
+                  <span class="field-error-message" id="phone-error" role="alert"></span>
                 </div>
 
                 <div class="form-field-group">
@@ -431,16 +433,16 @@ const meta = {
                 </div>
               </div>
 
-              <!-- 6. Preferred way to connect (Optional) -->
+              <!-- 6. Preferred way to connect (Mandatory) -->
               <div class="form-field-group">
                 <fieldset class="selectable-fieldset">
-                  <legend class="field-label">Preferred way to connect <span class="optional-tag">(Optional)</span></legend>
+                  <legend class="field-label">Preferred way to connect <span class="req" aria-hidden="true">*</span></legend>
                   
                   <div class="preferred-chips-grid" role="radiogroup">
                     
-                    <!-- Email (default checked) -->
+                    <!-- Email -->
                     <label class="preferred-chip-label" for="pref-email">
-                      <input type="radio" id="pref-email" name="preferredContact" value="Email" class="sr-only-radio" checked />
+                      <input type="radio" id="pref-email" name="preferredContact" value="Email" class="sr-only-radio" required />
                       <div class="preferred-chip-box">
                         <span class="chip-icon" aria-hidden="true"><Mail size={16} stroke-width={2} /></span>
                         <span class="chip-text">Email</span>
@@ -474,6 +476,7 @@ const meta = {
 
                   </div>
                 </fieldset>
+                <span class="field-error-message" id="preferred-error" role="alert"></span>
               </div>
 
               <!-- 7. Submit button: Full Width, Brand Gradient, Trailing Arrow -->
@@ -1401,6 +1404,149 @@ const meta = {
     const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement | null;
     const feedbackBanner = document.getElementById('form-feedback-message');
 
+    const nameInput = document.getElementById('contact-name') as HTMLInputElement | null;
+    const emailInput = document.getElementById('contact-email') as HTMLInputElement | null;
+    const phoneInput = document.getElementById('contact-phone') as HTMLInputElement | null;
+    const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
+    const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
+    const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
+
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const phoneError = document.getElementById('phone-error');
+    const serviceError = document.getElementById('service-error');
+    const briefError = document.getElementById('brief-error');
+    const preferredError = document.getElementById('preferred-error');
+
+    // Known disposable / temporary email domains
+    const DISPOSABLE_EMAIL_DOMAINS = new Set([
+      'tempmail.com', 'temp-mail.org', 'tempmail.net', 'tempmail.io', 'tempmail.ninja',
+      'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org',
+      'guerrillamail.biz', 'sharklasers.com', 'grr.la', 'guerrillamailblock.com',
+      '10minutemail.com', '10minutemail.net', 'throwawaymail.com', 'yopmail.com',
+      'yopmail.fr', 'yopmail.net', 'cool.fr.nf', 'jetable.fr.nf', 'trashmail.com',
+      'trashmail.net', 'dispostable.com', 'getnada.com', 'abv.bg', 'mohmal.com',
+      'crazymailing.com', 'burnermail.io', 'inboxkitten.com', 'maildrop.cc',
+      'fakeinbox.com', 'emailondeck.com', 'mytemp.email', 'tempail.com',
+      'generator.email', 'fakemailgenerator.com', 'discard.email', 'dropmail.me',
+      'trashmail.de', 'zillamail.com', 'maildrop.cf', 'mailforspam.com'
+    ]);
+
+    // Obvious spam/random test emails
+    const SPAM_TEST_EMAILS = new Set([
+      'test@test.com', 'asdf@asdf.com', 'abc@xyz.com', 'fake@fake.com',
+      'user@example.com', 'random@random.com', 'admin@admin.com', 'sample@sample.com'
+    ]);
+
+    // 1. Live Name Formatting: Only characters, first letter of each word in capital
+    if (nameInput) {
+      nameInput.addEventListener('input', () => {
+        const start = nameInput.selectionStart;
+        const oldVal = nameInput.value;
+        // Strip numbers and symbols, keep only letters and spaces
+        let newVal = oldVal.replace(/[^a-zA-Z\s]/g, '');
+        // Capitalize first letter of each word
+        newVal = newVal.replace(/(?:^|\s)([a-z])/g, (match) => match.toUpperCase());
+        if (newVal !== oldVal) {
+          nameInput.value = newVal;
+          if (start !== null) {
+            nameInput.setSelectionRange(start, start);
+          }
+        }
+        if (nameError) nameError.textContent = '';
+        nameInput.classList.remove('has-error');
+      });
+
+      nameInput.addEventListener('blur', () => {
+        nameInput.value = nameInput.value.trim().replace(/\s+/g, ' ');
+      });
+    }
+
+    // 2. Email error clearing on input
+    if (emailInput) {
+      emailInput.addEventListener('input', () => {
+        if (emailError) emailError.textContent = '';
+        emailInput.classList.remove('has-error');
+      });
+    }
+
+    // 3. Live Phone Formatting: Only numbers, auto-add +91, max 10 mobile digits
+    if (phoneInput) {
+      phoneInput.addEventListener('focus', () => {
+        if (!phoneInput.value.trim()) {
+          phoneInput.value = '+91 ';
+        }
+      });
+
+      phoneInput.addEventListener('input', () => {
+        const val = phoneInput.value;
+        // Extract raw digits
+        let rawDigits = val.replace(/\D/g, '');
+
+        // If user entered 91 at the beginning, strip it to avoid duplicates
+        if (rawDigits.startsWith('91')) {
+          rawDigits = rawDigits.slice(2);
+        } else if (rawDigits.startsWith('0')) {
+          rawDigits = rawDigits.slice(1);
+        }
+
+        // Limit to 10 Indian mobile digits
+        rawDigits = rawDigits.slice(0, 10);
+
+        if (rawDigits.length > 0) {
+          if (rawDigits.length > 5) {
+            phoneInput.value = `+91 ${rawDigits.slice(0, 5)} ${rawDigits.slice(5)}`;
+          } else {
+            phoneInput.value = `+91 ${rawDigits}`;
+          }
+        } else if (val.includes('+')) {
+          phoneInput.value = '+91 ';
+        } else {
+          phoneInput.value = '';
+        }
+
+        if (phoneError) phoneError.textContent = '';
+        phoneInput.classList.remove('has-error');
+      });
+
+      phoneInput.addEventListener('blur', () => {
+        const rawDigits = phoneInput.value.replace(/\D/g, '').replace(/^91/, '');
+        if (!rawDigits) {
+          phoneInput.value = '';
+        }
+      });
+    }
+
+    // 4. Live Company Formatting: Numbers & characters allowed, first letter of each word in capital
+    if (companyInput) {
+      companyInput.addEventListener('input', () => {
+        const start = companyInput.selectionStart;
+        const oldVal = companyInput.value;
+        // Allow letters, numbers, spaces, and common business characters (&, ., -, ,, /)
+        let newVal = oldVal.replace(/[^a-zA-Z0-9\s&.\-,/]/g, '');
+        // Capitalize first letter of each word
+        newVal = newVal.replace(/(?:^|\s)([a-z])/g, (match) => match.toUpperCase());
+        if (newVal !== oldVal) {
+          companyInput.value = newVal;
+          if (start !== null) {
+            companyInput.setSelectionRange(start, start);
+          }
+        }
+      });
+
+      companyInput.addEventListener('blur', () => {
+        companyInput.value = companyInput.value.trim().replace(/\s+/g, ' ');
+      });
+    }
+
+    // 5. Preferred Contact: Clear error when selected
+    const preferredRadios = form.querySelectorAll('input[name="preferredContact"]');
+    preferredRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (preferredError) preferredError.textContent = '';
+      });
+    });
+
     // Live Character Counter
     if (textarea && charCounter) {
       const updateCounter = () => {
@@ -1413,7 +1559,11 @@ const meta = {
         }
       };
 
-      textarea.addEventListener('input', updateCounter);
+      textarea.addEventListener('input', () => {
+        updateCounter();
+        if (briefError) briefError.textContent = '';
+        textarea.classList.remove('has-error');
+      });
       updateCounter();
     }
 
@@ -1421,49 +1571,88 @@ const meta = {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const nameInput = document.getElementById('contact-name') as HTMLInputElement | null;
-      const emailInput = document.getElementById('contact-email') as HTMLInputElement | null;
-      const phoneInput = document.getElementById('contact-phone') as HTMLInputElement | null;
-      const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
-      const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
-      const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
-
-      const nameError = document.getElementById('name-error');
-      const emailError = document.getElementById('email-error');
-      const serviceError = document.getElementById('service-error');
-      const briefError = document.getElementById('brief-error');
-
-      // Clear errors
+      // Clear previous error messages & states
       if (nameError) nameError.textContent = '';
       if (emailError) emailError.textContent = '';
+      if (phoneError) phoneError.textContent = '';
       if (serviceError) serviceError.textContent = '';
       if (briefError) briefError.textContent = '';
+      if (preferredError) preferredError.textContent = '';
       if (feedbackBanner) feedbackBanner.style.display = 'none';
 
       nameInput?.classList.remove('has-error');
       emailInput?.classList.remove('has-error');
+      phoneInput?.classList.remove('has-error');
       textarea?.classList.remove('has-error');
 
       let hasError = false;
 
-      // 1. Validate Full Name
+      // 1. Validate Full Name (letters only, first and last name capitalized)
       const fullName = nameInput?.value.trim() || '';
+      const nameParts = fullName.split(/\s+/).filter(Boolean);
       if (!fullName) {
         if (nameError) nameError.textContent = 'Please enter your full name.';
         nameInput?.classList.add('has-error');
         hasError = true;
+      } else if (!/^[A-Za-z\s]+$/.test(fullName)) {
+        if (nameError) nameError.textContent = 'Name should only contain letters (no numbers or symbols).';
+        nameInput?.classList.add('has-error');
+        hasError = true;
+      } else if (nameParts.length < 2) {
+        if (nameError) nameError.textContent = 'Please enter both first and last name (e.g. Rahul Sharma).';
+        nameInput?.classList.add('has-error');
+        hasError = true;
+      } else if (!nameParts.every((part) => /^[A-Z][a-zA-Z]*$/.test(part))) {
+        if (nameError) nameError.textContent = 'First letter of each name must be capitalized (e.g. Rahul Sharma).';
+        nameInput?.classList.add('has-error');
+        hasError = true;
       }
 
-      // 2. Validate Work Email
-      const email = emailInput?.value.trim() || '';
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email || !emailRegex.test(email)) {
-        if (emailError) emailError.textContent = 'Please enter a valid work email address.';
+      // 2. Validate Work Email (proper format, not disposable/temp, not random spam)
+      const email = emailInput?.value.trim().toLowerCase() || '';
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const emailDomain = email.split('@')[1] || '';
+
+      if (!email) {
+        if (emailError) emailError.textContent = 'Please enter your work email address.';
+        emailInput?.classList.add('has-error');
+        hasError = true;
+      } else if (!emailRegex.test(email)) {
+        if (emailError) emailError.textContent = 'Please enter a valid email format (e.g. rahul@company.com).';
+        emailInput?.classList.add('has-error');
+        hasError = true;
+      } else if (DISPOSABLE_EMAIL_DOMAINS.has(emailDomain)) {
+        if (emailError) emailError.textContent = 'Disposable/temporary emails are not accepted. Please use a real work or personal email.';
+        emailInput?.classList.add('has-error');
+        hasError = true;
+      } else if (SPAM_TEST_EMAILS.has(email) || /^([a-zA-Z0-9])\1{4,}@/.test(email)) {
+        if (emailError) emailError.textContent = 'Please enter a real, active email address.';
         emailInput?.classList.add('has-error');
         hasError = true;
       }
 
-      // 3. Validate Service Selection
+      // 3. Validate Phone / WhatsApp (mandatory, numbers only, real 10-digit mobile)
+      const phone = phoneInput?.value.trim() || '';
+      const rawPhoneDigits = phone.replace(/\D/g, '').replace(/^91/, '');
+      const isRepeatedPhone = /^(\d)\1{9}$/.test(rawPhoneDigits);
+      const isSequentialPhone = rawPhoneDigits === '1234567890' || rawPhoneDigits === '9876543210' || rawPhoneDigits === '0123456789';
+      const isValidIndianMobile = /^[6-9]\d{9}$/.test(rawPhoneDigits);
+
+      if (!phone || rawPhoneDigits.length === 0) {
+        if (phoneError) phoneError.textContent = 'Phone / WhatsApp number is required.';
+        phoneInput?.classList.add('has-error');
+        hasError = true;
+      } else if (rawPhoneDigits.length !== 10 || !isValidIndianMobile) {
+        if (phoneError) phoneError.textContent = 'Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.';
+        phoneInput?.classList.add('has-error');
+        hasError = true;
+      } else if (isRepeatedPhone || isSequentialPhone) {
+        if (phoneError) phoneError.textContent = 'Please enter a real, active mobile number (not repetitive or sequential).';
+        phoneInput?.classList.add('has-error');
+        hasError = true;
+      }
+
+      // 4. Validate Service Selection
       const selectedServiceRadio = form.querySelector('input[name="serviceType"]:checked') as HTMLInputElement | null;
       const serviceType = selectedServiceRadio ? selectedServiceRadio.value : '';
       if (!serviceType) {
@@ -1471,7 +1660,7 @@ const meta = {
         hasError = true;
       }
 
-      // 4. Validate Project Brief / Requirement text
+      // 5. Validate Project Brief / Requirement text
       const projectBrief = textarea?.value.trim() || '';
       if (!projectBrief || projectBrief.length < 10) {
         if (briefError) briefError.textContent = 'Please provide details about your idea (at least 10 characters).';
@@ -1479,22 +1668,36 @@ const meta = {
         hasError = true;
       }
 
+      // 6. Validate Preferred Way to Connect (mandatory, user must select)
+      const selectedContactRadio = form.querySelector('input[name="preferredContact"]:checked') as HTMLInputElement | null;
+      const preferredContact = selectedContactRadio ? selectedContactRadio.value : '';
+      if (!preferredContact) {
+        if (preferredError) preferredError.textContent = 'Please select your preferred way to connect.';
+        hasError = true;
+      }
+
       if (hasError) {
         // Focus first field with error
-        if (!fullName) nameInput?.focus();
-        else if (!email || !emailRegex.test(email)) emailInput?.focus();
-        else if (!serviceType) form.querySelector('input[name="serviceType"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        else if (!projectBrief || projectBrief.length < 10) textarea?.focus();
+        if (!fullName || nameInput?.classList.contains('has-error')) {
+          nameInput?.focus();
+        } else if (!email || emailInput?.classList.contains('has-error')) {
+          emailInput?.focus();
+        } else if (!phone || phoneInput?.classList.contains('has-error')) {
+          phoneInput?.focus();
+        } else if (!serviceType) {
+          form.querySelector('input[name="serviceType"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!projectBrief || projectBrief.length < 10) {
+          textarea?.focus();
+        } else if (!preferredContact) {
+          form.querySelector('.preferred-chips-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         return;
       }
 
       // Retrieve optional fields
-      const phone = phoneInput?.value.trim() || '';
       const company = companyInput?.value.trim() || '';
       const budget = budgetSelect?.value || '';
       const timeline = timelineSelect?.value || '';
-      const selectedContactRadio = form.querySelector('input[name="preferredContact"]:checked') as HTMLInputElement | null;
-      const preferredContact = selectedContactRadio ? selectedContactRadio.value : 'Email';
 
       // Submit state
       const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Book Free Consultation';
@@ -1536,9 +1739,6 @@ const meta = {
             feedbackBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
           form.reset();
-          // Reset default radios & counter
-          const defaultContactRadio = document.getElementById('pref-email') as HTMLInputElement | null;
-          if (defaultContactRadio) defaultContactRadio.checked = true;
           if (charCounter) charCounter.textContent = '0/1000';
         } else {
           if (feedbackBanner) {
