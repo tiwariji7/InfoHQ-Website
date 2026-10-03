@@ -188,6 +188,21 @@ const meta = {
 
             <!-- Form -->
             <form id="consultation-form" class="consultation-form" novalidate>
+
+              <!-- Anti-spam honeypot: hidden from normal visitors -->
+              <div
+                style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
+                aria-hidden="true"
+              >
+                <label for="website">Website</label>
+                <input
+                  type="text"
+                  id="website"
+                  name="website"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
               
               <!-- 1. Row: Full Name * | Work Email * -->
               <div class="form-fields-row-2">
@@ -1410,6 +1425,7 @@ const meta = {
     const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
     const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
     const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
+    const websiteInput = document.getElementById('website') as HTMLInputElement | null;
 
     const nameError = document.getElementById('name-error');
     const emailError = document.getElementById('email-error');
@@ -1716,7 +1732,8 @@ const meta = {
         projectBrief,
         budget,
         timeline,
-        preferredContact
+        preferredContact,
+        website: websiteInput?.value.trim() || ''
       };
 
       try {
