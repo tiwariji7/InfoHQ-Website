@@ -1517,7 +1517,7 @@ const meta = {
       };
 
       try {
-        const response = await fetch('/api/contact', {
+        const response = await fetch('https://infohq-api.tiwariji2821.workers.dev/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
