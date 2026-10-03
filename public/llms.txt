@@ -1,5 +1,5 @@
 # InfoHQ
-> InfoHQ (Alpha AI Services) is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow — operating a hybrid model of B2B client engineering and proprietary AI SaaS products.
+> InfoHQ is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow — operating a hybrid model of B2B client engineering and proprietary AI SaaS products.
 
 ## Services
 - [AI & Intelligent Systems](https://infohq.in/services/ai-intelligent-systems): Practical AI agents, RAG systems, and custom-built business software.
@@ -19,4 +19,4 @@
 InfoHQ offers two engagement models — fixed-scope One-Time Projects and structured Monthly Engineering Retainers (starting at ₹9,999/month with 100% code and IP ownership). View full pricing details at: https://infohq.in/pricing
 
 ## Company
-InfoHQ (also known as Alpha AI Services) — Pune & Prayagraj, India. Contact: contact@infohq.in
+InfoHQ — Pune & Prayagraj, India. Contact: contact@infohq.in
