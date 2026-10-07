@@ -1,0 +1,114 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  text?: string;
+  buttonText?: string;
+  href?: string;
+}
+
+const {
+  text = 'Building a high-scale digital product or AI system? Talk with our senior engineers.',
+  buttonText = 'Book Free Consultation',
+  href = '/contact'
+} = Astro.props;
+---
+
+<aside class="mid-article-cta" aria-label="Consultation call to action">
+  <div class="mid-cta-inner">
+    <div class="mid-cta-content">
+      <div class="mid-cta-badge">Engineering Advisory</div>
+      <p class="mid-cta-text">{text}</p>
+    </div>
+    <div class="mid-cta-action">
+      <Button
+        variant="primary"
+        size="md"
+        href={href}
+        label={buttonText}
+        icon="arrow"
+      />
+    </div>
+  </div>
+</aside>
+
+<style>
+  .mid-article-cta {
+    margin: 2.5rem 0;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+    background: linear-gradient(135deg, rgba(124, 92, 232, 0.08) 0%, rgba(243, 84, 151, 0.04) 100%), var(--color-bg-card);
+    border: 1px solid rgba(124, 92, 232, 0.25);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mid-article-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--brand-gradient);
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+  }
+
+  .mid-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mid-cta-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mid-cta-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .mid-cta-text {
+    font-size: var(--text-base);
+    color: var(--color-text-heading);
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .mid-cta-action {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 767px) {
+    .mid-cta-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .mid-cta-action {
+      width: 100%;
+    }
+
+    .mid-cta-action :global(.infohq-btn) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

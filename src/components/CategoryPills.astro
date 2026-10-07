@@ -1,0 +1,100 @@
+---
+import { BLOG_CATEGORY_LIST } from '../data/blogCategories';
+
+interface Props {
+  activeCategory?: string | null;
+}
+
+const { activeCategory = null } = Astro.props;
+
+const items = [
+  { slug: null, label: 'All', href: '/blog' },
+  ...BLOG_CATEGORY_LIST.map((cat) => ({
+    slug: cat.slug,
+    label: cat.label,
+    href: `/blog/${cat.slug}`
+  }))
+];
+---
+
+<nav class="category-pills-nav" aria-label="Blog categories">
+  <div class="category-pills-scroll">
+    {items.map((item) => {
+      const isActive = item.slug === activeCategory || (!item.slug && !activeCategory);
+      return (
+        <a
+          href={item.href}
+          class={`cat-pill ${isActive ? 'active' : ''}`}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          <span class="pill-label">{item.label}</span>
+        </a>
+      );
+    })}
+  </div>
+</nav>
+
+<style>
+  .category-pills-nav {
+    width: 100%;
+    margin: 2rem 0 3rem;
+  }
+
+  .category-pills-scroll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .category-pills-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-card);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cat-pill:hover {
+    color: var(--color-text-heading);
+    border-color: rgba(124, 92, 232, 0.4);
+    background: rgba(124, 92, 232, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .cat-pill.active {
+    color: #FFFFFF;
+    background: var(--brand-gradient);
+    border-color: transparent;
+    box-shadow: 0 4px 16px -2px rgba(124, 92, 232, 0.45);
+  }
+
+  .cat-pill:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 767px) {
+    .category-pills-scroll {
+      justify-content: flex-start;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+</style>

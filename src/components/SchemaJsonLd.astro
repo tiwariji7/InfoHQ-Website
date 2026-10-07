@@ -2,7 +2,7 @@
 import { serviceSchemasRecord } from '../data/serviceSchemas';
 
 interface Props {
-  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio' | 'blog-post';
   serviceData?: {
     slug?: string;
     name: string;
@@ -10,10 +10,21 @@ interface Props {
     techStack?: string[];
     url: string;
   };
+  blogPostData?: {
+    title: string;
+    description: string;
+    url: string;
+    pubDate: string | Date;
+    updatedDate?: string | Date;
+    image?: string;
+    author?: string;
+    category?: string;
+  };
+  blogPosts?: any[];
   customSchema?: Record<string, any>;
 }
 
-const { type = 'home', serviceData, customSchema } = Astro.props;
+const { type = 'home', serviceData, blogPostData, blogPosts, customSchema } = Astro.props;
 
 // Confirmed Organization Schema (Steps 7 & 8)
 // Social URLs confirmed from codebase: Instagram, YouTube, WhatsApp.
@@ -322,18 +333,93 @@ if (customSchema) {
   });
 } else if (type === 'blogs') {
   schemas.push(organizationBase);
-  schemas.push({
+
+  const blogSchema: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'InfoHQ Engineering Blog',
-    url: 'https://infohq.in/blogs',
+    url: 'https://infohq.in/blog',
     description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
     publisher: {
       '@type': 'Organization',
       name: 'InfoHQ',
-      url: 'https://infohq.in'
+      url: 'https://infohq.in',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://infohq.in/images/infohq-logo.webp'
+      }
     }
-  });
+  };
+
+  if (blogPosts && blogPosts.length > 0) {
+    blogSchema.blogPost = blogPosts.map((post: any, idx: number) => ({
+      '@type': 'BlogPosting',
+      headline: post.data.title,
+      description: post.data.description,
+      url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`,
+      datePublished: new Date(post.data.pubDate).toISOString(),
+      author: {
+        '@type': 'Organization',
+        name: 'InfoHQ'
+      }
+    }));
+
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: blogPosts.map((post: any, idx: number) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: post.data.title,
+        url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`
+      }))
+    });
+  }
+
+  schemas.push(blogSchema);
+} else if (type === 'blog-post' && blogPostData) {
+  schemas.push(organizationBase);
+
+  const postDate = new Date(blogPostData.pubDate).toISOString();
+  const modifiedDate = blogPostData.updatedDate
+    ? new Date(blogPostData.updatedDate).toISOString()
+    : postDate;
+
+  const blogPostingSchema: Record<string, any> = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: blogPostData.title,
+    description: blogPostData.description,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': blogPostData.url
+    },
+    url: blogPostData.url,
+    author: {
+      '@type': 'Organization',
+      name: blogPostData.author || 'InfoHQ',
+      url: 'https://infohq.in'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://infohq.in/images/infohq-logo.webp'
+      }
+    },
+    datePublished: postDate,
+    dateModified: modifiedDate
+  };
+
+  if (blogPostData.image) {
+    blogPostingSchema.image = blogPostData.image.startsWith('http')
+      ? blogPostData.image
+      : `https://infohq.in${blogPostData.image.startsWith('/') ? '' : '/'}${blogPostData.image}`;
+  }
+
+  schemas.push(blogPostingSchema);
 } else if (type === 'portfolio') {
   schemas.push(organizationBase);
   schemas.push({

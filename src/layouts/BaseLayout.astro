@@ -12,9 +12,14 @@ interface Props {
   keywords?: string;
   ogImage?: string;
   ogType?: 'website' | 'article';
-  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio' | 'blog-post';
   serviceData?: any;
+  blogPostData?: any;
+  blogPosts?: any[];
   showMobileCTA?: boolean;
+  canonicalUrl?: string;
+  prevUrl?: string;
+  nextUrl?: string;
 }
 
 const {
@@ -25,10 +30,16 @@ const {
   ogType = 'website',
   schemaType = 'home',
   serviceData,
-  showMobileCTA = true
+  blogPostData,
+  blogPosts,
+  showMobileCTA = true,
+  canonicalUrl,
+  prevUrl,
+  nextUrl
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, 'https://infohq.in');
+const fallbackCanonical = new URL(Astro.url.pathname, 'https://infohq.in');
+const finalCanonical = canonicalUrl ? new URL(canonicalUrl, 'https://infohq.in') : fallbackCanonical;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -40,7 +51,9 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={finalCanonical} />
+    {prevUrl && <link rel="prev" href={new URL(prevUrl, 'https://infohq.in')} />}
+    {nextUrl && <link rel="next" href={new URL(nextUrl, 'https://infohq.in')} />}
 
     <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/webp" sizes="32x32" href="/favicon.webp" />
@@ -50,7 +63,7 @@ const currentPath = Astro.url.pathname;
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={finalCanonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, 'https://infohq.in')} />
@@ -59,13 +72,18 @@ const currentPath = Astro.url.pathname;
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:url" content={finalCanonical} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, 'https://infohq.in')} />
 
     <!-- Structured Data (JSON-LD) -->
-    <SchemaJsonLd type={schemaType} serviceData={serviceData} />
+    <SchemaJsonLd
+      type={schemaType}
+      serviceData={serviceData}
+      blogPostData={blogPostData}
+      blogPosts={blogPosts}
+    />
 
     <!-- Tracking scripts placeholder - controlled by Cookie Consent (Rule 2 + Phase 9) -->
     <script is:inline>
