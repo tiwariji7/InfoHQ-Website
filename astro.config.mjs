@@ -15,6 +15,8 @@ export default defineConfig({
     imageService: 'passthrough'
   }),
   output: 'static',
+  // @ts-ignore
+  session: false,
   integrations: [
     mdx(),
     sitemap({
