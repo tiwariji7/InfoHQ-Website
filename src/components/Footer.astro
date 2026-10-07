@@ -38,8 +38,8 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
           <img 
             src="/images/infohq-logo-footer.webp" 
             alt="InfoHQ" 
-            width="135" 
-            height="45" 
+            width="160" 
+            height="53" 
             class="footer-logo"
             loading="lazy"
           />
@@ -83,7 +83,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
         <!-- Social Media Links (LinkedIn, YouTube, Instagram, Twitter) pushed below Email & WhatsApp -->
         <div class="footer-social-links" aria-label="Social Media">
           <a 
-            href="https://www.linkedin.com/in/tiwarijii" 
+            href="https://www.linkedin.com/company/infohq" 
             target="_blank" 
             rel="noopener noreferrer" 
             class="footer-social-icon social-linkedin" 
@@ -471,8 +471,9 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
   }
 
   .footer-logo {
-    width: 120px;
-    height: auto;
+    height: 32px;
+    width: auto;
+    object-fit: contain;
     display: block;
   }
 
@@ -869,6 +870,10 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
       margin-bottom: 4px;
     }
 
+    .footer-logo {
+      height: 30px;
+    }
+
     .footer-tagline {
       max-width: 520px;
       font-size: 13.5px;
@@ -942,8 +947,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     }
 
     .footer-logo {
-      width: 108px;
-      height: auto;
+      height: 26px;
     }
 
     .footer-tagline {
@@ -1101,6 +1105,9 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
 
     /* Extra compact adjustments for very small screens (< 360px) */
     @media (max-width: 359px) {
+      .footer-logo {
+        height: 24px;
+      }
       .footer-main {
         gap: 14px 6px;
       }

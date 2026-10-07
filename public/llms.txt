@@ -15,8 +15,31 @@
 - [Social Media Management](https://infohq.in/services/social-media-management): Monthly content calendar planning, custom branded post/carousel design for LinkedIn, X/Twitter, and Instagram, technical copywriting, and analytics.
 - [Digital Marketing](https://infohq.in/services/digital-marketing): Search Engine Optimization (SEO), high-intent Google Search and LinkedIn paid ad campaigns, conversion funnel tracking with GA4, and landing page optimization.
 
+## Portfolio & Case Studies
+- [Portfolio Overview](https://infohq.in/portfolio): Real-world shipped projects across web applications, mobile platforms, enterprise AI, and workflow automation.
+- [SeHAT SmartCare AI](https://infohq.in/portfolio#sehat): Intelligent Android healthcare assistance platform combining medical language models, RAG (Retrieval-Augmented Generation), semantic search, report OCR, and multilingual support (English, Hindi, Hinglish).
+
+## Engineering Blog & Insights
+- [Blog Hub](https://infohq.in/blog): Technical articles, engineering teardowns, and actionable insights on AI, modern software architecture, and digital growth.
+- **Categories:**
+  - [AI & Machine Learning](https://infohq.in/blog/ai): Real-world applications of LLMs, RAG architectures, and autonomous agents.
+  - [Web Development](https://infohq.in/blog/web): Full-stack web frameworks, Astro, performance, and responsive UI.
+  - [Business Automation](https://infohq.in/blog/automation): Practical API integrations and workflow automation.
+  - [Cloud & Infrastructure](https://infohq.in/blog/cloud): Scalable cloud architectures, serverless, and CI/CD pipelines.
+  - [UI/UX Design](https://infohq.in/blog/design): Modern UI systems, typography, and human-centered design.
+- **Published Articles:**
+  - [What Is RAG (Retrieval-Augmented Generation) and Why It Matters for Your Business](https://infohq.in/blog/ai/what-is-rag-retrieval-augmented-generation): Complete guide on how RAG links LLMs to private business data, reduces hallucinations, and powers accurate conversational AI for Indian businesses.
+
 ## Pricing
 InfoHQ offers two engagement models — fixed-scope One-Time Projects and structured Monthly Engineering Retainers (starting at ₹9,999/month with 100% code and IP ownership). View full pricing details at: https://infohq.in/pricing
 
-## Company
-InfoHQ — Pune & Prayagraj, India. Contact: contact@infohq.in
+## Contact & Consultation
+- [Book a Free Consultation](https://infohq.in/contact): Free technical consultation with senior engineers. Receive a detailed proposal within 1 business day.
+- Email: contact@infohq.in
+- WhatsApp: +91 83818 35420 (https://wa.me/918381835420)
+- LinkedIn: https://www.linkedin.com/company/infohq
+- Location: Pune & Prayagraj, India (Serving clients pan-India and globally)
+
+## Legal
+- [Privacy Policy](https://infohq.in/privacy): DPDP Act 2023 compliant data protection policies.
+- [Terms of Service](https://infohq.in/terms): Engagement terms, IP ownership, and warranties.

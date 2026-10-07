@@ -43,3 +43,4 @@ Allow: /
 Disallow: /api/
 
 Sitemap: https://infohq.in/sitemap-index.xml
+Sitemap: https://infohq.in/sitemap-0.xml
