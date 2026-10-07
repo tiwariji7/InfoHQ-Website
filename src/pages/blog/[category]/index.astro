@@ -1,0 +1,212 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryPills from '../../../components/CategoryPills.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+import NewsletterForm from '../../../components/NewsletterForm.astro';
+import FinalCTA from '../../../components/FinalCTA.astro';
+import { BLOG_CATEGORY_LIST, type BlogCategoryInfo } from '../../../data/blogCategories';
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+  const pageSize = 9;
+
+  return BLOG_CATEGORY_LIST.map((cat) => {
+    const categoryPosts = allPosts.filter((p) => p.data.category === cat.slug);
+    const totalPages = Math.max(1, Math.ceil(categoryPosts.length / pageSize));
+    const pagePosts = categoryPosts.slice(0, pageSize);
+
+    return {
+      params: { category: cat.slug },
+      props: {
+        categoryInfo: cat,
+        posts: pagePosts,
+        currentPage: 1,
+        totalPages,
+        totalPosts: categoryPosts.length
+      }
+    };
+  });
+}
+
+interface Props {
+  categoryInfo: BlogCategoryInfo;
+  posts: any[];
+  currentPage: number;
+  totalPages: number;
+  totalPosts: number;
+}
+
+const { categoryInfo, posts, currentPage, totalPages, totalPosts } = Astro.props;
+
+const canonicalUrl = `https://infohq.in/blog/${categoryInfo.slug}`;
+const nextUrl = totalPages > 1 ? `https://infohq.in/blog/${categoryInfo.slug}/2` : undefined;
+---
+
+<BaseLayout
+  title={categoryInfo.title}
+  description={categoryInfo.description}
+  schemaType="blogs"
+  canonicalUrl={canonicalUrl}
+  nextUrl={nextUrl}
+  blogPosts={posts}
+>
+  <!-- Hero Section -->
+  <section class="section category-hero" aria-labelledby="category-heading">
+    <div class="container text-center">
+      <span class="text-eyebrow">{categoryInfo.label} Track</span>
+      <h1 id="category-heading" class="category-headline">
+        {categoryInfo.heroHeading}
+      </h1>
+      <p class="category-subheadline">
+        {categoryInfo.heroSubtitle}
+      </p>
+
+      <!-- Category Filter Pills -->
+      <CategoryPills activeCategory={categoryInfo.slug} />
+    </div>
+  </section>
+
+  <!-- Category Post Grid or Empty State -->
+  <section class="section category-listing-section" aria-label={`${categoryInfo.label} articles`}>
+    <div class="container">
+      {posts && posts.length > 0 ? (
+        <>
+          <div class="blog-grid">
+            {posts.map((post: any) => (
+              <BlogCard post={post} />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            baseUrl={`/blog/${categoryInfo.slug}`}
+          />
+        </>
+      ) : (
+        <div class="card empty-category-card">
+          <div class="empty-category-content">
+            <span class="empty-badge">{categoryInfo.label} Editorial Track</span>
+            <h2 class="empty-title">More {categoryInfo.label} Articles Coming Soon</h2>
+            <p class="empty-message">{categoryInfo.emptyMessage}</p>
+            <p class="empty-newsletter-callout">
+              Get notified immediately when new {categoryInfo.label} articles and architecture breakdowns are published.
+            </p>
+            <div class="newsletter-wrap">
+              <NewsletterForm />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <FinalCTA page="blogs" />
+</BaseLayout>
+
+<style>
+  .category-hero {
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: 1rem;
+    text-align: center;
+  }
+
+  .category-headline {
+    margin: 0.75rem 0 1.25rem;
+    font-size: var(--text-5xl);
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .category-subheadline {
+    font-size: var(--text-lg);
+    color: var(--color-text-body);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .category-listing-section {
+    padding-top: 1rem;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  /* Empty Category Card */
+  .empty-category-card {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 5vw, 3.5rem);
+    text-align: center;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-card);
+  }
+
+  .empty-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  .empty-title {
+    font-size: var(--text-3xl);
+    margin-bottom: 1rem;
+    color: var(--color-text-heading);
+  }
+
+  .empty-message {
+    font-size: var(--text-base);
+    color: var(--color-text-body);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-newsletter-callout {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-wrap {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1023px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+    .category-headline {
+      font-size: clamp(2rem, 7vw, 2.75rem);
+    }
+    .empty-category-card {
+      padding: 2rem 1.25rem;
+    }
+  }
+</style>

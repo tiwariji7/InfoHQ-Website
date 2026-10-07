@@ -1,0 +1,509 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryPills from '../../../components/CategoryPills.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+import MidCTA from '../../../components/MidCTA.astro';
+import FinalCTA from '../../../components/FinalCTA.astro';
+import { BLOG_CATEGORIES_DATA, BLOG_CATEGORY_LIST, type BlogCategoryInfo } from '../../../data/blogCategories';
+import { Calendar, User, ArrowLeft, Clock } from 'lucide-astro';
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+  const paths: any[] = [];
+  const pageSize = 9;
+
+  // 1. Paginated Category Pages (/blog/[category]/2, /blog/[category]/3...)
+  for (const cat of BLOG_CATEGORY_LIST) {
+    const categoryPosts = allPosts.filter((p) => p.data.category === cat.slug);
+    const totalPages = Math.ceil(categoryPosts.length / pageSize);
+
+    for (let pageNum = 2; pageNum <= totalPages; pageNum++) {
+      const start = (pageNum - 1) * pageSize;
+      const pagePosts = categoryPosts.slice(start, start + pageSize);
+
+      paths.push({
+        params: { category: cat.slug, slug: String(pageNum) },
+        props: {
+          type: 'category-page',
+          categoryInfo: cat,
+          posts: pagePosts,
+          currentPage: pageNum,
+          totalPages,
+          totalPosts: categoryPosts.length
+        }
+      });
+    }
+  }
+
+  // 2. Individual Blog Posts (/blog/[category]/[slug])
+  for (const post of allPosts) {
+    const postSlug = post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '');
+    paths.push({
+      params: { category: post.data.category, slug: postSlug },
+      props: {
+        type: 'post',
+        post
+      }
+    });
+  }
+
+  return paths;
+}
+
+const props = Astro.props;
+const { type } = props;
+
+// --- CATEGORY PAGINATION BRANCH ---
+let categoryInfo: BlogCategoryInfo | undefined;
+let posts: any[] = [];
+let currentPage = 1;
+let totalPages = 1;
+let categoryCanonicalUrl = '';
+let categoryPrevUrl: string | undefined;
+let categoryNextUrl: string | undefined;
+
+// --- INDIVIDUAL POST BRANCH ---
+let post: any = null;
+let ContentComponent: any = null;
+let postCanonicalUrl = '';
+let postCategoryInfo: any = null;
+let formattedDate = '';
+let heroSrc = '';
+let heroAlt = '';
+let hasMidCtaInBody = false;
+
+if (type === 'category-page') {
+  categoryInfo = props.categoryInfo;
+  posts = props.posts;
+  currentPage = props.currentPage;
+  totalPages = props.totalPages;
+
+  categoryCanonicalUrl = `https://infohq.in/blog/${categoryInfo.slug}/${currentPage}`;
+  categoryPrevUrl = currentPage > 1
+    ? (currentPage - 1 === 1 ? `https://infohq.in/blog/${categoryInfo.slug}` : `https://infohq.in/blog/${categoryInfo.slug}/${currentPage - 1}`)
+    : undefined;
+  categoryNextUrl = currentPage < totalPages ? `https://infohq.in/blog/${categoryInfo.slug}/${currentPage + 1}` : undefined;
+} else if (type === 'post') {
+  post = props.post;
+  const postData = post.data;
+  postCategoryInfo = BLOG_CATEGORIES_DATA[postData.category] || { label: postData.category, slug: postData.category };
+  const postSlug = post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '');
+  postCanonicalUrl = `https://infohq.in/blog/${postData.category}/${postSlug}`;
+
+  formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(new Date(postData.pubDate));
+
+  heroSrc = typeof postData.heroImage === 'string' ? postData.heroImage : postData.heroImage?.src;
+  heroAlt = (typeof postData.heroImage === 'object' && postData.heroImage?.alt) ? postData.heroImage.alt : (postData.heroImageAlt || postData.title);
+
+  // Render post content via Astro Content Layer
+  const rendered = await render(post);
+  ContentComponent = rendered.Content;
+
+  // Check if MidCTA is already placed manually in post content
+  const rawBody = post.body || '';
+  hasMidCtaInBody = rawBody.includes('<MidCTA') || rawBody.includes('mid-article-cta');
+}
+---
+
+{type === 'category-page' && categoryInfo && (
+  <BaseLayout
+    title={`${categoryInfo.label} Articles — Page ${currentPage} | InfoHQ Blog`}
+    description={categoryInfo.description}
+    schemaType="blogs"
+    canonicalUrl={categoryCanonicalUrl}
+    prevUrl={categoryPrevUrl}
+    nextUrl={categoryNextUrl}
+    blogPosts={posts}
+  >
+    <!-- Category Hero Section -->
+    <section class="section category-hero" aria-labelledby="category-heading">
+      <div class="container text-center">
+        <span class="text-eyebrow">{categoryInfo.label} Track &bull; Page {currentPage}</span>
+        <h1 id="category-heading" class="category-headline">
+          {categoryInfo.heroHeading}
+        </h1>
+        <p class="category-subheadline">
+          {categoryInfo.heroSubtitle}
+        </p>
+
+        <!-- Category Filter Pills -->
+        <CategoryPills activeCategory={categoryInfo.slug} />
+      </div>
+    </section>
+
+    <!-- Post Listing Grid -->
+    <section class="section category-listing-section" aria-label={`${categoryInfo.label} articles`}>
+      <div class="container">
+        <div class="blog-grid">
+          {posts.map((p: any) => (
+            <BlogCard post={p} />
+          ))}
+        </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          baseUrl={`/blog/${categoryInfo.slug}`}
+        />
+      </div>
+    </section>
+
+    <FinalCTA page="blogs" />
+  </BaseLayout>
+)}
+
+{type === 'post' && post && (
+  <BaseLayout
+    title={`${post.data.title} | InfoHQ`}
+    description={post.data.description}
+    keywords={post.data.keywords && post.data.keywords.length > 0 ? post.data.keywords.join(', ') : undefined}
+    ogType="article"
+    ogImage={heroSrc || '/images/infohq-logo.webp'}
+    schemaType="blog-post"
+    canonicalUrl={postCanonicalUrl}
+    blogPostData={{
+      title: post.data.title,
+      description: post.data.description,
+      url: postCanonicalUrl,
+      pubDate: post.data.pubDate,
+      updatedDate: post.data.updatedDate,
+      image: heroSrc,
+      author: post.data.author || 'InfoHQ',
+      category: post.data.category
+    }}
+  >
+    <!-- Post Article Header -->
+    <article class="blog-post-article" itemscope itemtype="https://schema.org/BlogPosting">
+      <header class="post-header">
+        <div class="container post-header-container">
+          <nav class="post-breadcrumbs" aria-label="Breadcrumb">
+            <a href={`/blog/${post.data.category}`} class="back-link">
+              <ArrowLeft size={16} />
+              <span>Back to {postCategoryInfo.label} Articles</span>
+            </a>
+          </nav>
+
+          <div class="post-category-badge-wrap">
+            <span class="post-category-badge">{postCategoryInfo.label}</span>
+          </div>
+
+          <h1 class="post-headline" itemprop="headline">{post.data.title}</h1>
+
+          <div class="post-meta-bar">
+            <div class="meta-author" itemprop="author" itemscope itemtype="https://schema.org/Organization">
+              <User size={16} class="meta-icon" />
+              <span itemprop="name">{post.data.author || 'InfoHQ Team'}</span>
+            </div>
+            <span class="meta-sep">&bull;</span>
+            <div class="meta-date">
+              <Calendar size={16} class="meta-icon" />
+              <time datetime={new Date(post.data.pubDate).toISOString()} itemprop="datePublished">
+                {formattedDate}
+              </time>
+            </div>
+          </div>
+
+          {heroSrc && (
+            <figure class="post-hero-figure">
+              <img
+                src={heroSrc}
+                alt={heroAlt}
+                loading="eager"
+                fetchpriority="high"
+                class="post-hero-img"
+                itemprop="image"
+              />
+              {heroAlt && heroAlt !== post.data.title && (
+                <figcaption class="post-hero-caption">{heroAlt}</figcaption>
+              )}
+            </figure>
+          )}
+        </div>
+      </header>
+
+      <!-- Post Main Content -->
+      <div class="post-body-container container">
+        <div class="post-content-layout">
+          <div class="post-prose" itemprop="articleBody">
+            {ContentComponent && (
+              <ContentComponent components={{ MidCTA }} />
+            )}
+
+            <!-- Safe fallback MidCTA if author did not manually embed one -->
+            {!hasMidCtaInBody && (
+              <MidCTA />
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- End of Article Final CTA -->
+    <FinalCTA page="blog-post" />
+  </BaseLayout>
+)}
+
+<style>
+  /* Category View Styles */
+  .category-hero {
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: 1rem;
+    text-align: center;
+  }
+
+  .category-headline {
+    margin: 0.75rem 0 1.25rem;
+    font-size: var(--text-5xl);
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .category-subheadline {
+    font-size: var(--text-lg);
+    color: var(--color-text-body);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .category-listing-section {
+    padding-top: 1rem;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  @media (max-width: 1023px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Single Post View Styles */
+  .blog-post-article {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .post-header {
+    padding-top: clamp(2.5rem, 4vw, 4rem);
+    padding-bottom: clamp(2rem, 3.5vw, 3rem);
+    background: radial-gradient(circle at 50% 0%, rgba(124, 92, 232, 0.08) 0%, transparent 70%);
+  }
+
+  .post-header-container {
+    max-width: 860px;
+  }
+
+  .post-breadcrumbs {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+    transform: translateX(-3px);
+  }
+
+  .post-category-badge-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .post-category-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1px solid rgba(124, 92, 232, 0.2);
+  }
+
+  .post-headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.18;
+    color: var(--color-text-heading);
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .meta-author,
+  .meta-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .meta-icon {
+    color: var(--color-primary);
+  }
+
+  .meta-sep {
+    color: var(--color-border-card);
+  }
+
+  .post-hero-figure {
+    margin: 2rem 0 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border-card);
+    background: var(--color-bg-card);
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.4);
+  }
+
+  .post-hero-img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-hero-caption {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid var(--color-border-card);
+  }
+
+  /* Post Body Layout */
+  .post-body-container {
+    max-width: 860px;
+    margin-top: 2rem;
+  }
+
+  .post-prose {
+    font-size: clamp(1.05rem, 1.25vw, 1.15rem);
+    line-height: 1.8;
+    color: var(--color-text-body);
+  }
+
+  /* Prose typography styling */
+  .post-prose :global(h2) {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    line-height: 1.25;
+    color: var(--color-text-heading);
+    margin: 2.75rem 0 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .post-prose :global(h2:first-of-type) {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .post-prose :global(h3) {
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    line-height: 1.35;
+    color: var(--color-text-heading);
+    margin: 2rem 0 1rem;
+  }
+
+  .post-prose :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-prose :global(ul),
+  .post-prose :global(ol) {
+    margin: 1rem 0 1.75rem 1.75rem;
+  }
+
+  .post-prose :global(li) {
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+  }
+
+  .post-prose :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1.25rem 1.75rem;
+    border-left: 4px solid var(--color-primary);
+    background: rgba(124, 92, 232, 0.05);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--color-text-heading);
+  }
+
+  .post-prose :global(code) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.88em;
+    padding: 0.2em 0.4em;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    color: var(--color-grad-pink);
+  }
+
+  .post-prose :global(pre) {
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    background: #0d0c13 !important;
+    border: 1px solid var(--color-border-card);
+    overflow-x: auto;
+  }
+
+  .post-prose :global(pre code) {
+    background: transparent;
+    padding: 0;
+    color: #e2e8f0;
+  }
+
+  .post-prose :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .post-prose :global(a:hover) {
+    color: var(--color-grad-pink);
+  }
+
+  .post-prose :global(strong) {
+    color: var(--color-text-heading);
+    font-weight: 600;
+  }
+</style>
