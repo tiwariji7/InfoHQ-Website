@@ -14,6 +14,15 @@ author: "InfoHQ Team"
 heroImage:
   src: '/images/blog/what-is-rag-hero.webp'
   alt: 'Abstract illustration of documents flowing into an AI network, representing Retrieval-Augmented Generation'
+faqs:
+  - question: "Is RAG the same as fine-tuning a model?"
+    answer: "No. Fine-tuning changes the model's internal weights through additional training, which is slower and more expensive to update. RAG keeps the model unchanged and instead feeds it relevant information at the moment of the query, which makes updates as simple as editing a document."
+  - question: "Does RAG completely stop AI hallucinations?"
+    answer: "It significantly reduces them by grounding answers in real retrieved text, but it doesn't guarantee zero mistakes — the retrieval step and prompt design both need to be built carefully for RAG to be reliable in practice."
+  - question: "Can RAG work with Hindi, English, and mixed-language (Hinglish) content?"
+    answer: "Yes — with the right embedding model and retrieval setup, a RAG system can search and respond across multiple languages, which matters for businesses serving Indian users who mix English and Hindi naturally."
+  - question: "What kind of documents can a RAG system use?"
+    answer: "PDFs, Word documents, web pages, spreadsheets, support tickets, wikis, and scanned documents (via OCR) can all be processed into a RAG knowledge base, as long as they're converted into searchable text first."
 draft: false
 ---
 
@@ -31,6 +40,8 @@ RAG solves this without retraining the model. Instead, it adds a retrieval step 
 2. **The system searches a knowledge base** of your real documents &mdash; PDFs, wikis, product pages, past support tickets, policy documents &mdash; and pulls out the most relevant pieces.
 3. **Those real excerpts are handed to the LLM** along with the question, as context.
 4. **The LLM writes its answer** using that context, instead of guessing from memory.
+
+<RagFlowDiagram />
 
 The result is an AI that answers using your actual, current information &mdash; and can cite exactly where it got the answer from.
 

@@ -16,6 +16,7 @@ interface Props {
   serviceData?: any;
   blogPostData?: any;
   blogPosts?: any[];
+  categoryData?: any;
   showMobileCTA?: boolean;
   canonicalUrl?: string;
   prevUrl?: string;
@@ -32,6 +33,7 @@ const {
   serviceData,
   blogPostData,
   blogPosts,
+  categoryData,
   showMobileCTA = true,
   canonicalUrl,
   prevUrl,
@@ -55,6 +57,11 @@ const currentPath = Astro.url.pathname;
     {prevUrl && <link rel="prev" href={new URL(prevUrl, 'https://infohq.in')} />}
     {nextUrl && <link rel="next" href={new URL(nextUrl, 'https://infohq.in')} />}
 
+    <!-- Search Engine & AEO Crawler Directives -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
     <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/webp" sizes="32x32" href="/favicon.webp" />
     <link rel="icon" type="image/webp" href="/images/infohq-favicon.webp" />
@@ -70,12 +77,29 @@ const currentPath = Astro.url.pathname;
     <meta property="og:site_name" content="InfoHQ" />
     <meta property="og:locale" content="en_IN" />
 
+    <!-- Article Specific OpenGraph Metadata (AEO & Social Search) -->
+    {ogType === 'article' && blogPostData?.pubDate && (
+      <meta property="article:published_time" content={new Date(blogPostData.pubDate).toISOString()} />
+    )}
+    {ogType === 'article' && (blogPostData?.updatedDate || blogPostData?.pubDate) && (
+      <meta property="article:modified_time" content={new Date(blogPostData.updatedDate || blogPostData.pubDate).toISOString()} />
+    )}
+    {ogType === 'article' && (
+      <meta property="article:author" content={blogPostData?.author || 'InfoHQ Team'} />
+      <meta property="article:section" content={blogPostData?.categoryLabel || (blogPostData?.category ? blogPostData.category.toUpperCase() : 'AI & Intelligent Systems')} />
+    )}
+    {ogType === 'article' && blogPostData?.keywords && Array.isArray(blogPostData.keywords) && (
+      blogPostData.keywords.map((kw: string) => <meta property="article:tag" content={kw} />)
+    )}
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={finalCanonical} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, 'https://infohq.in')} />
+    <meta name="twitter:site" content="@CodeWithTiwari" />
+    <meta name="twitter:creator" content="@CodeWithTiwari" />
 
     <!-- Structured Data (JSON-LD) -->
     <SchemaJsonLd
@@ -83,6 +107,7 @@ const currentPath = Astro.url.pathname;
       serviceData={serviceData}
       blogPostData={blogPostData}
       blogPosts={blogPosts}
+      categoryData={categoryData}
     />
 
     <!-- Tracking scripts placeholder - controlled by Cookie Consent (Rule 2 + Phase 9) -->

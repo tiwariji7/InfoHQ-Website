@@ -1,0 +1,500 @@
+---
+import { MessageSquare, Search, Cpu, CheckCircle2, ArrowRight, ArrowDown, FileText } from 'lucide-astro';
+
+interface Props {
+  caption?: string;
+}
+
+const {
+  caption = "Architecture Pipeline: How RAG Connects Live Business Data to LLM Responses"
+} = Astro.props;
+---
+
+<figure class="rag-flow-container" role="figure" aria-labelledby="rag-flow-title">
+  <!-- Header Bar -->
+  <div class="rag-flow-header">
+    <div class="rag-flow-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">TECHNICAL ARCHITECTURE</span>
+    </div>
+    <h3 id="rag-flow-title" class="rag-flow-heading">
+      The 4-Step RAG Retrieval Pipeline
+    </h3>
+    <p class="rag-flow-subheading">
+      How live company documents are retrieved, injected into context, and transformed into hallucination-free AI answers.
+    </p>
+  </div>
+
+  <!-- Pipeline Steps Track -->
+  <ol class="rag-steps-track" aria-label="Step-by-step retrieval pipeline">
+    <!-- STEP 1: Question -->
+    <li class="rag-step-item step-question">
+      <div class="step-card">
+        <div class="step-num-pill" style="--step-accent: #E8604E;">
+          <span class="step-index">01</span>
+        </div>
+        <div class="step-icon-box" style="--step-accent: #E8604E; --step-accent-bg: rgba(232, 96, 78, 0.1);">
+          <MessageSquare size={22} class="step-icon" />
+        </div>
+        <div class="step-content">
+          <span class="step-stage-tag" style="--step-accent: #E8604E;">USER INPUT</span>
+          <h4 class="step-title">1. Question</h4>
+          <p class="step-desc">
+            A customer or employee asks a specific query in plain English.
+          </p>
+          <div class="step-example">
+            <span class="example-label">e.g.</span>
+            <span class="example-text">"What is our refund policy on annual plans?"</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector to Step 2 -->
+      <div class="step-connector" aria-hidden="true">
+        <span class="connector-label">Queries KB</span>
+        <ArrowRight size={16} class="connector-arrow arrow-horizontal" />
+        <ArrowDown size={16} class="connector-arrow arrow-vertical" />
+      </div>
+    </li>
+
+    <!-- STEP 2: Retrieval -->
+    <li class="rag-step-item step-retrieval">
+      <div class="step-card">
+        <div class="step-num-pill" style="--step-accent: #DD4985;">
+          <span class="step-index">02</span>
+        </div>
+        <div class="step-icon-box" style="--step-accent: #DD4985; --step-accent-bg: rgba(221, 73, 133, 0.1);">
+          <Search size={22} class="step-icon" />
+        </div>
+        <div class="step-content">
+          <span class="step-stage-tag" style="--step-accent: #DD4985;">SEARCH ENGINE</span>
+          <h4 class="step-title">2. Retrieval</h4>
+          <p class="step-desc">
+            Vector search scans your private knowledge base and pulls relevant document snippets.
+          </p>
+          <div class="step-sources-chip">
+            <FileText size={12} class="chip-icon" />
+            <span>PDFs, Docs, FAQs & DBs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector to Step 3 -->
+      <div class="step-connector" aria-hidden="true">
+        <span class="connector-label">Context + Query</span>
+        <ArrowRight size={16} class="connector-arrow arrow-horizontal" />
+        <ArrowDown size={16} class="connector-arrow arrow-vertical" />
+      </div>
+    </li>
+
+    <!-- STEP 3: LLM Augmentation -->
+    <li class="rag-step-item step-llm">
+      <div class="step-card">
+        <div class="step-num-pill" style="--step-accent: #914FBB;">
+          <span class="step-index">03</span>
+        </div>
+        <div class="step-icon-box" style="--step-accent: #914FBB; --step-accent-bg: rgba(145, 79, 187, 0.1);">
+          <Cpu size={22} class="step-icon" />
+        </div>
+        <div class="step-content">
+          <span class="step-stage-tag" style="--step-accent: #914FBB;">SYNTHESIS</span>
+          <h4 class="step-title">3. LLM Reasoning</h4>
+          <p class="step-desc">
+            The LLM receives the question together with real excerpts as grounded context.
+          </p>
+          <div class="step-prompt-chip">
+            <span>Augmented Context Window</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector to Step 4 -->
+      <div class="step-connector" aria-hidden="true">
+        <span class="connector-label">Verified Output</span>
+        <ArrowRight size={16} class="connector-arrow arrow-horizontal" />
+        <ArrowDown size={16} class="connector-arrow arrow-vertical" />
+      </div>
+    </li>
+
+    <!-- STEP 4: Answer -->
+    <li class="rag-step-item step-answer">
+      <div class="step-card step-card-success">
+        <div class="step-num-pill" style="--step-accent: #5782E0;">
+          <span class="step-index">04</span>
+        </div>
+        <div class="step-icon-box" style="--step-accent: #5782E0; --step-accent-bg: rgba(87, 130, 224, 0.1);">
+          <CheckCircle2 size={22} class="step-icon" />
+        </div>
+        <div class="step-content">
+          <span class="step-stage-tag" style="--step-accent: #5782E0;">GROUNDED RESULT</span>
+          <h4 class="step-title">4. Accurate Answer</h4>
+          <p class="step-desc">
+            The AI generates a factual, up-to-date answer and cites the exact source file.
+          </p>
+          <div class="step-citation-badge">
+            <span class="citation-dot"></span>
+            <span>Zero Hallucination + Source Citation</span>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <!-- Key Difference Takeaway Bar -->
+  <div class="rag-takeaway-bar">
+    <div class="takeaway-item takeaway-standard">
+      <span class="takeaway-title">Without RAG:</span>
+      <span class="takeaway-desc">LLM relies on frozen pre-training &rarr; often hallucinates or gives generic guesses.</span>
+    </div>
+    <div class="takeaway-divider" aria-hidden="true"></div>
+    <div class="takeaway-item takeaway-rag">
+      <span class="takeaway-title">With RAG:</span>
+      <span class="takeaway-desc">LLM cites real, current business records &rarr; reliable, verifiable answers.</span>
+    </div>
+  </div>
+
+  <figcaption class="rag-flow-caption">
+    {caption}
+  </figcaption>
+</figure>
+
+<style>
+  .rag-flow-container {
+    margin: 2.75rem 0;
+    padding: 2rem 1.75rem 1.5rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAF9FE 100%);
+    border: 1px solid rgba(124, 92, 232, 0.18);
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 36px -8px rgba(124, 92, 232, 0.08), 0 2px 8px rgba(20, 8, 92, 0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rag-flow-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #E8604E 0%, #DD4985 33%, #914FBB 66%, #5782E0 100%);
+  }
+
+  /* Header */
+  .rag-flow-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .rag-flow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.85rem;
+    background: rgba(124, 92, 232, 0.08);
+    border: 1px solid rgba(124, 92, 232, 0.2);
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7C5CE8;
+    box-shadow: 0 0 8px #7C5CE8;
+  }
+
+  .badge-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #7C5CE8;
+    text-transform: uppercase;
+  }
+
+  .rag-flow-heading {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #1A085C;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  .rag-flow-subheading {
+    font-size: 0.925rem;
+    color: #4B5563;
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Track layout */
+  .rag-steps-track {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    position: relative;
+  }
+
+  .rag-step-item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Card */
+  .step-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(124, 92, 232, 0.12);
+    border-radius: 0.875rem;
+    padding: 1.25rem 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    box-shadow: 0 4px 16px -2px rgba(26, 8, 92, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .step-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px rgba(124, 92, 232, 0.12);
+    border-color: rgba(124, 92, 232, 0.3);
+  }
+
+  .step-card-success {
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(87, 130, 224, 0.03) 100%);
+  }
+
+  /* Number Pill & Icon */
+  .step-num-pill {
+    position: absolute;
+    top: -0.6rem;
+    right: 0.85rem;
+    background: var(--step-accent, #7C5CE8);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.55rem;
+    border-radius: 100px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .step-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 0.65rem;
+    background: var(--step-accent-bg, rgba(124, 92, 232, 0.1));
+    color: var(--step-accent, #7C5CE8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .step-stage-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--step-accent, #7C5CE8);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-title {
+    font-size: 1.025rem;
+    font-weight: 700;
+    color: #1A085C;
+    margin: 0 0 0.45rem;
+    line-height: 1.3;
+  }
+
+  .step-desc {
+    font-size: 0.825rem;
+    color: #4B5563;
+    line-height: 1.45;
+    margin: 0 0 0.85rem;
+    flex-grow: 1;
+  }
+
+  /* Micro elements inside cards */
+  .step-example {
+    background: #F8F8FD;
+    border: 1px dashed rgba(232, 96, 78, 0.25);
+    border-radius: 0.5rem;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.75rem;
+    color: #4B5563;
+    line-height: 1.35;
+  }
+
+  .example-label {
+    font-weight: 700;
+    color: #E8604E;
+    margin-right: 0.25rem;
+  }
+
+  .example-text {
+    font-style: italic;
+  }
+
+  .step-sources-chip,
+  .step-prompt-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #F8F8FD;
+    border: 1px solid rgba(124, 92, 232, 0.12);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: #4B5563;
+  }
+
+  .chip-icon {
+    color: #DD4985;
+  }
+
+  .step-citation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(87, 130, 224, 0.08);
+    border: 1px solid rgba(87, 130, 224, 0.25);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.725rem;
+    font-weight: 700;
+    color: #2F61C9;
+  }
+
+  .citation-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2F61C9;
+  }
+
+  .step-connector {
+    display: none;
+  }
+
+  /* Comparison Strip */
+  .rag-takeaway-bar {
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid rgba(124, 92, 232, 0.14);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    gap: 1.25rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .takeaway-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.825rem;
+    line-height: 1.4;
+  }
+
+  .takeaway-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .takeaway-standard .takeaway-title {
+    color: #D94848;
+  }
+
+  .takeaway-standard .takeaway-desc {
+    color: #6B7280;
+  }
+
+  .takeaway-rag .takeaway-title {
+    color: #2F61C9;
+  }
+
+  .takeaway-rag .takeaway-desc {
+    color: #1A085C;
+    font-weight: 500;
+  }
+
+  .takeaway-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(124, 92, 232, 0.15);
+  }
+
+  /* Caption */
+  .rag-flow-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6B7280;
+    font-style: italic;
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 900px) {
+    .rag-steps-track {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .step-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding-top: 0.85rem;
+    }
+
+    .arrow-horizontal {
+      display: none;
+    }
+
+    .arrow-vertical {
+      display: block;
+      color: #7C5CE8;
+    }
+
+    .connector-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #7C5CE8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rag-takeaway-bar {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .takeaway-divider {
+      width: 100%;
+      height: 1px;
+    }
+  }
+
+  @media (min-width: 901px) {
+    .arrow-vertical {
+      display: none;
+    }
+    .arrow-horizontal {
+      display: none;
+    }
+  }
+</style>

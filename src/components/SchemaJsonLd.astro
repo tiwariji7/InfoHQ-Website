@@ -19,12 +19,23 @@ interface Props {
     image?: string;
     author?: string;
     category?: string;
+    categoryLabel?: string;
+    keywords?: string[];
+    faqs?: Array<{ question: string; answer: string }>;
+    wordCount?: number;
   };
   blogPosts?: any[];
+  categoryData?: {
+    slug: string;
+    label: string;
+    title: string;
+    description: string;
+    url?: string;
+  };
   customSchema?: Record<string, any>;
 }
 
-const { type = 'home', serviceData, blogPostData, blogPosts, customSchema } = Astro.props;
+const { type = 'home', serviceData, blogPostData, blogPosts, categoryData, customSchema } = Astro.props;
 
 // Confirmed Organization Schema (Steps 7 & 8)
 // Social URLs confirmed from codebase: Instagram, YouTube, WhatsApp.
@@ -334,36 +345,105 @@ if (customSchema) {
 } else if (type === 'blogs') {
   schemas.push(organizationBase);
 
-  const blogSchema: Record<string, any> = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'InfoHQ Engineering Blog',
-    url: 'https://infohq.in/blog',
-    description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
-    publisher: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://infohq.in/images/infohq-logo.webp'
-      }
-    }
-  };
-
-  if (blogPosts && blogPosts.length > 0) {
-    blogSchema.blogPost = blogPosts.map((post: any, idx: number) => ({
-      '@type': 'BlogPosting',
-      headline: post.data.title,
-      description: post.data.description,
-      url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`,
-      datePublished: new Date(post.data.pubDate).toISOString(),
-      author: {
+  if (categoryData) {
+    // 1. Category Hub CollectionPage Schema
+    const categoryUrl = categoryData.url || `https://infohq.in/blog/${categoryData.slug}`;
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: categoryData.title,
+      description: categoryData.description,
+      url: categoryUrl,
+      publisher: {
         '@type': 'Organization',
-        name: 'InfoHQ'
+        name: 'InfoHQ',
+        url: 'https://infohq.in'
       }
-    }));
+    });
 
+    // 2. Category BreadcrumbList Schema (Google Rich Results)
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://infohq.in'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: 'https://infohq.in/blog'
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: categoryData.label,
+          item: categoryUrl
+        }
+      ]
+    });
+  } else {
+    // Main Blog Hub Schema
+    const blogSchema: Record<string, any> = {
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      name: 'InfoHQ Engineering Blog',
+      url: 'https://infohq.in/blog',
+      description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
+      publisher: {
+        '@type': 'Organization',
+        name: 'InfoHQ',
+        url: 'https://infohq.in',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://infohq.in/images/infohq-logo.webp'
+        }
+      }
+    };
+
+    if (blogPosts && blogPosts.length > 0) {
+      blogSchema.blogPost = blogPosts.map((post: any) => ({
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description: post.data.description,
+        url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`,
+        datePublished: new Date(post.data.pubDate).toISOString(),
+        author: {
+          '@type': 'Organization',
+          name: post.data.author || 'InfoHQ Team'
+        }
+      }));
+    }
+
+    schemas.push(blogSchema);
+
+    // Blog Hub BreadcrumbList Schema
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://infohq.in'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: 'https://infohq.in/blog'
+        }
+      ]
+    });
+  }
+
+  // ItemList of posts if present
+  if (blogPosts && blogPosts.length > 0) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'ItemList',
@@ -375,8 +455,6 @@ if (customSchema) {
       }))
     });
   }
-
-  schemas.push(blogSchema);
 } else if (type === 'blog-post' && blogPostData) {
   schemas.push(organizationBase);
 
@@ -385,6 +463,12 @@ if (customSchema) {
     ? new Date(blogPostData.updatedDate).toISOString()
     : postDate;
 
+  const rawImage = blogPostData.image || '/images/blog/what-is-rag-hero.webp';
+  const fullImageUrl = rawImage.startsWith('http')
+    ? rawImage
+    : `https://infohq.in${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
+
+  // 1. Comprehensive BlogPosting Schema with AEO Speakable & InLanguage
   const blogPostingSchema: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -395,9 +479,11 @@ if (customSchema) {
       '@id': blogPostData.url
     },
     url: blogPostData.url,
+    inLanguage: 'en-IN',
+    articleSection: blogPostData.categoryLabel || (blogPostData.category ? blogPostData.category.toUpperCase() : 'AI & Intelligent Systems'),
     author: {
       '@type': 'Organization',
-      name: blogPostData.author || 'InfoHQ',
+      name: blogPostData.author || 'InfoHQ Team',
       url: 'https://infohq.in'
     },
     publisher: {
@@ -410,16 +496,78 @@ if (customSchema) {
       }
     },
     datePublished: postDate,
-    dateModified: modifiedDate
+    dateModified: modifiedDate,
+    image: {
+      '@type': 'ImageObject',
+      url: fullImageUrl,
+      width: 1376,
+      height: 768
+    },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.post-headline', '.post-hero-caption', '.post-prose > p:first-of-type']
+    }
   };
 
-  if (blogPostData.image) {
-    blogPostingSchema.image = blogPostData.image.startsWith('http')
-      ? blogPostData.image
-      : `https://infohq.in${blogPostData.image.startsWith('/') ? '' : '/'}${blogPostData.image}`;
+  if (blogPostData.keywords && blogPostData.keywords.length > 0) {
+    blogPostingSchema.keywords = blogPostData.keywords.join(', ');
+  }
+
+  if (blogPostData.wordCount) {
+    blogPostingSchema.wordCount = blogPostData.wordCount;
   }
 
   schemas.push(blogPostingSchema);
+
+  // 2. Article BreadcrumbList Schema (Rich Snippets)
+  const categorySlug = blogPostData.category || 'ai';
+  const categoryLabel = blogPostData.categoryLabel || categorySlug.toUpperCase();
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://infohq.in/blog'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: categoryLabel,
+        item: `https://infohq.in/blog/${categorySlug}`
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: blogPostData.title,
+        item: blogPostData.url
+      }
+    ]
+  });
+
+  // 3. FAQPage Schema for SERP Dropdown & AEO Answer Engines
+  if (blogPostData.faqs && blogPostData.faqs.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: blogPostData.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    });
+  }
 } else if (type === 'portfolio') {
   schemas.push(organizationBase);
   schemas.push({

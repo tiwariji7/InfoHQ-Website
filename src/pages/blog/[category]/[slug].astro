@@ -5,6 +5,7 @@ import CategoryPills from '../../../components/CategoryPills.astro';
 import BlogCard from '../../../components/BlogCard.astro';
 import Pagination from '../../../components/Pagination.astro';
 import MidCTA from '../../../components/MidCTA.astro';
+import RagFlowDiagram from '../../../components/RagFlowDiagram.astro';
 import FinalCTA from '../../../components/FinalCTA.astro';
 import { BLOG_CATEGORIES_DATA, BLOG_CATEGORY_LIST, type BlogCategoryInfo } from '../../../data/blogCategories';
 import { Calendar, User, ArrowLeft, Clock } from 'lucide-astro';
@@ -111,6 +112,8 @@ if (type === 'category-page') {
   const rawBody = post.body || '';
   hasMidCtaInBody = rawBody.includes('<MidCTA') || rawBody.includes('mid-article-cta');
 }
+
+const postWordCount = post?.body ? post.body.trim().split(/\s+/).length : undefined;
 ---
 
 {type === 'category-page' && categoryInfo && (
@@ -122,6 +125,7 @@ if (type === 'category-page') {
     prevUrl={categoryPrevUrl}
     nextUrl={categoryNextUrl}
     blogPosts={posts}
+    categoryData={categoryInfo}
   >
     <!-- Category Hero Section -->
     <section class="section category-hero" aria-labelledby="category-heading">
@@ -176,8 +180,12 @@ if (type === 'category-page') {
       pubDate: post.data.pubDate,
       updatedDate: post.data.updatedDate,
       image: heroSrc,
-      author: post.data.author || 'InfoHQ',
-      category: post.data.category
+      author: post.data.author || 'InfoHQ Team',
+      category: post.data.category,
+      categoryLabel: postCategoryInfo.label,
+      keywords: post.data.keywords,
+      faqs: post.data.faqs,
+      wordCount: postWordCount
     }}
   >
     <!-- Post Article Header -->
@@ -234,7 +242,7 @@ if (type === 'category-page') {
         <div class="post-content-layout">
           <div class="post-prose" itemprop="articleBody">
             {ContentComponent && (
-              <ContentComponent components={{ MidCTA }} />
+              <ContentComponent components={{ MidCTA, RagFlowDiagram }} />
             )}
 
             <!-- Safe fallback MidCTA if author did not manually embed one -->
