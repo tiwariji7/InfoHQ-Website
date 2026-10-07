@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
+import mdx from '@astrojs/mdx';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://infohq.in',
@@ -14,6 +16,7 @@ export default defineConfig({
   }),
   output: 'static',
   integrations: [
+    mdx(),
     sitemap({
       filter: (page) =>
         !page.includes('/api/') &&
