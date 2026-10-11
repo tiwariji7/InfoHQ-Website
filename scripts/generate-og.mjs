@@ -99,16 +99,6 @@ const cards = [
     title: 'High-Converting Digital Agency Web Platform with Sub-Second Speeds',
     label: 'Case Study • Web Platform'
   },
-  {
-    slug: 'portfolio/cogniflow-ai',
-    title: 'Autonomous RAG & Multi-Modal Knowledge Search Intelligence Agent',
-    label: 'Case Study • Enterprise AI'
-  },
-  {
-    slug: 'portfolio/omniflow-b2b',
-    title: 'Automated Multi-Channel B2B Order & WhatsApp Dispatch Pipeline',
-    label: 'Case Study • Automation'
-  },
   // 10. Legal & Compliance
   {
     slug: 'privacy',

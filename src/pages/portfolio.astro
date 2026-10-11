@@ -203,112 +203,6 @@ const flagshipCaseStudies = [
     techStack: ['Astro', 'TypeScript', 'Cloudflare Pages', 'Vanilla CSS', 'Modern SVG'],
     liveUrl: 'https://alphastudiotech.online',
     urlLabel: 'alphastudiotech.online'
-  },
-  {
-    id: 'cogniflow-ai',
-    category: 'ai',
-    badge: 'Enterprise Production • In-House',
-    badgeType: 'ai',
-    client: 'CogniFlow AI / Enterprise Deployments',
-    industry: 'Enterprise Knowledge & Workflow Automation',
-    title: 'Autonomous RAG & Multi-Modal Knowledge Search Intelligence Agent',
-    summary: 'An autonomous document intelligence system that ingests enterprise documents, technical manuals, and SOPs to provide instant, hallucination-resistant answers with exact citation references.',
-    challenge: 'Operations and customer support teams were spending hours manually sifting through hundreds of dense PDFs and manuals, resulting in delayed resolutions and inconsistent client support.',
-    solution: 'Designed and deployed an enterprise RAG (Retrieval-Augmented Generation) pipeline with pgvector semantic vector search, intelligent semantic document chunking, prompt guarding, and sub-second contextual responses.',
-    keyFeatures: [
-      'Multi-format ingestion pipeline (PDF, DOCX, Markdown, Spreadsheets)',
-      'Hybrid semantic vector search + keyword re-ranking for maximum accuracy',
-      'Citation-backed responses with highlighted source page coordinates',
-      'Autonomous fallback to human engineering queue when confidence is low',
-      'End-to-end telemetry, token tracking, and latency monitoring'
-    ],
-    results: [
-      { metric: '82%', label: 'Automated Inquiry Resolution Rate' },
-      { metric: '< 380ms', label: 'Vector Search Query Latency' },
-      { metric: '70%', label: 'Reduction in Support Ticket Backlog' }
-    ],
-    techStack: ['Python', 'FastAPI', 'LangChain', 'OpenAI / Claude', 'pgvector', 'Docker'],
-    liveUrl: null,
-    urlLabel: 'Enterprise Client Architecture'
-  },
-  {
-    id: 'omniflow-b2b',
-    category: 'automation',
-    badge: 'Production Retainer Client',
-    badgeType: 'automation',
-    client: 'OmniFlow Distribution',
-    industry: 'Supply Chain & B2B Distribution',
-    title: 'Automated Multi-Channel B2B Order, Invoicing & WhatsApp Dispatch Pipeline',
-    summary: 'A resilient digital backend and merchant portal that orchestrates ordering, payment reconciliation, inventory management, and automated WhatsApp delivery updates for a pan-India distribution network.',
-    challenge: 'Manual order entry through spreadsheets was leading to delayed dispatches, inventory stockouts, billing mismatches, and endless customer phone calls regarding delivery status.',
-    solution: 'Built an event-driven webhook automation pipeline connecting the retailer ordering portal, Razorpay subscription billing, warehouse inventory databases, and the Meta WhatsApp Business API.',
-    keyFeatures: [
-      'Automated order capture with instant digital GST-compliant invoice generation',
-      'Real-time inventory synchronization preventing overselling across 3 regional depots',
-      'Automated WhatsApp dispatch notifications with live delivery tracking links',
-      'Direct Razorpay payment gateway integration with auto-reconciled ledger entries',
-      'Executive analytics dashboard displaying sales volume and order velocity'
-    ],
-    results: [
-      { metric: '₹1.8 Cr+', label: 'Monthly GMV Processed Automatically' },
-      { metric: '45%', label: 'Faster Order-to-Dispatch Turnaround' },
-      { metric: 'Zero', label: 'Stockout & Inventory Sync Errors' }
-    ],
-    techStack: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis Queue', 'Razorpay API', 'WhatsApp API'],
-    liveUrl: null,
-    urlLabel: 'Confidential Client Pipeline'
-  }
-];
-
-// Additional Work Samples / Proof of Work Cards
-const workSamples = [
-  {
-    id: 'sample-1',
-    category: 'automation',
-    title: 'FinTech Multi-Tenant Subscription Engine',
-    desc: 'B2B subscription portal with automated recurring billing, prorated upgrades, role-based access control, and complete audit logging.',
-    highlights: ['Multi-currency Stripe/Razorpay', 'JWT Auth + RBAC', 'Automated PDF Invoices'],
-    tech: ['Next.js', 'PostgreSQL', 'Tailwind', 'Stripe API']
-  },
-  {
-    id: 'sample-2',
-    category: 'ai',
-    title: 'Autonomous WhatsApp CRM & Booking Bot',
-    desc: 'Conversational AI agent for 24/7 lead qualification, smart query triage, and automated calendar scheduling integrated directly into CRM.',
-    highlights: ['Meta Graph API', 'Sub-second NLP Parsing', 'Google Calendar Sync'],
-    tech: ['Node.js', 'WhatsApp Cloud API', 'Claude API', 'Webhooks']
-  },
-  {
-    id: 'sample-3',
-    category: 'web',
-    title: 'High-Velocity D2C E-Commerce Experience',
-    desc: 'Headless storefront with ultra-fast product catalog filtering, dynamic cart bundling, and payment checkout flow optimized for mobile conversion.',
-    highlights: ['100% Core Web Vitals Pass', 'Micro-interactions', 'Instant Cart Sync'],
-    tech: ['Astro', 'TypeScript', 'Cloudflare Workers', 'Tailwind']
-  },
-  {
-    id: 'sample-4',
-    category: 'ai',
-    title: 'Document OCR & Intelligent Data Extraction',
-    desc: 'Multimodal AI document pipeline parsing complex invoices, shipping manifests, and bank statements directly into structured JSON records.',
-    highlights: ['99.2% OCR Extraction Accuracy', 'Table Data Reconstruction', 'ERP Integration'],
-    tech: ['Python', 'FastAPI', 'Vision LLMs', 'Docker']
-  },
-  {
-    id: 'sample-5',
-    category: 'mobile',
-    title: 'Field Logistics & Inspection Mobile Tool',
-    desc: 'Cross-platform field operations application with geolocation tracking, camera photo capture with watermarks, and offline record submission.',
-    highlights: ['GPS Geo-Fencing', 'Camera Watermarking', 'Offline SQLite Queue'],
-    tech: ['React Native', 'TypeScript', 'Node.js', 'AWS S3']
-  },
-  {
-    id: 'sample-6',
-    category: 'automation',
-    title: 'Cloud Infrastructure & Zero-Downtime CI/CD',
-    desc: 'Modernized legacy VPS into auto-scaling containerized cloud architecture with automated GitHub Actions testing and Cloudflare edge defense.',
-    highlights: ['Zero-Downtime Rollouts', '60% Cloud Cost Savings', 'DDoS Protection'],
-    tech: ['AWS ECS', 'Docker', 'GitHub Actions', 'Cloudflare']
   }
 ];
 
@@ -962,49 +856,7 @@ const clientEndorsements = [
     </div>
   </section>
 
-  <!-- 3. Work Samples & Additional Builds Grid -->
-  <section class="section work-samples-section" aria-labelledby="work-samples-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="text-eyebrow">Work Samples &amp; Capabilities</span>
-        <h2 id="work-samples-heading">Specialized Engineering Samples</h2>
-        <p>A selection of custom modules, pipelines, and integrations engineered for diverse business requirements.</p>
-      </div>
-
-      <div class="grid-3 samples-grid" id="samples-container">
-        {workSamples.map((sample) => (
-          <article class="card sample-card" data-category={sample.category}>
-            <div class="sample-top">
-              <span class="sample-category-chip">{sample.category.toUpperCase()}</span>
-              <span class="sample-dot"></span>
-            </div>
-
-            <h3 class="sample-title">{sample.title}</h3>
-            <p class="sample-desc">{sample.desc}</p>
-
-            <div class="sample-features-list">
-              {sample.highlights.map((h) => (
-                <div class="sample-feature-item">
-                  <span class="sample-bullet">&bull;</span>
-                  <span>{h}</span>
-                </div>
-              ))}
-            </div>
-
-            <div class="sample-footer">
-              <div class="sample-tech-chips">
-                {sample.tech.map((t) => (
-                  <span class="chip mini-chip">{t}</span>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Client Endorsements & Proof of Impact -->
+  <!-- 3. Client Endorsements & Proof of Impact -->
   <section class="section section-wash testimonials-section" aria-labelledby="testimonials-heading">
     <div class="container">
       <div class="section-header">
@@ -2537,113 +2389,6 @@ const clientEndorsements = [
     text-decoration: underline;
   }
 
-  /* Work Samples Grid */
-  .work-samples-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
-  }
-
-  .samples-grid {
-    margin-top: 2.5rem;
-  }
-
-  .sample-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.75rem;
-    background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .sample-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(124, 92, 232, 0.3);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .sample-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.15rem;
-  }
-
-  .sample-category-chip {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--color-primary);
-    background: var(--color-primary-subtle);
-    padding: 3px 9px;
-    border-radius: var(--radius-full);
-  }
-
-  .sample-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(124, 92, 232, 0.35);
-  }
-
-  .sample-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.35;
-    color: var(--color-text-heading);
-    margin-bottom: 0.75rem;
-  }
-
-  .sample-desc {
-    font-size: var(--text-sm);
-    line-height: 1.6;
-    color: var(--color-text-body);
-    margin-bottom: 1.25rem;
-  }
-
-  .sample-features-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
-  }
-
-  .sample-feature-item {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    font-size: 12.5px;
-    color: var(--color-text-muted);
-    font-weight: 500;
-  }
-
-  .sample-bullet {
-    color: var(--color-primary);
-    font-size: 14px;
-    line-height: 1;
-  }
-
-  .sample-footer {
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-card);
-  }
-
-  .sample-tech-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .mini-chip {
-    font-size: 11px;
-    padding: 2px 8px;
-    background: #F4F3F9;
-    color: var(--color-text-body);
-  }
-
   /* Client Endorsements */
   .testimonials-section {
     padding-top: clamp(3rem, 5vw, 5rem);
@@ -3082,7 +2827,6 @@ const clientEndorsements = [
   function setupPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-tab-btn');
     const caseStudies = document.querySelectorAll('.case-study-card');
-    const sampleCards = document.querySelectorAll('.sample-card');
 
     if (!filterButtons.length) return;
 
@@ -3100,17 +2844,6 @@ const clientEndorsements = [
 
         // Filter Flagship Case Studies (supports multi-tags e.g. "mobile ai")
         caseStudies.forEach((card) => {
-          const categoryAttr = card.getAttribute('data-category') || '';
-          const categories = categoryAttr.split(' ');
-          if (filter === 'all' || categories.includes(filter)) {
-            card.classList.remove('is-filtered-out');
-          } else {
-            card.classList.add('is-filtered-out');
-          }
-        });
-
-        // Filter Work Samples
-        sampleCards.forEach((card) => {
           const categoryAttr = card.getAttribute('data-category') || '';
           const categories = categoryAttr.split(' ');
           if (filter === 'all' || categories.includes(filter)) {
