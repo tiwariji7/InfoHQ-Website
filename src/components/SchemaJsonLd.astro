@@ -300,21 +300,78 @@ if (customSchema) {
       }
     ]
   });
+
+  // BreadcrumbList: Home > Pricing
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Pricing',
+        item: 'https://infohq.in/pricing/'
+      }
+    ]
+  });
 } else if (type === 'contact') {
   schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Contact',
+        item: 'https://infohq.in/contact/'
+      }
+    ]
+  });
 } else if (type === 'company') {
   schemas.push(organizationBase);
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     name: 'About InfoHQ — AI & Software Engineering Studio',
-    url: 'https://infohq.in/company',
+    url: 'https://infohq.in/company/',
     description: 'InfoHQ is an AI and software engineering studio based in Pune and Prayagraj, building and running digital products for businesses across India.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Company',
+        item: 'https://infohq.in/company/'
+      }
+    ]
   });
 } else if (type === 'services') {
   schemas.push(organizationBase);
@@ -322,13 +379,32 @@ if (customSchema) {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Our Services — AI, Software, Web & Mobile Development | InfoHQ',
-    url: 'https://infohq.in/services',
+    url: 'https://infohq.in/services/',
     description: 'Explore InfoHQ\'s full range of services: AI & intelligent systems, custom software, web & mobile app development, cloud & DevOps, automation, and digital marketing.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://infohq.in/services/'
+      }
+    ]
   });
 } else if (type === 'blogs') {
   schemas.push(organizationBase);
@@ -336,13 +412,32 @@ if (customSchema) {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'InfoHQ Engineering Blog',
-    url: 'https://infohq.in/blogs',
+    url: 'https://infohq.in/blogs/',
     description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://infohq.in/blogs/'
+      }
+    ]
   });
 } else if (type === 'portfolio') {
   schemas.push(organizationBase);
@@ -350,10 +445,11 @@ if (customSchema) {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Portfolio & Case Studies — InfoHQ',
-    url: 'https://infohq.in/portfolio',
+    url: 'https://infohq.in/portfolio/',
     description: 'Explore InfoHQ\'s portfolio of shipped projects, engineering case studies, enterprise AI systems, web platforms, and mobile apps.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     },
@@ -426,6 +522,24 @@ if (customSchema) {
         }
       ]
     }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Portfolio',
+        item: 'https://infohq.in/portfolio/'
+      }
+    ]
   });
 } else {
   schemas.push(organizationBase);
