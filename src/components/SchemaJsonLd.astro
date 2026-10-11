@@ -324,6 +324,18 @@ if (customSchema) {
   schemas.push(organizationBase);
   schemas.push({
     '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    url: 'https://infohq.in/contact/',
+    name: 'Contact InfoHQ — Get a Free Consultation',
+    about: {
+      '@id': 'https://infohq.in/#organization'
+    },
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
       {
