@@ -67,6 +67,20 @@ if (customSchema) {
   // 1. Top-Level Organization Schema
   schemas.push(organizationBase);
 
+  // 2. WebSite Schema (Homepage)
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://infohq.in/#website',
+    name: 'InfoHQ',
+    alternateName: 'Info HQ',
+    url: 'https://infohq.in',
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    },
+    inLanguage: 'en-IN'
+  });
+
   // 2. LocalBusiness Block 1: Pune
   schemas.push({
     '@context': 'https://schema.org',
