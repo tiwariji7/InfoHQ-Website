@@ -10,9 +10,10 @@ interface Props {
   title: string;
   description: string;
   keywords?: string;
+  canonical?: string;
   ogImage?: string;
   ogType?: 'website' | 'article';
-  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: any;
   showMobileCTA?: boolean;
 }
@@ -21,6 +22,7 @@ const {
   title,
   description,
   keywords,
+  canonical,
   ogImage = '/images/infohq-logo.webp',
   ogType = 'website',
   schemaType = 'home',
@@ -28,7 +30,7 @@ const {
   showMobileCTA = true
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, 'https://infohq.in');
+const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, 'https://infohq.in');
 const currentPath = Astro.url.pathname;
 ---
 
