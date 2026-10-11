@@ -4,22 +4,75 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import sharp from 'sharp';
 
-const servicePages = [
-  { slug: 'ai-intelligent-systems', title: 'AI & Intelligent Systems Development', category: 'AI & Software Engineering' },
-  { slug: 'custom-software', title: 'Custom Software Development Company', category: 'AI & Software Engineering' },
-  { slug: 'web-development', title: 'Web Development Company in Pune', category: 'Web & Mobile App Development' },
-  { slug: 'mobile-app-development', title: 'Mobile App Development Company', category: 'Web & Mobile App Development' },
-  { slug: 'business-automation', title: 'Business Process Automation Services', category: 'Automation & System Integrations' },
-  { slug: 'cloud-devops', title: 'Cloud & DevOps Services', category: 'Cloud, DevOps & Security' },
-  { slug: 'cybersecurity', title: 'Cybersecurity & Application Security Audits', category: 'Cloud, DevOps & Security' },
-  { slug: 'website-maintenance', title: 'Website Maintenance & Support Services', category: 'Cloud, DevOps & Security' },
-  { slug: 'ui-ux-design', title: 'UI/UX Design Services', category: 'Design & Digital Marketing' },
-  { slug: 'brand-design', title: 'Brand & Graphic Design Services', category: 'Design & Digital Marketing' },
-  { slug: 'social-media-management', title: 'Social Media Management Services', category: 'Design & Digital Marketing' },
-  { slug: 'digital-marketing', title: 'Digital Marketing & SEO Services', category: 'Design & Digital Marketing' }
-];
+// Dynamic loader for services data
+function loadServicesCards() {
+  try {
+    const filePath = path.resolve('src/data/servicesData.ts');
+    if (!fs.existsSync(filePath)) return [];
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const clean = content
+      .replace(/export interface[\s\S]*?}/, '')
+      .replace(/: ServiceItem\[\]/g, '')
+      .replace('export const servicesData', 'const servicesData');
+    const fn = new Function(clean + '; return servicesData;');
+    const services = fn();
+    return services.map((s) => ({
+      slug: `services/${s.slug}`,
+      title: s.title,
+      label: `Services • ${s.category}`
+    }));
+  } catch (err) {
+    console.warn('Warning: Could not dynamically load servicesData.ts, skipping services OG:', err);
+    return [];
+  }
+}
 
-const cards = [
+// Dynamic loader for blog content collection (MD / MDX)
+function loadContentCollectionCards() {
+  const contentDir = path.resolve('src/content/blog');
+  if (!fs.existsSync(contentDir)) return [];
+  const files = fs.readdirSync(contentDir);
+  const blogCards = [];
+  for (const file of files) {
+    if (!file.endsWith('.md') && !file.endsWith('.mdx')) continue;
+    const slug = file.replace(/\.mdx?$/, '');
+    const content = fs.readFileSync(path.join(contentDir, file), 'utf-8');
+    const titleMatch = content.match(/^title:\s*["']?(.*?)["']?$/m);
+    const title = titleMatch ? titleMatch[1] : slug;
+    blogCards.push({
+      slug: `blogs/${slug}`,
+      title,
+      label: 'Blog • Article'
+    });
+  }
+  return blogCards;
+}
+
+// Dynamic loader for portfolio case studies (only if standalone routes exist)
+function loadPortfolioCards() {
+  const portfolioDynamicRoute = path.resolve('src/pages/portfolio/[slug].astro');
+  if (!fs.existsSync(portfolioDynamicRoute)) {
+    // Portfolio projects are showcased on the main /portfolio hub, no sub-routes exist
+    return [];
+  }
+  try {
+    const portfolioAstro = fs.readFileSync(path.resolve('src/pages/portfolio.astro'), 'utf-8');
+    const match = portfolioAstro.match(/const flagshipCaseStudies = (\[[\s\S]*?\n\];)/);
+    if (!match) return [];
+    const fn = new Function('return ' + match[1].replace(/;$/, ''));
+    const items = fn();
+    return items.map((p) => ({
+      slug: `portfolio/${p.id}`,
+      title: p.title,
+      label: `Case Study • ${p.category}`
+    }));
+  } catch {
+    return [];
+  }
+}
+
+// Core static site routes
+const staticCards = [
   // 1. Home
   {
     slug: 'home',
@@ -62,7 +115,7 @@ const cards = [
     title: 'Blog — AI, Software & Engineering Insights',
     label: 'Engineering Blog'
   },
-  // 8. The 5 Blog Categories
+  // 8. The 5 Blog Categories (preserved per Part 2 instruction)
   {
     slug: 'blogs/ai-automation',
     title: 'AI & Automation Engineering Insights',
@@ -88,18 +141,7 @@ const cards = [
     title: 'Digital Growth, Compliance & Enterprise Tech Insights',
     label: 'Blog — Industry'
   },
-  // 9. Portfolio Case Studies
-  {
-    slug: 'portfolio/sehat',
-    title: 'SeHAT SmartCare AI — AI-Powered Health Assistance Platform',
-    label: 'Case Study • Healthcare AI'
-  },
-  {
-    slug: 'portfolio/alpha-studio-tech',
-    title: 'High-Converting Digital Agency Web Platform with Sub-Second Speeds',
-    label: 'Case Study • Web Platform'
-  },
-  // 10. Legal & Compliance
+  // 9. Legal & Compliance
   {
     slug: 'privacy',
     title: 'Privacy Policy | InfoHQ',
@@ -110,7 +152,7 @@ const cards = [
     title: 'Terms of Service | InfoHQ',
     label: 'Legal & Compliance'
   },
-  // 11. Default Site Cards
+  // 10. Default Site Cards
   {
     slug: 'default',
     title: 'InfoHQ — AI, Software & Digital Growth',
@@ -123,14 +165,12 @@ const cards = [
   }
 ];
 
-// Add each of the 12 Services
-servicePages.forEach((s) => {
-  cards.push({
-    slug: `services/${s.slug}`,
-    title: s.title,
-    label: `Services • ${s.category}`
-  });
-});
+const cards = [
+  ...staticCards,
+  ...loadServicesCards(),
+  ...loadContentCollectionCards(),
+  ...loadPortfolioCards()
+];
 
 async function generateAllOGImages() {
   console.log(`Starting Open Graph image generation for ${cards.length} cards...`);
@@ -354,6 +394,33 @@ async function generateAllOGImages() {
   console.log(`\nSuccessfully generated ${results.length} Open Graph JPEG cards!`);
   const allUnder100k = results.every(r => r.bytes < 100 * 1024);
   console.log(`All files under 100KB: ${allUnder100k ? 'YES' : 'NO'}`);
+
+  // Clean up any stale OG image files for routes that no longer exist
+  const ogDir = path.resolve('public/og');
+  if (fs.existsSync(ogDir)) {
+    const validRelativePaths = new Set(cards.map((c) => path.normalize(`${c.slug}.jpg`)));
+    
+    function cleanDirectory(dir, relPrefix = '') {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        const relPath = path.join(relPrefix, entry.name);
+        if (entry.isDirectory()) {
+          cleanDirectory(fullPath, relPath);
+          if (fs.readdirSync(fullPath).length === 0) {
+            fs.rmdirSync(fullPath);
+          }
+        } else if (entry.isFile() && entry.name.endsWith('.jpg')) {
+          if (!validRelativePaths.has(path.normalize(relPath))) {
+            fs.unlinkSync(fullPath);
+            console.log(`Pruned stale OG card: public/og/${relPath.replace(/\\/g, '/')}`);
+          }
+        }
+      }
+    }
+    
+    cleanDirectory(ogDir);
+  }
 }
 
 generateAllOGImages().catch((err) => {
