@@ -41,8 +41,8 @@ const cards = [
   // 4. Portfolio Hub
   {
     slug: 'portfolio',
-    title: 'Portfolio & Case Studies — Shipped Projects & Real Results',
-    label: 'Portfolio Hub'
+    title: 'Portfolio & Case Studies | InfoHQ',
+    label: 'Portfolio & Case Studies'
   },
   // 5. Company
   {
