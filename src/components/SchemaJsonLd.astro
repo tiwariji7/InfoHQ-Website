@@ -116,6 +116,7 @@ if (customSchema) {
   // Individual Service Page Schema (Steps 5 & 6)
   const slug = serviceData.slug || '';
   const schemaConfig = serviceSchemasRecord[slug];
+  const serviceUrl = `https://infohq.in/services/${slug}/`;
 
   if (schemaConfig) {
     const offerPayload: Record<string, any> = {
@@ -132,11 +133,13 @@ if (customSchema) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': `${serviceUrl}#service`,
+      url: serviceUrl,
       serviceType: schemaConfig.serviceType,
       provider: {
         '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in'
+        '@id': 'https://infohq.in/#organization',
+        name: 'InfoHQ'
       },
       areaServed: 'IN',
       description: schemaConfig.description,
@@ -158,16 +161,45 @@ if (customSchema) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': `${serviceUrl}#service`,
+      url: serviceUrl,
       serviceType: serviceData.name,
       provider: {
         '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in'
+        '@id': 'https://infohq.in/#organization',
+        name: 'InfoHQ'
       },
       areaServed: 'IN',
       description: serviceData.description
     });
   }
+
+  // BreadcrumbList: Home > Services > [Service name]
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://infohq.in/services/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: serviceData.name,
+        item: serviceUrl
+      }
+    ]
+  });
+}
 } else if (type === 'pricing') {
   schemas.push(organizationBase);
 
