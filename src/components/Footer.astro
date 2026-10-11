@@ -1,13 +1,14 @@
 ---
 import { Mail } from 'lucide-astro';
+import { contactConfig } from '../data/contactConfig';
 
 // Current year generated at build time
 const currentYear = new Date().getFullYear();
 
 // Direct business contact configuration
-const businessEmail = 'contact@infohq.in';
+const businessEmail = contactConfig.businessEmail;
 // Real WhatsApp link with custom pre-filled inquiry message
-const whatsappNumber = '918381835420'; 
+const whatsappNumber = contactConfig.whatsappNumber; 
 const customWhatsAppMessage = encodeURIComponent("Hi InfoHQ, I'd like to discuss a project with your team.");
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessage}`;
 ---

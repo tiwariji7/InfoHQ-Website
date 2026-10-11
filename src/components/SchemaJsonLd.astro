@@ -1,5 +1,6 @@
 ---
 import { serviceSchemasRecord } from '../data/serviceSchemas';
+import { contactConfig } from '../data/contactConfig';
 
 interface Props {
   type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
@@ -31,6 +32,26 @@ const organizationBase = {
   sameAs: [
     'https://www.instagram.com/infohq.in/',
     'https://www.youtube.com/@infohq28'
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: contactConfig.businessEmail,
+      contactType: 'customer support',
+      areaServed: 'IN'
+    },
+    {
+      '@type': 'ContactPoint',
+      email: contactConfig.servicesEmail,
+      contactType: 'sales',
+      areaServed: 'IN'
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: contactConfig.telephone,
+      contactType: 'customer support',
+      areaServed: 'IN'
+    }
   ],
   areaServed: {
     '@type': 'Country',
@@ -276,23 +297,7 @@ if (customSchema) {
     ]
   });
 } else if (type === 'contact') {
-  schemas.push({
-    ...organizationBase,
-    contactPoint: [
-      {
-        '@type': 'ContactPoint',
-        email: 'contact@infohq.in',
-        contactType: 'customer support',
-        areaServed: 'IN'
-      },
-      {
-        '@type': 'ContactPoint',
-        email: 'services@infohq.in',
-        contactType: 'sales',
-        areaServed: 'IN'
-      }
-    ]
-  });
+  schemas.push(organizationBase);
 } else if (type === 'company') {
   schemas.push(organizationBase);
   schemas.push({
