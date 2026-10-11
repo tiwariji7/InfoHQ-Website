@@ -81,49 +81,7 @@ if (customSchema) {
     inLanguage: 'en-IN'
   });
 
-  // 2. LocalBusiness Block 1: Pune
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'InfoHQ — Pune',
-    url: 'https://infohq.in',
-    image: 'https://infohq.in/images/infohq-logo.webp',
-    email: 'contact@infohq.in',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Pune',
-      addressRegion: 'Maharashtra',
-      addressCountry: 'IN'
-    },
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
-    }
-  });
-
-  // 3. LocalBusiness Block 2: Prayagraj
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'InfoHQ — Prayagraj',
-    url: 'https://infohq.in',
-    image: 'https://infohq.in/images/infohq-logo.webp',
-    email: 'contact@infohq.in',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Prayagraj',
-      addressRegion: 'Uttar Pradesh',
-      addressCountry: 'IN'
-    },
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
-    }
-  });
-
-  // 4. FAQPage Schema (Home Page - Step 9)
+  // 3. FAQPage Schema (Home Page)
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
