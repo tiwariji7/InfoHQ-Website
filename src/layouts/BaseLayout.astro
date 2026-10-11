@@ -12,9 +12,11 @@ interface Props {
   keywords?: string;
   canonical?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
   schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: any;
+  postData?: any;
   showMobileCTA?: boolean;
 }
 
@@ -23,15 +25,47 @@ const {
   description,
   keywords,
   canonical,
-  ogImage = '/images/infohq-logo.webp',
+  ogImage,
+  ogImageAlt,
   ogType = 'website',
   schemaType = 'home',
   serviceData,
+  postData,
   showMobileCTA = true
 } = Astro.props;
 
 const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, 'https://infohq.in');
 const currentPath = Astro.url.pathname;
+
+// Dynamic Per-Page OG Image resolution (replaces logo default)
+let defaultOgPath = '/og/default.jpg';
+const cleanPath = currentPath.replace(/\/$/, '');
+
+if (cleanPath === '' || cleanPath === '/') {
+  defaultOgPath = '/og/home.jpg';
+} else if (serviceData?.slug) {
+  defaultOgPath = `/og/services/${serviceData.slug}.jpg`;
+} else if (cleanPath === '/services') {
+  defaultOgPath = '/og/services.jpg';
+} else if (cleanPath === '/pricing') {
+  defaultOgPath = '/og/pricing.jpg';
+} else if (cleanPath === '/company') {
+  defaultOgPath = '/og/company.jpg';
+} else if (cleanPath === '/contact') {
+  defaultOgPath = '/og/contact.jpg';
+} else if (cleanPath === '/portfolio') {
+  defaultOgPath = '/og/portfolio.jpg';
+} else if (cleanPath === '/blogs') {
+  defaultOgPath = '/og/blogs.jpg';
+} else if (cleanPath.startsWith('/privacy')) {
+  defaultOgPath = '/og/privacy.jpg';
+} else if (cleanPath.startsWith('/terms')) {
+  defaultOgPath = '/og/terms.jpg';
+}
+
+const resolvedOgImage = ogImage || defaultOgPath;
+const absoluteOgImage = new URL(resolvedOgImage, 'https://infohq.in').toString();
+const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
 ---
 
 <!doctype html>
@@ -54,7 +88,10 @@ const currentPath = Astro.url.pathname;
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, 'https://infohq.in')} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={resolvedOgAlt} />
     <meta property="og:site_name" content="InfoHQ" />
     <meta property="og:locale" content="en_IN" />
 
@@ -63,7 +100,8 @@ const currentPath = Astro.url.pathname;
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, 'https://infohq.in')} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:alt" content={resolvedOgAlt} />
 
     <!-- Structured Data (JSON-LD) -->
     <SchemaJsonLd type={schemaType} serviceData={serviceData} />

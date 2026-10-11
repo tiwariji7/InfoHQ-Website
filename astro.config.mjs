@@ -17,6 +17,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/api/') &&
+        !page.includes('/og/') &&
         !page.includes('/privacy-policy') &&
         !page.includes('/terms-of-service')
     })
