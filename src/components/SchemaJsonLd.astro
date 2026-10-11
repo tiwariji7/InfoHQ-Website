@@ -209,8 +209,10 @@ if (customSchema) {
     '@type': 'Service',
     serviceType: 'Engineering Retainers & Projects',
     name: 'InfoHQ Engineering Retainer & Project Plans',
+    url: 'https://infohq.in/pricing/',
     provider: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     },
@@ -248,6 +250,75 @@ if (customSchema) {
           price: '49999',
           priceCurrency: 'INR',
           description: '3-Person Dedicated Engineering Team for multi-system digital operations (₹49,999/month).'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Business Website'
+          },
+          price: '14999',
+          priceCurrency: 'INR',
+          description: 'Custom responsive design, SEO optimization & meta setup, fast loading, mobile-ready, easy CMS content updates.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'E-Commerce Website'
+          },
+          price: '29999',
+          priceCurrency: 'INR',
+          description: 'Full online store, payment gateway, product catalog & inventory sync, cart & checkout, automated notifications.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Web Application'
+          },
+          price: '24999',
+          priceCurrency: 'INR',
+          description: 'Dynamic database, user auth & roles, custom dashboard & admin views, REST/GraphQL API integrations.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Mobile Application'
+          },
+          price: '39999',
+          priceCurrency: 'INR',
+          description: 'iOS & Android app, push notification pipeline, offline caching, App Store & Play Store submission setup.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'AI Solution'
+          },
+          price: '19999',
+          priceCurrency: 'INR',
+          description: 'Custom LLM integration, domain-specific RAG knowledge bot, automated workflow triggers, telemetry & logs.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'SaaS Platform MVP'
+          },
+          price: '49999',
+          priceCurrency: 'INR',
+          description: 'Multi-tenant schema, Stripe/Razorpay automated subscription billing, user & team dashboard, admin telemetry.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Custom Software / ERP'
+          },
+          priceCurrency: 'INR',
+          description: 'Bespoke enterprise system architecture, multi-role permissions, legacy migration, dedicated SLA & warranty.'
         }
       ]
     }
