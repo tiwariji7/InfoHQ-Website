@@ -3,7 +3,7 @@ import { serviceSchemasRecord } from '../data/serviceSchemas';
 import { contactConfig } from '../data/contactConfig';
 
 interface Props {
-  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio';
+  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: {
     slug?: string;
     name: string;
@@ -11,10 +11,19 @@ interface Props {
     techStack?: string[];
     url: string;
   };
+  postData?: {
+    headline: string;
+    description: string;
+    author?: any;
+    datePublished: string;
+    dateModified?: string;
+    url: string;
+    image?: string;
+  };
   customSchema?: Record<string, any>;
 }
 
-const { type = 'home', serviceData, customSchema } = Astro.props;
+const { type = 'home', serviceData, postData, customSchema } = Astro.props;
 
 // Confirmed Organization Schema (Steps 7 & 8)
 // Social URLs confirmed from codebase: Instagram, YouTube, WhatsApp.
@@ -519,6 +528,56 @@ if (customSchema) {
         position: 2,
         name: 'Blog',
         item: 'https://infohq.in/blogs/'
+      }
+    ]
+  });
+} else if (type === 'blog-post' && postData) {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: postData.headline,
+    description: postData.description,
+    author: postData.author || {
+      '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
+      name: 'InfoHQ'
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
+      name: 'InfoHQ',
+      logo: 'https://infohq.in/images/infohq-logo.webp'
+    },
+    datePublished: postData.datePublished,
+    dateModified: postData.dateModified || postData.datePublished,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': postData.url
+    },
+    image: postData.image || 'https://infohq.in/images/infohq-logo.webp'
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://infohq.in/blogs/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: postData.headline,
+        item: postData.url
       }
     ]
   });
