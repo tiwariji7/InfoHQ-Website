@@ -1,0 +1,294 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid } from 'lucide-astro';
+import { BLOG_CATEGORIES, calculateReadingTime, formatDate, getPostUrl, type BlogCategory } from '../utils/blog';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const categoryKey = post.data.category as BlogCategory;
+const categoryInfo = BLOG_CATEGORIES[categoryKey] || {
+  id: categoryKey,
+  name: categoryKey,
+  tagline: '',
+  title: '',
+  description: '',
+  icon: 'LayoutGrid'
+};
+
+const postUrl = getPostUrl(post.data.category, post.id);
+const readingTime = calculateReadingTime(post.body || '');
+const formattedDate = formatDate(post.data.pubDate);
+const authorName = post.data.author || 'InfoHQ Team';
+---
+
+<article class={`blog-card ${featured ? 'featured' : ''}`}>
+  <a href={postUrl} class="card-link-overlay" aria-label={`Read article: ${post.data.title}`}></a>
+  
+  <div class="card-cover-wrap">
+    {post.data.heroImage ? (
+      <img src={post.data.heroImage} alt="" class="card-cover-image" loading="lazy" />
+    ) : (
+      <div class={`card-cover-fallback cat-${categoryKey}`}>
+        <div class="fallback-glow" aria-hidden="true"></div>
+        <div class="fallback-icon-wrap" aria-hidden="true">
+          {categoryKey === 'ai' && <Brain size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'web' && <Globe size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'automation' && <Workflow size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'cloud' && <Cloud size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'design' && <PenTool size={featured ? 64 : 44} class="cover-icon" />}
+          {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={featured ? 64 : 44} class="cover-icon" />}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <div class="card-content">
+    <div class="card-header-meta">
+      <span class="category-pill">{categoryInfo.name}</span>
+    </div>
+
+    <h3 class="card-title">
+      <a href={postUrl}>{post.data.title}</a>
+    </h3>
+
+    <p class="card-description">{post.data.description}</p>
+
+    <div class="card-footer-meta">
+      <span class="meta-author">{authorName}</span>
+      <span class="meta-sep" aria-hidden="true">•</span>
+      <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-date">{formattedDate}</time>
+      <span class="meta-sep" aria-hidden="true">•</span>
+      <span class="meta-read-time">{readingTime}</span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .blog-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-card);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    height: 100%;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(124, 92, 232, 0.35);
+  }
+
+  .card-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .card-cover-wrap {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #F4F0FA;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .card-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .card-cover-image {
+    transform: scale(1.02);
+  }
+
+  .card-cover-fallback {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FAF8FD 0%, #F0ECF9 100%);
+    overflow: hidden;
+  }
+
+  .cat-ai { background: linear-gradient(135deg, #FAF6FD 0%, #EDE5F9 100%); }
+  .cat-web { background: linear-gradient(135deg, #F5F8FE 0%, #E3EDFB 100%); }
+  .cat-automation { background: linear-gradient(135deg, #FBF6FA 0%, #F6E7F2 100%); }
+  .cat-cloud { background: linear-gradient(135deg, #F4F8FC 0%, #E1EFF9 100%); }
+  .cat-design { background: linear-gradient(135deg, #FDF7F5 0%, #FAECE7 100%); }
+
+  .fallback-glow {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.12) 0%, transparent 70%);
+  }
+
+  .fallback-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    opacity: 0.85;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .fallback-icon-wrap {
+    transform: scale(1.06);
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 22px 24px;
+    gap: 12px;
+  }
+
+  .card-header-meta {
+    display: flex;
+    align-items: center;
+  }
+
+  .category-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background-color: #F1EDFA;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-heading);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .card-description {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer-meta {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border-card);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: #6E6888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meta-author {
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+
+  .meta-sep {
+    opacity: 0.6;
+  }
+
+  /* Featured Card Variant */
+  .blog-card.featured {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    height: auto;
+  }
+
+  .blog-card.featured .card-cover-wrap {
+    height: 100%;
+    min-height: 320px;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border-card);
+  }
+
+  .blog-card.featured .card-content {
+    padding: 36px 36px;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .blog-card.featured .card-title {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.25;
+  }
+
+  .blog-card.featured .card-description {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-line-clamp: 3;
+  }
+
+  @media (max-width: 900px) {
+    .blog-card.featured {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-card.featured .card-cover-wrap {
+      min-height: 220px;
+      height: 220px;
+      border-right: none;
+      border-bottom: 1px solid var(--color-border-card);
+    }
+
+    .blog-card.featured .card-content {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .card-content {
+      padding: 18px 20px;
+    }
+
+    .card-footer-meta {
+      font-size: 0.75rem;
+      gap: 6px;
+    }
+  }
+</style>
