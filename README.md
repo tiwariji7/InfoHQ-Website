@@ -49,7 +49,7 @@ InfoHQ/
 ├── public/                     # Static production assets
 │   ├── images/                 # Optimized .webp visuals & brand logos
 │   ├── projects_images/        # Portfolio case study screenshots
-│   ├── favicon.png             # Site favicon
+│   ├── favicon.webp            # Site favicon (in images/)
 │   └── sitemap.xml             # Production SEO sitemap
 ├── src/
 │   ├── components/             # Reusable Astro UI components

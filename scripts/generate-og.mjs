@@ -201,7 +201,7 @@ async function generateAllOGImages() {
   const fontReg = fs.readFileSync(fontRegPath);
 
   // 2. Read and convert real logo to PNG in memory
-  const logoWebpPath = path.resolve('public/images/infohq-logo.webp');
+  const logoWebpPath = path.resolve('public/images/infohq-brandlogo.webp');
   const logoWebp = fs.readFileSync(logoWebpPath);
   const logoPngBuffer = await sharp(logoWebp).png().toBuffer();
   const logoDataUri = `data:image/png;base64,${logoPngBuffer.toString('base64')}`;
@@ -249,7 +249,7 @@ async function generateAllOGImages() {
                   props: {
                     src: logoDataUri,
                     width: '155',
-                    height: '52',
+                    height: '78',
                     style: {
                       objectFit: 'contain'
                     }
