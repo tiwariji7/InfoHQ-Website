@@ -176,7 +176,6 @@ const flagshipCaseStudies = [
     liveUrl: null,
     urlLabel: 'Internal Product Showcase'
   },
-  // TODO: confirm client permission before launch
   {
     id: 'alpha-studio-tech',
     category: 'web',
@@ -184,18 +183,8 @@ const flagshipCaseStudies = [
     badgeType: 'live',
     client: 'Alpha Studio Tech',
     industry: 'Digital Media & Creative Production',
-    title: 'High-Converting Digital Agency Web Platform with Sub-Second Page Speeds',
-    summary: 'A bespoke modern web platform engineered from the ground up for a digital media production agency. Designed to replace a sluggish legacy site with high-performance responsive architecture, clean typography, and a streamlined client inquiry pipeline.',
-    challenge: 'The client\'s previous site suffered from heavy page weights, slow mobile load times, and poor conversion rates on commercial inquiry forms across mobile devices.',
-    solution: 'InfoHQ engineered a lean, zero-bloat web architecture using modern semantic HTML, fine-tuned fluid typography, optimized responsive media, and Cloudflare edge delivery with instant asset caching.',
-    keyFeatures: [
-      'Sub-second First Contentful Paint and rapid asset delivery',
-      'Fully responsive fluid grid with zero layout shift (CLS: 0.00)',
-      'Automated inquiry validation with instant email notification webhooks',
-      'High-DPI responsive graphics with modern WebP asset pipelines',
-      '100% clean semantic markup with complete Schema.org structured data'
-    ],
-    results: [],
+    title: 'Alpha Studio Tech — Client Website',
+    summary: 'A client website built by InfoHQ.',
     techStack: ['Astro', 'TypeScript', 'Cloudflare Pages', 'Vanilla CSS', 'Modern SVG'],
     liveUrl: 'https://alphastudiotech.online',
     urlLabel: 'alphastudiotech.online'
@@ -715,16 +704,18 @@ const deliveryStandards = [
                     <p class="case-study-subsummary">{cs.subSummary}</p>
                   )}
 
-                  <div class="case-study-problem-solution">
-                    <div class="problem-box">
-                      <span class="ps-tag tag-problem">The Challenge</span>
-                      <p>{cs.challenge}</p>
+                  {cs.challenge && (
+                    <div class="case-study-problem-solution">
+                      <div class="problem-box">
+                        <span class="ps-tag tag-problem">The Challenge</span>
+                        <p>{cs.challenge}</p>
+                      </div>
+                      <div class="solution-box">
+                        <span class="ps-tag tag-solution">The Developer Approach</span>
+                        <p>{cs.approach || cs.solution}</p>
+                      </div>
                     </div>
-                    <div class="solution-box">
-                      <span class="ps-tag tag-solution">The Developer Approach</span>
-                      <p>{cs.approach || cs.solution}</p>
-                    </div>
-                  </div>
+                  )}
 
                   {cs.techLayers && (
                     <div class="tech-layers-wrap">
@@ -740,17 +731,19 @@ const deliveryStandards = [
                     </div>
                   )}
 
-                  <div class="deliverables-wrap">
-                    <span class="deliverables-heading">Key Outcomes &amp; Core Workflows:</span>
-                    <ul class="deliverables-list">
-                      {cs.keyFeatures.map((feat) => (
-                        <li>
-                          <span class="check-icon" aria-hidden="true">&check;</span>
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {cs.keyFeatures && cs.keyFeatures.length > 0 && (
+                    <div class="deliverables-wrap">
+                      <span class="deliverables-heading">Key Outcomes &amp; Core Workflows:</span>
+                      <ul class="deliverables-list">
+                        {cs.keyFeatures.map((feat) => (
+                          <li>
+                            <span class="check-icon" aria-hidden="true">&check;</span>
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {cs.impact && (
                     <div class="impact-box">
