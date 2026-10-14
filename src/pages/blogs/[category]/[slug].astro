@@ -311,13 +311,13 @@ const meta = {
     color: var(--color-text-heading);
   }
 
-  .prose-body :global(a) {
+  .prose-body :global(a:not(.infohq-btn)) {
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
 
-  .prose-body :global(a:hover) {
+  .prose-body :global(a:not(.infohq-btn):hover) {
     color: var(--color-primary-dark);
   }
 
