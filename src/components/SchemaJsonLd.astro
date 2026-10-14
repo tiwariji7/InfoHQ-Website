@@ -594,12 +594,12 @@ if (customSchema) {
     '@type': 'BlogPosting',
     headline: postData.headline,
     description: postData.description,
+    inLanguage: 'en-IN',
     datePublished: postData.datePublished,
     dateModified: postData.dateModified || postData.datePublished,
     author: {
       '@type': 'Organization',
-      name: postData.authorName || 'InfoHQ Team',
-      url: 'https://infohq.in'
+      '@id': 'https://infohq.in/#organization'
     },
     publisher: {
       '@id': 'https://infohq.in/#organization'

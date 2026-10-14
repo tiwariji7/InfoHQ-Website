@@ -66,12 +66,16 @@ if (relatedPosts.length < 3) {
 
 const faqs = extractFaqsFromBody(post.body || '');
 
+const toDateOnlyISO = (d: Date | string) => new Date(d).toISOString().split('T')[0];
+const datePublished = toDateOnlyISO(post.data.pubDate);
+const dateModified = post.data.updatedDate ? toDateOnlyISO(post.data.updatedDate) : datePublished;
+
 const postSchemaData = {
   headline: post.data.title,
   description: post.data.description,
   authorName: authorName,
-  datePublished: new Date(post.data.pubDate).toISOString(),
-  dateModified: post.data.updatedDate ? new Date(post.data.updatedDate).toISOString() : new Date(post.data.pubDate).toISOString(),
+  datePublished,
+  dateModified,
   url: canonicalUrl,
   image: `https://infohq.in/og/blogs/${post.id}.jpg`,
   category: post.data.category,
