@@ -106,7 +106,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <!-- Structured Data (JSON-LD) -->
     <SchemaJsonLd type={schemaType} serviceData={serviceData} />
 
-    <!-- Tracking scripts placeholder - controlled by Cookie Consent (Rule 2 + Phase 9) -->
+    {/* Cookie-consent controlled analytics & marketing scripts */}
     <script is:inline>
       // Listen for cookie consent changes and only initialize when consented
       window.addEventListener('infohq_consent_changed', function(e) {
@@ -161,7 +161,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <StickyMobileCTA show={showMobileCTA && currentPath !== '/contact'} />
     <CookieBanner />
 
-    <!-- Lenis Smooth Scroll per Rule 2 -->
+    {/* Smooth Scroll */}
     <script>
       import Lenis from 'lenis';
 
