@@ -2,7 +2,6 @@
 import type { Page } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import FinalCTA from '../../../components/FinalCTA.astro';
 import BlogCard from '../../../components/BlogCard.astro';
 import { 
   BLOG_CATEGORIES, 
@@ -215,7 +214,6 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
     </div>
   </section>
 
-  <FinalCTA page="home" />
 </BaseLayout>
 
 <style>

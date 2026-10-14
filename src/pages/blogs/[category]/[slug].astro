@@ -1,7 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import FinalCTA from '../../../components/FinalCTA.astro';
 import MidCTA from '../../../components/MidCTA.astro';
 import BlogCard from '../../../components/BlogCard.astro';
 import { 
@@ -159,8 +158,6 @@ const meta = {
     </section>
   )}
 
-  <!-- End of Post CTA: Reusing existing default FinalCTA -->
-  <FinalCTA page="home" />
 </BaseLayout>
 
 <style>
