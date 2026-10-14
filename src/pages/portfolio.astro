@@ -226,27 +226,6 @@ const deliveryStandards = [
   }
 ];
 
-// Testimonials / Client Impact
-const clientEndorsements = [
-  {
-    quote: 'InfoHQ took our sluggish legacy website and transformed it into a lightning-fast digital platform. Our mobile inquiries doubled within 60 days of launch.',
-    author: 'Creative Director',
-    client: 'Alpha Studio Tech',
-    tag: 'Web Platform Delivery'
-  },
-  {
-    quote: 'Finding engineers who understand both healthcare data security and mobile UX is rare. The offline sync architecture has been flawless for our medical practitioners.',
-    author: 'Product Lead',
-    client: 'SeHAT Health',
-    tag: 'Mobile App Architecture'
-  },
-  {
-    quote: 'The automation workflows InfoHQ engineered eliminated endless manual order errors. Having dedicated senior engineers on retainer feels like having an in-house tech team.',
-    author: 'Operations Head',
-    client: 'B2B Distribution Network',
-    tag: 'Engineering Retainer'
-  }
-];
 ---
 
 <BaseLayout
@@ -841,32 +820,8 @@ const clientEndorsements = [
     </div>
   </section>
 
-  <!-- 3. Client Endorsements & Proof of Impact -->
-  <section class="section section-wash testimonials-section" aria-labelledby="testimonials-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="text-eyebrow">Client Impact</span>
-        <h2 id="testimonials-heading">What Founders &amp; Leaders Say</h2>
-        <p>Direct feedback from clients who trust InfoHQ with their production systems and codebases.</p>
-      </div>
-
-      <div class="grid-3 testimonials-grid">
-        {clientEndorsements.map((t) => (
-          <article class="card testimonial-card">
-            <div class="testimonial-tag">{t.tag}</div>
-            <p class="testimonial-quote">"{t.quote}"</p>
-            <div class="testimonial-meta">
-              <span class="testimonial-author">{t.author}</span>
-              <span class="testimonial-client">{t.client}</span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. How We Deliver (The InfoHQ Engineering Standards) -->
-  <section class="section standards-section" aria-labelledby="standards-heading">
+  <!-- 3. How We Deliver (The InfoHQ Engineering Standards) -->
+  <section class="section section-wash standards-section" aria-labelledby="standards-heading">
     <div class="container">
       <div class="section-header">
         <span class="text-eyebrow">Transparent Delivery</span>
@@ -2371,66 +2326,6 @@ const clientEndorsements = [
   .btn-inquire-link:hover {
     color: var(--color-primary-hover);
     text-decoration: underline;
-  }
-
-  /* Client Endorsements */
-  .testimonials-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
-  }
-
-  .testimonials-grid {
-    margin-top: 2.5rem;
-  }
-
-  .testimonial-card {
-    padding: 2rem;
-    background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .testimonial-tag {
-    align-self: flex-start;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-primary);
-    background: rgba(124, 92, 232, 0.08);
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
-    margin-bottom: 1.25rem;
-  }
-
-  .testimonial-quote {
-    font-size: var(--text-base);
-    line-height: 1.65;
-    color: var(--color-text-heading);
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-
-  .testimonial-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-top: 1px solid var(--color-border-card);
-    padding-top: 1rem;
-  }
-
-  .testimonial-author {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-heading);
-  }
-
-  .testimonial-client {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
   }
 
   /* Standards Section */
