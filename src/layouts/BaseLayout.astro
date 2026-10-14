@@ -14,7 +14,7 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   ogType?: 'website' | 'article';
-  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
+  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-category' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: any;
   postData?: any;
   showMobileCTA?: boolean;
@@ -104,7 +104,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <meta name="twitter:image:alt" content={resolvedOgAlt} />
 
     <!-- Structured Data (JSON-LD) -->
-    <SchemaJsonLd type={schemaType} serviceData={serviceData} />
+    <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} />
 
     {/* Cookie-consent controlled analytics & marketing scripts */}
     <script is:inline>

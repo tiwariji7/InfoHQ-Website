@@ -103,6 +103,12 @@ const meta = {
   description={meta.description}
   canonical={meta.canonical}
   schemaType="blogs"
+  postData={{
+    items: publishedPosts.map((p) => ({
+      title: p.data.title,
+      url: `https://infohq.in${getPostUrl(p.data.category, p.id)}`
+    }))
+  }}
 >
   <!-- 1. Hero Section -->
   <section class="section blogs-hero" aria-labelledby="blogs-heading">

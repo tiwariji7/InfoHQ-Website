@@ -11,6 +11,7 @@ import {
   filterPublishedPosts, 
   sortPostsByDateDesc,
   getPostUrl,
+  extractFaqsFromBody,
   type BlogCategory 
 } from '../../../utils/blog';
 
@@ -63,12 +64,28 @@ if (relatedPosts.length < 3) {
   relatedPosts = relatedPosts.slice(0, 3);
 }
 
+const faqs = extractFaqsFromBody(post.body || '');
+
+const postSchemaData = {
+  headline: post.data.title,
+  description: post.data.description,
+  authorName: authorName,
+  datePublished: new Date(post.data.pubDate).toISOString(),
+  dateModified: post.data.updatedDate ? new Date(post.data.updatedDate).toISOString() : new Date(post.data.pubDate).toISOString(),
+  url: canonicalUrl,
+  image: `https://infohq.in/og/blogs/${post.id}.jpg`,
+  category: post.data.category,
+  categoryName: categoryInfo.name,
+  faqs
+};
+
 const meta = {
   title: `${post.data.title} | InfoHQ Blog`,
   description: post.data.description,
   keywords: post.data.keywords ? post.data.keywords.join(', ') : undefined,
   canonical: canonicalUrl,
-  ogType: 'article' as const
+  ogType: 'article' as const,
+  ogImage: `/og/blogs/${post.id}.jpg`
 };
 ---
 
@@ -78,8 +95,9 @@ const meta = {
   keywords={meta.keywords}
   canonical={meta.canonical}
   ogType={meta.ogType}
+  ogImage={meta.ogImage}
   schemaType="blog-post"
-  postData={post}
+  postData={postSchemaData}
 >
   <article class="single-post-article">
     <!-- Post Header Header Section -->

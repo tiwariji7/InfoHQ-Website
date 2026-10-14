@@ -3,7 +3,7 @@ import { serviceSchemasRecord } from '../data/serviceSchemas';
 import { contactConfig } from '../data/contactConfig';
 
 interface Props {
-  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
+  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-category' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: {
     slug?: string;
     name: string;
@@ -11,15 +11,7 @@ interface Props {
     techStack?: string[];
     url: string;
   };
-  postData?: {
-    headline: string;
-    description: string;
-    author?: any;
-    datePublished: string;
-    dateModified?: string;
-    url: string;
-    image?: string;
-  };
+  postData?: any;
   customSchema?: Record<string, any>;
 }
 
@@ -503,16 +495,29 @@ if (customSchema) {
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'InfoHQ Engineering Blog',
+    '@id': 'https://infohq.in/blogs/#blog',
+    name: 'InfoHQ Blog',
     url: 'https://infohq.in/blogs/',
-    description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
+    description: 'Practical writing on AI, automation, web development and cloud, from the InfoHQ team.',
     publisher: {
-      '@type': 'Organization',
-      '@id': 'https://infohq.in/#organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
+      '@id': 'https://infohq.in/#organization'
     }
   });
+  if (postData?.items && Array.isArray(postData.items) && postData.items.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Latest Articles',
+      url: 'https://infohq.in/blogs/',
+      numberOfItems: postData.items.length,
+      itemListElement: postData.items.map((item: any, idx: number) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: item.title,
+        url: item.url
+      }))
+    });
+  }
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -526,8 +531,59 @@ if (customSchema) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
+        name: 'Blogs',
         item: 'https://infohq.in/blogs/'
+      }
+    ]
+  });
+} else if (type === 'blog-category' && postData) {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: postData.title || `${postData.categoryName} Articles | InfoHQ`,
+    url: postData.url || `https://infohq.in/blogs/${postData.category}/`,
+    description: postData.description || `Practical articles on ${postData.categoryName} from InfoHQ.`,
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    }
+  });
+  if (postData.items && Array.isArray(postData.items) && postData.items.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${postData.categoryName} Articles`,
+      url: postData.url || `https://infohq.in/blogs/${postData.category}/`,
+      numberOfItems: postData.items.length,
+      itemListElement: postData.items.map((item: any, idx: number) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: item.title,
+        url: item.url
+      }))
+    });
+  }
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blogs',
+        item: 'https://infohq.in/blogs/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: postData.categoryName,
+        item: `https://infohq.in/blogs/${postData.category}/`
       }
     ]
   });
@@ -538,24 +594,21 @@ if (customSchema) {
     '@type': 'BlogPosting',
     headline: postData.headline,
     description: postData.description,
-    author: postData.author || {
-      '@type': 'Organization',
-      '@id': 'https://infohq.in/#organization',
-      name: 'InfoHQ'
-    },
-    publisher: {
-      '@type': 'Organization',
-      '@id': 'https://infohq.in/#organization',
-      name: 'InfoHQ',
-      logo: 'https://infohq.in/images/infohq-logo.webp'
-    },
     datePublished: postData.datePublished,
     dateModified: postData.dateModified || postData.datePublished,
+    author: {
+      '@type': 'Organization',
+      name: postData.authorName || 'InfoHQ Team',
+      url: 'https://infohq.in'
+    },
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    },
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': postData.url
     },
-    image: postData.image || 'https://infohq.in/images/infohq-logo.webp'
+    image: postData.image || 'https://infohq.in/og/default.jpg'
   });
   schemas.push({
     '@context': 'https://schema.org',
@@ -570,17 +623,37 @@ if (customSchema) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
+        name: 'Blogs',
         item: 'https://infohq.in/blogs/'
       },
       {
         '@type': 'ListItem',
         position: 3,
+        name: postData.categoryName,
+        item: `https://infohq.in/blogs/${postData.category}/`
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
         name: postData.headline,
         item: postData.url
       }
     ]
   });
+  if (postData.faqs && Array.isArray(postData.faqs) && postData.faqs.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: postData.faqs.map((faq: any) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a
+        }
+      }))
+    });
+  }
 } else if (type === 'portfolio') {
   schemas.push(organizationBase);
   schemas.push({

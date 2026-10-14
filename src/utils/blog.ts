@@ -105,3 +105,27 @@ export function sortPostsByDateDesc(posts: CollectionEntry<'blog'>[]): Collectio
 export function getPostUrl(category: string, id: string): string {
   return `/blogs/${category}/${id}/`;
 }
+
+/**
+ * Extracts FAQ question/answer pairs from post body if an FAQ section is present.
+ */
+export function extractFaqsFromBody(body: string = ''): { q: string; a: string }[] {
+  const faqHeaderIndex = body.indexOf('## Frequently Asked Questions');
+  if (faqHeaderIndex === -1) return [];
+  const faqSection = body.slice(faqHeaderIndex + '## Frequently Asked Questions'.length);
+  const nextHeaderIndex = faqSection.search(/\n##\s/);
+  const cleanSection = nextHeaderIndex !== -1 ? faqSection.slice(0, nextHeaderIndex) : faqSection;
+
+  const faqs: { q: string; a: string }[] = [];
+  const regex = /\*\*(.*?)\*\*\s*\n([\s\S]*?)(?=(\n\*\*|$))/g;
+  let match;
+  while ((match = regex.exec(cleanSection)) !== null) {
+    const q = match[1].trim();
+    const a = match[2].trim();
+    if (q && a) {
+      faqs.push({ q, a });
+    }
+  }
+  return faqs;
+}
+

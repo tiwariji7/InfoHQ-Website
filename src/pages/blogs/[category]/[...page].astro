@@ -9,6 +9,7 @@ import {
   CATEGORY_KEYS, 
   filterPublishedPosts, 
   sortPostsByDateDesc, 
+  getPostUrl,
   type BlogCategory 
 } from '../../../utils/blog';
 import { 
@@ -81,13 +82,26 @@ const categoryInfo = BLOG_CATEGORIES[category] || {
 };
 
 const canonicalUrl = `https://infohq.in${page.url.current.endsWith('/') ? page.url.current : page.url.current + '/'}`;
+const ogImageUrl = `/og/blogs/${category}.jpg`;
 ---
 
 <BaseLayout
   title={categoryInfo.title}
   description={categoryInfo.description}
   canonical={canonicalUrl}
-  schemaType="blogs"
+  ogImage={ogImageUrl}
+  schemaType="blog-category"
+  postData={{
+    category,
+    categoryName: categoryInfo.name,
+    title: categoryInfo.title,
+    description: categoryInfo.description,
+    url: canonicalUrl,
+    items: page.data.map((p) => ({
+      title: p.data.title,
+      url: `https://infohq.in${getPostUrl(p.data.category, p.id)}`
+    }))
+  }}
 >
   <!-- Category Header Hero -->
   <section class="section category-hero" aria-labelledby="cat-heading">
