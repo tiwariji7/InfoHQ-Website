@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+const meta = {
+  title: 'Page not found | InfoHQ',
+  description: 'The requested page could not be found on InfoHQ.'
+};
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  noindex={true}
+  noCanonical={true}
+  schemaType="none"
+>
+  <section class="section error-section" aria-labelledby="error-heading">
+    <div class="container text-center error-container">
+      <div class="error-code text-gradient" aria-hidden="true">404</div>
+      <h1 id="error-heading" class="error-headline">
+        This page doesn't exist
+      </h1>
+      <p class="error-subheadline">
+        The link may be old or mistyped. Head back home or pick one of the pages below.
+      </p>
+
+      <div class="error-actions">
+        <Button
+          variant="primary"
+          size="lg"
+          href="/"
+          label="Back to Home"
+          icon="arrow"
+          class="error-home-btn"
+        />
+      </div>
+
+      <nav class="error-links-nav" aria-label="Explore other pages">
+        <div class="error-links-list">
+          <a href="/services/" class="error-text-link">Services</a>
+          <span class="link-bullet" aria-hidden="true">&bull;</span>
+          <a href="/blogs/" class="error-text-link">Blogs</a>
+          <span class="link-bullet" aria-hidden="true">&bull;</span>
+          <a href="/contact/" class="error-text-link">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-section {
+    min-height: clamp(480px, 65vh, 760px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
+    padding-top: clamp(3.5rem, 6vw, 5.5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+  }
+
+  .error-container {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-code {
+    font-size: clamp(5.5rem, 14vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.75rem;
+    user-select: none;
+  }
+
+  .error-headline {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-text-heading);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .error-subheadline {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-text-body);
+    max-width: 540px;
+    margin: 0 auto 2.25rem;
+  }
+
+  .error-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  :global(.error-home-btn) {
+    min-height: 48px;
+    min-width: 180px;
+  }
+
+  .error-links-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error-links-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+  }
+
+  .error-text-link {
+    color: var(--color-text-heading);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(124, 92, 232, 0.35);
+    text-underline-offset: 4px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .error-text-link:hover {
+    color: var(--color-primary);
+    text-decoration-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+  }
+
+  .link-bullet {
+    color: var(--color-text-light);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 640px) {
+    .error-section {
+      padding-top: 2.5rem;
+      padding-bottom: 3rem;
+      min-height: auto;
+    }
+
+    .error-code {
+      font-size: 5rem;
+    }
+
+    .error-headline {
+      font-size: 1.85rem;
+    }
+
+    .error-subheadline {
+      font-size: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .error-actions {
+      width: 100%;
+    }
+
+    :global(.error-home-btn) {
+      width: 100%;
+    }
+
+    .error-links-list {
+      gap: 0.65rem;
+    }
+  }
+</style>
