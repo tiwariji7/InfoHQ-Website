@@ -178,14 +178,34 @@ const meta = {
 
 <style>
   .single-post-article {
-    padding-top: clamp(2rem, 4vw, 3.5rem);
+    margin-top: calc(-1 * clamp(72px, 7vw, 84px));
+    padding-top: 0;
     padding-bottom: clamp(3rem, 5vw, 5rem);
   }
 
   .post-hero-header {
+    padding-top: calc(clamp(2rem, 4vw, 3.5rem) + clamp(72px, 7vw, 84px));
     padding-bottom: clamp(2rem, 3.5vw, 3rem);
     border-bottom: 1px solid var(--color-border-card);
     background: linear-gradient(180deg, rgba(250, 248, 253, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  @media (max-width: 1023px) {
+    .single-post-article {
+      margin-top: calc(-1 * clamp(68px, 8vw, 76px));
+    }
+    .post-hero-header {
+      padding-top: calc(clamp(1.75rem, 3.5vw, 3rem) + clamp(68px, 8vw, 76px));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .single-post-article {
+      margin-top: -68px;
+    }
+    .post-hero-header {
+      padding-top: calc(1.5rem + 68px);
+    }
   }
 
   .post-header-container {
