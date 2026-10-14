@@ -274,21 +274,6 @@ const clientEndorsements = [
           <span class="stat-number">100%</span>
           <span class="stat-label">Code &amp; IP Ownership</span>
         </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">99.9%</span>
-          <span class="stat-label">System Uptime Target</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">&lt; 1.2s</span>
-          <span class="stat-label">Average Load Speed</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">15+</span>
-          <span class="stat-label">Shipped Systems</span>
-        </div>
       </div>
 
       <!-- Category Filter Tabs -->
@@ -956,11 +941,10 @@ const clientEndorsements = [
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem 2rem;
-    max-width: 980px;
+    width: fit-content;
+    max-width: 360px;
     margin: 0 auto 2.5rem;
-    padding: 1.25rem 2rem;
+    padding: 1.15rem 2.5rem;
     background: #FFFFFF;
     border-radius: var(--radius-xl);
     border: 1px solid var(--color-border-card);
@@ -2616,16 +2600,14 @@ const clientEndorsements = [
 
     .stats-counter-bar {
       gap: 1.25rem;
-      padding: 1.15rem 1rem;
+      padding: 1rem 2rem;
       border-radius: var(--radius-lg);
+      width: fit-content;
+      max-width: 100%;
     }
 
     .stat-counter-item {
-      width: calc(50% - 10px);
-    }
-
-    .stat-divider {
-      display: none;
+      width: 100%;
     }
 
     .filter-tabs {
