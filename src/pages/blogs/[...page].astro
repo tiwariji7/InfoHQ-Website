@@ -113,12 +113,12 @@ const meta = {
   <!-- 1. Hero Section -->
   <section class="section blogs-hero" aria-labelledby="blogs-heading">
     <div class="container text-center blogs-hero-container">
-      <span class="text-eyebrow">Blog</span>
+      <span class="text-eyebrow">Engineering Insights &bull; Technical Guides</span>
       <h1 id="blogs-heading" class="blogs-headline">
-        InfoHQ <span class="text-gradient">Blog</span>
+        Practical Guides to <span class="text-gradient">AI, Software Systems</span> &amp; Automation
       </h1>
       <p class="blogs-subheadline">
-        Practical writing on AI, automation, web development and cloud, from the InfoHQ team.
+        In-depth architectural breakdowns, production notes, and hands-on tutorials from the InfoHQ engineering team in Pune &amp; Prayagraj. Learn how we build, automate, and scale real digital products.
       </p>
 
       <!-- Client-side search box -->
@@ -501,29 +501,35 @@ const meta = {
   }
 
   .blogs-hero {
-    padding-top: clamp(2.5rem, 5vw, 4rem);
-    padding-bottom: clamp(2rem, 3.5vw, 3rem);
-    background: linear-gradient(180deg, rgba(250, 248, 253, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
+    background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    text-align: center;
+    position: relative;
   }
 
   .blogs-hero-container {
-    max-width: 760px;
+    max-width: 860px;
+    margin: 0 auto;
   }
 
   .blogs-headline {
-    font-size: clamp(2.5rem, 4.5vw, 3.6rem);
+    margin: 0.75rem auto 1.25rem;
+    font-size: var(--text-5xl);
     font-weight: 800;
-    letter-spacing: -0.025em;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--color-text-heading);
-    margin: 0.5rem 0 0.75rem 0;
+    max-width: 840px;
   }
 
   .blogs-subheadline {
-    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    font-size: var(--text-lg);
+    line-height: 1.65;
     color: var(--color-text-body);
-    margin: 0 auto 2rem auto;
-    line-height: 1.6;
-    max-width: 600px;
+    max-width: 760px;
+    margin: 0 auto 2.25rem;
   }
 
   /* Search Box */
