@@ -18,6 +18,8 @@ interface Props {
   serviceData?: any;
   postData?: any;
   showMobileCTA?: boolean;
+  noindex?: boolean;
+  noCanonical?: boolean;
 }
 
 const {
@@ -31,7 +33,9 @@ const {
   schemaType = 'home',
   serviceData,
   postData,
-  showMobileCTA = true
+  showMobileCTA = true,
+  noindex = false,
+  noCanonical = false
 } = Astro.props;
 
 const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, 'https://infohq.in');
@@ -75,7 +79,8 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noCanonical && <link rel="canonical" href={canonicalURL} />}
 
     <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
