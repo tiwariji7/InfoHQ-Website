@@ -33,20 +33,39 @@ function loadContentCollectionCards() {
   if (!fs.existsSync(contentDir)) return [];
   const files = fs.readdirSync(contentDir);
   const blogCards = [];
+  const categoryLabels = {
+    ai: 'AI',
+    web: 'Web',
+    automation: 'Automation',
+    cloud: 'Cloud',
+    design: 'Design'
+  };
+
   for (const file of files) {
     if (!file.endsWith('.md') && !file.endsWith('.mdx')) continue;
     const slug = file.replace(/\.mdx?$/, '');
     const content = fs.readFileSync(path.join(contentDir, file), 'utf-8');
+
+    // Skip draft posts
+    const draftMatch = content.match(/^draft:\s*(true|false)/m);
+    if (draftMatch && draftMatch[1] === 'true') continue;
+
     const titleMatch = content.match(/^title:\s*["']?(.*?)["']?$/m);
-    const title = titleMatch ? titleMatch[1] : slug;
+    const title = titleMatch ? titleMatch[1].trim() : slug;
+
+    const catMatch = content.match(/^category:\s*["']?(.*?)["']?$/m);
+    const category = catMatch ? catMatch[1].trim() : 'ai';
+    const catDisplayName = categoryLabels[category] || category.toUpperCase();
+
     blogCards.push({
       slug: `blogs/${slug}`,
       title,
-      label: 'Blog • Article'
+      label: `Blog • ${catDisplayName}`
     });
   }
   return blogCards;
 }
+
 
 // Dynamic loader for portfolio case studies (only if standalone routes exist)
 function loadPortfolioCards() {
@@ -115,31 +134,31 @@ const staticCards = [
     title: 'Blog — AI, Software & Engineering Insights',
     label: 'Engineering Blog'
   },
-  // 8. The 5 Blog Categories (preserved per Part 2 instruction)
+  // 8. The 5 Active Blog Categories
   {
-    slug: 'blogs/ai-automation',
-    title: 'AI & Automation Engineering Insights',
-    label: 'Blog — AI & Automation'
+    slug: 'blogs/ai',
+    title: 'AI & Machine Learning Blog — Technical Notes & Guides | InfoHQ',
+    label: 'Blog • AI'
   },
   {
-    slug: 'blogs/web-app-development',
-    title: 'Web & Mobile App Engineering Insights',
-    label: 'Blog — Web & Mobile'
+    slug: 'blogs/web',
+    title: 'Web Engineering Blog — Architecture, Performance & Standards | InfoHQ',
+    label: 'Blog • Web'
   },
   {
-    slug: 'blogs/case-studies',
-    title: 'Production Engineering Case Studies & Teardowns',
-    label: 'Blog — Case Studies'
+    slug: 'blogs/automation',
+    title: 'Business Automation Blog — Workflows, Integrations & Systems | InfoHQ',
+    label: 'Blog • Automation'
   },
   {
-    slug: 'blogs/engineering-practices',
-    title: 'Engineering Practices, Security & CI/CD Insights',
-    label: 'Blog — Engineering'
+    slug: 'blogs/cloud',
+    title: 'Cloud & DevOps Blog — Infrastructure, CI/CD & Deployments | InfoHQ',
+    label: 'Blog • Cloud'
   },
   {
-    slug: 'blogs/industry-insights',
-    title: 'Digital Growth, Compliance & Enterprise Tech Insights',
-    label: 'Blog — Industry'
+    slug: 'blogs/design',
+    title: 'Product Design & UI/UX Blog — Design Systems & Usability | InfoHQ',
+    label: 'Blog • Design'
   },
   // 9. Legal & Compliance
   {
