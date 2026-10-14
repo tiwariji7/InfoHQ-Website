@@ -85,7 +85,8 @@ const searchIndex = publishedPosts.map((p) => {
     pubDate: formatDate(p.data.pubDate),
     rawDate: new Date(p.data.pubDate).toISOString(),
     readingTime: calculateReadingTime(p.body || ''),
-    author: p.data.author || 'InfoHQ Team'
+    author: p.data.author || 'InfoHQ Team',
+    heroImage: p.data.heroImage || ''
   };
 });
 
@@ -418,12 +419,16 @@ const meta = {
             <article class="blog-card">
               <a href="${m.url}" class="card-link-overlay" aria-label="Read ${m.title}"></a>
               <div class="card-cover-wrap">
-                <div class="card-cover-fallback cat-${m.category}">
-                  <div class="fallback-glow" aria-hidden="true"></div>
-                  <div class="fallback-icon-wrap" aria-hidden="true" style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
-                    ${m.categoryName}
+                ${m.heroImage ? `
+                  <img src="${m.heroImage}" alt="${m.title}" class="card-cover-image" loading="lazy" decoding="async" />
+                ` : `
+                  <div class="card-cover-fallback cat-${m.category}">
+                    <div class="fallback-glow" aria-hidden="true"></div>
+                    <div class="fallback-icon-wrap" aria-hidden="true" style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                      ${m.categoryName}
+                    </div>
                   </div>
-                </div>
+                `}
               </div>
               <div class="card-content">
                 <div class="card-header-meta">

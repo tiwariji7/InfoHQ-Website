@@ -69,6 +69,11 @@ const toDateOnlyISO = (d: Date | string) => new Date(d).toISOString().split('T')
 const datePublished = toDateOnlyISO(post.data.pubDate);
 const dateModified = post.data.updatedDate ? toDateOnlyISO(post.data.updatedDate) : datePublished;
 
+const postImage = post.data.heroImage || `/og/blogs/${post.id}.jpg`;
+const fullPostImageUrl = post.data.heroImage 
+  ? `https://infohq.in${post.data.heroImage}`
+  : `https://infohq.in/og/blogs/${post.id}.jpg`;
+
 const postSchemaData = {
   headline: post.data.title,
   description: post.data.description,
@@ -76,7 +81,7 @@ const postSchemaData = {
   datePublished,
   dateModified,
   url: canonicalUrl,
-  image: `https://infohq.in/og/blogs/${post.id}.jpg`,
+  image: fullPostImageUrl,
   category: post.data.category,
   categoryName: categoryInfo.name,
   faqs
@@ -88,7 +93,7 @@ const meta = {
   keywords: post.data.keywords ? post.data.keywords.join(', ') : undefined,
   canonical: canonicalUrl,
   ogType: 'article' as const,
-  ogImage: `/og/blogs/${post.id}.jpg`
+  ogImage: postImage
 };
 ---
 
@@ -134,6 +139,17 @@ const meta = {
     <!-- Post Body Content -->
     <div class="container post-body-container">
       <div class="post-readable-column">
+        {post.data.heroImage && (
+          <div class="post-hero-banner">
+            <img 
+              src={post.data.heroImage} 
+              alt={post.data.title} 
+              class="post-banner-img" 
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        )}
         <div class="prose-body">
           <Content components={{ MidCTA }} />
         </div>
@@ -260,6 +276,27 @@ const meta = {
   .post-readable-column {
     max-width: 68ch; /* ~65-70 characters per spec */
     margin: 0 auto;
+  }
+
+  /* Featured Hero Banner inside Post */
+  .post-hero-banner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+    border: 1px solid var(--color-border-card);
+    box-shadow: var(--shadow-md);
+    background: #FAF8FD;
+  }
+
+  .post-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   /* Prose Typography - Human, clean, clear hierarchy */

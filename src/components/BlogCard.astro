@@ -27,10 +27,15 @@ const authorName = post.data.author || 'InfoHQ Team';
 
 <article class={`blog-card ${featured ? 'featured' : ''}`}>
   <a href={postUrl} class="card-link-overlay" aria-label={`Read article: ${post.data.title}`}></a>
-  
   <div class="card-cover-wrap">
     {post.data.heroImage ? (
-      <img src={post.data.heroImage} alt="" class="card-cover-image" loading="lazy" />
+      <img 
+        src={post.data.heroImage} 
+        alt={post.data.title} 
+        class="card-cover-image" 
+        loading="lazy" 
+        decoding="async"
+      />
     ) : (
       <div class={`card-cover-fallback cat-${categoryKey}`}>
         <div class="fallback-glow" aria-hidden="true"></div>
@@ -96,7 +101,8 @@ const authorName = post.data.author || 'InfoHQ Team';
   .card-cover-wrap {
     position: relative;
     width: 100%;
-    height: 200px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     overflow: hidden;
     background: #F4F0FA;
     border-bottom: 1px solid var(--color-border-card);
@@ -106,11 +112,13 @@ const authorName = post.data.author || 'InfoHQ Team';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .blog-card:hover .card-cover-image {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
 
   .card-cover-fallback {
@@ -243,6 +251,7 @@ const authorName = post.data.author || 'InfoHQ Team';
   .blog-card.featured .card-cover-wrap {
     height: 100%;
     min-height: 320px;
+    aspect-ratio: auto;
     border-bottom: none;
     border-right: 1px solid var(--color-border-card);
   }
@@ -270,8 +279,9 @@ const authorName = post.data.author || 'InfoHQ Team';
     }
 
     .blog-card.featured .card-cover-wrap {
-      min-height: 220px;
-      height: 220px;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      min-height: unset;
       border-right: none;
       border-bottom: 1px solid var(--color-border-card);
     }
