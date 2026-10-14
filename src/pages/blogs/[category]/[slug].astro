@@ -1,0 +1,370 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FinalCTA from '../../../components/FinalCTA.astro';
+import MidCTA from '../../../components/MidCTA.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { 
+  BLOG_CATEGORIES, 
+  calculateReadingTime, 
+  formatDate, 
+  filterPublishedPosts, 
+  sortPostsByDateDesc,
+  getPostUrl,
+  type BlogCategory 
+} from '../../../utils/blog';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const published = filterPublishedPosts(allPosts);
+
+  return published.map((post) => ({
+    params: {
+      category: post.data.category,
+      slug: post.id
+    },
+    props: { post }
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Category Info
+const categoryKey = post.data.category as BlogCategory;
+const categoryInfo = BLOG_CATEGORIES[categoryKey] || {
+  id: categoryKey,
+  name: categoryKey,
+  tagline: '',
+  title: '',
+  description: '',
+  icon: 'LayoutGrid'
+};
+
+const readingTime = calculateReadingTime(post.body || '');
+const formattedDate = formatDate(post.data.pubDate);
+const authorName = post.data.author || 'InfoHQ Team';
+const canonicalUrl = `https://infohq.in${getPostUrl(post.data.category, post.id)}`;
+
+// Related posts: Same category first, excluding current post. If not enough, fill with latest.
+const allPosts = await getCollection('blog');
+const published = sortPostsByDateDesc(filterPublishedPosts(allPosts));
+const otherPosts = published.filter((p) => p.id !== post.id);
+
+let relatedPosts = otherPosts.filter((p) => p.data.category === post.data.category);
+if (relatedPosts.length < 3) {
+  const remaining = otherPosts.filter((p) => !relatedPosts.some((rp) => rp.id === p.id));
+  relatedPosts = [...relatedPosts, ...remaining].slice(0, 3);
+} else {
+  relatedPosts = relatedPosts.slice(0, 3);
+}
+
+const meta = {
+  title: `${post.data.title} | InfoHQ Blog`,
+  description: post.data.description,
+  keywords: post.data.keywords ? post.data.keywords.join(', ') : undefined,
+  canonical: canonicalUrl,
+  ogType: 'article' as const
+};
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  canonical={meta.canonical}
+  ogType={meta.ogType}
+  schemaType="blog-post"
+  postData={post}
+>
+  <article class="single-post-article">
+    <!-- Post Header Header Section -->
+    <header class="post-hero-header">
+      <div class="container post-header-container">
+        <!-- Breadcrumb / Category Pill -->
+        <div class="post-pill-nav">
+          <a href="/blogs/" class="back-link">&larr; All Articles</a>
+          <span class="pill-divider" aria-hidden="true">/</span>
+          <a href={`/blogs/${categoryKey}/`} class="category-pill-link">
+            {categoryInfo.name}
+          </a>
+        </div>
+
+        <h1 class="post-main-title">{post.data.title}</h1>
+
+        <p class="post-main-description">{post.data.description}</p>
+
+        <div class="post-meta-bar">
+          <span class="meta-item meta-author">{authorName}</span>
+          <span class="meta-dot" aria-hidden="true">•</span>
+          <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-item meta-date">
+            {formattedDate}
+          </time>
+          <span class="meta-dot" aria-hidden="true">•</span>
+          <span class="meta-item meta-reading-time">{readingTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Body Content -->
+    <div class="container post-body-container">
+      <div class="post-readable-column">
+        <div class="prose-body">
+          <Content components={{ MidCTA }} />
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related Posts Section (if any exist) -->
+  {relatedPosts.length > 0 && (
+    <section class="section related-posts-section" aria-labelledby="related-heading">
+      <div class="container">
+        <div class="related-section-header">
+          <span class="text-eyebrow">Continue Reading</span>
+          <h2 id="related-heading" class="related-title">Related <span class="text-gradient">Articles</span></h2>
+        </div>
+        <div class="related-grid">
+          {relatedPosts.map((rPost) => (
+            <BlogCard post={rPost} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- End of Post CTA: Reusing existing default FinalCTA -->
+  <FinalCTA page="home" />
+</BaseLayout>
+
+<style>
+  .single-post-article {
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(3rem, 5vw, 5rem);
+  }
+
+  .post-hero-header {
+    padding-bottom: clamp(2rem, 3.5vw, 3rem);
+    border-bottom: 1px solid var(--color-border-card);
+    background: linear-gradient(180deg, rgba(250, 248, 253, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .post-header-container {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .post-pill-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .back-link {
+    color: #6E6888;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .pill-divider {
+    color: #BDB7D4;
+  }
+
+  .category-pill-link {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background-color: #F1EDFA;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .category-pill-link:hover {
+    background-color: #E6DEF7;
+  }
+
+  .post-main-title {
+    font-size: clamp(2rem, 3.8vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: var(--color-text-heading);
+    margin: 0 0 1rem 0;
+  }
+
+  .post-main-description {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .post-meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: #6E6888;
+  }
+
+  .meta-author {
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+
+  .meta-dot {
+    opacity: 0.5;
+  }
+
+  /* Readable Column */
+  .post-body-container {
+    padding-top: clamp(2rem, 3.5vw, 3rem);
+  }
+
+  .post-readable-column {
+    max-width: 68ch; /* ~65-70 characters per spec */
+    margin: 0 auto;
+  }
+
+  /* Prose Typography - Human, clean, clear hierarchy */
+  .prose-body {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #2D274A;
+  }
+
+  .prose-body :global(p) {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose-body :global(h2) {
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--color-text-heading);
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .prose-body :global(h3) {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-body :global(ul),
+  .prose-body :global(ol) {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-body :global(li) {
+    margin-bottom: 0.65rem;
+    line-height: 1.7;
+  }
+
+  .prose-body :global(strong) {
+    font-weight: 700;
+    color: var(--color-text-heading);
+  }
+
+  .prose-body :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-body :global(a:hover) {
+    color: var(--color-primary-dark);
+  }
+
+  .prose-body :global(code) {
+    font-family: monospace;
+    font-size: 0.9em;
+    background: #F1EDFA;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    color: var(--color-primary-dark);
+  }
+
+  .prose-body :global(blockquote) {
+    border-left: 4px solid var(--color-primary);
+    padding: 12px 20px;
+    margin: 1.75rem 0;
+    background: #FAF8FD;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: #4A4268;
+  }
+
+  /* Related Posts Section */
+  .related-posts-section {
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid var(--color-border-card);
+    background: #FAF8FD;
+  }
+
+  .related-section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .related-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    margin: 0.5rem 0 0 0;
+    color: var(--color-text-heading);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 991px) {
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .prose-body {
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .post-main-title {
+      font-size: 1.85rem;
+    }
+  }
+</style>
