@@ -30,7 +30,7 @@ function getEmptyBlogCategories() {
 const emptyCategories = getEmptyBlogCategories();
 export default defineConfig({
   site: 'https://infohq.in',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   adapter: cloudflare({
     imageService: 'passthrough'
   }),
