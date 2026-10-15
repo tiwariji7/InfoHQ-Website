@@ -1,0 +1,998 @@
+---
+import type { Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import Button from '../../components/Button.astro';
+import { 
+  BLOG_CATEGORIES, 
+  CATEGORY_KEYS, 
+  filterPublishedPosts, 
+  sortPostsByDateDesc, 
+  formatDate,
+  calculateReadingTime,
+  getPostUrl,
+  type BlogCategory 
+} from '../../utils/blog';
+import { 
+  Brain, 
+  Globe, 
+  Workflow, 
+  Cloud, 
+  PenTool, 
+  Search, 
+  ArrowRight, 
+  ChevronLeft, 
+  ChevronRight,
+  Sparkles 
+} from 'lucide-astro';
+
+export async function getStaticPaths({ paginate }: any) {
+  const allPosts = await getCollection('blog');
+  const published = sortPostsByDateDesc(filterPublishedPosts(allPosts));
+  return paginate(published, { pageSize: 9 });
+}
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+
+// Published posts collection
+const allPosts = await getCollection('blog');
+const publishedPosts = sortPostsByDateDesc(filterPublishedPosts(allPosts));
+const totalPublished = publishedPosts.length;
+
+// Category counts
+const categoryCounts: Record<BlogCategory, number> = {
+  ai: 0,
+  web: 0,
+  automation: 0,
+  cloud: 0,
+  design: 0
+};
+publishedPosts.forEach((post) => {
+  const cat = post.data.category as BlogCategory;
+  if (categoryCounts[cat] !== undefined) {
+    categoryCounts[cat]++;
+  }
+});
+
+// Featured post condition: Only if total published posts >= 3
+const showFeatured = totalPublished >= 3;
+const featuredPost = showFeatured
+  ? (publishedPosts.find((p) => p.data.featured) || publishedPosts[0])
+  : null;
+
+// Grid posts: exclude featured post if featured block is shown
+const gridPosts = (showFeatured && featuredPost)
+  ? page.data.filter((p) => p.id !== featuredPost.id)
+  : page.data;
+
+// Build search index for zero-dependency client search filter
+const searchIndex = publishedPosts.map((p) => {
+  const catKey = p.data.category as BlogCategory;
+  const catInfo = BLOG_CATEGORIES[catKey];
+  return {
+    id: p.id,
+    title: p.data.title,
+    description: p.data.description,
+    category: catKey,
+    categoryName: catInfo ? catInfo.name : catKey,
+    url: getPostUrl(p.data.category, p.id),
+    pubDate: formatDate(p.data.pubDate),
+    rawDate: new Date(p.data.pubDate).toISOString(),
+    readingTime: calculateReadingTime(p.body || ''),
+    author: p.data.author || 'InfoHQ Team',
+    heroImage: p.data.heroImage || ''
+  };
+});
+
+const meta = {
+  title: 'Blog — Practical AI, Automation & Web Engineering | InfoHQ',
+  description: 'In-depth articles, technical notes, and architectural teardowns on AI systems, RAG pipelines, workflow automation, and modern web engineering.',
+  canonical: 'https://infohq.in/blogs/'
+};
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  schemaType="blogs"
+  postData={{
+    items: publishedPosts.map((p) => ({
+      title: p.data.title,
+      url: `https://infohq.in${getPostUrl(p.data.category, p.id)}`
+    }))
+  }}
+>
+  <!-- 1. Hero Section -->
+  <section class="section blogs-hero" aria-labelledby="blogs-heading">
+    <div class="container text-center blogs-hero-container">
+      <span class="text-eyebrow">Engineering Insights &bull; Technical Guides</span>
+      <h1 id="blogs-heading" class="blogs-headline">
+        Practical Guides to <span class="text-gradient">AI, Software Systems</span> &amp; Automation
+      </h1>
+      <p class="blogs-subheadline">
+        In-depth architectural breakdowns, production notes, and hands-on tutorials from the InfoHQ engineering team in Pune &amp; Prayagraj. Learn how we build, automate, and scale real digital products.
+      </p>
+
+      <!-- Client-side search box -->
+      <div class="blogs-search-wrapper">
+        <form class="blogs-search-form" onsubmit="return false;" role="search" aria-label="Search articles">
+          <label for="blog-search-input" class="sr-only">Search articles</label>
+          <Search size={18} class="search-input-icon" aria-hidden="true" />
+          <input 
+            type="search" 
+            id="blog-search-input" 
+            class="blogs-search-input" 
+            placeholder="Search articles by title, topic, or keyword..." 
+            autocomplete="off"
+          />
+          <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search" style="display: none;">
+            &times;
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Category Row (6 Tiles: All posts + 5 categories) -->
+  <section class="section category-tiles-section" aria-label="Article categories">
+    <div class="container">
+      <div class="category-tiles-grid">
+        <!-- Tile 1: All Posts (Active) -->
+        <a href="/blogs/" class="category-tile active" aria-current="page">
+          <div class="tile-text">
+            <span class="tile-name">All posts</span>
+            <span class="tile-desc">All technical guides and engineering notes</span>
+          </div>
+        </a>
+
+        <!-- Tile 2: AI -->
+        <a href="/blogs/ai/" class="category-tile">
+          <div class="tile-text">
+            <span class="tile-name">AI</span>
+            <span class="tile-desc">RAG systems, vector search, and LLM architecture</span>
+          </div>
+        </a>
+
+        <!-- Tile 3: Web -->
+        <a href="/blogs/web/" class="category-tile">
+          <div class="tile-text">
+            <span class="tile-name">Web</span>
+            <span class="tile-desc">Modern frontend, zero-CLS performance, and architecture</span>
+          </div>
+        </a>
+
+        <!-- Tile 4: Automation -->
+        <a href="/blogs/automation/" class="category-tile">
+          <div class="tile-text">
+            <span class="tile-name">Automation</span>
+            <span class="tile-desc">Workflow routing, tool connections, and operations</span>
+          </div>
+        </a>
+
+        <!-- Tile 5: Cloud -->
+        <a href="/blogs/cloud/" class="category-tile">
+          <div class="tile-text">
+            <span class="tile-name">Cloud</span>
+            <span class="tile-desc">Serverless setups, edge delivery, and CI/CD pipelines</span>
+          </div>
+        </a>
+
+        <!-- Tile 6: Design -->
+        <a href="/blogs/design/" class="category-tile">
+          <div class="tile-text">
+            <span class="tile-name">Design</span>
+            <span class="tile-desc">Design systems, UI engineering, and usability</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Search Results Container (Hidden until search input has text) -->
+  <section id="search-results-section" class="section search-results-section" style="display: none;" aria-label="Search Results">
+    <div class="container">
+      <div class="search-results-header">
+        <h2 class="search-results-title">
+          Search Results for <span id="search-query-text" class="text-gradient"></span>
+        </h2>
+        <p id="search-count-text" class="search-count-text"></p>
+      </div>
+      <div id="search-results-grid" class="search-results-grid"></div>
+      <div id="search-no-results" class="empty-search-state" style="display: none;">
+        <p>No articles found matching your query. Try a different keyword or category.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Wrapper (SSR) -->
+  <div id="main-blog-content" class="main-blog-content">
+    <!-- 3. Featured Block (Only rendered if total published posts >= 3) -->
+    {showFeatured && featuredPost && (
+      <section class="section featured-post-section" aria-labelledby="featured-heading">
+        <div class="container">
+          <div class="featured-section-header">
+            <span class="text-eyebrow">Featured Story</span>
+            <h2 id="featured-heading" class="sr-only">Featured Article</h2>
+          </div>
+          <BlogCard post={featuredPost} featured={true} />
+        </div>
+      </section>
+    )}
+
+    <!-- 4. Latest Articles Grid + Right Sidebar -->
+    <section class="section latest-articles-section" aria-labelledby="latest-articles-heading">
+      <div class="container">
+        <div class="blog-two-col-layout">
+          <!-- Left Column: Articles Grid -->
+          <div class="articles-main-col">
+            <div class="articles-col-header">
+              <h2 id="latest-articles-heading" class="section-title">
+                Latest <span class="text-gradient">Articles</span>
+              </h2>
+            </div>
+
+            <div class="articles-grid">
+              {gridPosts.map((post) => (
+                <BlogCard post={post} />
+              ))}
+            </div>
+
+            <!-- Numbered Pagination (only rendered if page.lastPage > 1) -->
+            {page.lastPage > 1 && (
+              <nav class="pagination-bar" aria-label="Pagination Navigation">
+                {page.url.prev ? (
+                  <a href={page.url.prev} rel="prev" class="pagination-btn pagination-prev">
+                    <ChevronLeft size={16} /> Previous
+                  </a>
+                ) : (
+                  <span class="pagination-btn disabled">
+                    <ChevronLeft size={16} /> Previous
+                  </span>
+                )}
+
+                <div class="pagination-numbers">
+                  {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => {
+                    const isCurrent = num === page.currentPage;
+                    const pageUrl = num === 1 ? '/blogs/' : `/blogs/${num}/`;
+                    return isCurrent ? (
+                      <span class="page-num active" aria-current="page">{num}</span>
+                    ) : (
+                      <a href={pageUrl} class="page-num">{num}</a>
+                    );
+                  })}
+                </div>
+
+                {page.url.next ? (
+                  <a href={page.url.next} rel="next" class="pagination-btn pagination-next">
+                    Next <ChevronRight size={16} />
+                  </a>
+                ) : (
+                  <span class="pagination-btn disabled">
+                    Next <ChevronRight size={16} />
+                  </span>
+                )}
+              </nav>
+            )}
+          </div>
+
+          <!-- Right Sidebar -->
+          <aside class="blog-sidebar" aria-label="Blog Sidebar">
+            <!-- Sidebar Card A: Categories with real post counts -->
+            <div class="card sidebar-card categories-card">
+              <h3 class="sidebar-card-title">Categories</h3>
+              <ul class="categories-list">
+                {CATEGORY_KEYS.map((catKey) => {
+                  const catInfo = BLOG_CATEGORIES[catKey];
+                  const count = categoryCounts[catKey] || 0;
+                  return (
+                    <li>
+                      <a href={`/blogs/${catKey}/`} class="category-item-link">
+                        <span class="cat-link-left">
+                          {catKey === 'ai' && <Brain size={16} class="cat-link-icon" />}
+                          {catKey === 'web' && <Globe size={16} class="cat-link-icon" />}
+                          {catKey === 'automation' && <Workflow size={16} class="cat-link-icon" />}
+                          {catKey === 'cloud' && <Cloud size={16} class="cat-link-icon" />}
+                          {catKey === 'design' && <PenTool size={16} class="cat-link-icon" />}
+                          <span class="cat-link-name">{catInfo.name}</span>
+                        </span>
+                        <span class={`cat-badge ${count === 0 ? 'badge-soon' : 'badge-count'}`}>
+                          {count === 0 ? 'Soon' : count}
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <!-- Sidebar Card B: Newsletter Card (Reusing existing NewsletterForm) -->
+            <div class="card sidebar-card newsletter-sidebar-card">
+              <div class="newsletter-card-glow" aria-hidden="true"></div>
+              <div class="newsletter-badge">
+                <Sparkles size={13} />
+                <span>InfoHQ Insights</span>
+              </div>
+              <h3 class="newsletter-sidebar-title">Engineering Notes in Your Inbox</h3>
+              <p class="newsletter-sidebar-desc">
+                Architecture teardowns, automation playbooks, and production AI notes. No spam.
+              </p>
+              <div class="sidebar-newsletter-form-wrap">
+                <NewsletterForm />
+              </div>
+            </div>
+
+            <!-- Sidebar Card C: Project Scoping CTA -->
+            <div class="card sidebar-card cta-sidebar-card">
+              <span class="text-eyebrow">Start Building</span>
+              <h3 class="cta-sidebar-title">
+                Have a Project That Needs <span class="text-gradient">Real Engineering?</span>
+              </h3>
+              <p class="cta-sidebar-desc">
+                From fast MVPs to enterprise AI systems and continuous retainers — let's build your next success story.
+              </p>
+              <div class="cta-sidebar-action">
+                <Button
+                  variant="primary"
+                  size="md"
+                  href="/contact"
+                  label="Discuss Your Project"
+                  icon="arrow"
+                  fullWidth={true}
+                />
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- Search index data for lightweight vanilla JS search -->
+  <script id="blog-search-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
+</BaseLayout>
+
+<script>
+  function initBlogSearch() {
+    const input = document.getElementById('blog-search-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('search-clear-btn');
+    const resultsSection = document.getElementById('search-results-section');
+    const mainContent = document.getElementById('main-blog-content');
+    const resultsGrid = document.getElementById('search-results-grid');
+    const queryText = document.getElementById('search-query-text');
+    const countText = document.getElementById('search-count-text');
+    const noResults = document.getElementById('search-no-results');
+    const dataScript = document.getElementById('blog-search-data');
+
+    if (!input || !resultsSection || !mainContent || !resultsGrid || !dataScript) return;
+
+    let searchData: any[] = [];
+    try {
+      searchData = JSON.parse(dataScript.textContent || '[]');
+    } catch (e) {
+      searchData = [];
+    }
+
+    function runSearch() {
+      const q = (input?.value || '').trim().toLowerCase();
+
+      if (!q) {
+        resultsSection.style.display = 'none';
+        mainContent.style.display = 'block';
+        if (clearBtn) clearBtn.style.display = 'none';
+        return;
+      }
+
+      if (clearBtn) clearBtn.style.display = 'block';
+      resultsSection.style.display = 'block';
+      mainContent.style.display = 'none';
+
+      if (queryText) queryText.textContent = `"${input?.value.trim()}"`;
+
+      const matches = searchData.filter((item) => {
+        return (
+          item.title.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q) ||
+          item.categoryName.toLowerCase().includes(q)
+        );
+      });
+
+      if (countText) {
+        countText.textContent = `${matches.length} article${matches.length === 1 ? '' : 's'} found`;
+      }
+
+      if (matches.length === 0) {
+        resultsGrid.innerHTML = '';
+        if (noResults) noResults.style.display = 'block';
+      } else {
+        if (noResults) noResults.style.display = 'none';
+        resultsGrid.innerHTML = matches
+          .map((m) => `
+            <article class="blog-card">
+              <a href="${m.url}" class="card-link-overlay" aria-label="Read ${m.title}"></a>
+              <div class="card-cover-wrap">
+                ${m.heroImage ? `
+                  <img src="${m.heroImage}" alt="${m.title}" class="card-cover-image" loading="lazy" decoding="async" />
+                ` : `
+                  <div class="card-cover-fallback cat-${m.category}">
+                    <div class="fallback-glow" aria-hidden="true"></div>
+                    <div class="fallback-icon-wrap" aria-hidden="true" style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                      ${m.categoryName}
+                    </div>
+                  </div>
+                `}
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="category-pill">${m.categoryName}</span>
+                </div>
+                <h3 class="card-title">
+                  <a href="${m.url}">${m.title}</a>
+                </h3>
+                <p class="card-description">${m.description}</p>
+                <div class="card-footer-meta">
+                  <span class="meta-author">${m.author}</span>
+                  <span class="meta-sep" aria-hidden="true">•</span>
+                  <time datetime="${m.rawDate}" class="meta-date">${m.pubDate}</time>
+                  <span class="meta-sep" aria-hidden="true">•</span>
+                  <span class="meta-read-time">${m.readingTime}</span>
+                </div>
+              </div>
+            </article>
+          `)
+          .join('');
+      }
+    }
+
+    input.addEventListener('input', runSearch);
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        runSearch();
+        input.focus();
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogSearch);
+  } else {
+    initBlogSearch();
+  }
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .blogs-hero {
+    background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
+    margin-top: calc(-1 * clamp(72px, 7vw, 84px));
+    padding-top: calc(clamp(3rem, 5vw, 4.5rem) + clamp(72px, 7vw, 84px));
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    text-align: center;
+    position: relative;
+  }
+
+  @media (max-width: 1023px) {
+    .blogs-hero {
+      margin-top: calc(-1 * clamp(68px, 8vw, 76px));
+      padding-top: calc(clamp(2.5rem, 4.5vw, 3.5rem) + clamp(68px, 8vw, 76px));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blogs-hero {
+      margin-top: -68px;
+      padding-top: calc(2rem + 68px);
+    }
+  }
+
+  .blogs-hero-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .blogs-headline {
+    margin: 0.75rem auto 1.25rem;
+    font-size: var(--text-5xl);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+    max-width: 840px;
+  }
+
+  .blogs-subheadline {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: var(--color-text-body);
+    max-width: 760px;
+    margin: 0 auto 2.25rem;
+  }
+
+  /* Search Box */
+  .blogs-search-wrapper {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .blogs-search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-full);
+    padding: 6px 16px 6px 44px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .blogs-search-form:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+  }
+
+  .search-input-icon {
+    position: absolute;
+    left: 18px;
+    color: #8C80B5;
+    pointer-events: none;
+  }
+
+  .blogs-search-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 0.9375rem;
+    color: var(--color-text-heading);
+    outline: none;
+    padding: 6px 0;
+  }
+
+  .blogs-search-input::placeholder {
+    color: #8C80B5;
+  }
+
+  .search-clear-btn {
+    border: none;
+    background: transparent;
+    color: #8C80B5;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+  }
+
+  .search-clear-btn:hover {
+    color: var(--color-text-heading);
+  }
+
+  /* 2. Category Row (6 Tiles) */
+  .category-tiles-section {
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .category-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .category-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .category-tile:hover {
+    transform: translateY(-2px);
+    border-color: rgba(124, 92, 232, 0.4);
+    box-shadow: var(--shadow-md);
+  }
+
+  .category-tile.active {
+    border-color: var(--color-primary);
+    background: linear-gradient(180deg, #FAF8FD 0%, #FFFFFF 100%);
+  }
+
+  .tile-icon-wrap {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(124, 92, 232, 0.12) 0%, rgba(145, 79, 187, 0.18) 100%);
+    color: var(--color-primary);
+    margin-bottom: 12px;
+  }
+
+  .tile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tile-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    line-height: 1.2;
+  }
+
+  .tile-desc {
+    font-size: 0.75rem;
+    color: #6E6888;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Search Results Section */
+  .search-results-section {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .search-results-header {
+    margin-bottom: 2rem;
+  }
+
+  .search-results-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .search-count-text {
+    font-size: 0.9375rem;
+    color: #6E6888;
+    margin: 0;
+  }
+
+  .search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .empty-search-state {
+    padding: 48px 24px;
+    text-align: center;
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    color: #6E6888;
+  }
+
+  /* 3. Featured Block */
+  .featured-post-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .featured-section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  /* 4. Latest Articles Grid + Sidebar */
+  .latest-articles-section {
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .blog-two-col-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 36px;
+    align-items: start;
+  }
+
+  .articles-col-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 800;
+    color: var(--color-text-heading);
+    margin: 0;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  /* Sidebar Styles */
+  .blog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .sidebar-card {
+    padding: 24px;
+  }
+
+  .sidebar-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin: 0 0 1rem 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .categories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .category-item-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .category-item-link:hover {
+    background-color: #FAF8FD;
+    color: var(--color-primary);
+  }
+
+  .cat-link-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cat-link-icon {
+    color: var(--color-primary);
+  }
+
+  .cat-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .badge-count {
+    background-color: #F1EDFA;
+    color: var(--color-primary);
+  }
+
+  .badge-soon {
+    background-color: #F3F1F7;
+    color: #8C80B5;
+  }
+
+  /* Newsletter Card in Sidebar */
+  .newsletter-sidebar-card {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-body);
+    overflow: hidden;
+  }
+
+  .newsletter-card-glow {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .newsletter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    margin-bottom: 12px;
+  }
+
+  .newsletter-sidebar-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+  }
+
+  .newsletter-sidebar-desc {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+    margin: 0 0 16px 0;
+  }
+
+  /* CTA Sidebar Card */
+  .cta-sidebar-card {
+    background: #FAF8FD;
+  }
+
+  .cta-sidebar-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-heading);
+    margin: 0 0 8px 0;
+  }
+
+  .cta-sidebar-desc {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+    margin: 0 0 16px 0;
+  }
+
+  /* Pagination Bar */
+  .pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 3rem;
+  }
+
+  .pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pagination-btn:hover:not(.disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .pagination-btn.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 8px;
+  }
+
+  .page-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .page-num:hover:not(.active) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .page-num.active {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1024px) {
+    .category-tiles-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .blog-two-col-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-sidebar {
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .category-tiles-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .category-tile {
+      padding: 14px;
+    }
+
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .search-results-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .category-tiles-grid {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-tile {
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+  }
+</style>

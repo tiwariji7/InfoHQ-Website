@@ -1,5 +1,5 @@
 ---
-import { Sparkles, ChartColumn, CodeXml, Cloud } from 'lucide-astro';
+import { Sparkles } from 'lucide-astro';
 import Button from './Button.astro';
 
 interface Props {
@@ -141,74 +141,20 @@ const ctaConfigs: Record<string, CTAConfig> = {
   }
 };
 
-// Aliases for subpages
 const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
 ---
 
 <section class="final-cta-section" id={id} aria-labelledby="final-cta-title">
   <div class="container cta-container-wrap">
     <div class="cta-banner">
-      <!-- Gradient Border Outer Glow -->
-      <div class="cta-border-glow" aria-hidden="true"></div>
-
-      <!-- Radial Background Glows -->
-      <div class="cta-glow-left" aria-hidden="true"></div>
-      <div class="cta-glow-top" aria-hidden="true"></div>
-      <div class="cta-glow-right" aria-hidden="true"></div>
-
-      <!-- Dot matrix grids on left and right -->
-      <div class="dot-matrix dot-matrix-left" aria-hidden="true"></div>
-      <div class="dot-matrix dot-matrix-right" aria-hidden="true"></div>
-
-      <!-- Decorative SVG Wave Lines (under 2KB) -->
-      <svg class="cta-waves-svg" viewBox="0 0 1200 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M-50 280 C 250 350, 450 180, 800 240 C 1000 280, 1150 160, 1250 140" stroke="rgba(145, 79, 187, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" />
-        <path d="M-20 220 C 300 160, 600 320, 950 200 C 1100 140, 1200 170, 1250 180" stroke="rgba(87, 130, 224, 0.22)" stroke-width="1.5" />
-        <!-- Glowing Dots along paths -->
-        <circle cx="280" cy="245" r="3.5" fill="#5782E0" opacity="0.6" filter="blur(0.5px)" />
-        <circle cx="780" cy="235" r="4.5" fill="#914FBB" opacity="0.7" filter="blur(0.5px)" />
-        <circle cx="980" cy="185" r="3" fill="#E8604E" opacity="0.6" />
-        <circle cx="480" cy="275" r="3.5" fill="#7C5CE8" opacity="0.5" />
-      </svg>
-
-      <!-- Floating Glass Cards (Left) -->
-      <div class="glass-card glass-card-1 float-anim" aria-hidden="true">
-        <div class="glass-icon-box">
-          <ChartColumn size={20} class="glass-icon" />
-        </div>
-        <span class="glass-label">AI Solutions</span>
-      </div>
-
-      <div class="glass-card glass-card-2 float-anim-alt" aria-hidden="true">
-        <div class="glass-icon-box">
-          <CodeXml size={20} class="glass-icon" />
-        </div>
-        <span class="glass-label">Custom Development</span>
-      </div>
-
-      <!-- Floating Glass Card (Right) -->
-      <div class="glass-card glass-card-3 float-anim" aria-hidden="true">
-        <div class="glass-icon-box">
-          <Cloud size={20} class="glass-icon" />
-        </div>
-        <span class="glass-label">Scalable Infrastructure</span>
-      </div>
-
-      <!-- Glossy 3D-style Curved Slabs (Right, CSS gradients only) -->
-      <div class="glossy-shape-group" aria-hidden="true">
-        <div class="glossy-slab slab-1">
-          <div class="slab-highlight"></div>
-        </div>
-        <div class="glossy-slab slab-2">
-          <div class="slab-highlight"></div>
-        </div>
-      </div>
+      <!-- Subtle ambient background glow -->
+      <div class="cta-ambient-glow" aria-hidden="true"></div>
 
       <!-- Main Banner Content -->
       <div class="cta-inner-content">
         <!-- Eyebrow Badge -->
         <div class="cta-badge">
-          <Sparkles size={14} class="badge-sparkle" aria-hidden="true" />
+          <Sparkles size={13} class="badge-sparkle" aria-hidden="true" />
           <span>LET'S BUILD TOGETHER</span>
         </div>
 
@@ -219,7 +165,7 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
           {activeConfig.headlineSuffix || ''}
         </h2>
 
-        <!-- Body text (with min-height reserved when empty so layout never shifts) -->
+        <!-- Body text -->
         <div class="cta-body-wrapper">
           {activeConfig.body ? (
             <p class="cta-body">{activeConfig.body}</p>
@@ -241,7 +187,7 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
           {activeConfig.secondary && (
             <Button
               variant="secondary"
-              tone="dark"
+              tone="light"
               size="lg"
               href={activeConfig.secondary.href}
               label={activeConfig.secondary.label}
@@ -294,13 +240,15 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     width: 100%;
   }
 
-  /* Banner Card */
+  /* Banner Card - Light, clean, refined */
   .cta-banner {
     position: relative;
-    min-height: 300px;
-    padding: clamp(36px, 4.5vw, 48px) clamp(20px, 3.5vw, 36px);
-    border-radius: 40px;
-    background: linear-gradient(135deg, var(--color-dark-navy) 0%, var(--color-dark-indigo) 100%);
+    min-height: 280px;
+    padding: clamp(36px, 5vw, 54px) clamp(20px, 4vw, 40px);
+    border-radius: var(--radius-2xl);
+    background: linear-gradient(135deg, #FFFFFF 0%, #FAF8FE 60%, #F3EFFE 100%);
+    border: 1px solid var(--color-border-card);
+    box-shadow: 0 20px 48px rgba(124, 92, 232, 0.08), 0 2px 10px rgba(20, 20, 60, 0.03);
     overflow: hidden;
     isolation: isolate;
     display: flex;
@@ -308,229 +256,20 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     justify-content: center;
   }
 
-  /* 1px Gradient Border & Outer Glow */
-  .cta-border-glow {
+  /* Subtle ambient background glow */
+  .cta-ambient-glow {
     position: absolute;
     inset: 0;
-    border-radius: 40px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(145, 79, 187, 0.6) 0%, rgba(87, 130, 224, 0.6) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     pointer-events: none;
-    z-index: 5;
-    box-shadow: 0 0 25px rgba(124, 92, 232, 0.2);
-  }
-
-  /* Radial glows */
-  .cta-glow-left {
-    position: absolute;
-    top: 50%;
-    left: -10%;
-    transform: translateY(-50%);
-    width: 380px;
-    height: 380px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124, 92, 232, 0.28) 0%, transparent 70%);
-    pointer-events: none;
+    background: radial-gradient(circle at 12% 20%, rgba(221, 73, 133, 0.07) 0%, transparent 45%),
+                radial-gradient(circle at 88% 80%, rgba(124, 92, 232, 0.09) 0%, transparent 50%);
     z-index: 1;
-  }
-
-  .cta-glow-top {
-    position: absolute;
-    top: -20%;
-    left: 45%;
-    transform: translateX(-50%);
-    width: 440px;
-    height: 280px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(145, 79, 187, 0.22) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .cta-glow-right {
-    position: absolute;
-    top: 40%;
-    right: -10%;
-    width: 420px;
-    height: 420px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(87, 130, 224, 0.26) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Dot matrix grids */
-  .dot-matrix {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 180px;
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
-    background-size: 16px 16px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .dot-matrix-left {
-    left: 0;
-    mask-image: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%);
-    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%);
-  }
-
-  .dot-matrix-right {
-    right: 0;
-    mask-image: linear-gradient(270deg, rgba(0,0,0,0.4) 0%, transparent 100%);
-    -webkit-mask-image: linear-gradient(270deg, rgba(0,0,0,0.4) 0%, transparent 100%);
-  }
-
-  /* Waves SVG */
-  .cta-waves-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* Glass Cards */
-  .glass-card {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 18px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 18px;
-    pointer-events: none;
-    z-index: 3;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  }
-
-  @supports (backdrop-filter: blur(10px)) {
-    @media (min-width: 1024px) {
-      .glass-card {
-        backdrop-filter: blur(10px);
-      }
-    }
-  }
-
-  .glass-icon-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-primary-light);
-  }
-
-  .glass-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text-white);
-    letter-spacing: -0.01em;
-  }
-
-  /* Glass card placements */
-  .glass-card-1 {
-    top: 18%;
-    left: 4%;
-    transform: rotate(-6deg);
-  }
-
-  .glass-card-2 {
-    bottom: 16%;
-    left: 8%;
-    transform: rotate(4deg);
-  }
-
-  .glass-card-3 {
-    top: 24%;
-    right: 12%;
-    transform: rotate(-8deg);
-  }
-
-  /* Floating animations */
-  @keyframes floatVertical {
-    0% { transform: translateY(0px) rotate(-6deg); }
-    100% { transform: translateY(-6px) rotate(-6deg); }
-  }
-
-  @keyframes floatVerticalAlt {
-    0% { transform: translateY(0px) rotate(4deg); }
-    100% { transform: translateY(6px) rotate(4deg); }
-  }
-
-  @keyframes floatVertical3 {
-    0% { transform: translateY(0px) rotate(-8deg); }
-    100% { transform: translateY(-6px) rotate(-8deg); }
-  }
-
-  @media (min-width: 1024px) {
-    .glass-card-1.float-anim {
-      animation: floatVertical 6s ease-in-out infinite alternate;
-    }
-    .glass-card-2.float-anim-alt {
-      animation: floatVerticalAlt 6s ease-in-out infinite alternate 1s;
-    }
-    .glass-card-3.float-anim {
-      animation: floatVertical3 6s ease-in-out infinite alternate 2s;
-    }
-  }
-
-  /* Glossy 3D-style Shapes (Bottom-Right) */
-  .glossy-shape-group {
-    position: absolute;
-    bottom: -25px;
-    right: -20px;
-    width: 220px;
-    height: 180px;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .glossy-slab {
-    position: absolute;
-    border-radius: 28px;
-    background: linear-gradient(135deg, var(--color-balance-top) 0%, var(--color-grad-blue) 100%);
-    box-shadow: 0 12px 30px rgba(8, 30, 113, 0.45);
-    overflow: hidden;
-  }
-
-  .slab-highlight {
-    position: absolute;
-    inset: 1px;
-    border-radius: 27px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .slab-1 {
-    width: 150px;
-    height: 100px;
-    bottom: 20px;
-    right: 25px;
-    transform: rotate(-25deg);
-  }
-
-  .slab-2 {
-    width: 130px;
-    height: 90px;
-    bottom: 0px;
-    right: -10px;
-    transform: rotate(20deg);
-    background: linear-gradient(135deg, var(--color-grad-purple) 0%, var(--color-balance-bottom) 100%);
-    opacity: 0.9;
   }
 
   /* Inner Main Content */
   .cta-inner-content {
     position: relative;
-    z-index: 4;
+    z-index: 2;
     text-align: center;
     max-width: 680px;
     display: flex;
@@ -545,12 +284,12 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 16px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 5px 14px;
+    background: var(--color-primary-light);
+    border: 1px solid rgba(124, 92, 232, 0.22);
     border-radius: var(--radius-full);
-    color: var(--color-text-white);
-    font-size: 12px;
+    color: var(--color-primary);
+    font-size: 11.5px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -560,12 +299,12 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     color: var(--color-grad-pink);
   }
 
-  /* Headline */
+  /* Headline - High contrast dark text */
   .cta-headline {
-    color: var(--color-text-white);
+    color: var(--color-text-heading);
     font-weight: 800;
     font-size: clamp(26px, 3.2vw, 40px);
-    line-height: 1.15;
+    line-height: 1.18;
     letter-spacing: -0.02em;
     margin: 0;
   }
@@ -575,7 +314,6 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: var(--color-grad-pink); /* Fallback */
     display: inline;
   }
 
@@ -589,9 +327,9 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
 
   .cta-body {
     font-size: 16px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.82);
-    max-width: 560px;
+    line-height: 1.6;
+    color: var(--color-text-body);
+    max-width: 580px;
     margin: 0;
   }
 
@@ -604,91 +342,57 @@ const activeConfig = ctaConfigs[page] || ctaConfigs['home'];
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin-top: 4px;
+    gap: 14px;
+    margin-top: 6px;
     flex-wrap: wrap;
   }
 
   /* Tablet Responsive (768 - 1023px) */
   @media (min-width: 768px) and (max-width: 1023px) {
     .cta-banner {
-      border-radius: 28px;
-      padding: 40px 24px;
-    }
-    .cta-border-glow {
-      border-radius: 28px;
-    }
-    .glass-card {
-      transform: scale(0.8);
-      opacity: 0.55;
-    }
-    .glass-card-2 {
-      display: none; /* Hide one left card to prevent overlap on tablet */
-    }
-    .glass-card-1 {
-      left: 1%;
-    }
-    .glass-card-3 {
-      right: 2%;
-    }
-    .glossy-shape-group {
-      transform: scale(0.7);
-      right: -30px;
+      border-radius: var(--radius-xl);
+      padding: 38px 24px;
     }
   }
 
   /* Mobile Responsive (< 768px) */
   @media (max-width: 767px) {
     .final-cta-section {
-      padding-top: 2.5rem;
-      padding-bottom: 3rem;
+      padding-top: 2.25rem;
+      padding-bottom: 2.75rem;
     }
 
     .cta-banner {
-      border-radius: 24px;
-      padding: 32px 20px;
+      border-radius: var(--radius-xl);
+      padding: 30px 18px;
       min-height: auto;
-    }
-
-    .cta-border-glow {
-      border-radius: 24px;
-    }
-
-    /* All glass cards and glossy shapes hidden per spec */
-    .glass-card, .glossy-shape-group {
-      display: none !important;
     }
 
     .cta-inner-content {
       width: 100%;
       max-width: 100%;
+      gap: 14px;
     }
 
     .cta-headline {
       font-size: 24px;
-      line-height: 1.2;
+      line-height: 1.25;
     }
 
     .cta-body {
-      font-size: 14px;
+      font-size: 14.5px;
+      line-height: 1.5;
     }
 
-    /* Buttons stack full-width on mobile */
     .cta-buttons-row {
-      width: 100%;
       flex-direction: column;
-      gap: 12px;
+      width: 100%;
+      gap: 10px;
     }
 
     .cta-buttons-row :global(.infohq-btn) {
       width: 100%;
-      min-height: 48px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .float-anim, .float-anim-alt {
-      animation: none !important;
+      justify-content: center;
     }
   }
 </style>

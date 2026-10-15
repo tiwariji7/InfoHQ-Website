@@ -1,8 +1,9 @@
 ---
 import { serviceSchemasRecord } from '../data/serviceSchemas';
+import { contactConfig } from '../data/contactConfig';
 
 interface Props {
-  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio' | 'blog-post';
+  type?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-category' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: {
     slug?: string;
     name: string;
@@ -10,49 +11,49 @@ interface Props {
     techStack?: string[];
     url: string;
   };
-  blogPostData?: {
-    title: string;
-    description: string;
-    url: string;
-    pubDate: string | Date;
-    updatedDate?: string | Date;
-    image?: string;
-    author?: string;
-    category?: string;
-    categoryLabel?: string;
-    keywords?: string[];
-    faqs?: Array<{ question: string; answer: string }>;
-    wordCount?: number;
-  };
-  blogPosts?: any[];
-  categoryData?: {
-    slug: string;
-    label: string;
-    title: string;
-    description: string;
-    url?: string;
-  };
+  postData?: any;
   customSchema?: Record<string, any>;
 }
 
-const { type = 'home', serviceData, blogPostData, blogPosts, categoryData, customSchema } = Astro.props;
+const { type = 'home', serviceData, postData, customSchema } = Astro.props;
 
 // Confirmed Organization Schema (Steps 7 & 8)
 // Social URLs confirmed from codebase: Instagram, YouTube, WhatsApp.
-// Telephone field omitted as calling number is currently placeholder in docs.
+// Telephone field omitted until dedicated voice line is configured.
 const organizationBase = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://infohq.in/#organization',
   name: 'InfoHQ',
+  alternateName: 'Info HQ',
   url: 'https://infohq.in',
-  logo: 'https://infohq.in/images/infohq-logo.webp',
+  logo: 'https://infohq.in/images/infohq-brandlogo.webp',
   description: 'InfoHQ is a Pune & Prayagraj-based AI and software engineering studio helping startups and enterprises across India build, automate, and grow — from custom AI systems to full-scale digital products.',
   email: 'contact@infohq.in',
   sameAs: [
-    'https://www.linkedin.com/company/infohq',
-    'https://www.instagram.com/infohq.in/?hl=en',
-    'https://www.youtube.com/@infohq28',
-    'https://wa.me/918381835420'
+    'https://linkedin.com/company/infohq',
+    'https://www.instagram.com/infohq.in/',
+    'https://www.youtube.com/@infohq28'
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: contactConfig.businessEmail,
+      contactType: 'customer support',
+      areaServed: 'IN'
+    },
+    {
+      '@type': 'ContactPoint',
+      email: contactConfig.servicesEmail,
+      contactType: 'sales',
+      areaServed: 'IN'
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: contactConfig.telephone,
+      contactType: 'customer support',
+      areaServed: 'IN'
+    }
   ],
   areaServed: {
     '@type': 'Country',
@@ -68,49 +69,21 @@ if (customSchema) {
   // 1. Top-Level Organization Schema
   schemas.push(organizationBase);
 
-  // 2. LocalBusiness Block 1: Pune
+  // 2. WebSite Schema (Homepage)
   schemas.push({
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'InfoHQ — Pune',
+    '@type': 'WebSite',
+    '@id': 'https://infohq.in/#website',
+    name: 'InfoHQ',
+    alternateName: 'Info HQ',
     url: 'https://infohq.in',
-    image: 'https://infohq.in/images/infohq-logo.webp',
-    email: 'contact@infohq.in',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Pune',
-      addressRegion: 'Maharashtra',
-      addressCountry: 'IN'
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
     },
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
-    }
+    inLanguage: 'en-IN'
   });
 
-  // 3. LocalBusiness Block 2: Prayagraj
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'InfoHQ — Prayagraj',
-    url: 'https://infohq.in',
-    image: 'https://infohq.in/images/infohq-logo.webp',
-    email: 'contact@infohq.in',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Prayagraj',
-      addressRegion: 'Uttar Pradesh',
-      addressCountry: 'IN'
-    },
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
-    }
-  });
-
-  // 4. FAQPage Schema (Home Page - Step 9)
+  // 3. FAQPage Schema (Home Page)
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -145,6 +118,7 @@ if (customSchema) {
   // Individual Service Page Schema (Steps 5 & 6)
   const slug = serviceData.slug || '';
   const schemaConfig = serviceSchemasRecord[slug];
+  const serviceUrl = `https://infohq.in/services/${slug}/`;
 
   if (schemaConfig) {
     const offerPayload: Record<string, any> = {
@@ -161,11 +135,13 @@ if (customSchema) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': `${serviceUrl}#service`,
+      url: serviceUrl,
       serviceType: schemaConfig.serviceType,
       provider: {
         '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in'
+        '@id': 'https://infohq.in/#organization',
+        name: 'InfoHQ'
       },
       areaServed: 'IN',
       description: schemaConfig.description,
@@ -187,16 +163,44 @@ if (customSchema) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': `${serviceUrl}#service`,
+      url: serviceUrl,
       serviceType: serviceData.name,
       provider: {
         '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in'
+        '@id': 'https://infohq.in/#organization',
+        name: 'InfoHQ'
       },
       areaServed: 'IN',
       description: serviceData.description
     });
   }
+
+  // BreadcrumbList: Home > Services > [Service name]
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://infohq.in/services/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: serviceData.name,
+        item: serviceUrl
+      }
+    ]
+  });
 } else if (type === 'pricing') {
   schemas.push(organizationBase);
 
@@ -206,8 +210,10 @@ if (customSchema) {
     '@type': 'Service',
     serviceType: 'Engineering Retainers & Projects',
     name: 'InfoHQ Engineering Retainer & Project Plans',
+    url: 'https://infohq.in/pricing/',
     provider: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     },
@@ -245,6 +251,75 @@ if (customSchema) {
           price: '49999',
           priceCurrency: 'INR',
           description: '3-Person Dedicated Engineering Team for multi-system digital operations (₹49,999/month).'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Business Website'
+          },
+          price: '14999',
+          priceCurrency: 'INR',
+          description: 'Custom responsive design, SEO optimization & meta setup, fast loading, mobile-ready, easy CMS content updates.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'E-Commerce Website'
+          },
+          price: '29999',
+          priceCurrency: 'INR',
+          description: 'Full online store, payment gateway, product catalog & inventory sync, cart & checkout, automated notifications.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Web Application'
+          },
+          price: '24999',
+          priceCurrency: 'INR',
+          description: 'Dynamic database, user auth & roles, custom dashboard & admin views, REST/GraphQL API integrations.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Mobile Application'
+          },
+          price: '39999',
+          priceCurrency: 'INR',
+          description: 'iOS & Android app, push notification pipeline, offline caching, App Store & Play Store submission setup.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'AI Solution'
+          },
+          price: '19999',
+          priceCurrency: 'INR',
+          description: 'Custom LLM integration, domain-specific RAG knowledge bot, automated workflow triggers, telemetry & logs.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'SaaS Platform MVP'
+          },
+          price: '49999',
+          priceCurrency: 'INR',
+          description: 'Multi-tenant schema, Stripe/Razorpay automated subscription billing, user & team dashboard, admin telemetry.'
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Custom Software / ERP'
+          },
+          priceCurrency: 'INR',
+          description: 'Bespoke enterprise system architecture, multi-role permissions, legacy migration, dedicated SLA & warranty.'
         }
       ]
     }
@@ -297,21 +372,55 @@ if (customSchema) {
       }
     ]
   });
-} else if (type === 'contact') {
+
+  // BreadcrumbList: Home > Pricing
   schemas.push({
-    ...organizationBase,
-    contactPoint: [
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
       {
-        '@type': 'ContactPoint',
-        email: 'contact@infohq.in',
-        contactType: 'customer support',
-        areaServed: 'IN'
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
       },
       {
-        '@type': 'ContactPoint',
-        email: 'services@infohq.in',
-        contactType: 'sales',
-        areaServed: 'IN'
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Pricing',
+        item: 'https://infohq.in/pricing/'
+      }
+    ]
+  });
+} else if (type === 'contact') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    url: 'https://infohq.in/contact/',
+    name: 'Contact InfoHQ — Get a Free Consultation',
+    about: {
+      '@id': 'https://infohq.in/#organization'
+    },
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Contact',
+        item: 'https://infohq.in/contact/'
       }
     ]
   });
@@ -321,208 +430,15 @@ if (customSchema) {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     name: 'About InfoHQ — AI & Software Engineering Studio',
-    url: 'https://infohq.in/company',
+    url: 'https://infohq.in/company/',
     description: 'InfoHQ is an AI and software engineering studio based in Pune and Prayagraj, building and running digital products for businesses across India.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     }
   });
-} else if (type === 'services') {
-  schemas.push(organizationBase);
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Our Services — AI, Software, Web & Mobile Development | InfoHQ',
-    url: 'https://infohq.in/services',
-    description: 'Explore InfoHQ\'s full range of services: AI & intelligent systems, custom software, web & mobile app development, cloud & DevOps, automation, and digital marketing.',
-    publisher: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
-    }
-  });
-} else if (type === 'blogs') {
-  schemas.push(organizationBase);
-
-  if (categoryData) {
-    // 1. Category Hub CollectionPage Schema
-    const categoryUrl = categoryData.url || `https://infohq.in/blog/${categoryData.slug}`;
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: categoryData.title,
-      description: categoryData.description,
-      url: categoryUrl,
-      publisher: {
-        '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in'
-      }
-    });
-
-    // 2. Category BreadcrumbList Schema (Google Rich Results)
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: 'https://infohq.in'
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Blog',
-          item: 'https://infohq.in/blog'
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: categoryData.label,
-          item: categoryUrl
-        }
-      ]
-    });
-  } else {
-    // Main Blog Hub Schema
-    const blogSchema: Record<string, any> = {
-      '@context': 'https://schema.org',
-      '@type': 'Blog',
-      name: 'InfoHQ Engineering Blog',
-      url: 'https://infohq.in/blog',
-      description: 'Practical insights on AI, software engineering, and digital product development from the InfoHQ team.',
-      publisher: {
-        '@type': 'Organization',
-        name: 'InfoHQ',
-        url: 'https://infohq.in',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://infohq.in/images/infohq-logo.webp'
-        }
-      }
-    };
-
-    if (blogPosts && blogPosts.length > 0) {
-      blogSchema.blogPost = blogPosts.map((post: any) => ({
-        '@type': 'BlogPosting',
-        headline: post.data.title,
-        description: post.data.description,
-        url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`,
-        datePublished: new Date(post.data.pubDate).toISOString(),
-        author: {
-          '@type': 'Organization',
-          name: post.data.author || 'InfoHQ Team'
-        }
-      }));
-    }
-
-    schemas.push(blogSchema);
-
-    // Blog Hub BreadcrumbList Schema
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: 'https://infohq.in'
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Blog',
-          item: 'https://infohq.in/blog'
-        }
-      ]
-    });
-  }
-
-  // ItemList of posts if present
-  if (blogPosts && blogPosts.length > 0) {
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      itemListElement: blogPosts.map((post: any, idx: number) => ({
-        '@type': 'ListItem',
-        position: idx + 1,
-        name: post.data.title,
-        url: `https://infohq.in/blog/${post.data.category}/${post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '')}`
-      }))
-    });
-  }
-} else if (type === 'blog-post' && blogPostData) {
-  schemas.push(organizationBase);
-
-  const postDate = new Date(blogPostData.pubDate).toISOString();
-  const modifiedDate = blogPostData.updatedDate
-    ? new Date(blogPostData.updatedDate).toISOString()
-    : postDate;
-
-  const rawImage = blogPostData.image || '/images/blog/what-is-rag-hero.webp';
-  const fullImageUrl = rawImage.startsWith('http')
-    ? rawImage
-    : `https://infohq.in${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
-
-  // 1. Comprehensive BlogPosting Schema with AEO Speakable & InLanguage
-  const blogPostingSchema: Record<string, any> = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: blogPostData.title,
-    description: blogPostData.description,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': blogPostData.url
-    },
-    url: blogPostData.url,
-    inLanguage: 'en-IN',
-    articleSection: blogPostData.categoryLabel || (blogPostData.category ? blogPostData.category.toUpperCase() : 'AI & Intelligent Systems'),
-    author: {
-      '@type': 'Organization',
-      name: blogPostData.author || 'InfoHQ Team',
-      url: 'https://infohq.in'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://infohq.in/images/infohq-logo.webp'
-      }
-    },
-    datePublished: postDate,
-    dateModified: modifiedDate,
-    image: {
-      '@type': 'ImageObject',
-      url: fullImageUrl,
-      width: 1376,
-      height: 768
-    },
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['.post-headline', '.post-hero-caption', '.post-prose > p:first-of-type']
-    }
-  };
-
-  if (blogPostData.keywords && blogPostData.keywords.length > 0) {
-    blogPostingSchema.keywords = blogPostData.keywords.join(', ');
-  }
-
-  if (blogPostData.wordCount) {
-    blogPostingSchema.wordCount = blogPostData.wordCount;
-  }
-
-  schemas.push(blogPostingSchema);
-
-  // 2. Article BreadcrumbList Schema (Rich Snippets)
-  const categorySlug = blogPostData.category || 'ai';
-  const categoryLabel = blogPostData.categoryLabel || categorySlug.toUpperCase();
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -531,40 +447,209 @@ if (customSchema) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://infohq.in'
+        item: 'https://infohq.in/'
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
-        item: 'https://infohq.in/blog'
+        name: 'Company',
+        item: 'https://infohq.in/company/'
+      }
+    ]
+  });
+} else if (type === 'services') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Our Services — AI, Software, Web & Mobile Development | InfoHQ',
+    url: 'https://infohq.in/services/',
+    description: 'Explore InfoHQ\'s full range of services: AI & intelligent systems, custom software, web & mobile app development, cloud & DevOps, automation, and digital marketing.',
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
+      name: 'InfoHQ',
+      url: 'https://infohq.in'
+    }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://infohq.in/services/'
+      }
+    ]
+  });
+} else if (type === 'blogs') {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': 'https://infohq.in/blogs/#blog',
+    name: 'InfoHQ Blog',
+    url: 'https://infohq.in/blogs/',
+    description: 'Practical writing on AI, automation, web development and cloud, from the InfoHQ team.',
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    }
+  });
+  if (postData?.items && Array.isArray(postData.items) && postData.items.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Latest Articles',
+      url: 'https://infohq.in/blogs/',
+      numberOfItems: postData.items.length,
+      itemListElement: postData.items.map((item: any, idx: number) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: item.title,
+        url: item.url
+      }))
+    });
+  }
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blogs',
+        item: 'https://infohq.in/blogs/'
+      }
+    ]
+  });
+} else if (type === 'blog-category' && postData) {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: postData.title || `${postData.categoryName} Articles | InfoHQ`,
+    url: postData.url || `https://infohq.in/blogs/${postData.category}/`,
+    description: postData.description || `Practical articles on ${postData.categoryName} from InfoHQ.`,
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    }
+  });
+  if (postData.items && Array.isArray(postData.items) && postData.items.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${postData.categoryName} Articles`,
+      url: postData.url || `https://infohq.in/blogs/${postData.category}/`,
+      numberOfItems: postData.items.length,
+      itemListElement: postData.items.map((item: any, idx: number) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: item.title,
+        url: item.url
+      }))
+    });
+  }
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blogs',
+        item: 'https://infohq.in/blogs/'
       },
       {
         '@type': 'ListItem',
         position: 3,
-        name: categoryLabel,
-        item: `https://infohq.in/blog/${categorySlug}`
+        name: postData.categoryName,
+        item: `https://infohq.in/blogs/${postData.category}/`
+      }
+    ]
+  });
+} else if (type === 'blog-post' && postData) {
+  schemas.push(organizationBase);
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: postData.headline,
+    description: postData.description,
+    inLanguage: 'en-IN',
+    datePublished: postData.datePublished,
+    dateModified: postData.dateModified || postData.datePublished,
+    author: {
+      '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization'
+    },
+    publisher: {
+      '@id': 'https://infohq.in/#organization'
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': postData.url
+    },
+    image: postData.image || 'https://infohq.in/og/default.jpg'
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blogs',
+        item: 'https://infohq.in/blogs/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: postData.categoryName,
+        item: `https://infohq.in/blogs/${postData.category}/`
       },
       {
         '@type': 'ListItem',
         position: 4,
-        name: blogPostData.title,
-        item: blogPostData.url
+        name: postData.headline,
+        item: postData.url
       }
     ]
   });
-
-  // 3. FAQPage Schema for SERP Dropdown & AEO Answer Engines
-  if (blogPostData.faqs && blogPostData.faqs.length > 0) {
+  if (postData.faqs && Array.isArray(postData.faqs) && postData.faqs.length > 0) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: blogPostData.faqs.map((faq) => ({
+      mainEntity: postData.faqs.map((faq: any) => ({
         '@type': 'Question',
-        name: faq.question,
+        name: faq.q,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: faq.answer
+          text: faq.a
         }
       }))
     });
@@ -574,11 +659,12 @@ if (customSchema) {
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Portfolio & Case Studies — InfoHQ',
-    url: 'https://infohq.in/portfolio',
-    description: 'Explore InfoHQ\'s portfolio of shipped projects, engineering case studies, enterprise AI systems, web platforms, and mobile apps.',
+    name: 'Portfolio & Case Studies | InfoHQ',
+    url: 'https://infohq.in/portfolio/',
+    description: 'Projects built by InfoHQ: an AI healthcare app, SeHAT SmartCare, and a client website, Alpha Studio Tech.',
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://infohq.in/#organization',
       name: 'InfoHQ',
       url: 'https://infohq.in'
     },
@@ -616,41 +702,27 @@ if (customSchema) {
               name: 'InfoHQ'
             }
           }
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          item: {
-            '@type': 'CreativeWork',
-            name: 'CogniFlow AI — Autonomous Enterprise RAG & Knowledge Agent',
-            url: 'https://infohq.in/portfolio#cogniflow-ai',
-            description: 'Enterprise document intelligence system with pgvector semantic vector search and sub-second contextual responses.',
-            genre: 'Enterprise AI & Automation',
-            keywords: 'Python, FastAPI, LangChain, Claude, pgvector, Docker',
-            creator: {
-              '@type': 'Organization',
-              name: 'InfoHQ'
-            }
-          }
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          item: {
-            '@type': 'CreativeWork',
-            name: 'OmniFlow B2B — Automated Multi-Channel Order & WhatsApp Dispatch Pipeline',
-            url: 'https://infohq.in/portfolio#omniflow-b2b',
-            description: 'Event-driven order and invoicing automation connecting ERP, Razorpay, and WhatsApp Business API.',
-            genre: 'Business Automation & SaaS',
-            keywords: 'Next.js, Node.js, PostgreSQL, Redis, Razorpay API, WhatsApp Business API',
-            creator: {
-              '@type': 'Organization',
-              name: 'InfoHQ'
-            }
-          }
         }
       ]
     }
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://infohq.in/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Portfolio',
+        item: 'https://infohq.in/portfolio/'
+      }
+    ]
   });
 } else {
   schemas.push(organizationBase);

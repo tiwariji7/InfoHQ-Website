@@ -1,0 +1,494 @@
+---
+import type { Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { 
+  BLOG_CATEGORIES, 
+  CATEGORY_KEYS, 
+  filterPublishedPosts, 
+  sortPostsByDateDesc, 
+  getPostUrl,
+  type BlogCategory 
+} from '../../../utils/blog';
+import { 
+  Brain, 
+  Globe, 
+  Workflow, 
+  Cloud, 
+  PenTool, 
+  LayoutGrid, 
+  Clock, 
+  ChevronLeft, 
+  ChevronRight 
+} from 'lucide-astro';
+
+export async function getStaticPaths({ paginate }: any) {
+  const allPosts = await getCollection('blog');
+  const published = sortPostsByDateDesc(filterPublishedPosts(allPosts));
+
+  return CATEGORY_KEYS.flatMap((categoryKey) => {
+    const categoryPosts = published.filter((p) => p.data.category === categoryKey);
+    
+    if (categoryPosts.length === 0) {
+      return [{
+        params: { category: categoryKey, page: undefined },
+        props: {
+          category: categoryKey,
+          empty: true,
+          page: {
+            data: [],
+            start: 0,
+            end: 0,
+            total: 0,
+            currentPage: 1,
+            size: 9,
+            lastPage: 1,
+            url: {
+              current: `/blogs/${categoryKey}/`,
+              prev: undefined,
+              next: undefined,
+              first: `/blogs/${categoryKey}/`,
+              last: `/blogs/${categoryKey}/`
+            }
+          }
+        }
+      }];
+    }
+
+    return paginate(categoryPosts, {
+      params: { category: categoryKey },
+      pageSize: 9,
+      props: { category: categoryKey, empty: false }
+    });
+  });
+}
+
+interface Props {
+  category: BlogCategory;
+  empty: boolean;
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { category, empty = false, page } = Astro.props;
+const categoryInfo = BLOG_CATEGORIES[category] || {
+  id: category,
+  name: category,
+  tagline: '',
+  title: `${category.toUpperCase()} Blog | InfoHQ`,
+  description: `Practical articles on ${category} from InfoHQ.`,
+  icon: 'LayoutGrid'
+};
+
+const canonicalUrl = `https://infohq.in${page.url.current.endsWith('/') ? page.url.current : page.url.current + '/'}`;
+const ogImageUrl = `/og/blogs/${category}.jpg`;
+---
+
+<BaseLayout
+  title={categoryInfo.title}
+  description={categoryInfo.description}
+  canonical={canonicalUrl}
+  ogImage={ogImageUrl}
+  schemaType="blog-category"
+  postData={{
+    category,
+    categoryName: categoryInfo.name,
+    title: categoryInfo.title,
+    description: categoryInfo.description,
+    url: canonicalUrl,
+    items: page.data.map((p) => ({
+      title: p.data.title,
+      url: `https://infohq.in${getPostUrl(p.data.category, p.id)}`
+    }))
+  }}
+>
+  <!-- Category Header Hero -->
+  <section class="section category-hero" aria-labelledby="cat-heading">
+    <div class="container text-center cat-hero-container">
+      <div class="cat-pill-nav">
+        <a href="/blogs/" class="back-link">&larr; All Articles</a>
+      </div>
+
+      <div class="cat-icon-badge" aria-hidden="true">
+        {category === 'ai' && <Brain size={28} />}
+        {category === 'web' && <Globe size={28} />}
+        {category === 'automation' && <Workflow size={28} />}
+        {category === 'cloud' && <Cloud size={28} />}
+        {category === 'design' && <PenTool size={28} />}
+      </div>
+
+      <span class="text-eyebrow">{categoryInfo.name} Category</span>
+      <h1 id="cat-heading" class="cat-hero-title">
+        {categoryInfo.name} <span class="text-gradient">Articles</span>
+      </h1>
+      <p class="cat-hero-tagline">{categoryInfo.tagline}</p>
+
+      <!-- Category Filter Navigation Chips (Real <a> Links) -->
+      <nav class="category-nav-bar" aria-label="Blog categories">
+        <a href="/blogs/" class="cat-chip">
+          <LayoutGrid size={15} class="chip-icon" />
+          <span>All Posts</span>
+        </a>
+        {CATEGORY_KEYS.map((catKey) => {
+          const info = BLOG_CATEGORIES[catKey];
+          const isActive = catKey === category;
+          return (
+            <a 
+              href={`/blogs/${catKey}/`} 
+              class={`cat-chip ${isActive ? 'active' : ''}`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {catKey === 'ai' && <Brain size={15} class="chip-icon" />}
+              {catKey === 'web' && <Globe size={15} class="chip-icon" />}
+              {catKey === 'automation' && <Workflow size={15} class="chip-icon" />}
+              {catKey === 'cloud' && <Cloud size={15} class="chip-icon" />}
+              {catKey === 'design' && <PenTool size={15} class="chip-icon" />}
+              <span>{info.name}</span>
+            </a>
+          );
+        })}
+      </nav>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="section category-content-section">
+    <div class="container">
+      {empty || page.data.length === 0 ? (
+        <div class="empty-state-card">
+          <div class="empty-icon-wrap" aria-hidden="true">
+            <Clock size={36} />
+          </div>
+          <h2 class="empty-title">Posts coming soon</h2>
+          <p class="empty-text">
+            We are writing deep-dive articles for our {categoryInfo.name} collection. In the meantime, explore our other practical guides or check back shortly.
+          </p>
+          <div class="empty-action">
+            <a href="/blogs/" class="btn-return-blogs">Browse All Articles</a>
+          </div>
+        </div>
+      ) : (
+        <div class="articles-grid">
+          {page.data.map((post) => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+      )}
+
+      <!-- Numbered Pagination (only rendered if more than 1 page) -->
+      {page.lastPage > 1 && (
+        <nav class="pagination-bar" aria-label="Pagination Navigation">
+          {page.url.prev ? (
+            <a href={page.url.prev} rel="prev" class="pagination-btn pagination-prev">
+              <ChevronLeft size={16} /> Previous
+            </a>
+          ) : (
+            <span class="pagination-btn disabled">
+              <ChevronLeft size={16} /> Previous
+            </span>
+          )}
+
+          <div class="pagination-numbers">
+            {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => {
+              const isCurrent = num === page.currentPage;
+              const pageUrl = num === 1 ? `/blogs/${category}/` : `/blogs/${category}/${num}/`;
+              return isCurrent ? (
+                <span class="page-num active" aria-current="page">{num}</span>
+              ) : (
+                <a href={pageUrl} class="page-num">{num}</a>
+              );
+            })}
+          </div>
+
+          {page.url.next ? (
+            <a href={page.url.next} rel="next" class="pagination-btn pagination-next">
+              Next <ChevronRight size={16} />
+            </a>
+          ) : (
+            <span class="pagination-btn disabled">
+              Next <ChevronRight size={16} />
+            </span>
+          )}
+        </nav>
+      )}
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .category-hero {
+    background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
+    margin-top: calc(-1 * clamp(72px, 7vw, 84px));
+    padding-top: calc(clamp(2.5rem, 4.5vw, 4rem) + clamp(72px, 7vw, 84px));
+    padding-bottom: clamp(2rem, 3.5vw, 3rem);
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  @media (max-width: 1023px) {
+    .category-hero {
+      margin-top: calc(-1 * clamp(68px, 8vw, 76px));
+      padding-top: calc(clamp(2rem, 4vw, 3rem) + clamp(68px, 8vw, 76px));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .category-hero {
+      margin-top: -68px;
+      padding-top: calc(1.75rem + 68px);
+    }
+  }
+
+  .cat-hero-container {
+    max-width: 800px;
+  }
+
+  .cat-pill-nav {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .back-link {
+    color: #6E6888;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .cat-icon-badge {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(124, 92, 232, 0.12) 0%, rgba(145, 79, 187, 0.18) 100%);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border-card);
+  }
+
+  .cat-hero-title {
+    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-text-heading);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .cat-hero-tagline {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    color: var(--color-text-body);
+    margin: 0 auto 2rem auto;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+
+  /* Category chips navigation bar */
+  .category-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+
+  .cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    color: #4A4268;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .cat-chip:hover {
+    border-color: rgba(124, 92, 232, 0.35);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .cat-chip.active {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+  }
+
+  .cat-chip.active .chip-icon {
+    color: #FFFFFF;
+  }
+
+  .chip-icon {
+    color: var(--color-primary);
+  }
+
+  /* Content Section */
+  .category-content-section {
+    padding-top: 3.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  /* Empty State Card */
+  .empty-state-card {
+    max-width: 580px;
+    margin: 3rem auto;
+    padding: 48px 36px;
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .empty-icon-wrap {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.25rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #FAF8FD;
+    border: 1px solid var(--color-border-card);
+    color: var(--color-primary);
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .empty-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0 0 1.75rem 0;
+  }
+
+  .btn-return-blogs {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-return-blogs:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+
+  /* Pagination Bar */
+  .pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 3.5rem;
+  }
+
+  .pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pagination-btn:hover:not(.disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .pagination-btn.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 8px;
+  }
+
+  .page-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .page-num:hover:not(.active) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .page-num.active {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+  }
+
+  @media (max-width: 991px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-nav-bar {
+      justify-content: flex-start;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cat-chip {
+      white-space: nowrap;
+    }
+  }
+</style>

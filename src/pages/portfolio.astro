@@ -4,9 +4,9 @@ import Button from '../components/Button.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 
 const meta = {
-  title: 'Portfolio & Case Studies — Shipped Projects & Real Results | InfoHQ',
-  description: 'Explore InfoHQ\'s portfolio of production-grade web platforms, enterprise AI systems, mobile applications, and business automation. Shipped with 100% IP ownership.',
-  keywords: 'software engineering portfolio, AI case studies India, web development portfolio Pune, mobile app development case studies, InfoHQ work samples, software proof of work'
+  title: 'Portfolio & Case Studies | InfoHQ',
+  description: 'Projects built by InfoHQ: an AI healthcare app, SeHAT SmartCare, and a client website, Alpha Studio Tech.',
+  keywords: 'software engineering portfolio, AI case studies India, web development portfolio Pune, mobile app development case studies, SeHAT SmartCare AI, Alpha Studio Tech'
 };
 
 // Filter categories
@@ -40,14 +40,14 @@ const flagshipCaseStudies = [
         tabLabel: '💬 Home & Chatbot',
         title: 'Home Dashboard & Multilingual AI Medical Chatbot',
         workflowRole: 'Central Clinical Hub & Trilingual RAG Interaction',
-        caption: 'Central navigation dashboard with instant access to 6 core health workflows, voice input integration, and an interactive RAG-powered clinical chatbot capable of responding in English, Hindi, and Hinglish with verified citations.',
+        caption: 'Central navigation dashboard with instant access to core health workflows, voice input integration, and an interactive RAG-powered clinical chatbot capable of responding in English, Hindi, and Hinglish with verified citations.',
         underTheHood: [
           'Microphone input captured via Android SpeechRecognizer and normalized into clean text queries in English, Hindi, or conversational Hinglish.',
-          'FastAPI async backend generates embeddings using SentenceTransformers and executes cosine similarity retrieval against a FAISS vector index of verified clinical literature in <450ms.',
+          'FastAPI async backend generates embeddings using SentenceTransformers and executes cosine similarity retrieval against a FAISS vector index of verified clinical literature.',
           'Context-grounded medical LLM generates answers constrained by clinical safety guardrails, citing sources and appending standard medical disclaimers.'
         ],
         keyCapabilities: [
-          'Direct access to 6 clinical modules',
+          'Direct access to clinical modules',
           'Trilingual speech-to-text input',
           'RAG citations & safety disclaimers',
           'Instant quick-query prompt chips'
@@ -78,16 +78,16 @@ const flagshipCaseStudies = [
         tabLabel: '💊 Insights & Reminders',
         title: 'Holistic Health Insights & Smart Medicine Reminders',
         workflowRole: '0–100 Daily Health Score & High-Precision Medication Scheduling',
-        caption: 'Daily wellness assessment algorithm calculating a 0–100 health score with hydration and step counters, alongside a scheduled medication tracker with time-stamped dosage status and 92% weekly adherence monitoring.',
+        caption: 'Daily wellness assessment algorithm calculating a 0–100 health score with hydration and step counters, alongside a scheduled medication tracker with time-stamped dosage status and weekly adherence monitoring.',
         underTheHood: [
           'Holistic health scoring algorithm computes a daily composite score (0–100) based on self-reported hydration, physical step counter integration, sleep hours, and symptom volatility.',
           'Medication alert scheduler utilizes Android AlarmManager with RTC_WAKEUP and WorkManager fallback to guarantee high-reliability alerts even under aggressive battery Doze modes.',
-          'Local SQLite persistence tracks taken, snoozed, and missed doses, calculating rolling 7-day adherence rates and syncing records with Cloud Firestore.'
+          'Local SQLite persistence tracks taken, snoozed, and missed doses, calculating adherence rates and syncing records with Cloud Firestore.'
         ],
         keyCapabilities: [
           'Dynamic 0–100 daily wellness score',
           'Doze-resistant AlarmManager scheduling',
-          '7-day adherence compliance metrics',
+          'Adherence compliance tracking',
           'Offline-first local cache synchronization'
         ],
         src: '/projects_images/SeHAT_SmartCare/HealthInsights&MedicineReminders.webp'
@@ -156,9 +156,8 @@ const flagshipCaseStudies = [
       'Emergency SOS assistance workflow with one-tap live GPS dispatch via SMS & WhatsApp'
     ],
     results: [
-      { metric: '10+ Workflows', label: 'Brought Into One Mobile Platform' },
-      { metric: '3 Languages', label: 'English, Hindi & Hinglish with Voice Input' },
-      { metric: '< 450ms', label: 'FAISS Semantic Knowledge Search Latency' }
+      { metric: '10 Workflows', label: 'Brought Into One Mobile Platform' },
+      { metric: '3 Languages', label: 'English, Hindi & Hinglish with Voice Input' }
     ],
     techStack: [
       'Android',
@@ -184,131 +183,11 @@ const flagshipCaseStudies = [
     badgeType: 'live',
     client: 'Alpha Studio Tech',
     industry: 'Digital Media & Creative Production',
-    title: 'High-Converting Digital Agency Web Platform with Sub-Second Page Speeds',
-    summary: 'A bespoke modern web platform engineered from the ground up for a digital media production agency. Designed to replace a sluggish legacy site with high-performance responsive architecture, clean typography, and a streamlined client inquiry pipeline.',
-    challenge: 'The client\'s previous site suffered from heavy page weights (>6MB), slow mobile load times (>4.2s), and poor conversion rates on commercial inquiry forms across mobile devices.',
-    solution: 'InfoHQ engineered a lean, zero-bloat web architecture using modern semantic HTML, fine-tuned fluid typography, optimized responsive media, and Cloudflare edge delivery with instant asset caching.',
-    keyFeatures: [
-      'Sub-second First Contentful Paint (<1.1s worldwide)',
-      'Fully responsive fluid grid with zero layout shift (CLS: 0.00)',
-      'Automated inquiry validation with instant email notification webhooks',
-      'High-DPI responsive graphics with modern WebP asset pipelines',
-      '100% clean semantic markup with complete Schema.org structured data'
-    ],
-    results: [
-      { metric: '98/100', label: 'Lighthouse Performance Score' },
-      { metric: '2.4x', label: 'Increase in Qualified Client Leads' },
-      { metric: '< 1.1s', label: 'Average Worldwide Load Time' }
-    ],
+    title: 'Alpha Studio Tech — Client Website',
+    summary: 'A client website built by InfoHQ.',
     techStack: ['Astro', 'TypeScript', 'Cloudflare Pages', 'Vanilla CSS', 'Modern SVG'],
     liveUrl: 'https://alphastudiotech.online',
     urlLabel: 'alphastudiotech.online'
-  },
-  {
-    id: 'cogniflow-ai',
-    category: 'ai',
-    badge: 'Enterprise Production • In-House',
-    badgeType: 'ai',
-    client: 'CogniFlow AI / Enterprise Deployments',
-    industry: 'Enterprise Knowledge & Workflow Automation',
-    title: 'Autonomous RAG & Multi-Modal Knowledge Search Intelligence Agent',
-    summary: 'An autonomous document intelligence system that ingests enterprise documents, technical manuals, and SOPs to provide instant, hallucination-resistant answers with exact citation references.',
-    challenge: 'Operations and customer support teams were spending hours manually sifting through hundreds of dense PDFs and manuals, resulting in delayed resolutions and inconsistent client support.',
-    solution: 'Designed and deployed an enterprise RAG (Retrieval-Augmented Generation) pipeline with pgvector semantic vector search, intelligent semantic document chunking, prompt guarding, and sub-second contextual responses.',
-    keyFeatures: [
-      'Multi-format ingestion pipeline (PDF, DOCX, Markdown, Spreadsheets)',
-      'Hybrid semantic vector search + keyword re-ranking for maximum accuracy',
-      'Citation-backed responses with highlighted source page coordinates',
-      'Autonomous fallback to human engineering queue when confidence is low',
-      'End-to-end telemetry, token tracking, and latency monitoring'
-    ],
-    results: [
-      { metric: '82%', label: 'Automated Inquiry Resolution Rate' },
-      { metric: '< 380ms', label: 'Vector Search Query Latency' },
-      { metric: '70%', label: 'Reduction in Support Ticket Backlog' }
-    ],
-    techStack: ['Python', 'FastAPI', 'LangChain', 'OpenAI / Claude', 'pgvector', 'Docker'],
-    liveUrl: null,
-    urlLabel: 'Enterprise Client Architecture'
-  },
-  {
-    id: 'omniflow-b2b',
-    category: 'automation',
-    badge: 'Production Retainer Client',
-    badgeType: 'automation',
-    client: 'OmniFlow Distribution',
-    industry: 'Supply Chain & B2B Distribution',
-    title: 'Automated Multi-Channel B2B Order, Invoicing & WhatsApp Dispatch Pipeline',
-    summary: 'A resilient digital backend and merchant portal that orchestrates ordering, payment reconciliation, inventory management, and automated WhatsApp delivery updates for a pan-India distribution network.',
-    challenge: 'Manual order entry through spreadsheets was leading to delayed dispatches, inventory stockouts, billing mismatches, and endless customer phone calls regarding delivery status.',
-    solution: 'Built an event-driven webhook automation pipeline connecting the retailer ordering portal, Razorpay subscription billing, warehouse inventory databases, and the Meta WhatsApp Business API.',
-    keyFeatures: [
-      'Automated order capture with instant digital GST-compliant invoice generation',
-      'Real-time inventory synchronization preventing overselling across 3 regional depots',
-      'Automated WhatsApp dispatch notifications with live delivery tracking links',
-      'Direct Razorpay payment gateway integration with auto-reconciled ledger entries',
-      'Executive analytics dashboard displaying sales volume and order velocity'
-    ],
-    results: [
-      { metric: '₹1.8 Cr+', label: 'Monthly GMV Processed Automatically' },
-      { metric: '45%', label: 'Faster Order-to-Dispatch Turnaround' },
-      { metric: 'Zero', label: 'Stockout & Inventory Sync Errors' }
-    ],
-    techStack: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis Queue', 'Razorpay API', 'WhatsApp API'],
-    liveUrl: null,
-    urlLabel: 'Confidential Client Pipeline'
-  }
-];
-
-// Additional Work Samples / Proof of Work Cards
-const workSamples = [
-  {
-    id: 'sample-1',
-    category: 'automation',
-    title: 'FinTech Multi-Tenant Subscription Engine',
-    desc: 'B2B subscription portal with automated recurring billing, prorated upgrades, role-based access control, and complete audit logging.',
-    highlights: ['Multi-currency Stripe/Razorpay', 'JWT Auth + RBAC', 'Automated PDF Invoices'],
-    tech: ['Next.js', 'PostgreSQL', 'Tailwind', 'Stripe API']
-  },
-  {
-    id: 'sample-2',
-    category: 'ai',
-    title: 'Autonomous WhatsApp CRM & Booking Bot',
-    desc: 'Conversational AI agent for 24/7 lead qualification, smart query triage, and automated calendar scheduling integrated directly into CRM.',
-    highlights: ['Meta Graph API', 'Sub-second NLP Parsing', 'Google Calendar Sync'],
-    tech: ['Node.js', 'WhatsApp Cloud API', 'Claude API', 'Webhooks']
-  },
-  {
-    id: 'sample-3',
-    category: 'web',
-    title: 'High-Velocity D2C E-Commerce Experience',
-    desc: 'Headless storefront with ultra-fast product catalog filtering, dynamic cart bundling, and payment checkout flow optimized for mobile conversion.',
-    highlights: ['100% Core Web Vitals Pass', 'Micro-interactions', 'Instant Cart Sync'],
-    tech: ['Astro', 'TypeScript', 'Cloudflare Workers', 'Tailwind']
-  },
-  {
-    id: 'sample-4',
-    category: 'ai',
-    title: 'Document OCR & Intelligent Data Extraction',
-    desc: 'Multimodal AI document pipeline parsing complex invoices, shipping manifests, and bank statements directly into structured JSON records.',
-    highlights: ['99.2% OCR Extraction Accuracy', 'Table Data Reconstruction', 'ERP Integration'],
-    tech: ['Python', 'FastAPI', 'Vision LLMs', 'Docker']
-  },
-  {
-    id: 'sample-5',
-    category: 'mobile',
-    title: 'Field Logistics & Inspection Mobile Tool',
-    desc: 'Cross-platform field operations application with geolocation tracking, camera photo capture with watermarks, and offline record submission.',
-    highlights: ['GPS Geo-Fencing', 'Camera Watermarking', 'Offline SQLite Queue'],
-    tech: ['React Native', 'TypeScript', 'Node.js', 'AWS S3']
-  },
-  {
-    id: 'sample-6',
-    category: 'automation',
-    title: 'Cloud Infrastructure & Zero-Downtime CI/CD',
-    desc: 'Modernized legacy VPS into auto-scaling containerized cloud architecture with automated GitHub Actions testing and Cloudflare edge defense.',
-    highlights: ['Zero-Downtime Rollouts', '60% Cloud Cost Savings', 'DDoS Protection'],
-    tech: ['AWS ECS', 'Docker', 'GitHub Actions', 'Cloudflare']
   }
 ];
 
@@ -336,27 +215,6 @@ const deliveryStandards = [
   }
 ];
 
-// Testimonials / Client Impact
-const clientEndorsements = [
-  {
-    quote: 'InfoHQ took our sluggish legacy website and transformed it into a lightning-fast digital platform. Our mobile inquiries doubled within 60 days of launch.',
-    author: 'Creative Director',
-    client: 'Alpha Studio Tech',
-    tag: 'Web Platform Delivery'
-  },
-  {
-    quote: 'Finding engineers who understand both healthcare data security and mobile UX is rare. The offline sync architecture has been flawless for our medical practitioners.',
-    author: 'Product Lead',
-    client: 'SeHAT Health',
-    tag: 'Mobile App Architecture'
-  },
-  {
-    quote: 'The automation workflows InfoHQ engineered eliminated endless manual order errors. Having dedicated senior engineers on retainer feels like having an in-house tech team.',
-    author: 'Operations Head',
-    client: 'B2B Distribution Network',
-    tag: 'Engineering Retainer'
-  }
-];
 ---
 
 <BaseLayout
@@ -383,21 +241,6 @@ const clientEndorsements = [
         <div class="stat-counter-item">
           <span class="stat-number">100%</span>
           <span class="stat-label">Code &amp; IP Ownership</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">99.9%</span>
-          <span class="stat-label">System Uptime Target</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">&lt; 1.2s</span>
-          <span class="stat-label">Average Load Speed</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat-counter-item">
-          <span class="stat-number">15+</span>
-          <span class="stat-label">Shipped Systems</span>
         </div>
       </div>
 
@@ -548,17 +391,19 @@ const clientEndorsements = [
                 <!-- Right Column: Sidebar Metrics, Tech Stack & Action Buttons -->
                 <div class="case-study-sidebar">
                   <!-- Measurable Results Box -->
-                  <div class="results-box">
-                    <span class="results-title">Measurable System Performance</span>
-                    <div class="results-grid">
-                      {cs.results.map((res) => (
-                        <div class="result-item">
-                          <span class="result-metric">{res.metric}</span>
-                          <span class="result-label">{res.label}</span>
-                        </div>
-                      ))}
+                  {cs.results && cs.results.length > 0 && (
+                    <div class="results-box">
+                      <span class="results-title">Measurable System Performance</span>
+                      <div class="results-grid">
+                        {cs.results.map((res) => (
+                          <div class="result-item">
+                            <span class="result-metric">{res.metric}</span>
+                            <span class="result-label">{res.label}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <!-- Tech Stack Chips -->
                   <div class="sidebar-tech-wrap">
@@ -593,13 +438,6 @@ const clientEndorsements = [
                 </div>
               </div>
             </article>
-
-            <!-- =================================================================
-                 Interactive Internal Product Showcase Modal / Dialog
-                 - Unique dual-column split on Desktop (Phone mockup | Dev specs)
-                 - Responsive horizontal tabs on Tablet & Mobile
-                 - Complete 6-tier architecture breakdown & developer notes
-                 ================================================================= -->
             <div 
               id={`showcase-modal-${cs.id}`} 
               class="showcase-modal-overlay" 
@@ -859,16 +697,18 @@ const clientEndorsements = [
                     <p class="case-study-subsummary">{cs.subSummary}</p>
                   )}
 
-                  <div class="case-study-problem-solution">
-                    <div class="problem-box">
-                      <span class="ps-tag tag-problem">The Challenge</span>
-                      <p>{cs.challenge}</p>
+                  {cs.challenge && (
+                    <div class="case-study-problem-solution">
+                      <div class="problem-box">
+                        <span class="ps-tag tag-problem">The Challenge</span>
+                        <p>{cs.challenge}</p>
+                      </div>
+                      <div class="solution-box">
+                        <span class="ps-tag tag-solution">The Developer Approach</span>
+                        <p>{cs.approach || cs.solution}</p>
+                      </div>
                     </div>
-                    <div class="solution-box">
-                      <span class="ps-tag tag-solution">The Developer Approach</span>
-                      <p>{cs.approach || cs.solution}</p>
-                    </div>
-                  </div>
+                  )}
 
                   {cs.techLayers && (
                     <div class="tech-layers-wrap">
@@ -884,17 +724,19 @@ const clientEndorsements = [
                     </div>
                   )}
 
-                  <div class="deliverables-wrap">
-                    <span class="deliverables-heading">Key Outcomes &amp; Core Workflows:</span>
-                    <ul class="deliverables-list">
-                      {cs.keyFeatures.map((feat) => (
-                        <li>
-                          <span class="check-icon" aria-hidden="true">&check;</span>
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {cs.keyFeatures && cs.keyFeatures.length > 0 && (
+                    <div class="deliverables-wrap">
+                      <span class="deliverables-heading">Key Outcomes &amp; Core Workflows:</span>
+                      <ul class="deliverables-list">
+                        {cs.keyFeatures.map((feat) => (
+                          <li>
+                            <span class="check-icon" aria-hidden="true">&check;</span>
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {cs.impact && (
                     <div class="impact-box">
@@ -907,17 +749,19 @@ const clientEndorsements = [
                 <!-- Right Column: Results & Tech Highlights -->
                 <div class="case-study-sidebar">
                   <!-- Measurable Results Box -->
-                  <div class="results-box">
-                    <span class="results-title">Measurable Business Impact</span>
-                    <div class="results-grid">
-                      {cs.results.map((res) => (
-                        <div class="result-item">
-                          <span class="result-metric">{res.metric}</span>
-                          <span class="result-label">{res.label}</span>
-                        </div>
-                      ))}
+                  {cs.results && cs.results.length > 0 && (
+                    <div class="results-box">
+                      <span class="results-title">Measurable Business Impact</span>
+                      <div class="results-grid">
+                        {cs.results.map((res) => (
+                          <div class="result-item">
+                            <span class="result-metric">{res.metric}</span>
+                            <span class="result-label">{res.label}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <!-- Tech Stack Chips -->
                   <div class="sidebar-tech-wrap">
@@ -962,74 +806,8 @@ const clientEndorsements = [
     </div>
   </section>
 
-  <!-- 3. Work Samples & Additional Builds Grid -->
-  <section class="section work-samples-section" aria-labelledby="work-samples-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="text-eyebrow">Work Samples &amp; Capabilities</span>
-        <h2 id="work-samples-heading">Specialized Engineering Samples</h2>
-        <p>A selection of custom modules, pipelines, and integrations engineered for diverse business requirements.</p>
-      </div>
-
-      <div class="grid-3 samples-grid" id="samples-container">
-        {workSamples.map((sample) => (
-          <article class="card sample-card" data-category={sample.category}>
-            <div class="sample-top">
-              <span class="sample-category-chip">{sample.category.toUpperCase()}</span>
-              <span class="sample-dot"></span>
-            </div>
-
-            <h3 class="sample-title">{sample.title}</h3>
-            <p class="sample-desc">{sample.desc}</p>
-
-            <div class="sample-features-list">
-              {sample.highlights.map((h) => (
-                <div class="sample-feature-item">
-                  <span class="sample-bullet">&bull;</span>
-                  <span>{h}</span>
-                </div>
-              ))}
-            </div>
-
-            <div class="sample-footer">
-              <div class="sample-tech-chips">
-                {sample.tech.map((t) => (
-                  <span class="chip mini-chip">{t}</span>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Client Endorsements & Proof of Impact -->
-  <section class="section section-wash testimonials-section" aria-labelledby="testimonials-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="text-eyebrow">Client Impact</span>
-        <h2 id="testimonials-heading">What Founders &amp; Leaders Say</h2>
-        <p>Direct feedback from clients who trust InfoHQ with their production systems and codebases.</p>
-      </div>
-
-      <div class="grid-3 testimonials-grid">
-        {clientEndorsements.map((t) => (
-          <article class="card testimonial-card">
-            <div class="testimonial-tag">{t.tag}</div>
-            <p class="testimonial-quote">"{t.quote}"</p>
-            <div class="testimonial-meta">
-              <span class="testimonial-author">{t.author}</span>
-              <span class="testimonial-client">{t.client}</span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. How We Deliver (The InfoHQ Engineering Standards) -->
-  <section class="section standards-section" aria-labelledby="standards-heading">
+  <!-- 3. How We Deliver (The InfoHQ Engineering Standards) -->
+  <section class="section section-wash standards-section" aria-labelledby="standards-heading">
     <div class="container">
       <div class="section-header">
         <span class="text-eyebrow">Transparent Delivery</span>
@@ -1104,11 +882,10 @@ const clientEndorsements = [
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem 2rem;
-    max-width: 980px;
+    width: fit-content;
+    max-width: 360px;
     margin: 0 auto 2.5rem;
-    padding: 1.25rem 2rem;
+    padding: 1.15rem 2.5rem;
     background: #FFFFFF;
     border-radius: var(--radius-xl);
     border: 1px solid var(--color-border-card);
@@ -2537,173 +2314,6 @@ const clientEndorsements = [
     text-decoration: underline;
   }
 
-  /* Work Samples Grid */
-  .work-samples-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
-  }
-
-  .samples-grid {
-    margin-top: 2.5rem;
-  }
-
-  .sample-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.75rem;
-    background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .sample-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(124, 92, 232, 0.3);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .sample-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.15rem;
-  }
-
-  .sample-category-chip {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--color-primary);
-    background: var(--color-primary-subtle);
-    padding: 3px 9px;
-    border-radius: var(--radius-full);
-  }
-
-  .sample-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(124, 92, 232, 0.35);
-  }
-
-  .sample-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.35;
-    color: var(--color-text-heading);
-    margin-bottom: 0.75rem;
-  }
-
-  .sample-desc {
-    font-size: var(--text-sm);
-    line-height: 1.6;
-    color: var(--color-text-body);
-    margin-bottom: 1.25rem;
-  }
-
-  .sample-features-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
-  }
-
-  .sample-feature-item {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    font-size: 12.5px;
-    color: var(--color-text-muted);
-    font-weight: 500;
-  }
-
-  .sample-bullet {
-    color: var(--color-primary);
-    font-size: 14px;
-    line-height: 1;
-  }
-
-  .sample-footer {
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-card);
-  }
-
-  .sample-tech-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .mini-chip {
-    font-size: 11px;
-    padding: 2px 8px;
-    background: #F4F3F9;
-    color: var(--color-text-body);
-  }
-
-  /* Client Endorsements */
-  .testimonials-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
-  }
-
-  .testimonials-grid {
-    margin-top: 2.5rem;
-  }
-
-  .testimonial-card {
-    padding: 2rem;
-    background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .testimonial-tag {
-    align-self: flex-start;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-primary);
-    background: rgba(124, 92, 232, 0.08);
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
-    margin-bottom: 1.25rem;
-  }
-
-  .testimonial-quote {
-    font-size: var(--text-base);
-    line-height: 1.65;
-    color: var(--color-text-heading);
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-
-  .testimonial-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-top: 1px solid var(--color-border-card);
-    padding-top: 1rem;
-  }
-
-  .testimonial-author {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-heading);
-  }
-
-  .testimonial-client {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-  }
-
   /* Standards Section */
   .standards-section {
     padding-top: clamp(3rem, 5vw, 5rem);
@@ -2871,16 +2481,14 @@ const clientEndorsements = [
 
     .stats-counter-bar {
       gap: 1.25rem;
-      padding: 1.15rem 1rem;
+      padding: 1rem 2rem;
       border-radius: var(--radius-lg);
+      width: fit-content;
+      max-width: 100%;
     }
 
     .stat-counter-item {
-      width: calc(50% - 10px);
-    }
-
-    .stat-divider {
-      display: none;
+      width: 100%;
     }
 
     .filter-tabs {
@@ -3082,7 +2690,6 @@ const clientEndorsements = [
   function setupPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-tab-btn');
     const caseStudies = document.querySelectorAll('.case-study-card');
-    const sampleCards = document.querySelectorAll('.sample-card');
 
     if (!filterButtons.length) return;
 
@@ -3100,17 +2707,6 @@ const clientEndorsements = [
 
         // Filter Flagship Case Studies (supports multi-tags e.g. "mobile ai")
         caseStudies.forEach((card) => {
-          const categoryAttr = card.getAttribute('data-category') || '';
-          const categories = categoryAttr.split(' ');
-          if (filter === 'all' || categories.includes(filter)) {
-            card.classList.remove('is-filtered-out');
-          } else {
-            card.classList.add('is-filtered-out');
-          }
-        });
-
-        // Filter Work Samples
-        sampleCards.forEach((card) => {
           const categoryAttr = card.getAttribute('data-category') || '';
           const categories = categoryAttr.split(' ');
           if (filter === 'all' || categories.includes(filter)) {

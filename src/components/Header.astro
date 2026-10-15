@@ -9,17 +9,19 @@ const { currentPath = '/' } = Astro.props;
 
 const navItems = [
   { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'Company', href: '/company' },
-  { label: 'Blogs', href: '/blog' },
-  { label: 'Contact', href: '/contact' }
+  { label: 'Services', href: '/services/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Portfolio', href: '/portfolio/' },
+  { label: 'Company', href: '/company/' },
+  { label: 'Blogs', href: '/blogs/' },
+  { label: 'Contact', href: '/contact/' }
 ];
 
 const isActive = (href: string) => {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
+  if (href === '/') return currentPath === '/' || currentPath === '';
+  const cleanHref = href.replace(/\/$/, '');
+  const cleanCurrent = currentPath.replace(/\/$/, '');
+  return cleanCurrent === cleanHref || cleanCurrent.startsWith(cleanHref + '/');
 };
 ---
 
@@ -29,10 +31,10 @@ const isActive = (href: string) => {
       <!-- Brand Logo -->
       <a href="/" class="brand-link" aria-label="InfoHQ Home">
         <img 
-          src="/images/infohq-logo.webp" 
+          src="/images/infohq-brandlogo.webp" 
           alt="InfoHQ Logo - AI & Software Engineering Studio" 
           width="160" 
-          height="53" 
+          height="80" 
           class="brand-logo"
           loading="eager"
           decoding="async"
@@ -93,10 +95,10 @@ const isActive = (href: string) => {
   <div class="mobile-menu-drawer">
     <div class="mobile-menu-header">
       <img 
-        src="/images/infohq-logo.webp" 
+        src="/images/infohq-brandlogo.webp" 
         alt="InfoHQ" 
         width="130" 
-        height="43" 
+        height="65" 
       />
       <button 
         type="button" 

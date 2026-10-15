@@ -1,234 +1,304 @@
 ---
-import { ArrowRight, Calendar, User } from 'lucide-astro';
-import { BLOG_CATEGORIES_DATA } from '../data/blogCategories';
+import type { CollectionEntry } from 'astro:content';
+import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid } from 'lucide-astro';
+import { BLOG_CATEGORIES, calculateReadingTime, formatDate, getPostUrl, type BlogCategory } from '../utils/blog';
 
 interface Props {
-  post: any;
+  post: CollectionEntry<'blog'>;
+  featured?: boolean;
 }
 
-const { post } = Astro.props;
-const data = post.data;
-const categoryInfo = BLOG_CATEGORIES_DATA[data.category] || { label: data.category };
-const postSlug = post.id ? post.id.replace(/\.[^/.]+$/, '') : (post.slug || '');
-const postUrl = `/blog/${data.category}/${postSlug}`;
+const { post, featured = false } = Astro.props;
+const categoryKey = post.data.category as BlogCategory;
+const categoryInfo = BLOG_CATEGORIES[categoryKey] || {
+  id: categoryKey,
+  name: categoryKey,
+  tagline: '',
+  title: '',
+  description: '',
+  icon: 'LayoutGrid'
+};
 
-const formattedDate = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
-}).format(new Date(data.pubDate));
-
-const heroSrc = typeof data.heroImage === 'string' ? data.heroImage : data.heroImage?.src;
-const heroAlt = (typeof data.heroImage === 'object' && data.heroImage?.alt) ? data.heroImage.alt : (data.heroImageAlt || data.title);
+const postUrl = getPostUrl(post.data.category, post.id);
+const readingTime = calculateReadingTime(post.body || '');
+const formattedDate = formatDate(post.data.pubDate);
+const authorName = post.data.author || 'InfoHQ Team';
 ---
 
-<article class="card blog-card">
-  <a href={postUrl} class="card-media-link" tabindex="-1" aria-hidden="true">
-    {heroSrc ? (
-      <div class="card-media">
-        <img
-          src={heroSrc}
-          alt={heroAlt}
-          loading="lazy"
-          decoding="async"
-          class="card-img"
-        />
-        <span class="cat-chip">{categoryInfo.label}</span>
-      </div>
+<article class={`blog-card ${featured ? 'featured' : ''}`}>
+  <a href={postUrl} class="card-link-overlay" aria-label={`Read article: ${post.data.title}`}></a>
+  <div class="card-cover-wrap">
+    {post.data.heroImage ? (
+      <img 
+        src={post.data.heroImage} 
+        alt={post.data.title} 
+        class="card-cover-image" 
+        loading="lazy" 
+        decoding="async"
+      />
     ) : (
-      <div class="card-media-placeholder">
-        <div class="placeholder-pattern" aria-hidden="true"></div>
-        <span class="cat-chip">{categoryInfo.label}</span>
+      <div class={`card-cover-fallback cat-${categoryKey}`}>
+        <div class="fallback-glow" aria-hidden="true"></div>
+        <div class="fallback-icon-wrap" aria-hidden="true">
+          {categoryKey === 'ai' && <Brain size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'web' && <Globe size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'automation' && <Workflow size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'cloud' && <Cloud size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'design' && <PenTool size={featured ? 64 : 44} class="cover-icon" />}
+          {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={featured ? 64 : 44} class="cover-icon" />}
+        </div>
       </div>
     )}
-  </a>
+  </div>
 
   <div class="card-content">
-    <div class="card-meta">
-      <span class="meta-item">
-        <Calendar size={14} class="meta-icon" />
-        <time datetime={new Date(data.pubDate).toISOString()}>{formattedDate}</time>
-      </span>
-      <span class="meta-dot">&bull;</span>
-      <span class="meta-item">
-        <User size={14} class="meta-icon" />
-        <span>{data.author || 'InfoHQ Team'}</span>
-      </span>
+    <div class="card-header-meta">
+      <span class="category-pill">{categoryInfo.name}</span>
     </div>
 
     <h3 class="card-title">
-      <a href={postUrl} class="title-link">{data.title}</a>
+      <a href={postUrl}>{post.data.title}</a>
     </h3>
 
-    <p class="card-summary">{data.description}</p>
+    <p class="card-description">{post.data.description}</p>
 
-    <div class="card-footer">
-      <a href={postUrl} class="read-more-link">
-        <span>Read Article</span>
-        <ArrowRight size={16} class="arrow-icon" />
-      </a>
+    <div class="card-footer-meta">
+      <span class="meta-author">{authorName}</span>
+      <span class="meta-sep" aria-hidden="true">•</span>
+      <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-date">{formattedDate}</time>
+      <span class="meta-sep" aria-hidden="true">•</span>
+      <span class="meta-read-time">{readingTime}</span>
     </div>
   </div>
 </article>
 
 <style>
   .blog-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-card);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    height: 100%;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    height: 100%;
   }
 
   .blog-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(124, 92, 232, 0.4);
-    box-shadow: 0 16px 36px -12px rgba(124, 92, 232, 0.2);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(124, 92, 232, 0.35);
   }
 
-  .card-media-link {
-    display: block;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
+  .card-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
 
-  .card-media {
+  .card-cover-wrap {
     position: relative;
+    width: 100%;
     aspect-ratio: 16 / 9;
+    height: auto;
     overflow: hidden;
-    background: var(--color-bg-base);
+    background: #F4F0FA;
+    border-bottom: 1px solid var(--color-border-card);
   }
 
-  .card-img {
+  .card-cover-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    object-position: center;
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .blog-card:hover .card-img {
-    transform: scale(1.04);
+  .blog-card:hover .card-cover-image {
+    transform: scale(1.03);
   }
 
-  .card-media-placeholder {
+  .card-cover-fallback {
     position: relative;
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, rgba(124, 92, 232, 0.15) 0%, rgba(243, 84, 151, 0.1) 100%), var(--color-bg-card);
-    border-bottom: 1px solid var(--color-border-card);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FAF8FD 0%, #F0ECF9 100%);
     overflow: hidden;
   }
 
-  .placeholder-pattern {
+  .cat-ai { background: linear-gradient(135deg, #FAF6FD 0%, #EDE5F9 100%); }
+  .cat-web { background: linear-gradient(135deg, #F5F8FE 0%, #E3EDFB 100%); }
+  .cat-automation { background: linear-gradient(135deg, #FBF6FA 0%, #F6E7F2 100%); }
+  .cat-cloud { background: linear-gradient(135deg, #F4F8FC 0%, #E1EFF9 100%); }
+  .cat-design { background: linear-gradient(135deg, #FDF7F5 0%, #FAECE7 100%); }
+
+  .fallback-glow {
     position: absolute;
-    inset: 0;
-    opacity: 0.15;
-    background-image: radial-gradient(circle at 2px 2px, var(--color-primary) 1px, transparent 0);
-    background-size: 16px 16px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.12) 0%, transparent 70%);
   }
 
-  .cat-chip {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 3px 10px;
-    border-radius: var(--radius-sm);
-    background: rgba(14, 12, 21, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  .fallback-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    opacity: 0.85;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .fallback-icon-wrap {
+    transform: scale(1.06);
   }
 
   .card-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+    padding: 22px 24px;
+    gap: 12px;
   }
 
-  .card-meta {
+  .card-header-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    margin-bottom: 0.75rem;
   }
 
-  .meta-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .meta-icon {
+  .category-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background-color: #F1EDFA;
     color: var(--color-primary);
-  }
-
-  .meta-dot {
-    color: var(--color-border-card);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
   }
 
   .card-title {
-    font-size: var(--text-xl);
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
     line-height: 1.35;
-    margin-bottom: 0.75rem;
-  }
-
-  .title-link {
     color: var(--color-text-heading);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .title-link:hover {
-    color: var(--color-primary);
-  }
-
-  .card-summary {
-    font-size: var(--text-sm);
-    color: var(--color-text-body);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .card-footer {
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-card);
-  }
-
-  .read-more-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-primary);
+  .card-title a {
+    color: inherit;
     text-decoration: none;
-    transition: gap 0.2s ease, color 0.2s ease;
   }
 
-  .read-more-link:hover {
-    gap: 10px;
-    color: var(--color-grad-pink);
+  .card-title a:hover {
+    color: var(--color-primary);
   }
 
-  .arrow-icon {
-    transition: transform 0.2s ease;
+  .card-description {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .read-more-link:hover .arrow-icon {
-    transform: translateX(2px);
+  .card-footer-meta {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border-card);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: #6E6888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meta-author {
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+
+  .meta-sep {
+    opacity: 0.6;
+  }
+
+  /* Featured Card Variant */
+  .blog-card.featured {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    height: auto;
+  }
+
+  .blog-card.featured .card-cover-wrap {
+    height: 100%;
+    min-height: 320px;
+    aspect-ratio: auto;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border-card);
+  }
+
+  .blog-card.featured .card-content {
+    padding: 36px 36px;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .blog-card.featured .card-title {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.25;
+  }
+
+  .blog-card.featured .card-description {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-line-clamp: 3;
+  }
+
+  @media (max-width: 900px) {
+    .blog-card.featured {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-card.featured .card-cover-wrap {
+      aspect-ratio: 16 / 9;
+      height: auto;
+      min-height: unset;
+      border-right: none;
+      border-bottom: 1px solid var(--color-border-card);
+    }
+
+    .blog-card.featured .card-content {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .card-content {
+      padding: 18px 20px;
+    }
+
+    .card-footer-meta {
+      font-size: 0.75rem;
+      gap: 6px;
+    }
   }
 </style>

@@ -10,39 +10,66 @@ interface Props {
   title: string;
   description: string;
   keywords?: string;
+  canonical?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
-  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'contact' | 'legal' | 'portfolio' | 'blog-post';
+  schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-category' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: any;
-  blogPostData?: any;
-  blogPosts?: any[];
-  categoryData?: any;
+  postData?: any;
   showMobileCTA?: boolean;
-  canonicalUrl?: string;
-  prevUrl?: string;
-  nextUrl?: string;
+  noindex?: boolean;
+  noCanonical?: boolean;
 }
 
 const {
   title,
   description,
   keywords,
-  ogImage = '/images/infohq-logo.webp',
+  canonical,
+  ogImage,
+  ogImageAlt,
   ogType = 'website',
   schemaType = 'home',
   serviceData,
-  blogPostData,
-  blogPosts,
-  categoryData,
+  postData,
   showMobileCTA = true,
-  canonicalUrl,
-  prevUrl,
-  nextUrl
+  noindex = false,
+  noCanonical = false
 } = Astro.props;
 
-const fallbackCanonical = new URL(Astro.url.pathname, 'https://infohq.in');
-const finalCanonical = canonicalUrl ? new URL(canonicalUrl, 'https://infohq.in') : fallbackCanonical;
+const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, 'https://infohq.in');
 const currentPath = Astro.url.pathname;
+
+// Dynamic Per-Page OG Image resolution (replaces logo default)
+let defaultOgPath = '/og/default.jpg';
+const cleanPath = currentPath.replace(/\/$/, '');
+
+if (cleanPath === '' || cleanPath === '/') {
+  defaultOgPath = '/og/home.jpg';
+} else if (serviceData?.slug) {
+  defaultOgPath = `/og/services/${serviceData.slug}.jpg`;
+} else if (cleanPath === '/services') {
+  defaultOgPath = '/og/services.jpg';
+} else if (cleanPath === '/pricing') {
+  defaultOgPath = '/og/pricing.jpg';
+} else if (cleanPath === '/company') {
+  defaultOgPath = '/og/company.jpg';
+} else if (cleanPath === '/contact') {
+  defaultOgPath = '/og/contact.jpg';
+} else if (cleanPath === '/portfolio') {
+  defaultOgPath = '/og/portfolio.jpg';
+} else if (cleanPath === '/blogs') {
+  defaultOgPath = '/og/blogs.jpg';
+} else if (cleanPath.startsWith('/privacy')) {
+  defaultOgPath = '/og/privacy.jpg';
+} else if (cleanPath.startsWith('/terms')) {
+  defaultOgPath = '/og/terms.jpg';
+}
+
+const resolvedOgImage = ogImage || defaultOgPath;
+const absoluteOgImage = new URL(resolvedOgImage, 'https://infohq.in').toString();
+const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
 ---
 
 <!doctype html>
@@ -52,64 +79,38 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {keywords && <meta name="keywords" content={keywords} />}
-    <link rel="canonical" href={finalCanonical} />
-    {prevUrl && <link rel="prev" href={new URL(prevUrl, 'https://infohq.in')} />}
-    {nextUrl && <link rel="next" href={new URL(nextUrl, 'https://infohq.in')} />}
-
-    <!-- Search Engine & AEO Crawler Directives -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noCanonical && <link rel="canonical" href={canonicalURL} />}
 
     <!-- Favicon & Brand Icons -->
-    <link rel="icon" type="image/webp" href="/favicon.webp" />
-    <link rel="apple-touch-icon" href="/favicon.webp" />
+    <link rel="icon" type="image/webp" href="/images/favicon.webp" />
+    <link rel="apple-touch-icon" href="/images/favicon.webp" />
     <meta name="theme-color" content="#7C5CE8" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={finalCanonical} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, 'https://infohq.in')} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={resolvedOgAlt} />
     <meta property="og:site_name" content="InfoHQ" />
     <meta property="og:locale" content="en_IN" />
 
-    <!-- Article Specific OpenGraph Metadata (AEO & Social Search) -->
-    {ogType === 'article' && blogPostData?.pubDate && (
-      <meta property="article:published_time" content={new Date(blogPostData.pubDate).toISOString()} />
-    )}
-    {ogType === 'article' && (blogPostData?.updatedDate || blogPostData?.pubDate) && (
-      <meta property="article:modified_time" content={new Date(blogPostData.updatedDate || blogPostData.pubDate).toISOString()} />
-    )}
-    {ogType === 'article' && (
-      <meta property="article:author" content={blogPostData?.author || 'InfoHQ Team'} />
-      <meta property="article:section" content={blogPostData?.categoryLabel || (blogPostData?.category ? blogPostData.category.toUpperCase() : 'AI & Intelligent Systems')} />
-    )}
-    {ogType === 'article' && blogPostData?.keywords && Array.isArray(blogPostData.keywords) && (
-      blogPostData.keywords.map((kw: string) => <meta property="article:tag" content={kw} />)
-    )}
-
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={finalCanonical} />
+    <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, 'https://infohq.in')} />
-    <meta name="twitter:site" content="@CodeWithTiwari" />
-    <meta name="twitter:creator" content="@CodeWithTiwari" />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:alt" content={resolvedOgAlt} />
 
     <!-- Structured Data (JSON-LD) -->
-    <SchemaJsonLd
-      type={schemaType}
-      serviceData={serviceData}
-      blogPostData={blogPostData}
-      blogPosts={blogPosts}
-      categoryData={categoryData}
-    />
+    <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} />
 
-    <!-- Tracking scripts placeholder - controlled by Cookie Consent (Rule 2 + Phase 9) -->
+    {/* Cookie-consent controlled analytics & marketing scripts */}
     <script is:inline>
       // Listen for cookie consent changes and only initialize when consented
       window.addEventListener('infohq_consent_changed', function(e) {
@@ -164,7 +165,7 @@ const currentPath = Astro.url.pathname;
     <StickyMobileCTA show={showMobileCTA && currentPath !== '/contact'} />
     <CookieBanner />
 
-    <!-- Lenis Smooth Scroll per Rule 2 -->
+    {/* Smooth Scroll */}
     <script>
       import Lenis from 'lenis';
 

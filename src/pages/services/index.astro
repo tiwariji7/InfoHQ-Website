@@ -194,9 +194,24 @@ const categories = [
   .services-hero {
     background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
-    padding-top: clamp(3rem, 5vw, 4.5rem);
+    margin-top: calc(-1 * clamp(72px, 7vw, 84px));
+    padding-top: calc(clamp(3rem, 5vw, 4.5rem) + clamp(72px, 7vw, 84px));
     padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
     text-align: center;
+  }
+
+  @media (max-width: 1023px) {
+    .services-hero {
+      margin-top: calc(-1 * clamp(68px, 8vw, 76px));
+      padding-top: calc(clamp(2.5rem, 4.5vw, 3.5rem) + clamp(68px, 8vw, 76px));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services-hero {
+      margin-top: -68px;
+      padding-top: calc(2rem + 68px);
+    }
   }
 
   .services-hero-content {
