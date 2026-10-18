@@ -8,11 +8,11 @@ interface Props {
 const { activeCategory = null } = Astro.props;
 
 const items = [
-  { slug: null, label: 'All', href: '/blog' },
+  { slug: null, label: 'All', href: '/blogs/' },
   ...BLOG_CATEGORY_LIST.map((cat) => ({
     slug: cat.slug,
     label: cat.label,
-    href: `/blog/${cat.slug}`
+    href: `/blogs/${cat.slug}/`
   }))
 ];
 ---

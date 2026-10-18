@@ -34,11 +34,11 @@ function loadContentCollectionCards() {
   const files = fs.readdirSync(contentDir);
   const blogCards = [];
   const categoryLabels = {
-    ai: 'AI',
-    web: 'Web',
-    automation: 'Automation',
-    cloud: 'Cloud',
-    design: 'Design'
+    ai: 'AI & Software Engineering',
+    web: 'Web & Mobile App Development',
+    automation: 'Automation & System Integrations',
+    cloud: 'Cloud, DevOps & Security',
+    design: 'Design & Digital Marketing'
   };
 
   for (const file of files) {
@@ -137,28 +137,28 @@ const staticCards = [
   // 8. The 5 Active Blog Categories
   {
     slug: 'blogs/ai',
-    title: 'AI & Machine Learning Blog — Technical Notes & Guides | InfoHQ',
-    label: 'Blog • AI'
+    title: 'AI & Software Engineering Articles | InfoHQ Blog',
+    label: 'Blog • AI & Software Engineering'
   },
   {
     slug: 'blogs/web',
-    title: 'Web Engineering Blog — Architecture, Performance & Standards | InfoHQ',
-    label: 'Blog • Web'
+    title: 'Web & Mobile App Development Insights | InfoHQ Blog',
+    label: 'Blog • Web & Mobile App Development'
   },
   {
     slug: 'blogs/automation',
-    title: 'Business Automation Blog — Workflows, Integrations & Systems | InfoHQ',
-    label: 'Blog • Automation'
+    title: 'Automation & System Integrations Guides | InfoHQ Blog',
+    label: 'Blog • Automation & System Integrations'
   },
   {
     slug: 'blogs/cloud',
-    title: 'Cloud & DevOps Blog — Infrastructure, CI/CD & Deployments | InfoHQ',
-    label: 'Blog • Cloud'
+    title: 'Cloud, DevOps & Security Guides | InfoHQ Blog',
+    label: 'Blog • Cloud, DevOps & Security'
   },
   {
     slug: 'blogs/design',
-    title: 'Product Design & UI/UX Blog — Design Systems & Usability | InfoHQ',
-    label: 'Blog • Design'
+    title: 'Design & Digital Marketing Articles | InfoHQ Blog',
+    label: 'Blog • Design & Digital Marketing'
   },
   // 9. Legal & Compliance
   {
@@ -217,6 +217,16 @@ async function generateAllOGImages() {
       titleFontSize = '44px';
     }
 
+    let labelFontSize = '17px';
+    let labelLetterSpacing = '0.08em';
+    if (card.label && card.label.length > 28) {
+      labelFontSize = '13px';
+      labelLetterSpacing = '0.04em';
+    } else if (card.label && card.label.length > 20) {
+      labelFontSize = '15px';
+      labelLetterSpacing = '0.06em';
+    }
+
     const markup = {
       type: 'div',
       props: {
@@ -259,11 +269,11 @@ async function generateAllOGImages() {
                   type: 'div',
                   props: {
                     style: {
-                      fontSize: '17px',
+                      fontSize: labelFontSize,
                       fontWeight: 700,
                       color: '#7C5CE8',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
+                      letterSpacing: labelLetterSpacing,
                       backgroundColor: 'rgba(124, 92, 232, 0.08)',
                       padding: '8px 18px',
                       borderRadius: '9999px',

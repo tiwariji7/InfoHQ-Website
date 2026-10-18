@@ -14,42 +14,42 @@ export interface CategoryInfo {
 export const BLOG_CATEGORIES: Record<BlogCategory, CategoryInfo> = {
   ai: {
     id: 'ai',
-    name: 'AI',
-    tagline: 'Architectures, RAG systems, and practical LLM engineering for production applications.',
-    title: 'AI & Machine Learning Blog — Technical Notes & Guides | InfoHQ',
-    description: 'In-depth technical guides on RAG pipelines, LLM integration, vector databases, and real-world AI engineering from the InfoHQ team.',
+    name: 'AI & Software Engineering',
+    tagline: 'Intelligent automation, autonomous LLM agents, and mission-critical business platforms.',
+    title: 'AI & Software Engineering Articles | InfoHQ Blog',
+    description: 'Practical writing on AI agents, RAG, LLM integrations and custom software, from the InfoHQ team.',
     icon: 'Brain'
   },
   web: {
     id: 'web',
-    name: 'Web',
-    tagline: 'Modern frontend, performance optimization, and scalable web architecture.',
-    title: 'Web Engineering Blog — Architecture, Performance & Standards | InfoHQ',
-    description: 'Practical guides on web performance, zero layout shift, modern frameworks, and responsive frontend architecture.',
+    name: 'Web & Mobile App Development',
+    tagline: 'Performant web platforms and native iOS/Android mobile applications built to launch.',
+    title: 'Web & Mobile App Development Insights | InfoHQ Blog',
+    description: 'Guides on websites and iOS and Android apps, including what they cost to build and how to plan them.',
     icon: 'Globe'
   },
   automation: {
     id: 'automation',
-    name: 'Automation',
-    tagline: 'Workflow automation, lead management, and connecting business tools.',
-    title: 'Business Automation Blog — Workflows, Integrations & Systems | InfoHQ',
-    description: 'Practical guides on automating business workflows, lead routing, n8n, API integrations, and internal tooling.',
+    name: 'Automation & System Integrations',
+    tagline: 'Automate manual bottlenecks, sync your enterprise tools, and orchestrate data flows.',
+    title: 'Automation & System Integrations Guides | InfoHQ Blog',
+    description: 'Practical guides on workflow automation, system integrations and WhatsApp Business automation for businesses.',
     icon: 'Workflow'
   },
   cloud: {
     id: 'cloud',
-    name: 'Cloud',
-    tagline: 'Cloud infrastructure, serverless deployments, CI/CD, and DevOps practices.',
-    title: 'Cloud & DevOps Blog — Infrastructure, CI/CD & Deployments | InfoHQ',
-    description: 'Technical notes on Cloudflare edge delivery, AWS, containerization, zero-downtime deployments, and cloud architecture.',
+    name: 'Cloud, DevOps & Security',
+    tagline: 'Resilient cloud infrastructure, continuous deployment, and proactive security auditing.',
+    title: 'Cloud, DevOps & Security Guides | InfoHQ Blog',
+    description: 'Guides on cloud infrastructure, DevOps, cybersecurity and website maintenance, from the InfoHQ team.',
     icon: 'Cloud'
   },
   design: {
     id: 'design',
-    name: 'Design',
-    tagline: 'Product design, UI/UX systems, and practical usability for digital products.',
-    title: 'Product Design & UI/UX Blog — Design Systems & Usability | InfoHQ',
-    description: 'Insights on design systems, accessible UI engineering, user research, and crafting functional product interfaces.',
+    name: 'Design & Digital Marketing',
+    tagline: 'High-fidelity Figma prototypes, modern brand identity systems, and high-intent growth.',
+    title: 'Design & Digital Marketing Articles | InfoHQ Blog',
+    description: 'Guides on UI/UX design, brand identity, social media management and digital marketing.',
     icon: 'PenTool'
   }
 };

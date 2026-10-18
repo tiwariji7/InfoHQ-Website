@@ -89,6 +89,7 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
   description={categoryInfo.description}
   canonical={canonicalUrl}
   ogImage={ogImageUrl}
+  noindex={empty}
   schemaType="blog-category"
   postData={{
     category,
@@ -117,9 +118,9 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
         {category === 'design' && <PenTool size={28} />}
       </div>
 
-      <span class="text-eyebrow">{categoryInfo.name} Category</span>
+      <span class="text-eyebrow">Category Archive</span>
       <h1 id="cat-heading" class="cat-hero-title">
-        {categoryInfo.name} <span class="text-gradient">Articles</span>
+        {categoryInfo.name}
       </h1>
       <p class="cat-hero-tagline">{categoryInfo.tagline}</p>
 

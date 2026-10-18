@@ -146,45 +146,17 @@ const meta = {
           </div>
         </a>
 
-        <!-- Tile 2: AI -->
-        <a href="/blogs/ai/" class="category-tile">
-          <div class="tile-text">
-            <span class="tile-name">AI</span>
-            <span class="tile-desc">RAG systems, vector search, and LLM architecture</span>
-          </div>
-        </a>
-
-        <!-- Tile 3: Web -->
-        <a href="/blogs/web/" class="category-tile">
-          <div class="tile-text">
-            <span class="tile-name">Web</span>
-            <span class="tile-desc">Modern frontend, zero-CLS performance, and architecture</span>
-          </div>
-        </a>
-
-        <!-- Tile 4: Automation -->
-        <a href="/blogs/automation/" class="category-tile">
-          <div class="tile-text">
-            <span class="tile-name">Automation</span>
-            <span class="tile-desc">Workflow routing, tool connections, and operations</span>
-          </div>
-        </a>
-
-        <!-- Tile 5: Cloud -->
-        <a href="/blogs/cloud/" class="category-tile">
-          <div class="tile-text">
-            <span class="tile-name">Cloud</span>
-            <span class="tile-desc">Serverless setups, edge delivery, and CI/CD pipelines</span>
-          </div>
-        </a>
-
-        <!-- Tile 6: Design -->
-        <a href="/blogs/design/" class="category-tile">
-          <div class="tile-text">
-            <span class="tile-name">Design</span>
-            <span class="tile-desc">Design systems, UI engineering, and usability</span>
-          </div>
-        </a>
+        {CATEGORY_KEYS.map((catKey) => {
+          const catInfo = BLOG_CATEGORIES[catKey];
+          return (
+            <a href={`/blogs/${catKey}/`} class="category-tile">
+              <div class="tile-text">
+                <span class="tile-name">{catInfo.name}</span>
+                <span class="tile-desc">{catInfo.tagline}</span>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -772,6 +744,7 @@ const meta = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     padding: 8px 12px;
     border-radius: var(--radius-md);
     text-decoration: none;
@@ -790,6 +763,7 @@ const meta = {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
   }
 
   .cat-link-icon {
@@ -993,7 +967,7 @@ const meta = {
     }
 
     .category-tile {
-      min-width: 160px;
+      min-width: 220px;
       flex-shrink: 0;
     }
   }
