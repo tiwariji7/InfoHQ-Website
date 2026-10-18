@@ -55,6 +55,7 @@ export const BLOG_CATEGORIES: Record<BlogCategory, CategoryInfo> = {
 };
 
 export const CATEGORY_KEYS: BlogCategory[] = ['ai', 'web', 'automation', 'cloud', 'design'];
+export const POSTS_PER_PAGE = 6;
 
 /**
  * Computes build-time reading time: words / 200, minimum 1 min.
