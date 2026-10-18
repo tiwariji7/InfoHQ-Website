@@ -38,7 +38,11 @@ const {
   noCanonical = false
 } = Astro.props;
 
-const canonicalURL = canonical ? new URL(canonical) : new URL(Astro.url.pathname, 'https://infohq.in');
+// Canonical URL: per-page compute using Astro.site with guaranteed trailing slash and query stripped
+const rawPathname = Astro.url.pathname.replace(/\/+$/, '');
+const normalizedPathname = rawPathname === '' ? '/' : `${rawPathname}/`;
+const autoCanonicalURL = new URL(normalizedPathname, Astro.site || 'https://infohq.in');
+const canonicalURL = canonical ? new URL(canonical) : autoCanonicalURL;
 const currentPath = Astro.url.pathname;
 
 // Dynamic Per-Page OG Image resolution (replaces logo default)

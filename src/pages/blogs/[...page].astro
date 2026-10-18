@@ -88,15 +88,13 @@ const searchIndex = publishedPosts.map((p) => {
 
 const meta = {
   title: 'Blog — Practical AI, Automation & Web Engineering | InfoHQ',
-  description: 'In-depth articles, technical notes, and architectural teardowns on AI systems, RAG pipelines, workflow automation, and modern web engineering.',
-  canonical: 'https://infohq.in/blogs/'
+  description: 'In-depth articles, technical notes, and architectural teardowns on AI systems, RAG pipelines, workflow automation, and modern web engineering.'
 };
 ---
 
 <BaseLayout
   title={meta.title}
   description={meta.description}
-  canonical={meta.canonical}
   schemaType="blogs"
   postData={{
     items: publishedPosts.map((p) => ({
