@@ -397,6 +397,39 @@ const meta = {
     color: #4A4268;
   }
 
+  .prose-body :global(blockquote > :last-child) {
+    margin-bottom: 0;
+  }
+
+  .prose-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose-body :global(th),
+  .prose-body :global(td) {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid var(--color-border-card);
+    vertical-align: top;
+  }
+
+  .prose-body :global(th) {
+    background: #FAF8FD;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    white-space: nowrap;
+  }
+
+  .prose-body :global(tbody tr:nth-child(even)) {
+    background: #FCFBFD;
+  }
+
   /* Related Posts Section */
   .related-posts-section {
     padding-top: 3.5rem;
