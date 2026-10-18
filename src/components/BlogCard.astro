@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid } from 'lucide-astro';
+import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid, ArrowRight } from 'lucide-astro';
 import { BLOG_CATEGORIES, calculateReadingTime, formatDate, getPostUrl, type BlogCategory } from '../utils/blog';
 
 interface Props {
@@ -27,6 +27,8 @@ const authorName = post.data.author || 'InfoHQ Team';
 
 <article class={`blog-card ${featured ? 'featured' : ''}`}>
   <a href={postUrl} class="card-link-overlay" aria-label={`Read article: ${post.data.title}`}></a>
+  
+  <!-- 1. Image with rounded corners (16-20px) & equal height -->
   <div class="card-cover-wrap">
     {post.data.heroImage ? (
       <img 
@@ -40,12 +42,12 @@ const authorName = post.data.author || 'InfoHQ Team';
       <div class={`card-cover-fallback cat-${categoryKey}`}>
         <div class="fallback-glow" aria-hidden="true"></div>
         <div class="fallback-icon-wrap" aria-hidden="true">
-          {categoryKey === 'ai' && <Brain size={featured ? 64 : 44} class="cover-icon" />}
-          {categoryKey === 'web' && <Globe size={featured ? 64 : 44} class="cover-icon" />}
-          {categoryKey === 'automation' && <Workflow size={featured ? 64 : 44} class="cover-icon" />}
-          {categoryKey === 'cloud' && <Cloud size={featured ? 64 : 44} class="cover-icon" />}
-          {categoryKey === 'design' && <PenTool size={featured ? 64 : 44} class="cover-icon" />}
-          {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={featured ? 64 : 44} class="cover-icon" />}
+          {categoryKey === 'ai' && <Brain size={44} class="cover-icon" />}
+          {categoryKey === 'web' && <Globe size={44} class="cover-icon" />}
+          {categoryKey === 'automation' && <Workflow size={44} class="cover-icon" />}
+          {categoryKey === 'cloud' && <Cloud size={44} class="cover-icon" />}
+          {categoryKey === 'design' && <PenTool size={44} class="cover-icon" />}
+          {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={44} class="cover-icon" />}
         </div>
       </div>
     )}
@@ -53,7 +55,15 @@ const authorName = post.data.author || 'InfoHQ Team';
 
   <div class="card-content">
     <div class="card-header-meta">
-      <span class="category-pill">{categoryInfo.name}</span>
+      <span class={`category-pill cat-pill-${categoryKey}`}>
+        {categoryKey === 'ai' && <Brain size={13} class="pill-icon" />}
+        {categoryKey === 'web' && <Globe size={13} class="pill-icon" />}
+        {categoryKey === 'automation' && <Workflow size={13} class="pill-icon" />}
+        {categoryKey === 'cloud' && <Cloud size={13} class="pill-icon" />}
+        {categoryKey === 'design' && <PenTool size={13} class="pill-icon" />}
+        {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={13} class="pill-icon" />}
+        <span>{categoryInfo.name}</span>
+      </span>
     </div>
 
     <h3 class="card-title">
@@ -62,12 +72,27 @@ const authorName = post.data.author || 'InfoHQ Team';
 
     <p class="card-description">{post.data.description}</p>
 
-    <div class="card-footer-meta">
-      <span class="meta-author">{authorName}</span>
-      <span class="meta-sep" aria-hidden="true">•</span>
-      <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-date">{formattedDate}</time>
-      <span class="meta-sep" aria-hidden="true">•</span>
-      <span class="meta-read-time">{readingTime}</span>
+    <!-- 2. Premium footer: Author, date, reading time aligned + Gradient circular arrow button -->
+    <div class="card-footer">
+      <div class="card-footer-meta">
+        <img 
+          src="/images/favicon.webp" 
+          alt="InfoHQ" 
+          class="meta-author-avatar" 
+          width="20" 
+          height="20" 
+          loading="lazy" 
+        />
+        <span class="meta-author">{authorName}</span>
+        <span class="meta-sep" aria-hidden="true">•</span>
+        <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-date">{formattedDate}</time>
+        <span class="meta-sep" aria-hidden="true">•</span>
+        <span class="meta-read-time">{readingTime}</span>
+      </div>
+
+      <div class="card-arrow-btn" aria-hidden="true">
+        <ArrowRight size={18} class="arrow-icon" />
+      </div>
     </div>
   </div>
 </article>
@@ -77,19 +102,20 @@ const authorName = post.data.author || 'InfoHQ Team';
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-surface-white);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    box-shadow: var(--shadow-sm);
+    background-color: var(--color-surface-white, #FFFFFF);
+    border-radius: 20px;
+    border: 1px solid var(--color-border-card, #EBE8F4);
+    box-shadow: 0 4px 20px rgba(124, 92, 232, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+    padding: 16px 16px 20px 16px;
     overflow: hidden;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
     height: 100%;
   }
 
   .blog-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(124, 92, 232, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(124, 92, 232, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-color: rgba(124, 92, 232, 0.3);
   }
 
   .card-link-overlay {
@@ -98,14 +124,15 @@ const authorName = post.data.author || 'InfoHQ Team';
     z-index: 1;
   }
 
+  /* 1. Image with rounded corners & equal height */
   .card-cover-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    height: auto;
+    height: 220px;
+    border-radius: 16px;
     overflow: hidden;
     background: #F4F0FA;
-    border-bottom: 1px solid var(--color-border-card);
+    flex-shrink: 0;
   }
 
   .card-cover-image {
@@ -114,11 +141,12 @@ const authorName = post.data.author || 'InfoHQ Team';
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 16px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .blog-card:hover .card-cover-image {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
 
   .card-cover-fallback {
@@ -128,7 +156,7 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #FAF8FD 0%, #F0ECF9 100%);
+    border-radius: 16px;
     overflow: hidden;
   }
 
@@ -151,7 +179,7 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary);
+    color: var(--color-primary, #7C5CE8);
     opacity: 0.85;
     transition: transform 0.3s ease;
   }
@@ -160,25 +188,26 @@ const authorName = post.data.author || 'InfoHQ Team';
     transform: scale(1.06);
   }
 
+  /* Card Content & Consistent Spacing */
   .card-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 22px 24px;
-    gap: 12px;
+    padding-top: 16px;
   }
 
   .card-header-meta {
     display: flex;
     align-items: center;
+    margin-bottom: 12px;
   }
 
   .category-pill {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
-    background-color: #F1EDFA;
-    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -186,16 +215,47 @@ const authorName = post.data.author || 'InfoHQ Team';
     line-height: 1;
   }
 
+  .pill-icon {
+    flex-shrink: 0;
+  }
+
+  .cat-pill-ai {
+    background: #FFF2EB;
+    color: #E05638;
+  }
+
+  .cat-pill-automation {
+    background: #EEF2FF;
+    color: #6366F1;
+  }
+
+  .cat-pill-web {
+    background: #EBF5FF;
+    color: #0284C7;
+  }
+
+  .cat-pill-cloud {
+    background: #ECFEFF;
+    color: #0891B2;
+  }
+
+  .cat-pill-design {
+    background: #FDF2F8;
+    color: #DB2777;
+  }
+
   .card-title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 700;
+    margin: 0 0 10px 0;
+    font-size: 1.22rem;
+    font-weight: 800;
     line-height: 1.35;
-    color: var(--color-text-heading);
+    color: var(--color-text-heading, #0F0926);
+    letter-spacing: -0.015em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 0.2s ease;
   }
 
   .card-title a {
@@ -203,28 +263,36 @@ const authorName = post.data.author || 'InfoHQ Team';
     text-decoration: none;
   }
 
-  .card-title a:hover {
-    color: var(--color-primary);
+  .blog-card:hover .card-title {
+    color: var(--color-primary, #7C5CE8);
   }
 
   .card-description {
-    margin: 0;
+    margin: 0 0 18px 0;
     font-size: 0.9375rem;
     line-height: 1.55;
-    color: var(--color-text-body);
+    color: #6E6888;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .card-footer-meta {
+  /* 2. Premium Footer */
+  .card-footer {
     margin-top: auto;
     padding-top: 14px;
-    border-top: 1px solid var(--color-border-card);
+    border-top: 1px solid rgba(124, 92, 232, 0.07);
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 0.8125rem;
     color: #6E6888;
     white-space: nowrap;
@@ -232,13 +300,56 @@ const authorName = post.data.author || 'InfoHQ Team';
     text-overflow: ellipsis;
   }
 
+  .meta-author-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
   .meta-author {
     font-weight: 600;
-    color: var(--color-text-heading);
+    color: var(--color-text-heading, #0F0926);
   }
 
   .meta-sep {
-    opacity: 0.6;
+    color: #9CA3AF;
+    font-weight: 400;
+  }
+
+  .meta-date,
+  .meta-read-time {
+    color: #6E6888;
+  }
+
+  /* Gradient Circular Arrow Button */
+  .card-arrow-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.3);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .blog-card:hover .card-arrow-btn {
+    transform: scale(1.08) translateX(2px);
+    box-shadow: 0 6px 18px rgba(124, 92, 232, 0.45);
+  }
+
+  .arrow-icon {
+    transition: transform 0.25s ease;
+  }
+
+  .blog-card:hover .arrow-icon {
+    transform: translateX(1px);
   }
 
   /* Featured Card Variant */
@@ -246,19 +357,17 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: grid;
     grid-template-columns: 1.1fr 1fr;
     height: auto;
+    gap: 24px;
+    padding: 24px;
   }
 
   .blog-card.featured .card-cover-wrap {
     height: 100%;
-    min-height: 320px;
-    aspect-ratio: auto;
-    border-bottom: none;
-    border-right: 1px solid var(--color-border-card);
+    min-height: 280px;
   }
 
   .blog-card.featured .card-content {
-    padding: 36px 36px;
-    gap: 16px;
+    padding-top: 0;
     justify-content: center;
   }
 
@@ -276,29 +385,47 @@ const authorName = post.data.author || 'InfoHQ Team';
   @media (max-width: 900px) {
     .blog-card.featured {
       grid-template-columns: 1fr;
+      padding: 16px 16px 20px 16px;
     }
 
     .blog-card.featured .card-cover-wrap {
-      aspect-ratio: 16 / 9;
-      height: auto;
+      height: 220px;
       min-height: unset;
-      border-right: none;
-      border-bottom: 1px solid var(--color-border-card);
     }
 
     .blog-card.featured .card-content {
-      padding: 24px;
+      padding-top: 16px;
     }
   }
 
   @media (max-width: 640px) {
-    .card-content {
-      padding: 18px 20px;
+    .blog-card {
+      padding: 14px 14px 18px 14px;
+      border-radius: 18px;
+    }
+
+    .card-cover-wrap {
+      height: 200px;
+      border-radius: 14px;
+    }
+
+    .card-cover-image {
+      border-radius: 14px;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
     }
 
     .card-footer-meta {
       font-size: 0.75rem;
-      gap: 6px;
+      gap: 4px;
+    }
+
+    .card-arrow-btn {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
     }
   }
 </style>
