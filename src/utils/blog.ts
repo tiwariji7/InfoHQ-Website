@@ -55,6 +55,10 @@ export const BLOG_CATEGORIES: Record<BlogCategory, CategoryInfo> = {
 };
 
 export const CATEGORY_KEYS: BlogCategory[] = ['ai', 'web', 'automation', 'cloud', 'design'];
+
+/**
+ * Number of posts per paginated page across the blog.
+ */
 export const POSTS_PER_PAGE = 6;
 
 /**

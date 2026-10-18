@@ -6,10 +6,10 @@ import BlogCard from '../../../components/BlogCard.astro';
 import { 
   BLOG_CATEGORIES, 
   CATEGORY_KEYS, 
-  POSTS_PER_PAGE,
   filterPublishedPosts, 
   sortPostsByDateDesc, 
   getPostUrl,
+  POSTS_PER_PAGE,
   type BlogCategory 
 } from '../../../utils/blog';
 import { 
@@ -178,45 +178,41 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
       )}
 
       <!-- Numbered Pagination (only rendered if more than 1 page) -->
-      {page.lastPage > 1 && (() => {
-        const prevUrl = page.url.prev ? (page.url.prev.replace(/\/+$/, '') === `/blogs/${category}` ? `/blogs/${category}/` : `${page.url.prev.replace(/\/+$/, '')}/`) : undefined;
-        const nextUrl = page.url.next ? `${page.url.next.replace(/\/+$/, '')}/` : undefined;
-        return (
-          <nav class="pagination-bar" aria-label="Pagination Navigation">
-            {prevUrl ? (
-              <a href={prevUrl} rel="prev" class="pagination-btn pagination-prev">
-                <ChevronLeft size={16} /> Previous
-              </a>
-            ) : (
-              <span class="pagination-btn disabled">
-                <ChevronLeft size={16} /> Previous
-              </span>
-            )}
+      {page.lastPage > 1 && (
+        <nav class="pagination-bar" aria-label="Pagination Navigation">
+          {page.url.prev ? (
+            <a href={page.url.prev} rel="prev" class="pagination-btn pagination-prev">
+              <ChevronLeft size={16} /> Previous
+            </a>
+          ) : (
+            <span class="pagination-btn disabled">
+              <ChevronLeft size={16} /> Previous
+            </span>
+          )}
 
-            <div class="pagination-numbers">
-              {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => {
-                const isCurrent = num === page.currentPage;
-                const pageUrl = num === 1 ? `/blogs/${category}/` : `/blogs/${category}/${num}/`;
-                return isCurrent ? (
-                  <span class="page-num active" aria-current="page">{num}</span>
-                ) : (
-                  <a href={pageUrl} class="page-num">{num}</a>
-                );
-              })}
-            </div>
+          <div class="pagination-numbers">
+            {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => {
+              const isCurrent = num === page.currentPage;
+              const pageUrl = num === 1 ? `/blogs/${category}/` : `/blogs/${category}/${num}/`;
+              return isCurrent ? (
+                <span class="page-num active" aria-current="page">{num}</span>
+              ) : (
+                <a href={pageUrl} class="page-num">{num}</a>
+              );
+            })}
+          </div>
 
-            {nextUrl ? (
-              <a href={nextUrl} rel="next" class="pagination-btn pagination-next">
-                Next <ChevronRight size={16} />
-              </a>
-            ) : (
-              <span class="pagination-btn disabled">
-                Next <ChevronRight size={16} />
-              </span>
-            )}
-          </nav>
-        );
-      })()}
+          {page.url.next ? (
+            <a href={page.url.next} rel="next" class="pagination-btn pagination-next">
+              Next <ChevronRight size={16} />
+            </a>
+          ) : (
+            <span class="pagination-btn disabled">
+              Next <ChevronRight size={16} />
+            </span>
+          )}
+        </nav>
+      )}
     </div>
   </section>
 
