@@ -82,6 +82,7 @@ const categoryInfo = BLOG_CATEGORIES[category] || {
 
 const canonicalUrl = `https://infohq.in${page.url.current.endsWith('/') ? page.url.current : page.url.current + '/'}`;
 const ogImageUrl = `/og/blogs/${category}.jpg`;
+const isCategoryEmpty = empty || !page.data || page.data.length === 0;
 ---
 
 <BaseLayout
@@ -89,6 +90,7 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
   description={categoryInfo.description}
   canonical={canonicalUrl}
   ogImage={ogImageUrl}
+  noindex={isCategoryEmpty}
   schemaType="blog-category"
   postData={{
     category,
