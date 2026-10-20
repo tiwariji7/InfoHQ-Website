@@ -382,15 +382,19 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
   .footer-main {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     padding-top: 36px;
     padding-bottom: 24px;
-    gap: clamp(16px, 2.5vw, 36px);
+    gap: clamp(16px, 2vw, 32px);
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  /* 1. Brand Column (~34%) */
+  /* 1. Brand Column */
   .footer-brand-col {
-    flex: 0 0 34%;
-    max-width: 34%;
+    flex: 1.4 1 240px;
+    max-width: 340px;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -513,10 +517,11 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     outline-offset: 2px;
   }
 
-  /* 2 & 3. Navigation Columns (~17% each) */
+  /* 2 & 3. Navigation Columns */
   .footer-nav-col {
-    flex: 0 0 17%;
-    max-width: 17%;
+    flex: 0.9 1 120px;
+    max-width: 170px;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -580,13 +585,15 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     width: 1px;
     align-self: stretch;
     background: var(--color-border-card);
-    margin: 0 4px;
+    margin: 0;
+    flex-shrink: 0;
   }
 
-  /* 4. Newsletter Column (~28%) */
+  /* 4. Newsletter Column */
   .footer-newsletter-col {
-    flex: 0 0 28%;
-    max-width: 28%;
+    flex: 1.5 1 260px;
+    max-width: 320px;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -597,6 +604,8 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     line-height: 1.5;
     color: var(--color-text-body);
     margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .newsletter-form {
@@ -604,6 +613,8 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     flex-direction: column;
     gap: 6px;
     position: relative;
+    width: 100%;
+    max-width: 100%;
   }
 
   /* Pill input container */
@@ -617,6 +628,8 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     box-shadow: var(--shadow-sm);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     height: 42px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .newsletter-pill-input:focus-within {
@@ -766,8 +779,8 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customWhatsAppMessag
     border-radius: 2px;
   }
 
-  /* Tablet Responsive (768 - 1023px) */
-  @media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet Responsive (768 - 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
     .footer-main {
       display: grid;
       grid-template-columns: 1fr 1fr 1.35fr;

@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ServiceIcon from '../../components/ServiceIcon.astro';
 import Button from '../../components/Button.astro';
 import FinalCTA from '../../components/FinalCTA.astro';
 import { servicesData } from '../../data/servicesData';
@@ -14,31 +13,46 @@ const meta = {
 const categories = [
   {
     id: 'ai-software',
-    name: '1. AI & Software Engineering',
+    number: '01',
+    eyebrow: 'AI & SOFTWARE ENGINEERING',
+    namePrefix: 'AI & Software',
+    nameGradient: 'Engineering',
     desc: 'Intelligent automation, autonomous LLM agents, and mission-critical business platforms.',
     slugs: ['ai-intelligent-systems', 'custom-software']
   },
   {
     id: 'web-mobile',
-    name: '2. Web & Mobile App Development',
+    number: '02',
+    eyebrow: 'WEB & MOBILE APP DEVELOPMENT',
+    namePrefix: 'Web & Mobile',
+    nameGradient: 'App Development',
     desc: 'Performant web platforms and native iOS/Android mobile applications built to launch.',
     slugs: ['web-development', 'mobile-app-development']
   },
   {
     id: 'automation',
-    name: '3. Automation & System Integrations',
+    number: '03',
+    eyebrow: 'AUTOMATION & SYSTEM INTEGRATIONS',
+    namePrefix: 'Automation & System',
+    nameGradient: 'Integrations',
     desc: 'Automate manual bottlenecks, sync your enterprise tools, and orchestrate data flows.',
     slugs: ['business-automation']
   },
   {
     id: 'cloud-security',
-    name: '4. Cloud, DevOps & Security',
+    number: '04',
+    eyebrow: 'CLOUD, DEVOPS & SECURITY',
+    namePrefix: 'Cloud, DevOps &',
+    nameGradient: 'Security',
     desc: 'Resilient cloud infrastructure, continuous deployment, and proactive security auditing.',
     slugs: ['cloud-devops', 'cybersecurity', 'website-maintenance']
   },
   {
     id: 'design-marketing',
-    name: '5. Design & Digital Marketing',
+    number: '05',
+    eyebrow: 'DESIGN & DIGITAL MARKETING',
+    namePrefix: 'Design & Digital',
+    nameGradient: 'Marketing',
     desc: 'High-fidelity Figma prototypes, modern brand identity systems, and high-intent growth.',
     slugs: ['ui-ux-design', 'brand-design', 'social-media-management', 'digital-marketing']
   }
@@ -55,7 +69,6 @@ const categories = [
   <section class="section services-hero" aria-labelledby="services-hub-heading">
     <div class="container services-hero-container">
       <div class="services-hero-content">
-        <span class="text-eyebrow">Engineering Capabilities</span>
         <h1 id="services-hub-heading" class="services-headline">
           Every Service You Need to <span class="text-gradient">Build, Run, and Grow</span> Your Digital Business
         </h1>
@@ -81,20 +94,24 @@ const categories = [
     <section class="section category-section" id={cat.id} aria-labelledby={`cat-heading-${cat.id}`}>
       <div class="container">
         <div class="category-header">
-          <h2 id={`cat-heading-${cat.id}`} class="category-title">{cat.name}</h2>
+          <div class="category-eyebrow">
+            <span class="category-number">{cat.number}</span>
+            <span class="category-eyebrow-line" aria-hidden="true"></span>
+            <span class="category-eyebrow-text">{cat.eyebrow}</span>
+          </div>
+          <h2 id={`cat-heading-${cat.id}`} class="category-title">
+            {cat.namePrefix} <span class="category-heading-gradient">{cat.nameGradient}</span>
+          </h2>
           <p class="category-desc">{cat.desc}</p>
         </div>
 
-        <div class="grid-2 service-items-grid">
+        <div class="service-items-grid">
           {cat.slugs.map((slug) => {
             const svc = servicesData.find(s => s.slug === slug);
             if (!svc) return null;
             return (
               <article class="card service-detail-card">
                 <div class="service-card-top">
-                  <div class="icon-box" style="background-color: var(--color-primary-light);">
-                    <ServiceIcon name={svc.icon} size={24} />
-                  </div>
                   <span class="service-pill">Dedicated Engineers</span>
                 </div>
 
@@ -105,30 +122,32 @@ const categories = [
                 <p class="service-full-desc">{svc.fullDesc}</p>
 
                 <div class="service-tech-wrap">
-                  <span class="tech-label">Tech Stack:</span>
+                  <div class="tech-header">
+                    <span class="tech-label">TECH STACK</span>
+                    <div class="tech-divider-line" aria-hidden="true"></div>
+                  </div>
                   <div class="tech-chips">
                     {svc.techStack.map(t => (
-                      <span class="chip">{t}</span>
+                      <span class="chip-tag">{t}</span>
                     ))}
                   </div>
                 </div>
 
-                <div class="service-card-actions card-cta-pin">
-                  <Button
-                    variant="secondary"
-                    tone="light"
-                    size="md"
-                    href={`/services/${svc.slug}`}
-                    label="View Service Details"
-                    icon="arrow"
-                  />
-                  <Button
-                    variant="primary"
-                    size="md"
-                    href="/contact"
-                    label="Inquire Now"
-                    icon="none"
-                  />
+                <div class="service-card-actions">
+                  <a href={`/services/${svc.slug}`} class="service-btn-outline">
+                    <span>View Service Details</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                  <a href="/contact" class="service-btn-gradient">
+                    <span>Inquire Now</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
                 </div>
               </article>
             );
@@ -142,7 +161,6 @@ const categories = [
   <section class="section section-alt engage-section" aria-labelledby="engage-heading">
     <div class="container">
       <div class="section-header">
-        <span class="text-eyebrow">Engagement Models</span>
         <h2 id="engage-heading">Every Service, Delivered Two Ways</h2>
         <p>
           Need it built from scratch? Choose a <strong>One-Time Project</strong>. Already live and need ongoing engineering? Choose a <strong>Monthly Retainer</strong>.
@@ -263,109 +281,258 @@ const categories = [
 
   /* Category Section */
   .category-section {
-    padding-top: clamp(2.5rem, 4vw, 3.5rem);
-    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    padding-top: clamp(1.75rem, 3vw, 2.5rem);
+    padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
     border-top: 1px solid var(--color-border-card);
   }
 
   .category-header {
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .category-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.65rem;
+  }
+
+  .category-number {
+    font-size: 0.8125rem;
+    font-weight: 800;
+    color: #4F46E5;
+    letter-spacing: 0.05em;
+  }
+
+  .category-eyebrow-line {
+    width: 24px;
+    height: 1.5px;
+    background: #C7D2FE;
+    display: inline-block;
+  }
+
+  .category-eyebrow-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #4F46E5;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .category-title {
-    font-size: var(--text-3xl);
-    margin-bottom: 0.5rem;
+    font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.45rem;
+  }
+
+  .category-heading-gradient {
+    background: linear-gradient(90deg, #E11D48 0%, #7C3AED 50%, #2563EB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .category-desc {
-    font-size: var(--text-base);
-    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    color: #64748B;
+    line-height: 1.55;
+    max-width: 720px;
   }
 
   .service-items-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.25rem, 2vw, 1.75rem);
+    gap: 1.5rem;
+    align-items: stretch;
   }
 
   .service-detail-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 1.5rem 1.5rem 1.6rem;
     display: flex;
     flex-direction: column;
-    padding: clamp(1.75rem, 3vw, 2.25rem);
+    gap: 0;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .service-detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
+    border-color: #CBD5E1;
   }
 
   .service-card-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    min-height: 28px;
   }
 
   .service-pill {
-    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.72rem;
     font-weight: 600;
-    background: #FAF9FE;
-    color: var(--color-primary);
-    padding: 3px 8px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border-card);
+    background: #EEF2FF;
+    color: #4F46E5;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
   }
 
   .service-title {
-    font-size: var(--text-2xl);
-    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.5rem;
   }
 
   .service-title a {
-    color: var(--color-text-heading);
+    color: inherit;
+    text-decoration: none;
     transition: color 0.2s ease;
   }
 
   .service-title a:hover {
-    color: var(--color-primary);
+    color: #4F46E5;
   }
 
   .service-full-desc {
-    font-size: var(--text-sm);
-    color: var(--color-text-body);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: #64748B;
+    line-height: 1.55;
+    margin-bottom: 1.15rem;
   }
 
   .service-tech-wrap {
     margin-top: auto;
-    margin-bottom: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-card);
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.6rem;
   }
 
   .tech-label {
     display: block;
-    font-size: var(--text-xs);
+    font-size: 0.68rem;
     font-weight: 700;
-    color: var(--color-text-muted);
+    color: #94A3B8;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .tech-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #E2E8F0;
   }
 
   .tech-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 6px;
+  }
+
+  .chip-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #334155;
+    background: #F1F5F9;
+    padding: 3px 9px;
+    border-radius: 6px;
+    line-height: 1.3;
   }
 
   .service-card-actions {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 10px;
     flex-wrap: wrap;
+  }
+
+  .service-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.55rem 1.15rem;
+    border-radius: 9999px;
+    border: 1px solid #0F172A;
+    color: #0F172A;
+    background: transparent;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .service-btn-outline:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+  }
+
+  .service-btn-gradient {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.55rem 1.35rem;
+    border-radius: 9999px;
+    border: none;
+    color: #FFFFFF;
+    background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #E11D48 100%);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .service-btn-gradient:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.35);
+  }
+
+  .btn-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .service-btn-outline:hover .btn-arrow,
+  .service-btn-gradient:hover .btn-arrow {
+    transform: translateX(3px);
   }
 
   .engage-card {
     display: flex;
     flex-direction: column;
-    padding: clamp(2rem, 3vw, 2.5rem);
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    border-radius: 20px;
   }
 
   .engage-card h3 {
@@ -392,12 +559,122 @@ const categories = [
     margin-top: auto;
   }
 
-  @media (max-width: 1023px) {
+  /* Tablet Responsive (641px - 1023px) */
+  @media (min-width: 641px) and (max-width: 1023px) {
+    .service-items-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.15rem;
+    }
+
+    .service-detail-card {
+      padding: 1.35rem 1.25rem 1.45rem;
+      border-radius: 18px;
+    }
+
+    .service-title {
+      font-size: 1.15rem;
+    }
+
+    .service-full-desc {
+      font-size: 0.8125rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card-actions {
+      gap: 8px;
+    }
+
+    .service-btn-outline,
+    .service-btn-gradient {
+      padding: 0.5rem 0.95rem;
+      font-size: 0.775rem;
+    }
+
+    .engage-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.15rem;
+    }
+  }
+
+  /* Mobile Responsive (<= 640px) */
+  @media (max-width: 640px) {
     .service-items-grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
     }
+
+    .service-detail-card {
+      padding: 1.15rem 1rem 1.25rem;
+      border-radius: 16px;
+    }
+
+    .service-card-top {
+      margin-bottom: 0.55rem;
+      min-height: 24px;
+    }
+
+    .service-pill {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+    }
+
+    .service-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .service-full-desc {
+      font-size: 0.8rem;
+      line-height: 1.48;
+      margin-bottom: 0.85rem;
+    }
+
+    .service-tech-wrap {
+      margin-bottom: 1rem;
+    }
+
+    .tech-header {
+      margin-bottom: 0.45rem;
+    }
+
+    .tech-label {
+      font-size: 0.65rem;
+    }
+
+    .tech-chips {
+      gap: 4px;
+    }
+
+    .chip-tag {
+      font-size: 0.66rem;
+      padding: 2.5px 7px;
+      border-radius: 5px;
+    }
+
+    .service-card-actions {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .service-btn-outline,
+    .service-btn-gradient {
+      width: 100%;
+      padding: 0.48rem 0.5rem;
+      font-size: 0.73rem;
+      gap: 4px;
+      justify-content: center;
+    }
+
     .engage-grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .engage-card {
+      padding: 1.25rem 1rem 1.35rem;
+      border-radius: 16px;
     }
   }
 </style>
