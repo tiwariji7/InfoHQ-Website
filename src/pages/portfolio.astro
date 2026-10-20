@@ -191,6 +191,9 @@ const flagshipCaseStudies = [
   }
 ];
 
+// Flagship Showcase Reference for Modal
+const sehat = flagshipCaseStudies.find(c => c.id === 'sehat') || flagshipCaseStudies[0];
+
 // Delivery Standards
 const deliveryStandards = [
   {
@@ -226,8 +229,6 @@ const deliveryStandards = [
   <!-- 1. Hero Section -->
   <section class="section portfolio-hero" aria-labelledby="portfolio-heading">
     <div class="container text-center">
-      <span class="text-eyebrow">Proof of Work &bull; Shipped &amp; Production-Ready</span>
-
       <h1 id="portfolio-heading" class="portfolio-headline">
         Systems We've Built. <span class="text-gradient">Results We've Shipped.</span>
       </h1>
@@ -235,14 +236,6 @@ const deliveryStandards = [
       <p class="portfolio-subheadline">
         Explore InfoHQ's track record of high-performance web platforms, enterprise AI systems, mobile applications, and automated workflows. Engineered with production discipline, zero templates, and 100% client code ownership.
       </p>
-
-      <!-- Key Performance Metrics Strip -->
-      <div class="stats-counter-bar" aria-label="Key Delivery Metrics">
-        <div class="stat-counter-item">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">Code &amp; IP Ownership</span>
-        </div>
-      </div>
 
       <!-- Category Filter Tabs -->
       <div class="filter-controls-wrap" role="region" aria-label="Project Category Filter">
@@ -268,540 +261,408 @@ const deliveryStandards = [
   <section class="section section-alt case-studies-section" aria-labelledby="case-studies-heading">
     <div class="container">
       <div class="section-header">
-        <span class="text-eyebrow">Featured Deep Dives</span>
-        <h2 id="case-studies-heading">Production Case Studies</h2>
-        <p>In-depth architectural breakdowns of systems engineered, scaled, and maintained by InfoHQ.</p>
+        <h2 id="case-studies-heading">Production <span class="text-gradient">Case Studies &amp; Projects</span></h2>
+        <p>Real digital systems engineered with production stability, zero templates, and 100% client code ownership.</p>
       </div>
 
-      <div class="case-studies-list">
-        {flagshipCaseStudies.map((cs) => (
-          cs.hasShowcase ? (
-            /* =================================================================
-               1. Flagship Project with Internal Product Showcase (e.g. SeHAT)
-               - Outside Card: Hero banner, clean customer summary, key highlights, 
-                 metrics, tech chips, and primary showcase trigger button.
-               - Inside Modal: 5 live workflow screens, architecture matrix,
-                 and deep-dive developer notes.
-               ================================================================= */
-            <article 
-              class="card case-study-card has-showcase-card" 
-              data-category={cs.category}
-              id={cs.id}
+      <!-- Compact 3-Column Portfolio Cards Grid (Matching Home Page Style) -->
+      <div class="portfolio-cards-grid">
+        <!-- 1. Alpha Studio Tech -->
+        <article class="card portfolio-card case-study-card" data-category="web" id="alpha-studio-tech">
+          <div class="card-top-bar">
+            <div class="portfolio-badge live">
+              <span class="badge-dot"></span>
+              <span>CLIENT PROJECT &bull; DELIVERED</span>
+            </div>
+            <a href="https://alphastudiotech.online" target="_blank" rel="noopener noreferrer" class="card-ext-btn" aria-label="Open Alpha Studio Tech in new tab" title="Open live website">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="card-preview-media preview-alpha">
+            <img src="/projects_images/alpha-studio-mockup.jpg" alt="Alpha Studio Tech client website mockup" class="preview-img" loading="lazy" />
+          </div>
+
+          <h3 class="card-project-title">Alpha Studio Tech &mdash; Client Website</h3>
+          <p class="card-project-desc">
+            A high-performance modern digital agency website engineered for Alpha Studio Tech, with sub-second page loads, SEO optimization, and responsive design.
+          </p>
+
+          <div class="card-tags">
+            <span class="chip-tag chip-blue">Web Development</span>
+            <span class="chip-tag chip-purple">UI/UX</span>
+            <span class="chip-tag chip-orange">SEO</span>
+            <span class="chip-tag chip-green">Cloudflare Pages</span>
+          </div>
+
+          <div class="portfolio-card-actions">
+            <a href="https://alphastudiotech.online" target="_blank" rel="noopener noreferrer" class="btn-card-live">
+              <span>Visit Live Website</span>
+              <span class="arrow-icon">&nearr;</span>
+            </a>
+            <a href="/contact" class="btn-card-case-study">
+              <span>Inquire Similar Build</span>
+              <span class="arrow-icon">&rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- 2. SeHAT SmartCare AI -->
+        <article class="card portfolio-card case-study-card" data-category="mobile ai" id="sehat">
+          <div class="card-top-bar">
+            <div class="portfolio-badge live">
+              <span class="badge-dot"></span>
+              <span>INTERNAL PRODUCT &bull; ACTIVE</span>
+            </div>
+            <button
+              type="button"
+              class="card-ext-btn open-showcase-btn"
+              data-target="showcase-modal-sehat"
+              aria-label="Open SeHAT Internal Showcase"
+              title="Open Showcase"
             >
-              <!-- Card Header & Metadata -->
-              <div class="case-study-top">
-                <div class="case-study-meta">
-                  <span class={`status-badge badge-${cs.badgeType}`}>
-                    <span class="status-indicator"></span>
-                    {cs.badge}
-                  </span>
-                  <span class="case-study-industry">{cs.industry}</span>
-                  {cs.platform && <span class="platform-meta-pill">{cs.platform}</span>}
-                </div>
-                <div class="client-meta-wrap">
-                  <span class="client-name">{cs.client}</span>
-                  {cs.engagement && <span class="engagement-badge">{cs.engagement}</span>}
-                </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="card-preview-media preview-sehat">
+            <div class="sehat-left">
+              <div class="sehat-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
               </div>
-
-              <!-- Hero Image Banner: Immediate Visual Context for Customers -->
-              {cs.heroImage && (
-                <div class="cs-hero-banner-wrap">
-                  <img 
-                    src={cs.heroImage} 
-                    alt={`${cs.title} Platform Banner`}
-                    class="cs-hero-banner-img"
-                    width="1400"
-                    height="747"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div class="hero-image-overlay-bar">
-                    <span class="hero-overlay-tag">✦ Production Healthcare Mobile Platform</span>
-                    <button 
-                      type="button" 
-                      class="hero-overlay-btn open-showcase-btn" 
-                      data-target={`showcase-modal-${cs.id}`}
-                    >
-                      Explore Internal Product Showcase &rarr;
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <!-- Outside Overview Grid -->
-              <div class="case-study-grid">
-                <!-- Left Column: Story, Highlights & Showcase Callout -->
-                <div class="case-study-main">
-                  <h3 class="case-study-title">{cs.title}</h3>
-                  <p class="case-study-summary">{cs.summary}</p>
-
-                  <!-- 4 Core Customer-Facing Highlights -->
-                  <div class="outside-features-list">
-                    <span class="outside-features-title">Core Platform Capabilities:</span>
-                    <div class="outside-features-grid">
-                      <div class="outside-feat-item">
-                        <span class="feat-bullet">&check;</span>
-                        <div>
-                          <strong>AI Symptom Checker &amp; Lab Report OCR:</strong>
-                          <span>Parses camera photos and PDFs of blood tests (CBC, Glucose, Platelets) into plain-language summaries.</span>
-                        </div>
-                      </div>
-                      <div class="outside-feat-item">
-                        <span class="feat-bullet">&check;</span>
-                        <div>
-                          <strong>Trilingual Clinical RAG Chatbot:</strong>
-                          <span>Medical dialogue in English, Hindi, and colloquial Hinglish with speech-to-text input and verified citations.</span>
-                        </div>
-                      </div>
-                      <div class="outside-feat-item">
-                        <span class="feat-bullet">&check;</span>
-                        <div>
-                          <strong>Smart Medicine Reminders:</strong>
-                          <span>Doze-resistant scheduled dosage alerts and 0–100 daily holistic wellness score with adherence tracking.</span>
-                        </div>
-                      </div>
-                      <div class="outside-feat-item">
-                        <span class="feat-bullet">&check;</span>
-                        <div>
-                          <strong>Emergency SOS Assistance:</strong>
-                          <span>One-tap live GPS coordinates broadcast to family contacts via SMS and WhatsApp plus direct 112 calling.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Showcase Teaser Callout -->
-                  <div class="showcase-teaser-box">
-                    <div class="teaser-icon-pulse">✦</div>
-                    <div class="teaser-copy">
-                      <strong>Interactive Internal Showcase Available:</strong>
-                      <span>Examine 5 live production workflow screens, full system architecture layers, and developer implementation notes.</span>
-                    </div>
-                    <button 
-                      type="button" 
-                      class="btn-teaser-action open-showcase-btn" 
-                      data-target={`showcase-modal-${cs.id}`}
-                    >
-                      View Showcase &rarr;
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Right Column: Sidebar Metrics, Tech Stack & Action Buttons -->
-                <div class="case-study-sidebar">
-                  <!-- Measurable Results Box -->
-                  {cs.results && cs.results.length > 0 && (
-                    <div class="results-box">
-                      <span class="results-title">Measurable System Performance</span>
-                      <div class="results-grid">
-                        {cs.results.map((res) => (
-                          <div class="result-item">
-                            <span class="result-metric">{res.metric}</span>
-                            <span class="result-label">{res.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <!-- Tech Stack Chips -->
-                  <div class="sidebar-tech-wrap">
-                    <span class="tech-stack-title">Engineered With</span>
-                    <div class="tech-chips">
-                      {cs.techStack.map((tech) => (
-                        <span class="chip tech-chip">{tech}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <!-- Primary Action Button: Opens Internal Product Showcase -->
-                  <div class="case-study-cta-row">
-                    <button 
-                      type="button" 
-                      class="btn-primary-showcase open-showcase-btn" 
-                      data-target={`showcase-modal-${cs.id}`}
-                      aria-haspopup="dialog"
-                      aria-expanded="false"
-                    >
-                      <span class="btn-sparkle">✦</span>
-                      <span class="btn-title-wrap">
-                        <span class="btn-main-label">Internal Product Showcase</span>
-                        <span class="btn-sub-label">5 Live Screens &bull; Architecture Deep Dive &rarr;</span>
-                      </span>
-                    </button>
-
-                    <a href="/contact" class="btn-inquire-link">
-                      Inquire Similar Custom Build &rarr;
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-            <div 
-              id={`showcase-modal-${cs.id}`} 
-              class="showcase-modal-overlay" 
-              role="dialog" 
-              aria-modal="true" 
-              aria-labelledby={`showcase-title-${cs.id}`}
-              tabindex="-1"
-              hidden
-            >
-              <div class="showcase-modal-container">
-                <!-- Sticky Modal Header -->
-                <header class="showcase-modal-header">
-                  <div class="showcase-header-left">
-                    <div class="showcase-header-meta">
-                      <span class="modal-badge-status">Internal Product Showcase</span>
-                      <span class="modal-badge-tech">Android &bull; FastAPI &bull; RAG &bull; FAISS &bull; OCR</span>
-                    </div>
-                    <h3 id={`showcase-title-${cs.id}`} class="showcase-modal-headline">
-                      {cs.title}
-                    </h3>
-                  </div>
-                  
-                  <div class="showcase-header-actions">
-                    <a href="/contact" class="btn-modal-inquire">Discuss Custom Build</a>
-                    <button 
-                      type="button" 
-                      class="btn-close-modal" 
-                      data-close-showcase 
-                      aria-label="Close product showcase"
-                    >
-                      <span class="close-symbol">&times;</span>
-                      <span class="close-text">Close (Esc)</span>
-                    </button>
-                  </div>
-                </header>
-
-                <!-- Scrollable Modal Body -->
-                <div class="showcase-modal-body">
-                  
-                  <!-- 1. Interactive Production Workflow Screen Explorer -->
-                  <section class="showcase-dialog-section">
-                    <div class="dialog-section-header">
-                      <span class="text-eyebrow">Interactive Workflow Walkthrough</span>
-                      <h4 class="dialog-section-title">5 Live Application Workflows</h4>
-                      <p class="dialog-section-desc">
-                        Select any workflow tab below to inspect the actual native Android interface and review how the AI and retrieval pipelines operate under the hood.
-                      </p>
-                    </div>
-
-                    <!-- Navigation Tabs Bar -->
-                    <div class="modal-screen-tabs-bar" role="tablist">
-                      {cs.screenshots && cs.screenshots.map((screen, sIdx) => (
-                        <button
-                          type="button"
-                          class={`modal-tab-btn ${sIdx === 0 ? 'active' : ''}`}
-                          role="tab"
-                          aria-selected={sIdx === 0 ? 'true' : 'false'}
-                          data-target={`${cs.id}-modal-screen-${sIdx}`}
-                          id={`${cs.id}-tab-${sIdx}`}
-                        >
-                          <span class="modal-tab-num">0{sIdx + 1}</span>
-                          <span class="modal-tab-name">{screen.tabLabel}</span>
-                        </button>
-                      ))}
-                    </div>
-
-                    <!-- Screen Stage (Desktop: 2 columns, Mobile/Tablet: Stacked) -->
-                    <div class="modal-screen-stage">
-                      {cs.screenshots && cs.screenshots.map((screen, sIdx) => (
-                        <div 
-                          class={`modal-screen-panel ${sIdx === 0 ? 'active' : ''}`}
-                          id={`${cs.id}-modal-screen-${sIdx}`}
-                          role="tabpanel"
-                          aria-labelledby={`${cs.id}-tab-${sIdx}`}
-                        >
-                          <!-- Left: Realistic Mobile Phone Device Mockup -->
-                          <div class="device-mockup-col">
-                            <div class="device-mockup-frame">
-                              <div class="device-speaker-notch"></div>
-                              <img 
-                                src={sIdx === 0 ? screen.src : undefined} 
-                                data-src={screen.src}
-                                alt={screen.title} 
-                                class="device-screen-img"
-                                width="1100"
-                                height="733"
-                                loading="lazy"
-                                decoding="async"
-                              />
-                            </div>
-                            <div class="device-caption-pill">
-                              <span>Screen 0{sIdx + 1} of 05 &bull; Production Android UI</span>
-                            </div>
-                          </div>
-
-                          <!-- Right: Developer Deep Dive & Clinical Purpose -->
-                          <div class="device-specs-col">
-                            <div class="screen-meta-badge">{screen.workflowRole}</div>
-                            <h5 class="device-spec-headline">{screen.title}</h5>
-                            <p class="device-spec-summary">{screen.caption}</p>
-
-                            <div class="spec-under-hood-card">
-                              <div class="under-hood-title"><strong>Under The Hood &bull; Developer Breakdown:</strong></div>
-                              <ul class="under-hood-list">
-                                {screen.underTheHood && screen.underTheHood.map((point) => (
-                                  <li>
-                                    <span class="tech-bullet">&bull;</span>
-                                    <span>{point}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {screen.keyCapabilities && (
-                              <div class="screen-caps-wrap">
-                                <span class="caps-label">Key Screen Capabilities:</span>
-                                <div class="caps-chips">
-                                  {screen.keyCapabilities.map((cap) => (
-                                    <span class="cap-pill">{cap}</span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-
-                  <!-- 2. Core System Architecture Matrix -->
-                  <section class="showcase-dialog-section">
-                    <div class="dialog-section-header">
-                      <span class="text-eyebrow">Full-Stack Architecture</span>
-                      <h4 class="dialog-section-title">Core System Components &amp; Pipelines</h4>
-                      <p class="dialog-section-desc">
-                        How the native Android client, Python microservices, vector search index, and AI models interconnect with sub-second response times.
-                      </p>
-                    </div>
-
-                    <div class="arch-matrix-grid">
-                      {cs.techLayers && cs.techLayers.map((layer, lIdx) => (
-                        <div class="arch-matrix-card">
-                          <div class="arch-matrix-top">
-                            <span class="arch-idx">0{lIdx + 1}</span>
-                            <span class="arch-name">{layer.layer}</span>
-                          </div>
-                          <p class="arch-desc">{layer.detail}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-
-                  <!-- 3. Engineering Retrospective & Developer Story -->
-                  <section class="showcase-dialog-section">
-                    <div class="dialog-section-header">
-                      <span class="text-eyebrow">Engineering Retrospective</span>
-                      <h4 class="dialog-section-title">The Engineering Challenge &amp; Solution</h4>
-                    </div>
-
-                    <div class="retrospective-grid">
-                      <div class="retro-card retro-challenge">
-                        <div class="retro-badge tag-challenge">The Real-World Challenge</div>
-                        <p>{cs.challenge}</p>
-                      </div>
-
-                      <div class="retro-card retro-approach">
-                        <div class="retro-badge tag-approach">Our Developer Approach</div>
-                        <p>{cs.approach}</p>
-                      </div>
-
-                      <div class="retro-card retro-solution">
-                        <div class="retro-badge tag-solution">The Production Solution</div>
-                        <p>{cs.solution}</p>
-                      </div>
-                    </div>
-
-                    <!-- 10 Core Workflows Deliverables -->
-                    <div class="dialog-deliverables-box">
-                      <div class="dialog-deliv-title"><strong>10 Production Workflows Delivered in SeHAT:</strong></div>
-                      <div class="dialog-deliv-grid">
-                        {cs.keyFeatures.map((feat) => (
-                          <div class="dialog-deliv-item">
-                            <span class="deliv-icon">&check;</span>
-                            <span>{feat}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <!-- Impact Banner -->
-                    {cs.impact && (
-                      <div class="dialog-impact-banner">
-                        <div class="impact-icon-col">🎯</div>
-                        <div class="impact-text-col">
-                          <span class="impact-banner-tag">Healthcare &amp; Technical Impact</span>
-                          <p>{cs.impact}</p>
-                        </div>
-                      </div>
-                    )}
-                  </section>
-
-                  <!-- 4. Final Consultation CTA (Same standard FinalCTA component as site) -->
-                  <div class="modal-cta-wrapper">
-                    <FinalCTA page="portfolio" id={`modal-final-cta-${cs.id}`} />
-                  </div>
-
-                </div>
+              <div class="sehat-brand">
+                <span class="sehat-brand-name">SeHAT</span>
+                <span class="sehat-brand-name">SmartCare AI</span>
+                <span class="sehat-brand-sub">Your Personal<br />AI Health Assistant</span>
               </div>
             </div>
-          ) : (
-            /* =================================================================
-               2. Standard Client Case Study Card
-               ================================================================= */
-            <article 
-              class="card case-study-card" 
-              data-category={cs.category}
-              id={cs.id}
+            <div class="sehat-right">
+              <img src="/projects_images/SeHAT_SmartCare/homedashboard&aimeicalchatbot.webp" alt="SeHAT SmartCare AI mobile application interface" class="sehat-mockup-img" loading="lazy" />
+            </div>
+          </div>
+
+          <h3 class="card-project-title">SeHAT SmartCare AI</h3>
+          <p class="card-project-desc">
+            An intelligent Android healthcare platform combining Medical LLMs, RAG, FAISS semantic search, and OCR report analysis with multilingual Hindi/English voice input.
+          </p>
+
+          <div class="card-tags">
+            <span class="chip-tag chip-blue">Android &bull; Kotlin</span>
+            <span class="chip-tag chip-purple">FastAPI &bull; Python</span>
+            <span class="chip-tag chip-green">Medical LLM &bull; RAG</span>
+            <span class="chip-tag chip-orange">FAISS &bull; OCR</span>
+          </div>
+
+          <div class="portfolio-card-actions">
+            <button
+              type="button"
+              class="btn-card-showcase open-showcase-btn"
+              data-target="showcase-modal-sehat"
             >
-              <!-- Card Header & Metadata -->
-              <div class="case-study-top">
-                <div class="case-study-meta">
-                  <span class={`status-badge badge-${cs.badgeType}`}>
-                    <span class="status-indicator"></span>
-                    {cs.badge}
-                  </span>
-                  <span class="case-study-industry">{cs.industry}</span>
-                  {cs.platform && <span class="platform-meta-pill">{cs.platform}</span>}
+              <span>Internal Production Showcase</span>
+              <span class="sparkle-icon">✦</span>
+            </button>
+            <button
+              type="button"
+              class="btn-card-case-study open-showcase-btn"
+              data-target="showcase-modal-sehat"
+            >
+              <span>View Case Study &amp; Screens</span>
+              <span class="arrow-icon">&rarr;</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 3. In-House SaaS Platform -->
+        <article class="card portfolio-card case-study-card coming-soon-card" data-category="ai automation" id="saas-platform">
+          <div class="card-top-bar">
+            <div class="portfolio-badge in-progress">
+              <span class="badge-dot"></span>
+              <span>IN-PROGRESS SAAS</span>
+            </div>
+            <a href="/contact" class="card-ext-btn" aria-label="Inquire about SaaS platform" title="Contact Us">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="card-preview-media preview-saas">
+            <div class="saas-left">
+              <span class="saas-title">SaaS Platform</span>
+              <span class="saas-desc">Building the next generation AI-powered platform at InfoHQ.</span>
+            </div>
+            <div class="saas-right">
+              <div class="saas-feature-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                  <circle cx="12" cy="5" r="2"></circle>
+                  <path d="M12 7v4"></path>
+                  <line x1="8" y1="16" x2="8" y2="16"></line>
+                  <line x1="16" y1="16" x2="16" y2="16"></line>
+                </svg>
+                <span>AI Agents</span>
+              </div>
+              <div class="saas-feature-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Multi-Tenant</span>
+              </div>
+              <div class="saas-feature-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg>
+                <span>Edge Computing</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="card-project-title">In-House SaaS Platform</h3>
+          <p class="card-project-desc">
+            InfoHQ is currently engineering its own SaaS platform in-house &mdash; dogfooding autonomous AI agent architectures, multi-tenant databases, and edge compute.
+          </p>
+
+          <div class="card-tags">
+            <span class="chip-tag chip-blue">AI Systems</span>
+            <span class="chip-tag chip-purple">Multi-Tenant SaaS</span>
+            <span class="chip-tag chip-orange">Cloudflare Edge</span>
+            <span class="chip-tag chip-green">FastAPI</span>
+          </div>
+
+          <div class="portfolio-card-actions">
+            <a href="/contact" class="btn-card-live">
+              <span>Inquire Early Access</span>
+              <span class="arrow-icon">&rarr;</span>
+            </a>
+            <div class="card-status-badge">
+              <span>Official Announcement Coming Soon</span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- SeHAT Interactive Production Showcase Modal -->
+      <div 
+        id="showcase-modal-sehat" 
+        class="showcase-modal-overlay" 
+        role="dialog" 
+        aria-modal="true" 
+        aria-labelledby="showcase-title-sehat"
+        tabindex="-1"
+        hidden
+      >
+        <div class="showcase-modal-container">
+          <!-- Sticky Modal Header -->
+          <header class="showcase-modal-header">
+            <div class="showcase-header-left">
+              <div class="showcase-header-meta">
+                <span class="modal-badge-status">Internal Product Showcase</span>
+                <span class="modal-badge-tech">Android &bull; FastAPI &bull; RAG &bull; FAISS &bull; OCR</span>
+              </div>
+              <h3 id="showcase-title-sehat" class="showcase-modal-headline">
+                {sehat.title}
+              </h3>
+            </div>
+            
+            <div class="showcase-header-actions">
+              <a href="/contact" class="btn-modal-inquire">Discuss Custom Build</a>
+              <button 
+                type="button" 
+                class="btn-close-modal" 
+                data-close-showcase 
+                aria-label="Close product showcase"
+              >
+                <span class="close-symbol">&times;</span>
+                <span class="close-text">Close (Esc)</span>
+              </button>
+            </div>
+          </header>
+
+          <!-- Scrollable Modal Body -->
+          <div class="showcase-modal-body">
+            
+            <!-- 1. Interactive Production Workflow Screen Explorer -->
+            <section class="showcase-dialog-section">
+              <div class="dialog-section-header">
+                <h4 class="dialog-section-title">5 Live Application Workflows</h4>
+                <p class="dialog-section-desc">
+                  Select any workflow tab below to inspect the actual native Android interface and review how the AI and retrieval pipelines operate under the hood.
+                </p>
+              </div>
+
+              <!-- Navigation Tabs Bar -->
+              <div class="modal-screen-tabs-bar" role="tablist">
+                {sehat.screenshots && sehat.screenshots.map((screen, sIdx) => (
+                  <button
+                    type="button"
+                    class={`modal-tab-btn ${sIdx === 0 ? 'active' : ''}`}
+                    role="tab"
+                    aria-selected={sIdx === 0 ? 'true' : 'false'}
+                    data-target={`sehat-modal-screen-${sIdx}`}
+                    id={`sehat-tab-${sIdx}`}
+                  >
+                    <span class="modal-tab-num">0{sIdx + 1}</span>
+                    <span class="modal-tab-name">{screen.tabLabel}</span>
+                  </button>
+                ))}
+              </div>
+
+              <!-- Screen Stage (Desktop: 2 columns, Mobile/Tablet: Stacked) -->
+              <div class="modal-screen-stage">
+                {sehat.screenshots && sehat.screenshots.map((screen, sIdx) => (
+                  <div 
+                    class={`modal-screen-panel ${sIdx === 0 ? 'active' : ''}`}
+                    id={`sehat-modal-screen-${sIdx}`}
+                    role="tabpanel"
+                    aria-labelledby={`sehat-tab-${sIdx}`}
+                  >
+                    <!-- Left: Realistic Mobile Phone Device Mockup -->
+                    <div class="device-mockup-col">
+                      <div class="device-mockup-frame">
+                        <div class="device-speaker-notch"></div>
+                        <img 
+                          src={sIdx === 0 ? screen.src : undefined} 
+                          data-src={screen.src}
+                          alt={screen.title} 
+                          class="device-screen-img"
+                          width="1100"
+                          height="733"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                      <div class="device-caption-pill">
+                        <span>Screen 0{sIdx + 1} of 05 &bull; Production Android UI</span>
+                      </div>
+                    </div>
+
+                    <!-- Right: Developer Deep Dive & Clinical Purpose -->
+                    <div class="device-specs-col">
+                      <div class="screen-meta-badge">{screen.workflowRole}</div>
+                      <h5 class="device-spec-headline">{screen.title}</h5>
+                      <p class="device-spec-summary">{screen.caption}</p>
+
+                      <div class="spec-under-hood-card">
+                        <div class="under-hood-title"><strong>Under The Hood &bull; Developer Breakdown:</strong></div>
+                        <ul class="under-hood-list">
+                          {screen.underTheHood && screen.underTheHood.map((point) => (
+                            <li>
+                              <span class="tech-bullet">&bull;</span>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {screen.keyCapabilities && (
+                        <div class="screen-caps-wrap">
+                          <span class="caps-label">Key Screen Capabilities:</span>
+                          <div class="caps-chips">
+                            {screen.keyCapabilities.map((cap) => (
+                              <span class="cap-pill">{cap}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <!-- 2. Core System Architecture Matrix -->
+            <section class="showcase-dialog-section">
+              <div class="dialog-section-header">
+                <h4 class="dialog-section-title">Core System Components &amp; Pipelines</h4>
+                <p class="dialog-section-desc">
+                  How the native Android client, Python microservices, vector search index, and AI models interconnect with sub-second response times.
+                </p>
+              </div>
+
+              <div class="arch-matrix-grid">
+                {sehat.techLayers && sehat.techLayers.map((layer, lIdx) => (
+                  <div class="arch-matrix-card">
+                    <div class="arch-matrix-top">
+                      <span class="arch-idx">0{lIdx + 1}</span>
+                      <span class="arch-name">{layer.layer}</span>
+                    </div>
+                    <p class="arch-desc">{layer.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <!-- 3. Engineering Retrospective & Developer Story -->
+            <section class="showcase-dialog-section">
+              <div class="dialog-section-header">
+                <h4 class="dialog-section-title">The Engineering Challenge &amp; Solution</h4>
+              </div>
+
+              <div class="retrospective-grid">
+                <div class="retro-card retro-challenge">
+                  <div class="retro-badge tag-challenge">The Real-World Challenge</div>
+                  <p>{sehat.challenge}</p>
                 </div>
-                <div class="client-meta-wrap">
-                  <span class="client-name">{cs.client}</span>
-                  {cs.engagement && <span class="engagement-badge">{cs.engagement}</span>}
+
+                <div class="retro-card retro-approach">
+                  <div class="retro-badge tag-approach">Our Developer Approach</div>
+                  <p>{sehat.approach}</p>
+                </div>
+
+                <div class="retro-card retro-solution">
+                  <div class="retro-badge tag-solution">The Production Solution</div>
+                  <p>{sehat.solution}</p>
                 </div>
               </div>
 
-              <!-- Hero Image Banner (if available) -->
-              {cs.heroImage && (
-                <div class="cs-hero-banner-wrap">
-                  <img 
-                    src={cs.heroImage} 
-                    alt={`${cs.title} Platform Banner`}
-                    class="cs-hero-banner-img"
-                    width="1400"
-                    height="747"
-                    loading="lazy"
-                    decoding="async"
-                  />
+              <!-- 10 Core Workflows Deliverables -->
+              <div class="dialog-deliverables-box">
+                <div class="dialog-deliv-title"><strong>10 Production Workflows Delivered in SeHAT:</strong></div>
+                <div class="dialog-deliv-grid">
+                  {sehat.keyFeatures && sehat.keyFeatures.map((feat) => (
+                    <div class="dialog-deliv-item">
+                      <span class="deliv-icon">&check;</span>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Impact Banner -->
+              {sehat.impact && (
+                <div class="dialog-impact-banner">
+                  <div class="impact-icon-col">🎯</div>
+                  <div class="impact-text-col">
+                    <span class="impact-banner-tag">Healthcare &amp; Technical Impact</span>
+                    <p>{sehat.impact}</p>
+                  </div>
                 </div>
               )}
+            </section>
 
-              <!-- Case Study Content Grid -->
-              <div class="case-study-grid">
-                <!-- Left Column: Story & Architecture -->
-                <div class="case-study-main">
-                  <h3 class="case-study-title">{cs.title}</h3>
-                  <p class="case-study-summary">{cs.summary}</p>
-                  {cs.subSummary && (
-                    <p class="case-study-subsummary">{cs.subSummary}</p>
-                  )}
+            <!-- 4. Final Consultation CTA -->
+            <div class="modal-cta-wrapper">
+              <FinalCTA page="portfolio" id="modal-final-cta-sehat" />
+            </div>
 
-                  {cs.challenge && (
-                    <div class="case-study-problem-solution">
-                      <div class="problem-box">
-                        <span class="ps-tag tag-problem">The Challenge</span>
-                        <p>{cs.challenge}</p>
-                      </div>
-                      <div class="solution-box">
-                        <span class="ps-tag tag-solution">The Developer Approach</span>
-                        <p>{cs.approach || cs.solution}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {cs.techLayers && (
-                    <div class="tech-layers-wrap">
-                      <span class="deliverables-heading">Core System Architecture:</span>
-                      <div class="tech-layers-grid">
-                        {cs.techLayers.map((tl) => (
-                          <div class="tech-layer-card">
-                            <span class="layer-title">{tl.layer}</span>
-                            <span class="layer-detail">{tl.detail}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {cs.keyFeatures && cs.keyFeatures.length > 0 && (
-                    <div class="deliverables-wrap">
-                      <span class="deliverables-heading">Key Outcomes &amp; Core Workflows:</span>
-                      <ul class="deliverables-list">
-                        {cs.keyFeatures.map((feat) => (
-                          <li>
-                            <span class="check-icon" aria-hidden="true">&check;</span>
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {cs.impact && (
-                    <div class="impact-box">
-                      <span class="impact-tag">Impact &amp; Engineering Value</span>
-                      <p class="impact-text">{cs.impact}</p>
-                    </div>
-                  )}
-                </div>
-
-                <!-- Right Column: Results & Tech Highlights -->
-                <div class="case-study-sidebar">
-                  <!-- Measurable Results Box -->
-                  {cs.results && cs.results.length > 0 && (
-                    <div class="results-box">
-                      <span class="results-title">Measurable Business Impact</span>
-                      <div class="results-grid">
-                        {cs.results.map((res) => (
-                          <div class="result-item">
-                            <span class="result-metric">{res.metric}</span>
-                            <span class="result-label">{res.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <!-- Tech Stack Chips -->
-                  <div class="sidebar-tech-wrap">
-                    <span class="tech-stack-title">Engineered With</span>
-                    <div class="tech-chips">
-                      {cs.techStack.map((tech) => (
-                        <span class="chip tech-chip">{tech}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <!-- Action Button / Live Link -->
-                  <div class="case-study-cta-row">
-                    {cs.liveUrl ? (
-                      <a 
-                        href={cs.liveUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="btn-live-link"
-                        aria-label={`Visit live website for ${cs.client}`}
-                      >
-                        <span>Visit Live Site</span>
-                        <span class="arrow-up-right">&nearr;</span>
-                      </a>
-                    ) : (
-                      <div class="client-confidential-pill">
-                        <span class="lock-icon" aria-hidden="true">&#128274;</span>
-                        <span>{cs.urlLabel}</span>
-                      </div>
-                    )}
-                    
-                    <a href="/contact" class="btn-inquire-link">
-                      Inquire Similar Build &rarr;
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          )
-        ))}
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -810,16 +671,17 @@ const deliveryStandards = [
   <section class="section section-wash standards-section" aria-labelledby="standards-heading">
     <div class="container">
       <div class="section-header">
-        <span class="text-eyebrow">Transparent Delivery</span>
-        <h2 id="standards-heading">How Every Project Is Built &amp; Handed Over</h2>
+        <h2 id="standards-heading">How Every Project Is Built &amp; <span class="text-gradient">Handed Over</span></h2>
         <p>No black boxes, no hostage code, no agency runarounds. Just clean engineering from day one.</p>
       </div>
 
       <div class="grid-4 standards-grid">
         {deliveryStandards.map((std) => (
           <article class="card standard-card">
-            <span class="standard-step">{std.step}</span>
-            <h3 class="standard-title">{std.title}</h3>
+            <div class="standard-card-header">
+              <h3 class="standard-title">{std.title}</h3>
+              <span class="standard-step">{std.step}</span>
+            </div>
             <p class="standard-desc">{std.desc}</p>
           </article>
         ))}
@@ -854,13 +716,13 @@ const deliveryStandards = [
 
   /* Hero Section */
   .portfolio-hero {
-    padding-top: clamp(3rem, 5vw, 4.5rem);
-    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    padding-top: clamp(2rem, 3.5vw, 3rem);
+    padding-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
     text-align: center;
   }
 
   .portfolio-headline {
-    margin: 0.75rem auto 1.25rem;
+    margin: 0.5rem auto 1rem;
     font-size: var(--text-5xl);
     font-weight: 800;
     line-height: 1.15;
@@ -874,59 +736,14 @@ const deliveryStandards = [
     line-height: 1.6;
     color: var(--color-text-body);
     max-width: 760px;
-    margin: 0 auto 2.25rem;
-  }
-
-  /* Stats Counter Strip */
-  .stats-counter-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    max-width: 360px;
-    margin: 0 auto 2.5rem;
-    padding: 1.15rem 2.5rem;
-    background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    box-shadow: var(--shadow-md);
-  }
-
-  .stat-counter-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
-  }
-
-  .stat-number {
-    font-size: clamp(1.5rem, 2.2vw, 1.85rem);
-    font-weight: 800;
-    color: var(--color-primary);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-
-  .stat-label {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 38px;
-    background: var(--color-border-card);
+    margin: 0 auto 1.5rem;
   }
 
   /* Filter Controls */
   .filter-controls-wrap {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 0.25rem;
   }
 
   .filter-tabs {
@@ -969,375 +786,430 @@ const deliveryStandards = [
 
   /* Flagship Case Studies */
   .case-studies-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
+    padding-top: clamp(2rem, 3.5vw, 3rem);
+    padding-bottom: clamp(2rem, 3.5vw, 3rem);
   }
 
-  .case-studies-list {
+  /* Portfolio Cards Grid (Matching Home Page Style) */
+  .portfolio-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: stretch;
+  }
+
+  .portfolio-card {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-  }
-
-  .case-study-card {
-    padding: clamp(1.75rem, 3vw, 2.75rem);
+    padding: 1.25rem;
     background: #FFFFFF;
-    border-radius: var(--radius-2xl);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: var(--radius-xl, 16px);
+    border: 1px solid var(--color-border-card, #E2E8F0);
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    height: 100%;
   }
 
-  .case-study-card:hover {
+  .portfolio-card:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
+    border-color: #CBD5E1;
   }
 
-  .case-study-top {
+  .portfolio-card.is-filtered-out {
+    display: none !important;
+  }
+
+  /* Card Top Bar */
+  .card-top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.75rem;
-    border-bottom: 1px solid var(--color-border-card);
+    margin-bottom: 0.85rem;
+    min-height: 32px;
   }
 
-  .case-study-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .status-badge {
+  .portfolio-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 9999px;
   }
 
-  .status-indicator {
+  .badge-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: currentColor;
+    display: inline-block;
   }
 
-  .badge-live {
-    background: #ECFDF5;
-    color: #065F46;
-    border: 1px solid #A7F3D0;
+  .portfolio-badge.live {
+    background: #DCFCE7;
+    color: #15803D;
   }
 
-  .badge-delivered {
+  .portfolio-badge.live .badge-dot {
+    background: #16A34A;
+  }
+
+  .portfolio-badge.in-progress {
     background: #EFF6FF;
-    color: #1E40AF;
-    border: 1px solid #BFDBFE;
+    color: #2563EB;
   }
 
-  .badge-ai {
-    background: #F5F3FF;
-    color: #5B21B6;
-    border: 1px solid #DDD6FE;
+  .portfolio-badge.in-progress .badge-dot {
+    background: #2563EB;
   }
 
-  .badge-automation {
-    background: #FFFBEB;
-    color: #92400E;
-    border: 1px solid #FDE68A;
-  }
-
-  .case-study-industry {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .client-name {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-heading);
-    background: rgba(124, 92, 232, 0.06);
-    padding: 4px 12px;
-    border-radius: var(--radius-md);
-  }
-
-  .client-meta-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .platform-meta-pill {
-    font-size: var(--text-xs);
-    font-weight: 700;
-    color: var(--color-primary);
-    background: rgba(124, 92, 232, 0.08);
-    border: 1px solid rgba(124, 92, 232, 0.2);
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
-  }
-
-  .engagement-badge {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--color-text-muted);
-    background: #F4F3F9;
-    padding: 3px 10px;
-    border-radius: var(--radius-md);
-  }
-
-  /* ==========================================================================
-     Outside Case Study Card: Hero Showcase & Primary Action
-     ========================================================================== */
-  .has-showcase-card {
-    border: 1px solid rgba(124, 92, 232, 0.22);
-    box-shadow: 0 10px 30px rgba(124, 92, 232, 0.06);
-    position: relative;
-  }
-
-  .cs-hero-banner-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1400 / 747;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    margin-bottom: 2rem;
-    border: 1px solid var(--color-border-card);
-    box-shadow: 0 6px 24px rgba(20, 10, 60, 0.08);
-    background: #0B081F;
-  }
-
-  .cs-hero-banner-img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .cs-hero-banner-wrap:hover .cs-hero-banner-img {
-    transform: scale(1.015);
-  }
-
-  .hero-image-overlay-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(180deg, rgba(11, 8, 31, 0) 0%, rgba(11, 8, 31, 0.88) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .hero-overlay-tag {
-    font-size: var(--text-xs);
-    font-weight: 700;
-    color: #FFFFFF;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  }
-
-  .hero-overlay-btn {
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #FFFFFF;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .hero-overlay-btn:hover {
-    background: #FFFFFF;
-    color: var(--color-text-heading);
-    border-color: #FFFFFF;
-  }
-
-  /* 4 Core Outside Capabilities */
-  .outside-features-list {
-    margin: 1.5rem 0 1.75rem;
-  }
-
-  .outside-features-title {
-    display: block;
-    font-size: var(--text-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
-    margin-bottom: 0.85rem;
-  }
-
-  .outside-features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px 16px;
-  }
-
-  .outside-feat-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--color-text-body);
-    background: #F9F8FD;
-    padding: 10px 12px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border-card);
-  }
-
-  .outside-feat-item strong {
-    display: block;
-    color: var(--color-text-heading);
-    font-size: 13px;
-    margin-bottom: 2px;
-  }
-
-  .outside-feat-item span {
-    font-size: 12px;
-    color: var(--color-text-muted);
-  }
-
-  .feat-bullet {
+  .card-ext-btn {
+    width: 30px;
+    height: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: rgba(16, 185, 129, 0.15);
-    color: #059669;
-    font-size: 11px;
-    font-weight: 800;
-    flex-shrink: 0;
-    margin-top: 2px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    color: #64748B;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0;
   }
 
-  /* Teaser Callout Box */
-  .showcase-teaser-box {
+  .card-ext-btn:hover {
+    border-color: #94A3B8;
+    color: #0F172A;
+    background: #F8FAFC;
+    transform: translateY(-1px);
+  }
+
+  /* Visual Preview Media */
+  .card-preview-media {
+    height: 165px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+    background: #F1F5F9;
+  }
+
+  /* Alpha Studio Mockup */
+  .preview-alpha .preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card:hover .preview-alpha .preview-img {
+    transform: scale(1.02);
+  }
+
+  /* SeHAT Preview */
+  .preview-sehat {
+    background: linear-gradient(135deg, #F0F6FD 0%, #E2EDF9 100%);
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(135deg, rgba(124, 92, 232, 0.08) 0%, rgba(221, 73, 133, 0.06) 100%);
-    border: 1px solid rgba(124, 92, 232, 0.2);
-    border-radius: var(--radius-lg);
-    margin-top: 1.5rem;
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
   }
 
-  .teaser-icon-pulse {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--brand-gradient);
-    color: #FFFFFF;
+  .sehat-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+    max-width: 52%;
+  }
+
+  .sehat-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #DBEAFE;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 800;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.3);
+    margin-bottom: 0.45rem;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.12);
   }
 
-  .teaser-copy {
-    flex: 1;
-    font-size: 12.5px;
-    line-height: 1.45;
-    color: var(--color-text-heading);
-  }
-
-  .teaser-copy strong {
-    display: block;
-    font-size: 13px;
-    color: var(--color-primary);
-    margin-bottom: 2px;
-  }
-
-  .btn-teaser-action {
-    background: #FFFFFF;
-    border: 1px solid rgba(124, 92, 232, 0.3);
-    color: var(--color-primary);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(124, 92, 232, 0.08);
-  }
-
-  .btn-teaser-action:hover {
-    background: var(--color-primary);
-    color: #FFFFFF;
-    border-color: var(--color-primary);
-  }
-
-  /* Primary Action Button (Triggers Modal) */
-  .btn-primary-showcase {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 18px;
-    background: var(--brand-gradient);
-    color: #FFFFFF;
-    border: none;
-    border-radius: var(--radius-xl);
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(124, 92, 232, 0.35);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    text-align: left;
-  }
-
-  .btn-primary-showcase:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(124, 92, 232, 0.45);
-  }
-
-  .btn-sparkle {
-    font-size: 1.4rem;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .btn-title-wrap {
+  .sehat-brand {
     display: flex;
     flex-direction: column;
-    gap: 2px;
   }
 
-  .btn-main-label {
-    font-size: var(--text-sm);
+  .sehat-brand-name {
+    font-size: 1rem;
     font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
+    color: #1E293B;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
-  .btn-sub-label {
-    font-size: 11px;
-    font-weight: 500;
-    opacity: 0.9;
-    letter-spacing: 0.02em;
+  .sehat-brand-sub {
+    font-size: 0.68rem;
+    color: #64748B;
+    line-height: 1.35;
+    margin-top: 0.3rem;
+  }
+
+  .sehat-right {
+    position: absolute;
+    right: -10px;
+    top: -5px;
+    bottom: -15px;
+    width: 56%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .sehat-mockup-img {
+    height: 115%;
+    width: auto;
+    object-fit: contain;
+    object-position: right center;
+    filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.12));
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card:hover .sehat-mockup-img {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* SaaS Preview */
+  .preview-saas {
+    background: radial-gradient(circle at 10% 95%, rgba(37, 99, 235, 0.45) 0%, transparent 55%), #0A0D1D;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  .saas-left {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    z-index: 2;
+  }
+
+  .saas-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+
+  .saas-desc {
+    font-size: 0.68rem;
+    color: #94A3B8;
+    line-height: 1.35;
+  }
+
+  .saas-right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .saas-feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 3px 8px;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #F8FAFC;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Typography */
+  .card-project-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0F172A;
+    line-height: 1.35;
+    margin-bottom: 0.35rem;
+  }
+
+  .card-project-desc {
+    font-size: 0.83rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin-bottom: 0.9rem;
+    min-height: 40px;
+  }
+
+  /* Tags */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: auto;
+    margin-bottom: 1rem;
+  }
+
+  .chip-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .chip-blue {
+    background: #EFF6FF;
+    color: #2563EB;
+  }
+
+  .chip-purple {
+    background: #F5F3FF;
+    color: #7C3AED;
+  }
+
+  .chip-orange {
+    background: #FFF7ED;
+    color: #EA580C;
+  }
+
+  .chip-green {
+    background: #F0FDF4;
+    color: #16A34A;
+  }
+
+  /* Card Action Buttons */
+  .portfolio-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .btn-card-showcase {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 14px;
+    background: var(--brand-gradient, linear-gradient(135deg, #7C5CE8 0%, #2563EB 100%));
+    color: #FFFFFF;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius-md, 10px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.22);
+    text-decoration: none;
+  }
+
+  .btn-card-showcase:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(124, 92, 232, 0.35);
+  }
+
+  .sparkle-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+    color: #FDE047;
+  }
+
+  .btn-card-case-study,
+  .btn-card-live {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px 14px;
+    background: #F8FAFC;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: var(--radius-md, 10px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-card-case-study:hover,
+  .btn-card-live:hover {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+    color: #2563EB;
+  }
+
+  .arrow-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-card-case-study:hover .arrow-icon,
+  .btn-card-live:hover .arrow-icon {
+    transform: translateX(2px);
+  }
+
+  .card-status-badge {
+    text-align: center;
+    padding: 6px 10px;
+    background: #F8FAFC;
+    border: 1px dashed #CBD5E1;
+    border-radius: var(--radius-md, 10px);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  /* Responsive Grid Breakpoints */
+  @media (max-width: 1024px) {
+    .portfolio-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .portfolio-cards-grid {
+      grid-template-columns: 1fr;
+      gap: 1.15rem;
+      margin-top: 1.5rem;
+    }
+
+    .portfolio-card {
+      padding: 1.1rem;
+    }
+
+    .card-preview-media {
+      height: 155px;
+    }
   }
 
   /* ==========================================================================
@@ -2316,47 +2188,73 @@ const deliveryStandards = [
 
   /* Standards Section */
   .standards-section {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: clamp(3rem, 5vw, 5rem);
+    padding-top: clamp(2.5rem, 4vw, 3.5rem);
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
   }
 
   .standards-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-    margin-bottom: 3rem;
+    gap: 1.15rem;
+    margin-top: 2rem;
+    margin-bottom: 2.25rem;
   }
 
   .standard-card {
-    padding: 1.75rem 1.5rem;
+    padding: 1.15rem 1.25rem;
     background: #FFFFFF;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border-card);
-    position: relative;
+    border-radius: var(--radius-xl, 16px);
+    border: 1px solid var(--color-border-card, #E2E8F0);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
-  .standard-step {
-    display: block;
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: rgba(124, 92, 232, 0.25);
-    margin-bottom: 0.75rem;
-    line-height: 1;
+  .standard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px -3px rgba(15, 23, 42, 0.08);
+    border-color: #CBD5E1;
+  }
+
+  .standard-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
   }
 
   .standard-title {
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--color-text-heading);
-    margin-bottom: 0.6rem;
+    margin: 0;
     line-height: 1.3;
+    flex: 1;
+  }
+
+  .standard-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    background: rgba(124, 92, 232, 0.08);
+    border: 1px solid rgba(124, 92, 232, 0.18);
+    padding: 3px 8px;
+    border-radius: 8px;
+    line-height: 1;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
   }
 
   .standard-desc {
-    font-size: var(--text-sm);
-    line-height: 1.55;
+    font-size: 0.82rem;
+    line-height: 1.5;
     color: var(--color-text-body);
+    margin: 0;
   }
 
   /* Trust Guarantee Box */
@@ -2365,18 +2263,18 @@ const deliveryStandards = [
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 1.25rem 2rem;
-    padding: 1.5rem 2rem;
+    gap: 1rem 1.75rem;
+    padding: 1.15rem 1.75rem;
     background: linear-gradient(135deg, rgba(124, 92, 232, 0.05) 0%, rgba(87, 130, 224, 0.05) 100%);
     border: 1px dashed rgba(124, 92, 232, 0.35);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl, 16px);
   }
 
   .trust-badge-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: var(--text-sm);
+    gap: 7px;
+    font-size: 0.82rem;
     font-weight: 600;
     color: var(--color-text-heading);
   }
@@ -2385,13 +2283,14 @@ const deliveryStandards = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--color-primary);
     color: #FFFFFF;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
+    flex-shrink: 0;
   }
 
   /* Filter Hidden State */
@@ -2453,7 +2352,7 @@ const deliveryStandards = [
 
     .standards-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     .case-study-cta-row {
@@ -2471,24 +2370,18 @@ const deliveryStandards = [
   /* Mobile (< 768px) */
   @media (max-width: 767px) {
     .portfolio-hero {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.25rem;
     }
 
     .portfolio-headline {
-      font-size: clamp(1.85rem, 6.5vw, 2.35rem);
+      font-size: clamp(1.75rem, 6vw, 2.2rem);
+      margin: 0.35rem auto 0.75rem;
     }
 
-    .stats-counter-bar {
-      gap: 1.25rem;
-      padding: 1rem 2rem;
-      border-radius: var(--radius-lg);
-      width: fit-content;
-      max-width: 100%;
-    }
-
-    .stat-counter-item {
-      width: 100%;
+    .portfolio-subheadline {
+      font-size: 0.95rem;
+      margin: 0 auto 1.25rem;
     }
 
     .filter-tabs {
@@ -2666,7 +2559,13 @@ const deliveryStandards = [
 
     .standards-grid {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .standard-card {
+      padding: 1rem 1.15rem;
     }
 
     .trust-guarantee-box {

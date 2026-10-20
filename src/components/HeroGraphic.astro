@@ -1,420 +1,804 @@
 ---
-// Hero Dashboard Graphic matching design-brand-reference.md tokens
+// InfoHQ Hero Interactive UI Composition
+// Design specifications:
+// - Generous, well-proportioned code editor window (comfortable font & height for desktop)
+// - Floating "Automation Active" status badge (~60% protruding outside top-right)
+// - Floating "Workflow performance +68%" chart card (~60% protruding outside right edge)
+// - Floating "Automated Workflow" checklist card (~60% protruding outside bottom-left)
+// - Floating "Integrates with your tools" card (~80% protruding outside bottom-right)
+// - Connecting dashed curved arrows pointing in correct directions:
+//   1. Top arrow: curves down from Automation Active, pointing DOWN (↓) into Performance chart
+//   2. Bottom arrow: curves from checklist, pointing RIGHT (→) towards Integrates with your tools
+// - Seamless proportional scaling on all mobile, tablet, and desktop screens
 ---
 
-<div class="hero-visual-card" aria-label="InfoHQ AI & Software Architecture Overview">
-  <div class="card-inner-frame">
-    <!-- Window Bar -->
-    <div class="mockup-window-bar">
-      <div class="window-dots">
-        <span class="dot dot-coral"></span>
-        <span class="dot dot-pink"></span>
-        <span class="dot dot-purple"></span>
+<div class="hero-composition" id="heroComposition" aria-label="InfoHQ Code & Automation Showcase">
+  <div class="composition-canvas" id="compositionCanvas">
+    
+    <!-- 1. Floating Badge: Automation Active (Top Right - ~60% outside) -->
+    <div class="floating-badge badge-automation" aria-hidden="true">
+      <div class="badge-icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+        </svg>
       </div>
-      <div class="window-search-pill">
-        <span class="pill-dot"></span>
-        <span class="pill-text">infohq.in &bull; AI Agent & Cloud Orchestration</span>
-      </div>
-      <div class="window-status-badge">
-        <span class="live-dot"></span>
-        <span class="status-label">Engine Online</span>
+      <div class="badge-text-group">
+        <span class="badge-main-title">Automation Active</span>
+        <span class="badge-sub-status">
+          <span class="status-pulse-dot"></span>
+          Running smoothly
+        </span>
       </div>
     </div>
 
-    <!-- Main Mockup Grid -->
-    <div class="mockup-grid">
-      <!-- Left Metric / Balance Card (sampled from reference #7775FA -> #7060F4) -->
-      <div class="metric-card-balance">
-        <div class="balance-header">
-          <span class="balance-tag">ACTIVE REPOSITORY</span>
-          <span class="balance-uptime">99.99% Uptime</span>
+    <!-- Curved connecting arrow: Automation -> Performance Chart (Pointing DOWN into chart) -->
+    <svg class="curved-arrow arrow-top-right" width="44" height="40" viewBox="0 0 44 40" fill="none" aria-hidden="true">
+      <path d="M 6 2 C 28 6, 34 16, 24 28" stroke="#818CF8" stroke-width="1.6" stroke-dasharray="3.5 3.5" stroke-linecap="round"></path>
+      <polygon points="19,25 24,33 29,25" fill="#818CF8"></polygon>
+    </svg>
+
+    <!-- 2. Main Dark Code Editor Window (Wide & Well Proportioned) -->
+    <div class="code-editor-window">
+      <!-- Editor Top Bar -->
+      <div class="editor-header">
+        <div class="window-controls" aria-hidden="true">
+          <span class="ctrl-dot dot-close"></span>
+          <span class="ctrl-dot dot-min"></span>
+          <span class="ctrl-dot dot-expand"></span>
         </div>
-        <div class="balance-value">v2.4.0 Production</div>
-        <p class="balance-sub">Multi-tenant Cloudflare Edge &bull; Postgres vector</p>
-        
-        <div class="balance-stats-row">
-          <div class="b-stat">
-            <span class="b-val">&lt; 42ms</span>
-            <span class="b-lbl">Avg Response</span>
+
+        <div class="editor-tabs">
+          <div class="editor-tab tab-active">
+            <span class="tab-indicator-dot"></span>
+            <span class="tab-name">api.ts</span>
           </div>
-          <div class="b-stat">
-            <span class="b-val">100%</span>
-            <span class="b-lbl">IP Ownership</span>
+          <div class="editor-tab tab-inactive">
+            <span class="tab-name">dashboard.tsx</span>
+          </div>
+          <div class="editor-tab tab-inactive">
+            <span class="tab-name">routes.ts</span>
           </div>
         </div>
       </div>
 
-      <!-- Center Telemetry & Integrations Hub -->
-      <div class="telemetry-hub-card">
-        <div class="hub-header">
-          <span class="hub-title">Unified Stack Integrations</span>
-          <span class="hub-badge">Automated Sync</span>
+      <!-- Editor Main Layout: Sidebar Tree + Code Content -->
+      <div class="editor-body">
+        <!-- Sidebar Tree -->
+        <div class="editor-sidebar" aria-hidden="true">
+          <div class="sidebar-project-name">infohq</div>
+          <div class="file-tree">
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> apps</div>
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> web</div>
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> components</div>
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> lib</div>
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> services</div>
+            <div class="tree-item tree-file-active">
+              <span class="file-icon">TS</span>
+              api.ts
+            </div>
+            <div class="tree-item"><span class="tree-arrow">&#8250;</span> utils</div>
+          </div>
         </div>
 
-        <div class="integrations-pill-grid">
-          <!-- WhatsApp style tile (#E3FFFF) -->
-          <div class="int-tile tile-cyan" title="WhatsApp Business API">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#009688" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span class="tile-name">WhatsApp API</span>
-          </div>
-
-          <!-- Messenger style tile (#F5E8FF) -->
-          <div class="int-tile tile-lavender" title="LLM Agent & RAG">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C5CE8" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-            <span class="tile-name">Claude / OpenAI</span>
-          </div>
-
-          <!-- Green style tile (#C8F7C3) -->
-          <div class="int-tile tile-green" title="Payment Gateway">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-            <span class="tile-name">Stripe / Razorpay</span>
-          </div>
-
-          <!-- Figma style tile (#8B64F3) -->
-          <div class="int-tile tile-figma" title="Figma Design Systems">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></svg>
-            <span class="tile-name">Figma Systems</span>
-          </div>
-
-          <!-- Voice tile (#DACCF0) -->
-          <div class="int-tile tile-voice" title="Cloud Infrastructure">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A148C" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-            <span class="tile-name">Cloudflare / AWS</span>
-          </div>
-
-          <!-- Dark Indigo Center (#081E71) -->
-          <div class="int-tile tile-indigo" title="PostgreSQL Vector DB">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
-            <span class="tile-name">Postgres pgvector</span>
-          </div>
+        <!-- Code Area with Line Numbers & Syntax Colors -->
+        <div class="editor-code-area">
+          <pre class="code-pre"><code><span class="code-line"><span class="ln">1</span><span class="tok-comment">// AI Automation Pipeline</span></span>
+<span class="code-line"><span class="ln">2</span><span class="tok-kw">export async function</span> <span class="tok-fn">processInquiry</span>(<span class="tok-param">lead</span>: <span class="tok-type">Lead</span>) &#123;</span>
+<span class="code-line"><span class="ln">3</span>  <span class="tok-kw">const</span> <span class="tok-var">enriched</span> = <span class="tok-kw">await</span> <span class="tok-builtin">ai</span>.<span class="tok-fn">qualify</span>(<span class="tok-var">lead</span>);</span>
+<span class="code-line"><span class="ln">4</span>  <span class="tok-kw">await</span> <span class="tok-builtin">crm</span>.<span class="tok-fn">sync</span>(&#123; ...<span class="tok-var">lead</span>, <span class="tok-prop">score</span>: <span class="tok-var">enriched</span>.<span class="tok-prop">score</span> &#125;);</span>
+<span class="code-line"><span class="ln">5</span>  <span class="tok-kw">await</span> <span class="tok-builtin">notify</span>.<span class="tok-fn">slack</span>(&#123; <span class="tok-prop">channel</span>: <span class="tok-str">'#leads'</span>, <span class="tok-prop">lead</span> &#125;);</span>
+<span class="code-line"><span class="ln">6</span>  <span class="tok-kw">return</span> &#123; <span class="tok-prop">status</span>: <span class="tok-str">'synced'</span>, <span class="tok-prop">success</span>: <span class="tok-builtin">true</span> &#125;;</span>
+<span class="code-line"><span class="ln">7</span>&#125;</span></code></pre>
         </div>
       </div>
     </div>
 
-    <!-- Active Pipeline Bar -->
-    <div class="pipeline-bar">
-      <div class="pipe-node active">
-        <span class="node-indicator"></span>
-        <span class="node-title">Discovery</span>
+    <!-- 3. Floating Card: Workflow Performance Chart (~60% outside code window) -->
+    <div class="floating-card card-performance">
+      <div class="perf-header">
+        <span class="perf-title">Workflow performance</span>
+        <div class="perf-dropdown">
+          <span>Last 30 days</span>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
       </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-node active">
-        <span class="node-indicator"></span>
-        <span class="node-title">Design System</span>
+
+      <div class="perf-metric-group">
+        <div class="perf-metric-val">+ 68%</div>
+        <div class="perf-metric-desc">More inquiries processed</div>
       </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-node active">
-        <span class="node-indicator"></span>
-        <span class="node-title">Full-Stack Build</span>
+
+      <!-- Area Chart SVG -->
+      <div class="perf-chart-wrap" aria-hidden="true">
+        <svg class="chart-svg" viewBox="0 0 200 40" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6366F1" stop-opacity="0.3" />
+              <stop offset="100%" stop-color="#6366F1" stop-opacity="0.0" />
+            </linearGradient>
+          </defs>
+          <path 
+            d="M 0 35 C 20 35, 35 30, 50 28 C 70 24, 85 27, 105 20 C 125 15, 140 18, 160 10 C 180 5, 190 7, 200 2 L 200 40 L 0 40 Z" 
+            fill="url(#chartGradient)"
+          />
+          <path 
+            d="M 0 35 C 20 35, 35 30, 50 28 C 70 24, 85 27, 105 20 C 125 15, 140 18, 160 10 C 180 5, 190 7, 200 2" 
+            fill="none" 
+            stroke="#6366F1" 
+            stroke-width="2.2" 
+            stroke-linecap="round"
+          />
+        </svg>
       </div>
-      <div class="pipe-connector"></div>
-      <div class="pipe-node active">
-        <span class="node-indicator"></span>
-        <span class="node-title">Deploy & Scale</span>
+
+      <div class="perf-timeline-labels" aria-hidden="true">
+        <span>1 Oct</span>
+        <span>8 Oct</span>
+        <span>16 Oct</span>
+        <span>24 Oct</span>
+        <span>31 Oct</span>
       </div>
     </div>
+
+    <!-- 4. Floating Card: Automated Workflow Checklist (~60% outside code window) -->
+    <div class="floating-card card-workflow">
+      <div class="workflow-header">Automated Workflow</div>
+      <div class="workflow-checklist">
+        <!-- Item 1 -->
+        <div class="wf-item">
+          <div class="wf-check-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="wf-item-label">Lead captured</span>
+          <span class="wf-item-time">2s ago</span>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="wf-item">
+          <div class="wf-check-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="wf-item-label">Data synced</span>
+          <span class="wf-item-time">2s ago</span>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="wf-item">
+          <div class="wf-check-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="wf-item-label">Follow-up sent</span>
+          <span class="wf-item-time">3s ago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Curved connecting arrow: Workflow Checklist -> Integrations Bar (Pointing RIGHT towards tools) -->
+    <svg class="curved-arrow arrow-bottom-middle" width="200" height="32" viewBox="0 0 200 32" fill="none" aria-hidden="true">
+      <path d="M 6 8 C 70 24, 130 24, 188 14" stroke="#818CF8" stroke-width="1.6" stroke-dasharray="3.5 3.5" stroke-linecap="round"></path>
+      <polygon points="185,9 194,14 185,19" fill="#818CF8"></polygon>
+    </svg>
+
+    <!-- 5. Floating Card: Integrates With Your Tools (Bottom Right - ~80% outside) -->
+    <div class="floating-card card-integrations">
+      <div class="integrations-label">Integrates with your tools</div>
+      <div class="tools-icon-row">
+        <!-- Database -->
+        <div class="tool-icon-pill" title="Database Sync">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+            <path d="M3 12A9 3 0 0 0 21 12"></path>
+          </svg>
+        </div>
+
+        <!-- Google Drive -->
+        <div class="tool-icon-pill" title="Google Drive">
+          <svg width="15" height="15" viewBox="0 0 24 24">
+            <path d="M8.5 2h7l6 10.5h-7z" fill="#FFC107"/>
+            <path d="M14.5 12.5l-6 10.5H1.5l6-10.5z" fill="#0066DA"/>
+            <path d="M8.5 22.5h7l6-10h-7z" fill="#00AC47"/>
+          </svg>
+        </div>
+
+        <!-- Slack -->
+        <div class="tool-icon-pill" title="Slack">
+          <svg width="15" height="15" viewBox="0 0 24 24">
+            <path d="M6 15a2 2 0 1 1-2-2h2v2zM7 15a2 2 0 0 1 4 0v5a2 2 0 1 1-4 0v-5z" fill="#E01E5A"/>
+            <path d="M9 6a2 2 0 1 1 2-2v2H9zM9 7a2 2 0 0 1 0 4H4a2 2 0 1 1 0-4h5z" fill="#36C5F0"/>
+            <path d="M18 9a2 2 0 1 1 2 2h-2V9zM17 9a2 2 0 0 1-4 0V4a2 2 0 1 1 4 0v5z" fill="#2EB67D"/>
+            <path d="M15 18a2 2 0 1 1-2 2v-2h2zM15 17a2 2 0 0 1 0-4h5a2 2 0 1 1 0 4h-5z" fill="#ECB22E"/>
+          </svg>
+        </div>
+
+        <!-- Notion -->
+        <div class="tool-icon-pill" title="Notion">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#1E293B">
+            <path d="M4.4 3.7c.6.5.9.6 1.8.6h12c.7 0 1-.2 1.5-.6.5-.4.8-.4 1.2-.4.4 0 .9.3 1.1.6.3.3.4.7.4 1.2v13.8c0 .8-.3 1.3-.9 1.7-.5.4-1.2.6-2 .6H5.2c-.8 0-1.4-.2-1.9-.6-.5-.4-.8-1-.8-1.7V5.5c0-.6.2-1.1.6-1.4.3-.3.8-.4 1.3-.4zm2.1 3.5v11.6h11V7.2H6.5zm2.2 2.2h1.8l3.6 5.5V9.4h1.7v7.2h-1.6l-3.8-5.7v5.7H8.7V9.4z"/>
+          </svg>
+        </div>
+
+        <!-- HubSpot -->
+        <div class="tool-icon-pill" title="HubSpot CRM">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#FF7A59">
+            <circle cx="16.5" cy="5.5" r="2.5"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+            <circle cx="6" cy="14" r="2"></circle>
+            <circle cx="18" cy="18" r="2"></circle>
+            <path d="M15 7.5L13.5 9.5M10.5 13.5L7.5 13.5M13.5 14L16.5 16.5" stroke="#FF7A59" stroke-width="1.8" stroke-linecap="round"></path>
+          </svg>
+        </div>
+
+        <!-- Plus indicator -->
+        <div class="tool-icon-pill tool-more-badge" title="More integrations">
+          +
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+<script is:inline>
+  (function () {
+    function setupHeroScale() {
+      const comp = document.getElementById('heroComposition');
+      const canvas = document.getElementById('compositionCanvas');
+      if (!comp || !canvas) return;
+
+      const BASE_W = 710;
+      const BASE_H = 395;
+
+      function applyScale() {
+        const parentW = comp.parentElement ? comp.parentElement.clientWidth : 0;
+        const screenW = window.innerWidth - 32;
+        const availableW = parentW > 0 ? Math.min(parentW, screenW, BASE_W) : Math.min(screenW, BASE_W);
+        const scale = Math.min(1, Math.max(0.35, availableW / BASE_W));
+        canvas.style.transform = `scale(${scale})`;
+        comp.style.width = `${BASE_W * scale}px`;
+        comp.style.height = `${BASE_H * scale}px`;
+      }
+
+      applyScale();
+
+      if (window.ResizeObserver && comp.parentElement) {
+        new ResizeObserver(applyScale).observe(comp.parentElement);
+      } else {
+        window.addEventListener('resize', applyScale);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupHeroScale);
+    } else {
+      setupHeroScale();
+    }
+  })();
+</script>
+
 <style>
-  .hero-visual-card {
+  .hero-composition {
     position: relative;
-    border-radius: var(--radius-2xl);
-    padding: 2px;
-    background: var(--brand-gradient);
-    box-shadow: 0 24px 60px rgba(26, 8, 92, 0.16), 0 0 40px rgba(124, 92, 232, 0.15);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-  }
-
-  .hero-visual-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 70px rgba(26, 8, 92, 0.22), 0 0 50px rgba(124, 92, 232, 0.25);
-  }
-
-  .card-inner-frame {
-    background: #FFFFFF;
-    border-radius: calc(var(--radius-2xl) - 2px);
-    padding: clamp(1rem, 2.5vw, 1.75rem);
+    width: 100%;
+    max-width: 710px;
+    height: 395px;
+    margin: 0 auto;
+    padding: 0;
+    user-select: none;
+    overflow: visible;
     display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+    justify-content: center;
   }
 
-  .mockup-window-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--color-border-card);
+  .composition-canvas {
+    position: relative;
+    width: 710px;
+    height: 395px;
+    flex-shrink: 0;
+    transform-origin: top left;
+    transition: transform 0.15s ease-out;
   }
 
-  .window-dots {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  /* -------------------------------------------
+     1. Main Dark Code Editor Window (Wide & Well Proportioned)
+     ------------------------------------------- */
+  .code-editor-window {
+    background: #0B0F19;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 20px 50px -12px rgba(15, 9, 38, 0.38),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    position: absolute;
+    top: 24px;
+    left: 35px;
+    width: 540px;
+    height: 326px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-
-  .dot-coral { background-color: var(--color-grad-coral); }
-  .dot-pink { background-color: var(--color-grad-pink); }
-  .dot-purple { background-color: var(--color-grad-purple); }
-
-  .window-search-pill {
+  .editor-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: #F4F3F9;
-    padding: 4px 12px;
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    padding: 8px 14px;
+    background: #080C14;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 12px;
   }
 
-  .pill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--color-primary);
-  }
-
-  .window-status-badge {
+  .window-controls {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: #15803D;
-    background: #DCFCE7;
-    padding: 3px 8px;
-    border-radius: var(--radius-full);
   }
 
-  .live-dot {
-    width: 6px;
-    height: 6px;
-    background-color: #22C55E;
+  .ctrl-dot {
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    animation: pulse 2s infinite;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
+  .dot-close { background-color: #EF4444; }
+  .dot-min { background-color: #F59E0B; }
+  .dot-expand { background-color: #10B981; }
+
+  .editor-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
-  .mockup-grid {
+  .editor-tab {
+    font-size: 0.72rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    padding: 3px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .tab-active {
+    background: #171E2E;
+    color: #F8FAFC;
+    font-weight: 500;
+  }
+
+  .tab-indicator-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #38BDF8;
+  }
+
+  .tab-inactive {
+    color: #64748B;
+  }
+
+  /* Editor Body */
+  .editor-body {
     display: grid;
-    grid-template-columns: 1fr 1.35fr;
-    gap: 1.25rem;
+    grid-template-columns: 88px 1fr;
+    height: calc(100% - 37px);
   }
 
-  /* Balance Card (#7775FA to #7060F4) */
-  .metric-card-balance {
-    background: linear-gradient(135deg, var(--color-balance-top) 0%, var(--color-balance-bottom) 100%);
-    border-radius: var(--radius-xl);
-    padding: 1.5rem;
-    color: #FFFFFF;
+  .editor-sidebar {
+    background: #080C14;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 10px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.67rem;
+    color: #64748B;
+  }
+
+  .sidebar-project-name {
+    color: #94A3B8;
+    font-weight: 700;
+    margin-bottom: 6px;
+    padding-left: 2px;
+    font-size: 0.68rem;
+  }
+
+  .file-tree {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 10px 24px rgba(119, 117, 250, 0.35);
+    gap: 2px;
   }
 
-  .balance-header {
+  .tree-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: var(--text-xs);
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    gap: 5px;
+    padding: 1.5px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .balance-tag {
-    opacity: 0.85;
+  .tree-arrow {
+    font-size: 0.72rem;
+    line-height: 1;
+    color: #475569;
   }
 
-  .balance-uptime {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
+  .tree-file-active {
+    background: rgba(56, 189, 248, 0.12);
+    color: #38BDF8;
+    font-weight: 600;
   }
 
-  .balance-value {
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
+  .file-icon {
+    font-size: 0.58rem;
     font-weight: 800;
-    margin: 1rem 0 0.25rem;
+    color: #38BDF8;
+    background: rgba(56, 189, 248, 0.2);
+    padding: 1px 3px;
+    border-radius: 2.5px;
+    line-height: 1;
   }
 
-  .balance-sub {
-    font-size: var(--text-xs);
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 1.25rem;
+  .editor-code-area {
+    padding: 10px 14px 10px 10px;
+    overflow: hidden;
   }
 
-  .balance-stats-row {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .b-stat {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .b-val {
-    font-size: var(--text-base);
-    font-weight: 700;
-  }
-
-  .b-lbl {
-    font-size: 0.7rem;
-    opacity: 0.8;
-  }
-
-  /* Telemetry Hub */
-  .telemetry-hub-card {
-    background: #FAF9FE;
-    border: 1px solid var(--color-border-card);
-    border-radius: var(--radius-xl);
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .hub-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .hub-title {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-heading);
-  }
-
-  .hub-badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    background: var(--color-primary-light);
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
-  }
-
-  .integrations-pill-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  .int-tile {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: var(--radius-md);
+  .code-pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
     font-size: 0.75rem;
-    font-weight: 600;
-    transition: transform 0.2s ease;
+    line-height: 1.52;
+    color: #E2E8F0;
+    overflow: hidden;
   }
 
-  .int-tile:hover {
+  .code-line {
+    display: block;
+    white-space: pre;
+  }
+
+  .ln {
+    display: inline-block;
+    width: 16px;
+    color: #475569;
+    user-select: none;
+    text-align: right;
+    margin-right: 10px;
+    font-size: 0.66rem;
+  }
+
+  /* Syntax Highlighting */
+  .tok-comment { color: #64748B; font-style: italic; }
+  .tok-kw { color: #C084FC; font-weight: 600; }
+  .tok-fn { color: #60A5FA; }
+  .tok-param { color: #FDA4AF; }
+  .tok-type { color: #38BDF8; }
+  .tok-var { color: #E2E8F0; }
+  .tok-prop { color: #93C5FD; }
+  .tok-str { color: #34D399; }
+  .tok-builtin { color: #FBBF24; }
+
+  /* -------------------------------------------
+     General Floating Cards Styling
+     ------------------------------------------- */
+  .floating-card,
+  .floating-badge {
+    background: #FFFFFF;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow: 
+      0 18px 36px -8px rgba(15, 9, 38, 0.14),
+      0 3px 8px -2px rgba(15, 9, 38, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .floating-card:hover,
+  .floating-badge:hover {
     transform: translateY(-2px);
+    box-shadow: 
+      0 22px 44px -8px rgba(15, 9, 38, 0.18),
+      0 5px 12px -2px rgba(15, 9, 38, 0.06);
   }
 
-  .tile-cyan { background-color: var(--color-tint-cyan); color: #00695C; }
-  .tile-lavender { background-color: var(--color-tint-lavender); color: #5B21B6; }
-  .tile-green { background-color: var(--color-tint-green); color: #1B5E20; }
-  .tile-figma { background-color: var(--color-tint-figma); color: #FFFFFF; }
-  .tile-voice { background-color: var(--color-tint-voice); color: #4A148C; }
-  .tile-indigo { background-color: var(--color-indigo-dark); color: #FFFFFF; }
+  /* -------------------------------------------
+     1. Automation Active Badge (Top Right - ~60% outside)
+     ------------------------------------------- */
+  .badge-automation {
+    position: absolute;
+    top: 2px;
+    left: 475px;
+    z-index: 5;
+    border-radius: 11px;
+    padding: 7px 13px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
 
-  /* Pipeline Bar */
-  .pipeline-bar {
+  .badge-icon-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #7C5CE8 0%, #6366F1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(124, 92, 232, 0.3);
+  }
+
+  .badge-text-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .badge-main-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0F172A;
+    line-height: 1.2;
+  }
+
+  .badge-sub-status {
+    font-size: 0.65rem;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+  }
+
+  .status-pulse-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  }
+
+  /* -------------------------------------------
+     Curved Dotted Connecting Arrows
+     ------------------------------------------- */
+  .curved-arrow {
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  /* Arrow 1: Top Right: Curves DOWN from Automation Active into Performance Card */
+  .arrow-top-right {
+    top: 42px;
+    left: 575px;
+  }
+
+  /* Arrow 2: Bottom Middle: Curves RIGHT from Workflow checklist into Integrations */
+  .arrow-bottom-middle {
+    top: 322px;
+    left: 205px;
+    width: 215px;
+  }
+
+  /* -------------------------------------------
+     2. Workflow Performance Chart Card (~60% outside code window)
+     ------------------------------------------- */
+  .card-performance {
+    position: absolute;
+    left: 470px;
+    top: 84px;
+    width: 230px;
+    border-radius: 14px;
+    padding: 10px 14px;
+    z-index: 6;
+  }
+
+  .perf-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #F4F3F9;
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius-lg);
+    gap: 4px;
+    margin-bottom: 2px;
   }
 
-  .pipe-node {
+  .perf-title {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #0F172A;
+    white-space: nowrap;
+  }
+
+  .perf-dropdown {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 2px;
+    font-size: 0.62rem;
+    color: #64748B;
+    background: #F8FAFC;
+    padding: 1.5px 6px;
+    border-radius: 3px;
+    border: 1px solid #E2E8F0;
   }
 
-  .node-indicator {
-    width: 8px;
-    height: 8px;
+  .perf-metric-group {
+    margin-bottom: 4px;
+  }
+
+  .perf-metric-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #4F46E5;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .perf-metric-desc {
+    font-size: 0.65rem;
+    color: #64748B;
+    font-weight: 500;
+  }
+
+  .perf-chart-wrap {
+    width: 100%;
+    height: 38px;
+    margin-bottom: 2px;
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .perf-timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.58rem;
+    color: #94A3B8;
+    font-weight: 500;
+  }
+
+  /* -------------------------------------------
+     3. Automated Workflow Checklist Card (~60% outside code window)
+     ------------------------------------------- */
+  .card-workflow {
+    position: absolute;
+    left: 0px;
+    top: 225px;
+    width: 205px;
+    border-radius: 13px;
+    padding: 10px 13px;
+    z-index: 6;
+  }
+
+  .workflow-header {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 7px;
+  }
+
+  .workflow-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .wf-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .wf-check-badge {
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, #7C5CE8 0%, #6366F1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    flex-shrink: 0;
   }
 
-  .node-title {
-    font-size: var(--text-xs);
+  .wf-item-label {
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--color-text-heading);
+    color: #1E293B;
   }
 
-  .pipe-connector {
-    flex: 1;
-    height: 2px;
-    background: rgba(124, 92, 232, 0.2);
-    margin: 0 0.5rem;
+  .wf-item-time {
+    font-size: 0.62rem;
+    color: #94A3B8;
+    margin-left: auto;
+    font-weight: 500;
   }
 
-  @media (max-width: 640px) {
-    .card-inner-frame {
-      padding: 1rem 0.85rem;
+  /* -------------------------------------------
+     4. Integrates With Your Tools Card (~80% outside)
+     ------------------------------------------- */
+  .card-integrations {
+    position: absolute;
+    left: 420px;
+    top: 318px;
+    width: 250px;
+    border-radius: 11px;
+    padding: 8px 14px;
+    z-index: 5;
+  }
+
+  .integrations-label {
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: #64748B;
+    margin-bottom: 6px;
+  }
+
+  .tools-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .tool-icon-pill {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .tool-icon-pill:hover {
+    transform: scale(1.1);
+    border-color: #CBD5E1;
+  }
+
+  .tool-more-badge {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #64748B;
+    background: #EEF2F6;
+  }
+
+  /* -------------------------------------------
+     Dynamic Responsive Scaling: Desktop, Tablet & Mobile
+     ------------------------------------------- */
+  @media (min-width: 711px) and (max-width: 1023px) {
+    .hero-composition {
+      margin: 1.5rem auto 0;
+      height: calc(395px * min(1, ((100vw - 48px) / 710)));
     }
-    .mockup-grid {
-      grid-template-columns: 1fr;
-    }
-    .pipeline-bar {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.6rem;
-    }
-    .pipe-connector {
-      display: none;
+
+    .composition-canvas {
+      transform-origin: top center;
+      transform: scale(min(1, calc((100vw - 48px) / 710)));
     }
   }
 
-  @media (max-width: 480px) {
-    .mockup-window-bar {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: space-between;
+  @media (max-width: 710px) {
+    .hero-composition {
+      height: calc(395px * ((100vw - 32px) / 710));
     }
-    .window-search-pill {
-      order: 3;
-      width: 100%;
-      justify-content: center;
-    }
-    .window-search-pill .pill-text {
-      max-width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .integrations-pill-grid {
-      grid-template-columns: 1fr;
-    }
-    .int-tile {
-      padding: 0.55rem 0.75rem;
+
+    .composition-canvas {
+      transform-origin: top center;
+      transform: scale(calc((100vw - 32px) / 710));
     }
   }
 </style>

@@ -55,14 +55,14 @@ const authorName = post.data.author || 'InfoHQ Team';
 
   <div class="card-content">
     <div class="card-header-meta">
-      <span class={`category-pill cat-pill-${categoryKey}`}>
-        {categoryKey === 'ai' && <Brain size={13} class="pill-icon" />}
-        {categoryKey === 'web' && <Globe size={13} class="pill-icon" />}
-        {categoryKey === 'automation' && <Workflow size={13} class="pill-icon" />}
-        {categoryKey === 'cloud' && <Cloud size={13} class="pill-icon" />}
-        {categoryKey === 'design' && <PenTool size={13} class="pill-icon" />}
-        {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={13} class="pill-icon" />}
-        <span>{categoryInfo.name}</span>
+      <span class="card-date-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="date-icon" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <time datetime={new Date(post.data.pubDate).toISOString()}>{formattedDate}</time>
       </span>
     </div>
 
@@ -72,7 +72,7 @@ const authorName = post.data.author || 'InfoHQ Team';
 
     <p class="card-description">{post.data.description}</p>
 
-    <!-- 2. Premium footer: Author, date, reading time aligned + Gradient circular arrow button -->
+    <!-- 2. Premium footer: Author, reading time aligned + Read Article action -->
     <div class="card-footer">
       <div class="card-footer-meta">
         <img 
@@ -85,13 +85,17 @@ const authorName = post.data.author || 'InfoHQ Team';
         />
         <span class="meta-author">{authorName}</span>
         <span class="meta-sep" aria-hidden="true">•</span>
-        <time datetime={new Date(post.data.pubDate).toISOString()} class="meta-date">{formattedDate}</time>
-        <span class="meta-sep" aria-hidden="true">•</span>
         <span class="meta-read-time">{readingTime}</span>
       </div>
 
-      <div class="card-arrow-btn" aria-hidden="true">
-        <ArrowRight size={18} class="arrow-icon" />
+      <div class="card-read-action" aria-hidden="true">
+        <span class="read-article-text">Read Article</span>
+        <span class="read-arrow-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="read-svg-arrow">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
       </div>
     </div>
   </div>
@@ -202,46 +206,23 @@ const authorName = post.data.author || 'InfoHQ Team';
     margin-bottom: 12px;
   }
 
-  .category-pill {
+  .card-date-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
+    padding: 4px 10px;
     border-radius: 9999px;
     font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-weight: 600;
     line-height: 1;
+    background: #F4F0FA;
+    color: #5B4A80;
+    border: 1px solid rgba(124, 92, 232, 0.15);
   }
 
-  .pill-icon {
+  .date-icon {
     flex-shrink: 0;
-  }
-
-  .cat-pill-ai {
-    background: #FFF2EB;
-    color: #E05638;
-  }
-
-  .cat-pill-automation {
-    background: #EEF2FF;
-    color: #6366F1;
-  }
-
-  .cat-pill-web {
-    background: #EBF5FF;
-    color: #0284C7;
-  }
-
-  .cat-pill-cloud {
-    background: #ECFEFF;
-    color: #0891B2;
-  }
-
-  .cat-pill-design {
-    background: #FDF2F8;
-    color: #DB2777;
+    color: var(--color-primary, #7C5CE8);
   }
 
   .card-title {
@@ -323,32 +304,55 @@ const authorName = post.data.author || 'InfoHQ Team';
     color: #6E6888;
   }
 
-  /* Gradient Circular Arrow Button */
-  .card-arrow-btn {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
-    display: flex;
+  /* Read Article Action */
+  .card-read-action {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.3);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    gap: 8px;
+    white-space: nowrap;
     flex-shrink: 0;
   }
 
-  .blog-card:hover .card-arrow-btn {
-    transform: scale(1.08) translateX(2px);
-    box-shadow: 0 6px 18px rgba(124, 92, 232, 0.45);
+  .read-article-text {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-primary, #7C5CE8);
+    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.2s ease;
   }
 
-  .arrow-icon {
-    transition: transform 0.25s ease;
+  .read-arrow-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(124, 92, 232, 0.08);
+    border: 1px solid rgba(124, 92, 232, 0.2);
+    color: var(--color-primary, #7C5CE8);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .blog-card:hover .arrow-icon {
+  .read-svg-arrow {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .blog-card:hover .read-article-text {
+    opacity: 0.85;
+  }
+
+  .blog-card:hover .read-arrow-badge {
+    background: var(--brand-gradient, linear-gradient(135deg, #7C5CE8 0%, #2563EB 100%));
+    border-color: transparent;
+    color: #FFFFFF;
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.35);
+  }
+
+  .blog-card:hover .read-svg-arrow {
     transform: translateX(1px);
   }
 
@@ -422,10 +426,17 @@ const authorName = post.data.author || 'InfoHQ Team';
       gap: 4px;
     }
 
-    .card-arrow-btn {
-      width: 34px;
-      height: 34px;
-      min-width: 34px;
+    .card-read-action {
+      gap: 6px;
+    }
+
+    .read-article-text {
+      font-size: 0.8rem;
+    }
+
+    .read-arrow-badge {
+      width: 24px;
+      height: 24px;
     }
   }
 </style>

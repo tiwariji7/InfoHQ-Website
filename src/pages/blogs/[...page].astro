@@ -107,7 +107,6 @@ const meta = {
   <!-- 1. Hero Section -->
   <section class="section blogs-hero" aria-labelledby="blogs-heading">
     <div class="container text-center blogs-hero-container">
-      <span class="text-eyebrow">Engineering Insights &bull; Technical Guides</span>
       <h1 id="blogs-heading" class="blogs-headline">
         Practical Guides to <span class="text-gradient">AI, Software Systems</span> &amp; Automation
       </h1>
@@ -280,11 +279,7 @@ const meta = {
             <!-- Sidebar Card B: Newsletter Card (Reusing existing NewsletterForm) -->
             <div class="card sidebar-card newsletter-sidebar-card">
               <div class="newsletter-card-glow" aria-hidden="true"></div>
-              <div class="newsletter-badge">
-                <Sparkles size={13} />
-                <span>InfoHQ Insights</span>
-              </div>
-              <h3 class="newsletter-sidebar-title">Engineering Notes in Your Inbox</h3>
+              <h3 class="newsletter-sidebar-title">Engineering Notes in <span class="text-gradient">Your Inbox</span></h3>
               <p class="newsletter-sidebar-desc">
                 Architecture teardowns, automation playbooks, and production AI notes. No spam.
               </p>
@@ -295,7 +290,6 @@ const meta = {
 
             <!-- Sidebar Card C: Project Scoping CTA -->
             <div class="card sidebar-card cta-sidebar-card">
-              <span class="text-eyebrow">Start Building</span>
               <h3 class="cta-sidebar-title">
                 Have a Project That Needs <span class="text-gradient">Real Engineering?</span>
               </h3>
@@ -397,8 +391,14 @@ const meta = {
               </div>
               <div class="card-content">
                 <div class="card-header-meta">
-                  <span class="category-pill cat-pill-${m.category}">
-                    <span>${m.categoryName}</span>
+                  <span class="card-date-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="date-icon" aria-hidden="true">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <time datetime="${m.rawDate}">${m.pubDate}</time>
                   </span>
                 </div>
                 <h3 class="card-title">
@@ -410,12 +410,16 @@ const meta = {
                     <img src="/images/favicon.webp" alt="InfoHQ" class="meta-author-avatar" width="20" height="20" loading="lazy" />
                     <span class="meta-author">${m.author}</span>
                     <span class="meta-sep" aria-hidden="true">•</span>
-                    <time datetime="${m.rawDate}" class="meta-date">${m.pubDate}</time>
-                    <span class="meta-sep" aria-hidden="true">•</span>
                     <span class="meta-read-time">${m.readingTime}</span>
                   </div>
-                  <div class="card-arrow-btn" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  <div class="card-read-action" aria-hidden="true">
+                    <span class="read-article-text">Read Article</span>
+                    <span class="read-arrow-badge">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="read-svg-arrow">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -663,6 +667,76 @@ const meta = {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+  }
+
+  .search-results-grid :global(.card-date-badge) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    background: #F4F0FA;
+    color: #5B4A80;
+    border: 1px solid rgba(124, 92, 232, 0.15);
+  }
+
+  .search-results-grid :global(.date-icon) {
+    flex-shrink: 0;
+    color: var(--color-primary, #7C5CE8);
+  }
+
+  .search-results-grid :global(.card-read-action) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .search-results-grid :global(.read-article-text) {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-primary, #7C5CE8);
+    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.2s ease;
+  }
+
+  .search-results-grid :global(.read-arrow-badge) {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(124, 92, 232, 0.08);
+    border: 1px solid rgba(124, 92, 232, 0.2);
+    color: var(--color-primary, #7C5CE8);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .search-results-grid :global(.read-svg-arrow) {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .search-results-grid :global(.blog-card:hover .read-article-text) {
+    opacity: 0.85;
+  }
+
+  .search-results-grid :global(.blog-card:hover .read-arrow-badge) {
+    background: var(--brand-gradient, linear-gradient(135deg, #7C5CE8 0%, #2563EB 100%));
+    border-color: transparent;
+    color: #FFFFFF;
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.35);
+  }
+
+  .search-results-grid :global(.blog-card:hover .read-svg-arrow) {
+    transform: translateX(1px);
   }
 
   .empty-search-state {
