@@ -152,7 +152,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
       });
     </script>
   </head>
-  <body class={schemaType === 'home' ? 'page-home' : ''}>
+  <body class={schemaType === 'home' ? 'page-home' : schemaType === 'contact' ? 'page-contact' : ''}>
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="sr-only-focusable">Skip to main content</a>
 
@@ -213,7 +213,8 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     top: 1rem;
   }
 
-  :global(body.page-home) {
+  :global(body.page-home),
+  :global(body.page-contact) {
     background-color: var(--color-bg-section);
   }
 </style>

@@ -240,6 +240,10 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
       margin-top: -68px;
       padding-top: calc(1.75rem + 68px);
     }
+
+    .cat-hero-title {
+      font-size: clamp(1.75rem, 6.5vw, 2.2rem);
+    }
   }
 
   .cat-hero-container {
@@ -276,7 +280,7 @@ const ogImageUrl = `/og/blogs/${category}.jpg`;
   }
 
   .cat-hero-title {
-    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    font-size: var(--text-5xl);
     font-weight: 800;
     letter-spacing: -0.025em;
     color: var(--color-text-heading);

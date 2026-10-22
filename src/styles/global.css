@@ -125,11 +125,11 @@
   /* 20px */
   --text-2xl: 1.5rem;
   /* 24px */
-  --text-3xl: clamp(1.75rem, 3vw, 2.25rem);
-  /* 28-36px */
-  --text-4xl: clamp(2.25rem, 4vw, 3rem);
-  /* 36-48px */
-  --text-5xl: clamp(2.75rem, 5.5vw, 4rem);
+  --text-3xl: clamp(1.45rem, 2.6vw, 1.85rem);
+  /* 26-38px consistent section headings across entire site */
+  --text-4xl: clamp(1.65rem, 3.2vw, 2.35rem);
+  /* 32-46px consistent hero headings across entire site */
+  --text-5xl: clamp(2rem, 3.8vw, 2.85rem);
 }
 
 @media (min-width: 1600px) {
@@ -290,9 +290,18 @@ p {
   margin: 0 auto clamp(1.25rem, 2vw, 1.75rem);
 }
 
+.section-header h2 {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.5rem;
+  color: var(--color-text-heading);
+}
+
 .section-header p {
-  font-size: var(--text-lg);
-  margin-top: 0.65rem;
+  font-size: var(--text-base);
+  margin-top: 0.5rem;
   color: var(--color-text-muted);
 }
 

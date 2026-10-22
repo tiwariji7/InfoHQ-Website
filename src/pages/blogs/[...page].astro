@@ -482,6 +482,10 @@ const meta = {
       margin-top: -68px;
       padding-top: calc(2rem + 68px);
     }
+
+    .blogs-headline {
+      font-size: clamp(1.75rem, 6.5vw, 2.25rem);
+    }
   }
 
   .blogs-hero-container {
@@ -776,8 +780,9 @@ const meta = {
   }
 
   .section-title {
-    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-size: var(--text-4xl);
     font-weight: 800;
+    letter-spacing: -0.025em;
     color: var(--color-text-heading);
     margin: 0;
   }

@@ -30,6 +30,11 @@ const organizationBase = {
   logo: 'https://infohq.in/images/infohq-brandlogo.webp',
   description: 'InfoHQ is a Pune & Prayagraj-based AI and software engineering studio helping startups and enterprises across India build, automate, and grow — from custom AI systems to full-scale digital products.',
   email: 'contact@infohq.in',
+  foundingDate: '2025',
+  founder: {
+    '@type': 'Person',
+    name: 'Shivam Tiwari'
+  },
   sameAs: [
     'https://linkedin.com/company/infohq',
     'https://www.instagram.com/infohq.in/',
@@ -429,14 +434,11 @@ if (customSchema) {
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    name: 'About InfoHQ — AI & Software Engineering Studio',
+    name: 'About InfoHQ | AI & Software Engineering Studio, India',
     url: 'https://infohq.in/company/',
-    description: 'InfoHQ is an AI and software engineering studio based in Pune and Prayagraj, building and running digital products for businesses across India.',
-    publisher: {
-      '@type': 'Organization',
-      '@id': 'https://infohq.in/#organization',
-      name: 'InfoHQ',
-      url: 'https://infohq.in'
+    description: 'InfoHQ is an AI and software engineering studio in Pune and Prayagraj, building digital products for businesses across India.',
+    mainEntity: {
+      '@id': 'https://infohq.in/#organization'
     }
   });
   schemas.push({
@@ -454,6 +456,68 @@ if (customSchema) {
         position: 2,
         name: 'Company',
         item: 'https://infohq.in/company/'
+      }
+    ]
+  });
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is InfoHQ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'InfoHQ is an AI and software engineering studio based in Pune and Prayagraj, India. We build AI systems, custom software, web and mobile apps, automation, cloud and security work, and design and marketing for businesses across India.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When was InfoHQ founded, and by whom?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'InfoHQ was founded in 2025 by Shivam Tiwari.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Where is InfoHQ based?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'We are based in Pune, Maharashtra and Prayagraj, Uttar Pradesh. We deliver remotely to clients anywhere in India.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who owns the code and design?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You do. All code, design, database schemas and assets are handed over to your own repositories.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How can I work with InfoHQ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'There are two ways: a fixed-scope one-time project, or a monthly retainer with a dedicated engineer or team. You can see both on our pricing page.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I have to take a monthly plan?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `No. If your needs are light, we also offer custom plans. You can discuss them directly with us at ${contactConfig.businessEmail}.`
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I contact InfoHQ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Write to ${contactConfig.businessEmail} or use the contact form on our contact page.`
+        }
       }
     ]
   });
