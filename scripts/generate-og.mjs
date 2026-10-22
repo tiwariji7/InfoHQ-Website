@@ -1,458 +1,191 @@
+import { execSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import satori from 'satori';
-import { Resvg } from '@resvg/resvg-js';
 import sharp from 'sharp';
 
-// Dynamic loader for services data
-function loadServicesCards() {
-  try {
-    const filePath = path.resolve('src/data/servicesData.ts');
-    if (!fs.existsSync(filePath)) return [];
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const clean = content
-      .replace(/export interface[\s\S]*?}/, '')
-      .replace(/: ServiceItem\[\]/g, '')
-      .replace('export const servicesData', 'const servicesData');
-    const fn = new Function(clean + '; return servicesData;');
-    const services = fn();
-    return services.map((s) => ({
-      slug: `services/${s.slug}`,
-      title: s.title,
-      label: `Services • ${s.category}`
-    }));
-  } catch (err) {
-    console.warn('Warning: Could not dynamically load servicesData.ts, skipping services OG:', err);
-    return [];
+// Find Chrome or Edge executable on Windows/Linux/macOS
+function getBrowserExecutable() {
+  const candidates = [
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium'
+  ];
+
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
   }
+  return null;
 }
 
-// Dynamic loader for blog content collection (MD / MDX)
-function loadContentCollectionCards() {
-  const contentDir = path.resolve('src/content/blog');
-  if (!fs.existsSync(contentDir)) return [];
-  const files = fs.readdirSync(contentDir);
-  const blogCards = [];
-  const categoryLabels = {
-    ai: 'AI & Software Engineering',
-    web: 'Web & Mobile App Development',
-    automation: 'Automation & System Integrations',
-    cloud: 'Cloud, DevOps & Security',
-    design: 'Design & Digital Marketing'
-  };
+// Service slugs
+const serviceSlugs = [
+  'ai-intelligent-systems',
+  'custom-software',
+  'web-development',
+  'mobile-app-development',
+  'business-automation',
+  'cloud-devops',
+  'cybersecurity',
+  'website-maintenance',
+  'ui-ux-design',
+  'brand-design',
+  'social-media-management',
+  'digital-marketing'
+];
 
-  for (const file of files) {
-    if (!file.endsWith('.md') && !file.endsWith('.mdx')) continue;
-    const slug = file.replace(/\.mdx?$/, '');
-    const content = fs.readFileSync(path.join(contentDir, file), 'utf-8');
+// Category slugs
+const categorySlugs = ['ai', 'automation', 'web', 'cloud', 'design'];
 
-    // Skip draft posts
-    const draftMatch = content.match(/^draft:\s*(true|false)/m);
-    if (draftMatch && draftMatch[1] === 'true') continue;
+// Static core pages
+const corePages = [
+  { url: '/', output: 'public/og/home.webp', name: 'Home Hero' },
+  { url: '/services', output: 'public/og/services.webp', name: 'Services Hub' },
+  { url: '/pricing', output: 'public/og/pricing.webp', name: 'Pricing' },
+  { url: '/portfolio', output: 'public/og/portfolio.webp', name: 'Portfolio' },
+  { url: '/company', output: 'public/og/company.webp', name: 'Company' },
+  { url: '/contact', output: 'public/og/contact.webp', name: 'Contact' },
+  { url: '/blogs', output: 'public/og/blogs.webp', name: 'Blogs Hub' },
+  { url: '/privacy', output: 'public/og/privacy.webp', name: 'Privacy Policy' },
+  { url: '/terms', output: 'public/og/terms.webp', name: 'Terms of Service' }
+];
 
-    const titleMatch = content.match(/^title:\s*["']?(.*?)["']?$/m);
-    const title = titleMatch ? titleMatch[1].trim() : slug;
-
-    const catMatch = content.match(/^category:\s*["']?(.*?)["']?$/m);
-    const category = catMatch ? catMatch[1].trim() : 'ai';
-    const catDisplayName = categoryLabels[category] || category.toUpperCase();
-
-    blogCards.push({
-      slug: `blogs/${slug}`,
-      title,
-      label: `Blog • ${catDisplayName}`
-    });
-  }
-  return blogCards;
-}
-
-
-// Dynamic loader for portfolio case studies (only if standalone routes exist)
-function loadPortfolioCards() {
-  const portfolioDynamicRoute = path.resolve('src/pages/portfolio/[slug].astro');
-  if (!fs.existsSync(portfolioDynamicRoute)) {
-    // Portfolio projects are showcased on the main /portfolio hub, no sub-routes exist
-    return [];
-  }
+async function isServerRunning(url) {
   try {
-    const portfolioAstro = fs.readFileSync(path.resolve('src/pages/portfolio.astro'), 'utf-8');
-    const match = portfolioAstro.match(/const flagshipCaseStudies = (\[[\s\S]*?\n\];)/);
-    if (!match) return [];
-    const fn = new Function('return ' + match[1].replace(/;$/, ''));
-    const items = fn();
-    return items.map((p) => ({
-      slug: `portfolio/${p.id}`,
-      title: p.title,
-      label: `Case Study • ${p.category}`
-    }));
+    const res = await fetch(url, { signal: AbortSignal.timeout(1500) });
+    return res.ok || res.status < 500;
   } catch {
-    return [];
+    return false;
   }
 }
 
-// Core static site routes
-const staticCards = [
-  // 1. Home
-  {
-    slug: 'home',
-    title: 'InfoHQ — AI & Software Development Company in India',
-    label: 'Engineering Studio'
-  },
-  // 2. Services Hub
-  {
-    slug: 'services',
-    title: 'Our Services — AI, Software, Web & Mobile Development',
-    label: 'Services Hub'
-  },
-  // 3. Pricing
-  {
-    slug: 'pricing',
-    title: 'Pricing — Web, App & AI Development Costs',
-    label: 'Transparent Pricing'
-  },
-  // 4. Portfolio Hub
-  {
-    slug: 'portfolio',
-    title: 'Portfolio & Case Studies | InfoHQ',
-    label: 'Portfolio & Case Studies'
-  },
-  // 5. Company
-  {
-    slug: 'company',
-    title: 'About InfoHQ — AI & Software Engineering Studio',
-    label: 'About InfoHQ'
-  },
-  // 6. Contact
-  {
-    slug: 'contact',
-    title: 'Contact InfoHQ — Get a Free Consultation',
-    label: 'Get In Touch'
-  },
-  // 7. Blogs Listing
-  {
-    slug: 'blogs',
-    title: 'Blog — AI, Software & Engineering Insights',
-    label: 'Engineering Blog'
-  },
-  // 8. The 5 Active Blog Categories
-  {
-    slug: 'blogs/ai',
-    title: 'AI & Software Engineering Articles | InfoHQ Blog',
-    label: 'Blog • AI & Software Engineering'
-  },
-  {
-    slug: 'blogs/web',
-    title: 'Web & Mobile App Development Insights | InfoHQ Blog',
-    label: 'Blog • Web & Mobile App Development'
-  },
-  {
-    slug: 'blogs/automation',
-    title: 'Automation & System Integrations Guides | InfoHQ Blog',
-    label: 'Blog • Automation & System Integrations'
-  },
-  {
-    slug: 'blogs/cloud',
-    title: 'Cloud, DevOps & Security Guides | InfoHQ Blog',
-    label: 'Blog • Cloud, DevOps & Security'
-  },
-  {
-    slug: 'blogs/design',
-    title: 'Design & Digital Marketing Articles | InfoHQ Blog',
-    label: 'Blog • Design & Digital Marketing'
-  },
-  // 9. Legal & Compliance
-  {
-    slug: 'privacy',
-    title: 'Privacy Policy | InfoHQ',
-    label: 'Legal & Compliance'
-  },
-  {
-    slug: 'terms',
-    title: 'Terms of Service | InfoHQ',
-    label: 'Legal & Compliance'
-  },
-  // 10. Default Site Cards
-  {
-    slug: 'default',
-    title: 'InfoHQ — AI, Software & Digital Growth',
-    label: 'Engineering Studio'
-  },
-  {
-    slug: 'site',
-    title: 'InfoHQ — Engineering AI, Software & Digital Products',
-    label: 'Engineering Studio'
+async function main() {
+  console.log('🚀 Starting Screenshot-based WebP OG Image Generation...');
+
+  const browserPath = getBrowserExecutable();
+  if (!browserPath) {
+    console.warn('⚠️ No Chrome or Edge executable found. Skipping screenshot OG generation.');
+    return;
   }
-];
 
-const cards = [
-  ...staticCards,
-  ...loadServicesCards(),
-  ...loadContentCollectionCards(),
-  ...loadPortfolioCards()
-];
+  const baseUrl = 'http://localhost:4321';
+  let serverProcess = null;
 
-async function generateAllOGImages() {
-  console.log(`Starting Open Graph image generation for ${cards.length} cards...`);
-
-  // 1. Read fonts
-  const fontBoldPath = path.resolve('node_modules/@fontsource/inter/files/inter-latin-700-normal.woff');
-  const fontRegPath = path.resolve('node_modules/@fontsource/inter/files/inter-latin-400-normal.woff');
-  const fontBold = fs.readFileSync(fontBoldPath);
-  const fontReg = fs.readFileSync(fontRegPath);
-
-  // 2. Read and convert real logo to PNG in memory
-  const logoWebpPath = path.resolve('public/images/infohq-brandlogo.webp');
-  const logoWebp = fs.readFileSync(logoWebpPath);
-  const logoPngBuffer = await sharp(logoWebp).png().toBuffer();
-  const logoDataUri = `data:image/png;base64,${logoPngBuffer.toString('base64')}`;
-
-  const results = [];
-
-  for (const card of cards) {
-    // Determine dynamic title font size with auto-shrink
-    let titleFontSize = '52px';
-    if (card.title.length > 68) {
-      titleFontSize = '38px';
-    } else if (card.title.length > 48) {
-      titleFontSize = '44px';
-    }
-
-    let labelFontSize = '17px';
-    let labelLetterSpacing = '0.08em';
-    if (card.label && card.label.length > 28) {
-      labelFontSize = '13px';
-      labelLetterSpacing = '0.04em';
-    } else if (card.label && card.label.length > 20) {
-      labelFontSize = '15px';
-      labelLetterSpacing = '0.06em';
-    }
-
-    const markup = {
-      type: 'div',
-      props: {
-        style: {
-          width: '1200px',
-          height: '630px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          backgroundColor: '#F1EFFA',
-          backgroundImage: 'radial-gradient(circle at 85% 15%, rgba(221, 73, 133, 0.12) 0%, rgba(241, 239, 250, 0) 55%), radial-gradient(circle at 15% 25%, rgba(124, 92, 232, 0.10) 0%, rgba(241, 239, 250, 0) 55%)',
-          padding: '56px 72px 42px 72px',
-          fontFamily: 'Inter',
-          position: 'relative'
-        },
-        children: [
-          // Top Row: Real Logo (top-left) & Purple Category/Page Label (top-right)
-          {
-            type: 'div',
-            props: {
-              style: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%'
-              },
-              children: [
-                {
-                  type: 'img',
-                  props: {
-                    src: logoDataUri,
-                    width: '155',
-                    height: '78',
-                    style: {
-                      objectFit: 'contain'
-                    }
-                  }
-                },
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      fontSize: labelFontSize,
-                      fontWeight: 700,
-                      color: '#7C5CE8',
-                      textTransform: 'uppercase',
-                      letterSpacing: labelLetterSpacing,
-                      backgroundColor: 'rgba(124, 92, 232, 0.08)',
-                      padding: '8px 18px',
-                      borderRadius: '9999px',
-                      border: '1px solid rgba(124, 92, 232, 0.22)'
-                    },
-                    children: card.label
-                  }
-                }
-              ]
-            }
-          },
-          // Middle Area: Real Page Title (Large Navy #1A085C, Inter Bold)
-          {
-            type: 'div',
-            props: {
-              style: {
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                flex: 1,
-                padding: '24px 0 16px 0'
-              },
-              children: [
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      fontSize: titleFontSize,
-                      fontWeight: 700,
-                      lineHeight: 1.2,
-                      color: '#1A085C',
-                      letterSpacing: '-0.025em',
-                      maxHeight: '270px',
-                      overflow: 'hidden'
-                    },
-                    children: card.title
-                  }
-                }
-              ]
-            }
-          },
-          // Bottom Bar: infohq.in small at bottom-left & tagline
-          {
-            type: 'div',
-            props: {
-              style: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                paddingTop: '16px'
-              },
-              children: [
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      fontSize: '20px',
-                      fontWeight: 600,
-                      color: '#1A085C',
-                      letterSpacing: '-0.01em'
-                    },
-                    children: 'infohq.in'
-                  }
-                },
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      fontSize: '16px',
-                      fontWeight: 500,
-                      color: '#7C5CE8'
-                    },
-                    children: 'Engineering AI, Software & Digital Growth'
-                  }
-                }
-              ]
-            }
-          },
-          // Thin brand-gradient line along the bottom edge
-          {
-            type: 'div',
-            props: {
-              style: {
-                position: 'absolute',
-                bottom: '0',
-                left: '0',
-                right: '0',
-                height: '5px',
-                backgroundImage: 'linear-gradient(90deg, #E8604E 0%, #DD4985 35%, #914FBB 65%, #5782E0 100%)'
-              }
-            }
-          }
-        ]
-      }
-    };
-
-    // Render SVG via Satori
-    const svg = await satori(markup, {
-      width: 1200,
-      height: 630,
-      fonts: [
-        {
-          name: 'Inter',
-          data: fontBold,
-          weight: 700,
-          style: 'normal'
-        },
-        {
-          name: 'Inter',
-          data: fontReg,
-          weight: 400,
-          style: 'normal'
-        }
-      ]
+  // Check if dev server is running, otherwise launch temporary preview/dev
+  const running = await isServerRunning(baseUrl);
+  if (running) {
+    console.log(`✓ Detected running server at ${baseUrl}`);
+  } else {
+    console.log('Starting local dev server for OG capture...');
+    serverProcess = spawn('npx', ['astro', 'dev', '--port', '4321'], {
+      shell: true,
+      stdio: 'ignore'
     });
 
-    // Render PNG via @resvg/resvg-js
-    const resvg = new Resvg(svg, {
-      fitTo: {
-        mode: 'width',
-        value: 1200
-      }
+    let attempts = 0;
+    while (attempts < 20) {
+      await new Promise((r) => setTimeout(r, 1000));
+      if (await isServerRunning(baseUrl)) break;
+      attempts++;
+    }
+  }
+
+  const tempDir = path.resolve('scratch/og-temp');
+  if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+
+  const tasks = [];
+
+  // 1. Core pages
+  for (const page of corePages) {
+    tasks.push({
+      url: `${baseUrl}${page.url}`,
+      outPath: path.resolve(page.output),
+      name: page.name,
+      windowHeight: page.url === '/' ? 630 : 680
     });
-    const pngData = resvg.render().asPng();
-
-    // Compress to progressive JPEG via Sharp (Quality 82 ensures ~35-55KB, strictly < 100KB)
-    const jpegBuffer = await sharp(pngData)
-      .jpeg({
-        quality: 82,
-        progressive: true
-      })
-      .toBuffer();
-
-    const targetFile = path.resolve(`public/og/${card.slug}.jpg`);
-    const targetDir = path.dirname(targetFile);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-
-    fs.writeFileSync(targetFile, jpegBuffer);
-    const sizeKb = (jpegBuffer.length / 1024).toFixed(1);
-    results.push({ slug: card.slug, bytes: jpegBuffer.length, sizeKb: `${sizeKb} KB` });
-    console.log(`Generated: public/og/${card.slug}.jpg (${sizeKb} KB)`);
   }
 
-  console.log(`\nSuccessfully generated ${results.length} Open Graph JPEG cards!`);
-  const allUnder100k = results.every(r => r.bytes < 100 * 1024);
-  console.log(`All files under 100KB: ${allUnder100k ? 'YES' : 'NO'}`);
+  // 2. Services detail pages
+  for (const slug of serviceSlugs) {
+    tasks.push({
+      url: `${baseUrl}/services/${slug}/`,
+      outPath: path.resolve(`public/og/services/${slug}.webp`),
+      name: `Service: ${slug}`,
+      windowHeight: 680
+    });
+  }
 
-  // Clean up any stale OG image files for routes that no longer exist
-  const ogDir = path.resolve('public/og');
-  if (fs.existsSync(ogDir)) {
-    const validRelativePaths = new Set(cards.map((c) => path.normalize(`${c.slug}.jpg`)));
-    
-    function cleanDirectory(dir, relPrefix = '') {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        const relPath = path.join(relPrefix, entry.name);
-        if (entry.isDirectory()) {
-          cleanDirectory(fullPath, relPath);
-          if (fs.readdirSync(fullPath).length === 0) {
-            fs.rmdirSync(fullPath);
-          }
-        } else if (entry.isFile() && entry.name.endsWith('.jpg')) {
-          if (!validRelativePaths.has(path.normalize(relPath))) {
-            fs.unlinkSync(fullPath);
-            console.log(`Pruned stale OG card: public/og/${relPath.replace(/\\/g, '/')}`);
-          }
-        }
+  // 3. Blog category pages
+  for (const cat of categorySlugs) {
+    tasks.push({
+      url: `${baseUrl}/blogs/${cat}/`,
+      outPath: path.resolve(`public/og/blogs/${cat}.webp`),
+      name: `Blog Category: ${cat}`,
+      windowHeight: 680
+    });
+  }
+
+  let count = 0;
+  for (const task of tasks) {
+    const rawPng = path.join(tempDir, `raw-${Date.now()}-${Math.random().toString(36).substring(7)}.png`);
+    const targetDir = path.dirname(task.outPath);
+    if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
+
+    try {
+      execSync(
+        `"${browserPath}" --headless --no-sandbox --disable-gpu --window-size=1200,${task.windowHeight} --screenshot="${rawPng}" "${task.url}"`,
+        { stdio: 'ignore' }
+      );
+
+      if (fs.existsSync(rawPng)) {
+        const webpBuffer = await sharp(rawPng)
+          .resize(1200, 630, { fit: 'cover', position: 'top' })
+          .webp({ quality: 85 })
+          .toBuffer();
+
+        fs.writeFileSync(task.outPath, webpBuffer);
+        const sizeKb = (webpBuffer.length / 1024).toFixed(1);
+        console.log(`✓ [${++count}/${tasks.length}] Generated: ${path.relative(process.cwd(), task.outPath)} (${sizeKb} KB)`);
+        fs.unlinkSync(rawPng);
+      }
+    } catch (err) {
+      console.error(`✗ Error generating OG for ${task.name}:`, err.message);
+    }
+  }
+
+  // Generate fallback defaults (copies of home.webp)
+  const homeWebpPath = path.resolve('public/og/home.webp');
+  if (fs.existsSync(homeWebpPath)) {
+    fs.copyFileSync(homeWebpPath, path.resolve('public/og/default.webp'));
+    fs.copyFileSync(homeWebpPath, path.resolve('public/og/site.webp'));
+    console.log('✓ Created default.webp and site.webp from home hero screenshot');
+  }
+
+  // Clean up any stale .jpg files in public/og
+  function cleanJpgs(dir) {
+    if (!fs.existsSync(dir)) return;
+    for (const file of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, file.name);
+      if (file.isDirectory()) cleanJpgs(full);
+      else if (file.name.endsWith('.jpg')) {
+        fs.unlinkSync(full);
+        console.log(`Pruned old jpg: ${path.relative(process.cwd(), full)}`);
       }
     }
-    
-    cleanDirectory(ogDir);
   }
+  cleanJpgs(path.resolve('public/og'));
+
+  if (serverProcess) {
+    serverProcess.kill();
+  }
+
+  console.log('\n🎉 All Screenshot-based WebP OG images successfully created!');
 }
 
-generateAllOGImages().catch((err) => {
-  console.error('Error generating OG images:', err);
+main().catch((err) => {
+  console.error('Fatal error in generate-og:', err);
   process.exit(1);
 });

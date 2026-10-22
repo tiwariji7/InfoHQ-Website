@@ -361,7 +361,7 @@
     // Check existing consent
     const existing = getConsent();
     if (!existing) {
-      if (wrapper) wrapper.style.display = 'block';
+      if (wrapper && !navigator.userAgent.includes('HeadlessChrome')) wrapper.style.display = 'block';
     } else {
       // Fire event for current session
       window.dispatchEvent(new CustomEvent('infohq_consent_changed', { detail: existing }));

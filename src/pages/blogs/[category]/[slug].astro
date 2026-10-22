@@ -78,10 +78,10 @@ const toDateOnlyISO = (d: Date | string) => new Date(d).toISOString().split('T')
 const datePublished = toDateOnlyISO(post.data.pubDate);
 const dateModified = post.data.updatedDate ? toDateOnlyISO(post.data.updatedDate) : datePublished;
 
-const postImage = post.data.heroImage || `/og/blogs/${post.id}.jpg`;
+const postImage = post.data.heroImage || `/og/blogs/${post.id}-og.webp`;
 const fullPostImageUrl = post.data.heroImage 
   ? `https://infohq.in${post.data.heroImage}`
-  : `https://infohq.in/og/blogs/${post.id}.jpg`;
+  : `https://infohq.in/og/blogs/${post.id}-og.webp`;
 
 const postSchemaData = {
   headline: post.data.title,

@@ -46,29 +46,29 @@ const canonicalURL = canonical ? new URL(canonical) : autoCanonicalURL;
 const currentPath = Astro.url.pathname;
 
 // Dynamic Per-Page OG Image resolution (replaces logo default)
-let defaultOgPath = '/og/default.jpg';
+let defaultOgPath = '/og/default.webp';
 const cleanPath = currentPath.replace(/\/$/, '');
 
 if (cleanPath === '' || cleanPath === '/') {
-  defaultOgPath = '/og/home.jpg';
+  defaultOgPath = '/og/home.webp';
 } else if (serviceData?.slug) {
-  defaultOgPath = `/og/services/${serviceData.slug}.jpg`;
+  defaultOgPath = `/og/services/${serviceData.slug}.webp`;
 } else if (cleanPath === '/services') {
-  defaultOgPath = '/og/services.jpg';
+  defaultOgPath = '/og/services.webp';
 } else if (cleanPath === '/pricing') {
-  defaultOgPath = '/og/pricing.jpg';
+  defaultOgPath = '/og/pricing.webp';
 } else if (cleanPath === '/company') {
-  defaultOgPath = '/og/company.jpg';
+  defaultOgPath = '/og/company.webp';
 } else if (cleanPath === '/contact') {
-  defaultOgPath = '/og/contact.jpg';
+  defaultOgPath = '/og/contact.webp';
 } else if (cleanPath === '/portfolio') {
-  defaultOgPath = '/og/portfolio.jpg';
+  defaultOgPath = '/og/portfolio.webp';
 } else if (cleanPath === '/blogs') {
-  defaultOgPath = '/og/blogs.jpg';
+  defaultOgPath = '/og/blogs.webp';
 } else if (cleanPath.startsWith('/privacy')) {
-  defaultOgPath = '/og/privacy.jpg';
+  defaultOgPath = '/og/privacy.webp';
 } else if (cleanPath.startsWith('/terms')) {
-  defaultOgPath = '/og/terms.jpg';
+  defaultOgPath = '/og/terms.webp';
 }
 
 const resolvedOgImage = ogImage || defaultOgPath;
