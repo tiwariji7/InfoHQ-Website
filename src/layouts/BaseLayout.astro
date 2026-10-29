@@ -53,6 +53,9 @@ if (cleanPath === '' || cleanPath === '/') {
   defaultOgPath = '/og/home.webp';
 } else if (serviceData?.slug) {
   defaultOgPath = `/og/services/${serviceData.slug}.webp`;
+} else if (cleanPath.startsWith('/services/')) {
+  const parts = cleanPath.split('/').filter(Boolean);
+  defaultOgPath = parts.length >= 2 ? `/og/services/${parts[1]}.webp` : '/og/services.webp';
 } else if (cleanPath === '/services') {
   defaultOgPath = '/og/services.webp';
 } else if (cleanPath === '/pricing') {
@@ -63,6 +66,15 @@ if (cleanPath === '' || cleanPath === '/') {
   defaultOgPath = '/og/contact.webp';
 } else if (cleanPath === '/portfolio') {
   defaultOgPath = '/og/portfolio.webp';
+} else if (cleanPath.startsWith('/blogs/')) {
+  const parts = cleanPath.split('/').filter(Boolean);
+  if (parts.length === 2 && ['ai', 'web', 'automation', 'cloud', 'design'].includes(parts[1])) {
+    defaultOgPath = `/og/blogs/${parts[1]}.webp`;
+  } else if (postData?.image) {
+    defaultOgPath = postData.image;
+  } else {
+    defaultOgPath = '/og/blogs.webp';
+  }
 } else if (cleanPath === '/blogs') {
   defaultOgPath = '/og/blogs.webp';
 } else if (cleanPath.startsWith('/privacy')) {
@@ -97,6 +109,8 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:secure_url" content={absoluteOgImage} />
+    <meta property="og:image:type" content="image/webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={resolvedOgAlt} />
@@ -105,6 +119,8 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@CodeWithTiwari" />
+    <meta name="twitter:creator" content="@CodeWithTiwari" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

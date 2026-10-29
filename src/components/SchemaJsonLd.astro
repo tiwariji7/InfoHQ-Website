@@ -10,6 +10,7 @@ interface Props {
     description: string;
     techStack?: string[];
     url: string;
+    faqs?: Array<{ q: string; a: string }>;
   };
   postData?: any;
   customSchema?: Record<string, any>;
@@ -206,6 +207,20 @@ if (customSchema) {
       }
     ]
   });
+  if (serviceData.faqs && serviceData.faqs.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: serviceData.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a
+        }
+      }))
+    });
+  }
 } else if (type === 'pricing') {
   schemas.push(organizationBase);
 

@@ -1,0 +1,167 @@
+# InfoHQ — Complete Knowledge Base & Services Documentation
+
+## Company Overview
+InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineering studio and AI technology company based in Pune (Maharashtra) and Prayagraj (Uttar Pradesh), India. InfoHQ operates a hybrid model of high-standard B2B client engineering and proprietary AI SaaS products. InfoHQ delivers end-to-end digital solutions pan-India and globally, with a firm principle of 100% client code and IP ownership.
+
+- Website: https://infohq.in/
+- Official Inquiries: contact@infohq.in
+- Phone / WhatsApp: +91 83818 35420
+- Headquarters: Pune & Prayagraj, India
+- Founder & Engineering Lead: Shivam Tiwari
+
+---
+
+## Detailed Service Catalog
+
+### 1. AI & Intelligent Systems
+- URL: https://infohq.in/services/ai-intelligent-systems/
+- Summary: Engineering practical autonomous AI agents, multi-agent systems, Retrieval-Augmented Generation (RAG) over enterprise knowledge bases, and custom LLM API integrations (OpenAI, Anthropic Claude, Google Gemini).
+- Tech Stack: Python, FastAPI, LangChain, LlamaIndex, OpenAI, Anthropic Claude, Google Gemini, pgvector, PostgreSQL.
+- Typical Deliverables:
+  - Custom enterprise RAG pipelines for unstructured documents, PDFs, manuals, and customer queries.
+  - Multi-step autonomous AI agents with tool use (browsing, calculators, internal database queries).
+  - Private, compliant LLM architectures adhering to data privacy and encryption standards.
+  - Telemetry logging, token usage tracking, and hallucination reduction guardrails.
+- Pricing: One-time projects from ₹19,999. Monthly retainer options available.
+
+### 2. Custom Software Development
+- URL: https://infohq.in/services/custom-software/
+- Summary: End-to-end multi-tenant SaaS platforms, secure backend microservices, high-throughput REST and GraphQL APIs, background queue workers, and internal operational portals.
+- Tech Stack: TypeScript, Node.js, Python, React, Next.js, PostgreSQL, Redis, Docker.
+- Typical Deliverables:
+  - Multi-tenant database architecture with role-based access control (RBAC).
+  - High-throughput, documented REST and GraphQL endpoints.
+  - Reliable background task processors (BullMQ, Celery).
+  - Custom enterprise admin portals and real-time dashboards.
+- Pricing: Custom quote. SaaS MVP starting package from ₹49,999.
+
+### 3. Modern Web Development
+- URL: https://infohq.in/services/web-development/
+- Summary: High-converting, sub-second business websites, interactive client portals, and headless CMS integrations built for 95+ Core Web Vitals scores and comprehensive SEO.
+- Tech Stack: React, Next.js, Astro, TypeScript, Tailwind CSS, Cloudflare.
+- Typical Deliverables:
+  - Fast-loading, responsive business websites optimized for mobile and desktop.
+  - Full Technical SEO, JSON-LD structured schemas, OpenGraph graphics, and sitemaps.
+  - Headless CMS setup for smooth non-technical team updates.
+  - Conversion rate optimized CTA funnels and analytics tracking.
+- Pricing: Business website from ₹14,999; eCommerce platforms from ₹29,999.
+
+### 4. Mobile App Development (iOS & Android)
+- URL: https://infohq.in/services/mobile-app-development/
+- Summary: Native and cross-platform mobile apps for iOS and Android featuring offline-first local database caching, background synchronization, biometric security, and push notifications.
+- Tech Stack: React Native, Kotlin, Jetpack Compose, TypeScript, Firebase, REST APIs.
+- Typical Deliverables:
+  - Clean iOS and Android apps with smooth 60fps animations.
+  - Offline-first SQLite/WatermelonDB storage with cloud auto-sync.
+  - Biometric login (FaceID / Fingerprint) and hardware sensor integrations.
+  - Complete App Store and Google Play Store submission and approval handling.
+- Pricing: Native/cross-platform mobile apps from ₹39,999.
+
+### 5. Business Automation & System Integrations
+- URL: https://infohq.in/services/business-automation/
+- Summary: Custom workflow automation, bi-directional sync across CRMs (HubSpot, Zoho, Salesforce), payment gateways (Razorpay, Stripe), communication (WhatsApp Business API, Slack), and automated invoice extraction.
+- Tech Stack: Python, Node.js, REST APIs, Webhooks, n8n, Zapier, Make, WhatsApp Cloud API.
+- Typical Deliverables:
+  - Multi-app synchronization pipelines eliminating manual copy-pasting.
+  - Automated WhatsApp bot workflows for lead qualification and notifications.
+  - Invoice and document processing pipelines with automated OCR.
+  - Error alerting, webhook retry mechanisms, and audit logging.
+- Pricing: Custom quote per workflow scope; retainer plans available from ₹24,999/month.
+
+### 6. Cloud, DevOps & Infrastructure
+- URL: https://infohq.in/services/cloud-devops/
+- Summary: Scalable cloud architectures on AWS, GCP, and Cloudflare; zero-downtime CI/CD pipelines via GitHub Actions; Docker containerization; proactive monitoring and disaster recovery.
+- Tech Stack: AWS, Google Cloud, Cloudflare, Docker, GitHub Actions, Linux, PostgreSQL.
+- Typical Deliverables:
+  - Zero-downtime automated deployment pipelines.
+  - Secure VPC, firewall, and sub-second global CDN setup.
+  - Database clustering, automated daily backups, and instant rollback strategies.
+- Pricing: Retainer-based (Technology Partner plan ₹49,999/mo) or custom setup quote.
+
+### 7. Additional Services
+- Cybersecurity: OWASP Top 10 audits, JWT/MFA/RBAC implementation, server hardening (https://infohq.in/services/cybersecurity/).
+- Website Maintenance & Support: Daily backups, security patches, ongoing speed tuning (https://infohq.in/services/website-maintenance/).
+- UI/UX Design: User research, wireframes, high-fidelity Figma prototypes, and design systems (https://infohq.in/services/ui-ux-design/).
+- Brand Design: Logos, visual identity guidelines, investor pitch decks (https://infohq.in/services/brand-design/).
+- Social Media Management: Content calendar, branded carousels, technical copywriting (https://infohq.in/services/social-media-management/).
+- Digital Marketing: SEO audits, search ad campaigns, GA4 conversion tracking (https://infohq.in/services/digital-marketing/).
+
+---
+
+## Featured Case Study: SeHAT SmartCare AI
+- Case Study URL: https://infohq.in/portfolio/#sehat
+- Industry: Healthcare & Clinical AI
+- Overview: An intelligent Android healthcare platform combining fine-tuned medical language models, Retrieval-Augmented Generation (RAG) for medical knowledge bases, semantic search, lab report OCR extraction, and multilingual support (English, Hindi, Hinglish). Designed for high-volume accessibility across urban and rural patient populations.
+
+---
+
+## Published Engineering Knowledge & Technical Articles
+
+1. **What Is RAG (Retrieval-Augmented Generation) and Why It Matters for Your Business**
+   - URL: https://infohq.in/blogs/ai/what-is-rag/
+   - Key Insight: Explains how RAG grounds large language models with real company documentation to eliminate hallucinations, maintain real-time accuracy without retraining, and protect private corporate data.
+
+2. **AI Agents vs AI Chatbots: What's the Difference and Which Do You Need?**
+   - URL: https://infohq.in/blogs/ai/ai-agents-vs-ai-chatbots/
+   - Key Insight: Contrasts passive conversational chatbots with goal-oriented autonomous AI agents capable of multi-step tool execution, database queries, and decision making.
+
+3. **Practical AI for Small Businesses in India: Where to Start and What Works**
+   - URL: https://infohq.in/blogs/ai/ai-for-small-business-india/
+   - Key Insight: A realistic guide to deploying high-ROI AI solutions (customer query deflection, document parsing, lead follow-ups) for Indian SMBs without large capital expenditure.
+
+4. **AI and Data Privacy for Businesses in India**
+   - URL: https://infohq.in/blogs/ai/ai-data-privacy-for-businesses/
+   - Key Insight: Navigating compliance with India's Digital Personal Data Protection (DPDP) Act 2023 when handling client data with third-party LLMs.
+
+5. **Website Development Cost in India (2026 Guide)**
+   - URL: https://infohq.in/blogs/web/website-development-cost-india/
+   - Key Insight: Full breakdown of realistic pricing for landing pages (₹15,000–₹50,000), custom business sites (₹40,000–₹1,50,000), eCommerce stores, and custom web applications.
+
+6. **Mobile App Development Cost in India (2026 Guide)**
+   - URL: https://infohq.in/blogs/web/mobile-app-development-cost-india/
+   - Key Insight: Cost drivers including backend architecture, third-party integrations, OS fragmentation, and ongoing maintenance.
+
+7. **Next.js vs WordPress: Which Is Right for Your Business Website?**
+   - URL: https://infohq.in/blogs/web/nextjs-vs-wordpress/
+   - Key Insight: Technical comparison between headless modern frameworks and legacy CMS architectures for security, scalability, and long-term TCO.
+
+8. **Business Process Automation: What It Is and How It Actually Works**
+   - URL: https://infohq.in/blogs/automation/business-process-automation/
+   - Key Insight: Practical workflow automation patterns that save 20+ hours per week for business teams.
+
+9. **WhatsApp Business Automation in India**
+   - URL: https://infohq.in/blogs/automation/whatsapp-business-automation-india/
+   - Key Insight: Converting WhatsApp into an automated sales and customer support channel using the official Cloud API.
+
+10. **Automated Lead Handling: Form to CRM in Seconds**
+    - URL: https://infohq.in/blogs/automation/lead-handling-automation/
+    - Key Insight: Eliminating lead decay by automatically routing inbound inquiries to sales reps via instant notification triggers.
+
+11. **n8n vs Make vs Zapier: Complete Comparison**
+    - URL: https://infohq.in/blogs/automation/n8n-vs-make-vs-zapier/
+    - Key Insight: Self-hosting benefits of n8n, visual complexity of Make, and rapid setup of Zapier compared on cost and performance.
+
+12. **Workflow Automation for Real Estate Agencies in India**
+    - URL: https://infohq.in/blogs/automation/real-estate-automation/
+    - Key Insight: Handling portal leads (99acres, MagicBricks), automated site visit reminders, and CRM synchronization.
+
+13. **How to Improve Core Web Vitals for Modern Web Applications**
+    - URL: https://infohq.in/blogs/cloud/improve-core-web-vitals/
+    - Key Insight: Practical frontend engineering fixes to achieve green 95+ scores on Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP).
+
+14. **Why Is My Website Not Getting Customers? 9 Problems and How to Fix Them**
+    - URL: https://infohq.in/blogs/web/website-not-getting-customers/
+    - Key Insight: Comprehensive website conversion optimization guide covering value propositions, mobile speed, trust signals, friction-free contact forms, and lead routing.
+
+15. **Leads Are Coming In, but Sales Are Not: How to Fix Your Lead Follow-Up System**
+    - URL: https://infohq.in/blogs/automation/leads-not-converting-into-sales/
+    - Key Insight: Fixing sales pipeline leakage using structured follow-up cadences, objective CRM stages, and automated reminders.
+
+16. **How to Automate Invoices, Payment Reminders and Data Entry in a Small Business**
+    - URL: https://infohq.in/blogs/automation/automate-invoices-payment-reminders/
+    - Key Insight: Step-by-step implementation for automated invoice ingestion, OCR parsing, bank status sync, and smart payment reminders with API security controls.
+
+17. **How to Stop Missing Customer Enquiries on WhatsApp, Calls and Your Website**
+    - URL: https://infohq.in/blogs/automation/manage-customer-enquiries-whatsapp-website/
+    - Key Insight: Centralizing multi-channel customer communications using WhatsApp Cloud API, webhook ingestion, and team alert triggers.
+

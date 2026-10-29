@@ -1,5 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { filterPublishedPosts, sortPostsByDateDesc } from '../../utils/blog';
 import ServiceIcon from '../../components/ServiceIcon.astro';
 import Button from '../../components/Button.astro';
 import FinalCTA from '../../components/FinalCTA.astro';
@@ -22,6 +25,27 @@ const { service } = Astro.props;
 const relatedServices = servicesData
   .filter(s => s.slug !== service.slug)
   .slice(0, 3);
+
+// Map service slug to related blog category for topical internal linking
+const categoryMap: Record<string, string> = {
+  'ai-intelligent-systems': 'ai',
+  'custom-software': 'ai',
+  'web-development': 'web',
+  'mobile-app-development': 'web',
+  'business-automation': 'automation',
+  'cloud-devops': 'cloud',
+  'cybersecurity': 'cloud',
+  'website-maintenance': 'cloud',
+  'ui-ux-design': 'web',
+  'brand-design': 'design',
+  'social-media-management': 'design',
+  'digital-marketing': 'web'
+};
+
+const targetBlogCat = categoryMap[service.slug] || 'ai';
+const allBlogPosts = await getCollection('blog');
+const publishedPosts = sortPostsByDateDesc(filterPublishedPosts(allBlogPosts));
+const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCat).slice(0, 3);
 ---
 
 <BaseLayout 
@@ -29,19 +53,21 @@ const relatedServices = servicesData
   description={service.metaDesc}
   keywords={service.keywords}
   schemaType="service-detail"
+  ogImage={`/og/services/${service.slug}.webp`}
   serviceData={{
     slug: service.slug,
     name: service.title,
     description: service.shortDesc,
     techStack: service.techStack,
-    url: `https://infohq.in/services/${service.slug}/`
+    url: `https://infohq.in/services/${service.slug}/`,
+    faqs: service.faqs
   }}
 >
   <!-- Service Detail Hero -->
   <section class="section service-detail-hero" aria-labelledby="service-title-heading">
     <div class="container">
       <div class="breadcrumb">
-        <a href="/">Home</a> &gt; <a href="/services">Services</a> &gt; <span>{service.title}</span>
+        <a href="/">Home</a> &gt; <a href="/services/">Services</a> &gt; <span>{service.title}</span>
       </div>
 
       <div class="service-hero-grid">
@@ -129,6 +155,52 @@ const relatedServices = servicesData
       </div>
     </div>
   </section>
+
+  <!-- Service FAQs Section (GEO & Rich Snippets) -->
+  {service.faqs && service.faqs.length > 0 && (
+    <section class="section service-faqs-section" aria-labelledby="service-faqs-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="text-eyebrow">Frequently Asked Questions</span>
+          <h2 id="service-faqs-heading">Questions About {service.title}?</h2>
+          <p>Key information regarding architecture, development timeline, technology stack, and deliverables.</p>
+        </div>
+
+        <div class="faq-accordion-list">
+          {service.faqs.map((faq, idx) => (
+            <details class="faq-accordion-item" open={idx === 0}>
+              <summary class="faq-accordion-summary">
+                <span class="faq-question-text">{faq.q}</span>
+                <span class="faq-chevron" aria-hidden="true">+</span>
+              </summary>
+              <div class="faq-answer-content">
+                <p>{faq.a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Related Engineering Articles / Topical Hub -->
+  {relatedBlogs.length > 0 && (
+    <section class="section section-alt service-insights-section" aria-labelledby="insights-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="text-eyebrow">Engineering Insights</span>
+          <h2 id="insights-heading">Related Technical Articles &amp; Guides</h2>
+          <p>Practical teardowns, architectural guides, and benchmarks authored by our engineering team.</p>
+        </div>
+
+        <div class="grid-3 insights-grid">
+          {relatedBlogs.map((blogPost) => (
+            <BlogCard post={blogPost} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Related Services -->
   <section class="section related-section" aria-labelledby="related-heading">
@@ -326,6 +398,67 @@ const relatedServices = servicesData
     color: var(--color-text-muted);
     margin-bottom: 1.25rem;
     margin-top: auto;
+  }
+
+  /* FAQ Accordion */
+  .faq-accordion-list {
+    max-width: 840px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-card, #FFFFFF);
+    border: 1px solid var(--color-border-card, #E2E8F0);
+    border-radius: var(--radius-lg, 16px);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .faq-accordion-item[open] {
+    border-color: var(--color-primary, #7C5CE8);
+    box-shadow: 0 4px 20px -2px rgba(124, 92, 232, 0.08);
+  }
+
+  .faq-accordion-summary {
+    padding: 1.25rem 1.5rem;
+    font-size: var(--text-base, 1rem);
+    font-weight: 600;
+    color: var(--color-text-heading, #0F172A);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--color-primary, #7C5CE8);
+    transition: transform 0.2s ease;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer-content {
+    padding: 0 1.5rem 1.25rem;
+    color: var(--color-text-body, #475569);
+    line-height: 1.65;
+    font-size: var(--text-sm, 0.925rem);
+  }
+
+  .insights-grid {
+    margin-top: 1.5rem;
   }
 
   @media (max-width: 1023px) {

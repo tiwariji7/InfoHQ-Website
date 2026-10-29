@@ -10,6 +10,7 @@ export interface ServiceItem {
   techStack: string[];
   deliverables: string[];
   icon: string;
+  faqs?: Array<{ q: string; a: string }>;
 }
 
 export const servicesData: ServiceItem[] = [
@@ -30,6 +31,20 @@ export const servicesData: ServiceItem[] = [
       'Secure multi-model API integrations (OpenAI, Claude, Gemini)',
       'Vector database setup and telemetry logging'
     ],
+    faqs: [
+      {
+        q: 'How do you connect LLMs to our private company documents safely?',
+        a: 'We use Retrieval-Augmented Generation (RAG) with secure vector databases like pgvector or Pinecone. Your documents are never used to train public foundation models, and all queries and data transmissions remain strictly private and encrypted.'
+      },
+      {
+        q: 'Which AI models do you work with?',
+        a: 'We integrate OpenAI (GPT-4o), Anthropic (Claude 3.5 Sonnet), Google (Gemini 1.5/2.0), and open-source models like Llama 3, selecting the optimal model based on latency, accuracy, and operational cost.'
+      },
+      {
+        q: 'What is the typical timeline and cost for an AI project?',
+        a: 'A functional custom RAG pipeline or AI agent prototype is typically delivered in 2 to 4 weeks. One-time project scopes start from ₹19,999, with monthly engineering retainers available for ongoing enhancement.'
+      }
+    ],
     icon: 'Brain'
   },
   {
@@ -48,6 +63,20 @@ export const servicesData: ServiceItem[] = [
       'Background job queues and event-driven architectures',
       'Internal operations portals & admin dashboards',
       'Database modeling, migration, and query optimization'
+    ],
+    faqs: [
+      {
+        q: 'Do we own the source code and intellectual property (IP)?',
+        a: 'Yes, 100%. All source code, Git repositories, database schemas, and architectural assets belong entirely to your company from day one.'
+      },
+      {
+        q: 'How do you ensure the software scales under high traffic?',
+        a: 'We build with stateless microservices/modular monoliths, distributed background job queues (Redis/BullMQ), relational database indexing, and containerized deployments.'
+      },
+      {
+        q: 'Can you take over and modernize existing legacy software?',
+        a: 'Yes. We perform a code and security audit first, identify performance bottlenecks, and refactor or migrate modules incrementally with zero business disruption.'
+      }
     ],
     icon: 'Code2'
   },
@@ -68,6 +97,20 @@ export const servicesData: ServiceItem[] = [
       'Sub-second load times & Green (95+) Core Web Vitals',
       'Technical SEO architecture & structured metadata'
     ],
+    faqs: [
+      {
+        q: 'How fast will our website load?',
+        a: 'We engineer websites with modern static generation and edge caching (Astro / Next.js) to guarantee sub-second load times and 95+ Core Web Vitals scores on Google PageSpeed.'
+      },
+      {
+        q: 'Is technical SEO built into the website from scratch?',
+        a: 'Yes. We include full technical SEO: semantic HTML5 tags, canonical URLs, structured JSON-LD Schema markup, OpenGraph social meta tags, and automated XML sitemaps.'
+      },
+      {
+        q: 'How much does a custom business website cost in India?',
+        a: 'Our business website packages start from ₹14,999 for static high-converting business sites, with typical delivery within 1 to 2 weeks.'
+      }
+    ],
     icon: 'Globe'
   },
   {
@@ -86,6 +129,20 @@ export const servicesData: ServiceItem[] = [
       'Biometric authentication (FaceID / Fingerprint)',
       'Push notification pipelines and geolocation features',
       'End-to-end App Store & Google Play Store publishing'
+    ],
+    faqs: [
+      {
+        q: 'Do you build native or cross-platform apps?',
+        a: 'We build both. For most business use cases, React Native allows a single high-performance codebase across iOS and Android, saving 40%+ on development costs while maintaining 60fps native feel.'
+      },
+      {
+        q: 'Do you handle App Store and Google Play publishing?',
+        a: 'Yes. We manage the entire store preparation, screenshot generation, privacy policy compliance, and review submission process until your app is live.'
+      },
+      {
+        q: 'Will the mobile app work offline?',
+        a: 'Yes. We implement offline-first database caching (SQLite / WatermelonDB) so users can view data and queue actions even with intermittent or zero internet connection.'
+      }
     ],
     icon: 'Smartphone'
   },
@@ -106,6 +163,20 @@ export const servicesData: ServiceItem[] = [
       'Scheduled background data transformations',
       'Custom webhook listener microservices'
     ],
+    faqs: [
+      {
+        q: 'What platforms and tools can you integrate?',
+        a: 'We integrate any tool with a REST API or webhook: CRMs (Zoho, HubSpot, Salesforce), payment gateways (Razorpay, Stripe), WhatsApp Cloud API, Google Workspace, and accounting systems.'
+      },
+      {
+        q: 'What tools do you use for automation?',
+        a: 'We use robust platforms like n8n, Make, and Zapier alongside custom Python/Node.js microservices for complex logic that no-code tools cannot handle.'
+      },
+      {
+        q: 'What happens if a third-party API fails or goes down?',
+        a: 'We build automated retry queues, fallback logic, and instant error alerts (Slack/WhatsApp/email) so no transaction or lead is ever lost.'
+      }
+    ],
     icon: 'Cpu'
   },
   {
@@ -124,6 +195,20 @@ export const servicesData: ServiceItem[] = [
       'Docker containerization and orchestration',
       '24/7 automated uptime and anomaly alerting',
       'Automated disaster recovery and multi-region database backups'
+    ],
+    faqs: [
+      {
+        q: 'Which cloud providers and infrastructure do you support?',
+        a: 'We primarily architect on Amazon Web Services (AWS), Google Cloud Platform (GCP), and Cloudflare, matching the provider to your workload and budget.'
+      },
+      {
+        q: 'How do you ensure zero-downtime deployments?',
+        a: 'We set up automated CI/CD pipelines via GitHub Actions with blue-green or rolling container deployments and automatic health checks.'
+      },
+      {
+        q: 'Can you help reduce our existing cloud bills?',
+        a: 'Yes. Our cloud audit frequently identifies idle instances, oversized databases, and unoptimized egress costs, cutting monthly bills by 20% to 50%.'
+      }
     ],
     icon: 'Cloud'
   },
@@ -144,6 +229,16 @@ export const servicesData: ServiceItem[] = [
       'Automated security vulnerability checks in CI/CD',
       'Actionable remediation report for stakeholders'
     ],
+    faqs: [
+      {
+        q: 'What is included in an application security audit?',
+        a: 'We test against OWASP Top 10 vulnerabilities including SQL injection, cross-site scripting (XSS), insecure authentication, broken access control, and dependency vulnerabilities.'
+      },
+      {
+        q: 'Do you provide an actionable remediation report?',
+        a: 'Yes, you receive an executive summary for leadership and an engineering-level remediation report with exact code patches and configuration changes.'
+      }
+    ],
     icon: 'ShieldCheck'
   },
   {
@@ -162,6 +257,16 @@ export const servicesData: ServiceItem[] = [
       'Continuous Core Web Vitals and speed optimization',
       'Fast turnaround bug fixes and content updates',
       'Monthly health report and proactive check-ins'
+    ],
+    faqs: [
+      {
+        q: 'What does monthly website maintenance include?',
+        a: 'Automated daily cloud backups, core and plugin security patches, uptime and SSL monitoring, monthly speed tuning, and allocated hours for content updates and bug fixes.'
+      },
+      {
+        q: 'How quickly do you respond to urgent website issues?',
+        a: 'For critical downtime or security emergencies, our dedicated engineering team responds within 1 to 2 hours.'
+      }
     ],
     icon: 'Wrench'
   },
@@ -182,6 +287,16 @@ export const servicesData: ServiceItem[] = [
       'Scalable component design systems and design tokens',
       'Developer handoff specs with pixel-perfect assets'
     ],
+    faqs: [
+      {
+        q: 'What deliverables do we receive from the UI/UX design phase?',
+        a: 'You receive interactive Figma prototypes, complete component design systems with typography/colors, user flow diagrams, and developer-ready CSS/design tokens.'
+      },
+      {
+        q: 'How do you validate the design before coding begins?',
+        a: 'We conduct user journey mapping and click-through prototype testing to identify friction points before any engineering resources are spent.'
+      }
+    ],
     icon: 'Palette'
   },
   {
@@ -200,6 +315,12 @@ export const servicesData: ServiceItem[] = [
       'Investor-ready pitch decks and sales decks',
       'Social media and digital marketing visual asset kits',
       'Print and digital collaterals'
+    ],
+    faqs: [
+      {
+        q: 'What is included in a complete brand identity package?',
+        a: 'Primary and secondary logo variations, brand guideline book (colors, fonts, rules), social media asset templates, and investor pitch deck designs.'
+      }
     ],
     icon: 'PenTool'
   },
@@ -220,6 +341,12 @@ export const servicesData: ServiceItem[] = [
       'Audience growth and post scheduling execution',
       'Monthly analytics and reach performance reporting'
     ],
+    faqs: [
+      {
+        q: 'Which social media platforms do you specialize in?',
+        a: 'We specialize in LinkedIn, X (Twitter), and Instagram, focusing on B2B thought leadership, tech storytelling, and high-converting visual carousels.'
+      }
+    ],
     icon: 'Share2'
   },
   {
@@ -238,6 +365,12 @@ export const servicesData: ServiceItem[] = [
       'Conversion funnel tracking setup via Google Analytics 4',
       'Landing page A/B testing and conversion rate optimization',
       'Transparent ROI and lead acquisition reporting'
+    ],
+    faqs: [
+      {
+        q: 'How do you measure digital marketing ROI?',
+        a: 'We set up end-to-end conversion tracking in Google Analytics 4 (GA4) and Google Search Console, measuring exact cost per qualified lead (CPL) and conversion rates rather than vanity impressions.'
+      }
     ],
     icon: 'TrendingUp'
   }

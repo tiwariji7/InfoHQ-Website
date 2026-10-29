@@ -1,5 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { filterPublishedPosts, sortPostsByDateDesc } from '../utils/blog';
 import HeroGraphic from '../components/HeroGraphic.astro';
 import ServiceIcon from '../components/ServiceIcon.astro';
 import Button from '../components/Button.astro';
@@ -61,6 +64,10 @@ const whyReasons = [
   }
 ];
 
+// Latest published articles for homepage topical authority
+const allBlogPosts = await getCollection('blog');
+const latestBlogPosts = sortPostsByDateDesc(filterPublishedPosts(allBlogPosts)).slice(0, 3);
+
 const faqs = [
   {
     q: 'Do you only work with startups, or enterprises too?',
@@ -82,6 +89,7 @@ const faqs = [
   description={meta.description}
   keywords={meta.keywords}
   schemaType="home"
+  ogImage="/og/home.webp"
 >
   <!-- 1. Hero Section -->
   <section class="section hero-section" aria-labelledby="hero-heading">
@@ -682,6 +690,36 @@ const faqs = [
       </div>
     </div>
   </section>
+
+  <!-- 9b. Engineering Insights & Guides (Topical Authority & SEO Hub) -->
+  {latestBlogPosts.length > 0 && (
+    <section class="section home-blog-section" aria-labelledby="home-blog-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="text-eyebrow">Engineering Insights</span>
+          <h2 id="home-blog-heading">Latest Guides, Teardowns &amp; Research</h2>
+          <p>Practical writing on AI agents, modern web platforms, automation playbooks, and digital growth from our engineers.</p>
+        </div>
+
+        <div class="grid-3 home-blog-grid">
+          {latestBlogPosts.map((post) => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+
+        <div class="section-cta-wrap" style="margin-top: 2.5rem; text-align: center;">
+          <Button
+            variant="secondary"
+            tone="light"
+            size="md"
+            href="/blogs/"
+            label="View All 13+ Guides & Articles"
+            icon="arrow"
+          />
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- 10. Final CTA Section -->
   <FinalCTA page="home" />

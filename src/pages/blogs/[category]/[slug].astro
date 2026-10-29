@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import MidCTA from '../../../components/MidCTA.astro';
+import ArticleCTA from '../../../components/ArticleCTA.astro';
 import BlogCard from '../../../components/BlogCard.astro';
 import Button from '../../../components/Button.astro';
 import NewsletterForm from '../../../components/NewsletterForm.astro';
@@ -83,6 +84,36 @@ const fullPostImageUrl = post.data.heroImage
   ? `https://infohq.in${post.data.heroImage}`
   : `https://infohq.in/og/blogs/${post.id}-og.webp`;
 
+const blogServiceMap: Record<string, { title: string; desc: string; href: string }> = {
+  ai: {
+    title: 'AI & Intelligent Systems',
+    desc: 'Deploy custom autonomous AI agents, enterprise RAG, and LLM integrations.',
+    href: '/services/ai-intelligent-systems/'
+  },
+  web: {
+    title: 'Modern Web & App Dev',
+    desc: 'High-speed business websites, mobile apps, and custom SaaS platforms.',
+    href: '/services/web-development/'
+  },
+  automation: {
+    title: 'Business Automation',
+    desc: 'Automate CRM pipelines, invoice parsing, and custom API workflows.',
+    href: '/services/business-automation/'
+  },
+  cloud: {
+    title: 'Cloud, DevOps & Security',
+    desc: 'Zero-downtime CI/CD, AWS/GCP architecture, and OWASP security audits.',
+    href: '/services/cloud-devops/'
+  },
+  design: {
+    title: 'UI/UX & Brand Design',
+    desc: 'Interactive Figma prototypes, design systems, and visual identity.',
+    href: '/services/ui-ux-design/'
+  }
+};
+
+const relevantService = blogServiceMap[post.data.category];
+
 const postSchemaData = {
   headline: post.data.title,
   description: post.data.description,
@@ -162,7 +193,7 @@ const meta = {
             </div>
           )}
           <div class="prose-body">
-            <Content components={{ MidCTA }} />
+            <Content components={{ MidCTA, ArticleCTA }} />
           </div>
         </main>
 
@@ -188,6 +219,18 @@ const meta = {
               />
             </div>
           </div>
+
+          <!-- Card: Related Service Link -->
+          {relevantService && (
+            <div class="card sidebar-card service-sidebar-card">
+              <span class="text-eyebrow">Enterprise Service</span>
+              <h3 class="sidebar-card-title">{relevantService.title}</h3>
+              <p class="cta-sidebar-desc">{relevantService.desc}</p>
+              <a href={relevantService.href} class="service-sidebar-link">
+                Explore Solution &rarr;
+              </a>
+            </div>
+          )}
 
           <!-- Card 2: Categories -->
           <div class="card sidebar-card categories-card">
@@ -425,6 +468,27 @@ const meta = {
     margin: 0 0 1.25rem 0;
   }
 
+  .service-sidebar-card {
+    border-left: 3px solid var(--color-primary);
+    background: linear-gradient(135deg, rgba(124, 92, 232, 0.04), transparent);
+  }
+
+  .service-sidebar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .service-sidebar-link:hover {
+    color: var(--color-primary-dark);
+    transform: translateX(3px);
+  }
+
   .categories-list {
     list-style: none;
     padding: 0;
@@ -573,8 +637,31 @@ const meta = {
     text-underline-offset: 3px;
   }
 
-  .prose-body :global(a:not(.infohq-btn):hover) {
+  .prose-body :global(a:not(.infohq-btn):not(.article-cta-btn):hover) {
     color: var(--color-primary-dark);
+  }
+
+  .prose-body :global(.article-cta-btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.875rem 1.65rem;
+    background: linear-gradient(135deg, #E8604E 0%, #DD4985 30%, #914FBB 65%, #5782E0 100%);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    text-decoration: none !important;
+    box-shadow: 0 4px 18px rgba(221, 73, 133, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 1.5rem 0;
+  }
+
+  .prose-body :global(.article-cta-btn:hover) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.4);
+    color: #FFFFFF !important;
+    text-decoration: none !important;
   }
 
   .prose-body :global(code) {

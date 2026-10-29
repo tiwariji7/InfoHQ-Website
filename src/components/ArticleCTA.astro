@@ -1,0 +1,62 @@
+---
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href = '/contact/', label } = Astro.props;
+---
+
+<div class="article-cta-wrapper">
+  <a href={href} class="article-cta-btn">
+    <span class="cta-label">{label}</span>
+    <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</div>
+
+<style>
+  .article-cta-wrapper {
+    margin: 2.25rem 0;
+    display: flex;
+  }
+
+  .article-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.875rem 1.65rem;
+    background: linear-gradient(135deg, #E8604E 0%, #DD4985 30%, #914FBB 65%, #5782E0 100%);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    text-decoration: none !important;
+    box-shadow: 0 4px 18px rgba(221, 73, 133, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .article-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.4);
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+  }
+
+  .cta-arrow {
+    font-size: 1.15rem;
+    transition: transform 0.2s ease;
+  }
+
+  .article-cta-btn:hover .cta-arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 640px) {
+    .article-cta-btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+</style>
+

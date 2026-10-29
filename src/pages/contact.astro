@@ -14,6 +14,7 @@ const meta = {
   description={meta.description}
   keywords={meta.keywords}
   schemaType="contact"
+  ogImage="/og/contact.webp"
   showMobileCTA={false}
 >
   <!-- Main Two-Column Contact Section -->
@@ -225,10 +226,10 @@ const meta = {
                 <span class="field-error-message" id="service-error" role="alert"></span>
               </div>
 
-              <!-- 4. Tell us about your idea or requirement * -->
+              <!-- 4. Tell us about your idea or requirement (Optional) -->
               <div class="form-field-group">
                 <label for="contact-brief" class="field-label">
-                  Tell us about your idea or requirement <span class="req" aria-hidden="true">*</span>
+                  Tell us about your idea or requirement <span class="optional-tag">(Optional)</span>
                 </label>
                 <div class="textarea-wrapper">
                   <textarea 
@@ -236,7 +237,6 @@ const meta = {
                     name="projectBrief" 
                     rows="3" 
                     maxlength="1000" 
-                    required 
                     class="field-textarea" 
                     placeholder="Share a few details about your project, goals, or challenges..."
                   ></textarea>
@@ -251,21 +251,14 @@ const meta = {
               <div class="form-fields-row-2">
                 <div class="form-field-group">
                   <label for="contact-budget" class="field-label">Estimated Budget <span class="optional-tag">(Optional)</span></label>
-                  <div class="select-wrapper">
-                    <select id="contact-budget" name="budget" class="field-select">
-                      <option value="" selected>Select budget range</option>
-                      <option value="Under ₹15,000">Under ₹15,000</option>
-                      <option value="₹15,000 - ₹30,000">₹15,000 - ₹30,000</option>
-                      <option value="₹30,000 - ₹50,000">₹30,000 - ₹50,000</option>
-                      <option value="₹50,000+">₹50,000+</option>
-                      <option value="Not sure yet">Not sure yet</option>
-                    </select>
-                    <span class="select-chevron" aria-hidden="true">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                      </svg>
-                    </span>
-                  </div>
+                  <input
+                    type="text"
+                    id="contact-budget"
+                    name="budget"
+                    class="field-input"
+                    placeholder="e.g. ₹50,000"
+                    autocomplete="off"
+                  />
                 </div>
 
                 <div class="form-field-group">
@@ -693,8 +686,21 @@ const meta = {
   }
 
   .preferred-pills-wrap {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.6rem;
+    width: 100%;
+  }
+
+  .preferred-pills-wrap .pill-chip-label {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .preferred-pills-wrap .pill-chip-box {
+    width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
   }
 
   .pill-chip-label {
@@ -876,6 +882,14 @@ const meta = {
       grid-template-columns: 1fr;
       gap: 2rem;
     }
+
+    .preferred-pills-wrap {
+      gap: 0.5rem;
+    }
+
+    .preferred-pills-wrap .pill-chip-box {
+      padding: 0.5rem 0.5rem;
+    }
   }
 
   @media (max-width: 767px) {
@@ -895,6 +909,16 @@ const meta = {
     .form-fields-row-2 {
       grid-template-columns: 1fr;
       gap: 0.65rem;
+    }
+
+    .preferred-pills-wrap {
+      gap: 0.4rem;
+    }
+
+    .preferred-pills-wrap .pill-chip-box {
+      padding: 0.5rem 0.3rem;
+      font-size: 0.78rem;
+      gap: 4px;
     }
 
     .trust-bar-row {
@@ -923,7 +947,7 @@ const meta = {
     const emailInput = document.getElementById('contact-email') as HTMLInputElement | null;
     const phoneInput = document.getElementById('contact-phone') as HTMLInputElement | null;
     const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
-    const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
+    const budgetInput = document.getElementById('contact-budget') as HTMLInputElement | null;
     const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
     const websiteInput = document.getElementById('website') as HTMLInputElement | null;
 
@@ -1176,13 +1200,8 @@ const meta = {
         hasError = true;
       }
 
-      // 5. Validate Project Brief
+      // 5. Project Brief (optional)
       const projectBrief = textarea?.value.trim() || '';
-      if (!projectBrief || projectBrief.length < 10) {
-        if (briefError) briefError.textContent = 'Please provide details about your idea (at least 10 characters).';
-        textarea?.classList.add('has-error');
-        hasError = true;
-      }
 
       // 6. Validate Preferred Way to Connect
       const selectedContactRadio = form.querySelector('input[name="preferredContact"]:checked') as HTMLInputElement | null;
@@ -1201,8 +1220,6 @@ const meta = {
           phoneInput?.focus();
         } else if (!serviceType) {
           form.querySelector('input[name="serviceType"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (!projectBrief || projectBrief.length < 10) {
-          textarea?.focus();
         } else if (!preferredContact) {
           form.querySelector('.preferred-pills-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -1210,7 +1227,7 @@ const meta = {
       }
 
       const company = companyInput?.value.trim() || '';
-      const budget = budgetSelect?.value || '';
+      const budget = budgetInput?.value.trim() || '';
       const timeline = timelineSelect?.value || '';
 
       const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Book Free Consultation';
