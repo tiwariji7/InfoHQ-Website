@@ -125,7 +125,15 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:src" content={absoluteOgImage} />
+    <meta property="twitter:image" content={absoluteOgImage} />
     <meta name="twitter:image:alt" content={resolvedOgAlt} />
+    <!-- Telegram & Messenger Previews -->
+    <meta name="telegram:channel" content="@infohq" />
+    <meta property="telegram:title" content={title} />
+    <meta property="telegram:description" content={description} />
+    <meta property="telegram:image" content={absoluteOgImage} />
 
     <!-- Structured Data (JSON-LD) -->
     <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} />

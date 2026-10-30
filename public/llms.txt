@@ -23,6 +23,7 @@
 - [Blog Hub](https://infohq.in/blogs/): In-depth technical articles, architectural teardowns, and actionable guides on AI, software engineering, automation, and digital growth.
 
 ### AI & Machine Learning
+- [AI Voice Agents for Business: Can AI Answer Calls and Book Appointments?](https://infohq.in/blogs/ai/ai-voice-agents-for-business/): How conversational AI voice agents handle 24/7 inbound calls, bilingual Hindi/English interactions, calendar booking, and intelligent human transfers.
 - [What Is RAG (Retrieval-Augmented Generation)](https://infohq.in/blogs/ai/what-is-rag/): How RAG links LLMs to private business data, stops hallucinations, and powers conversational AI for Indian businesses.
 - [AI Agents vs AI Chatbots](https://infohq.in/blogs/ai/ai-agents-vs-ai-chatbots/): Architectural and functional differences between conversational chatbots and multi-step autonomous AI agents.
 - [Practical AI for Small Businesses in India](https://infohq.in/blogs/ai/ai-for-small-business-india/): Where small and mid-sized Indian businesses should start with AI to get real ROI without overspending.
