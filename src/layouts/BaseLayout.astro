@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
@@ -91,6 +92,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
 <!doctype html>
 <html lang="en-IN">
   <head>
+    <ClientRouter fallback="animate" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
@@ -193,30 +195,49 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
     <StickyMobileCTA show={showMobileCTA && currentPath !== '/contact'} />
     <CookieBanner />
 
-    {/* Smooth Scroll */}
+    {/* Motion Engine & Smooth Scroll */}
     <script>
       import Lenis from 'lenis';
+      import { initMotion } from '../scripts/motion';
 
-      // Check if user prefers reduced motion
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!prefersReducedMotion) {
-        const lenis = new Lenis({
-          duration: 1.1,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: 'vertical',
-          smoothWheel: true,
-          touchMultiplier: 1.5,
-        });
+      let lenisInstance: any = null;
 
-        (window as any).lenis = lenis;
-        (window as any).Lenis = Lenis;
+      function setupScrollAndMotion() {
+        initMotion();
 
-        function raf(time: number) {
-          lenis.raf(time);
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion && !lenisInstance) {
+          lenisInstance = new Lenis({
+            duration: 1.1,
+            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            smoothWheel: true,
+            touchMultiplier: 1.5,
+          });
+
+          (window as any).lenis = lenisInstance;
+          (window as any).Lenis = Lenis;
+
+          function raf(time: number) {
+            lenisInstance?.raf(time);
+            requestAnimationFrame(raf);
+          }
           requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
       }
+
+      setupScrollAndMotion();
+
+      document.addEventListener('astro:page-load', () => {
+        setupScrollAndMotion();
+      });
+
+      document.addEventListener('astro:after-swap', () => {
+        if (!window.location.hash) {
+          window.scrollTo(0, 0);
+          lenisInstance?.scrollTo(0, { immediate: true });
+        }
+      });
     </script>
   </body>
 </html>

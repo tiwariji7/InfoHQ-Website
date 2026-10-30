@@ -96,6 +96,7 @@ const faqs = [
     <!-- Ambient subtle background glow effects matching design reference -->
     <div class="hero-ambient-glow glow-left" aria-hidden="true"></div>
     <div class="hero-ambient-glow glow-right" aria-hidden="true"></div>
+    <div class="hero-ambient-mesh" aria-hidden="true"></div>
 
     <div class="container hero-container">
       <div class="hero-content">
@@ -108,7 +109,13 @@ const faqs = [
         </div>
 
         <h1 id="hero-heading" class="hero-headline">
-          Build better digital experiences. Grow with <span class="hero-brand-gradient">smarter technology.</span>
+          <span class="motion-word-wrap"><span class="motion-word">Build</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word">better</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word">digital</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word">experiences.</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word">Grow</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word">with</span></span>{' '}
+          <span class="motion-word-wrap"><span class="motion-word hero-brand-gradient">smarter technology.</span></span>
         </h1>
         
         <p class="hero-subheadline">
@@ -184,9 +191,9 @@ const faqs = [
         <h2 id="ps-heading">Engineered for Reliability,<br class="ps-heading-br" /> Not Just <span class="launch-day-gradient">Launch Day</span></h2>
       </div>
 
-      <div class="ps-grid">
+      <div class="ps-grid" data-motion="scroll-split">
         <!-- Problem Card -->
-        <article class="card ps-card problem-card">
+        <article class="card ps-card problem-card" data-motion="split-left">
           <div class="ps-top-bar">
             <div class="ps-badge problem-badge">THE PROBLEM</div>
             <div class="ps-divider problem-divider" aria-hidden="true"></div>
@@ -227,7 +234,7 @@ const faqs = [
         </article>
 
         <!-- Solution Card -->
-        <article class="card ps-card solution-card">
+        <article class="card ps-card solution-card" data-motion="split-right">
           <div class="ps-top-bar">
             <div class="ps-badge solution-badge">THE SOLUTION</div>
             <div class="ps-divider solution-divider" aria-hidden="true"></div>
@@ -811,12 +818,44 @@ const faqs = [
     z-index: 0;
   }
 
+  @keyframes heroGlowDrift1 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(32px, -24px, 0) scale(1.08);
+    }
+    66% {
+      transform: translate3d(-18px, 16px, 0) scale(0.94);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes heroGlowDrift2 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(-28px, 20px, 0) scale(1.06);
+    }
+    66% {
+      transform: translate3d(20px, -18px, 0) scale(0.94);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
   .glow-left {
     top: 25%;
     left: -120px;
     width: 480px;
     height: 480px;
-    background: radial-gradient(circle, rgba(221, 73, 133, 0.07) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(221, 73, 133, 0.08) 0%, transparent 70%);
+    animation: heroGlowDrift1 18s ease-in-out infinite;
+    will-change: transform;
   }
 
   .glow-right {
@@ -824,7 +863,23 @@ const faqs = [
     right: -100px;
     width: 580px;
     height: 580px;
-    background: radial-gradient(circle, rgba(124, 92, 232, 0.09) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.10) 0%, transparent 70%);
+    animation: heroGlowDrift2 22s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .hero-ambient-mesh {
+    position: absolute;
+    top: 15%;
+    left: 18%;
+    width: min(600px, 75vw);
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(145, 79, 187, 0.08) 0%, rgba(87, 130, 224, 0.05) 50%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 0;
+    animation: heroGlowDrift1 26s ease-in-out infinite reverse;
+    will-change: transform;
   }
 
   .hero-container {

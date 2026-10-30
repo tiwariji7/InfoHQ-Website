@@ -20,6 +20,7 @@
     "gsap": "latest",
     "lenis": "latest",
     "lucide-astro": "latest",
+    "motion": "^14.8.0",
     "satori": "^0.47.1"
   }
 }
