@@ -90,7 +90,7 @@ const isActive = (href: string) => {
 </header>
 
 <!-- Mobile Drawer / Overlay Navigation (Rendered outside header to escape backdrop-filter containing block) -->
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
   <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
   <div class="mobile-menu-drawer">
     <div class="mobile-menu-header">
@@ -644,6 +644,7 @@ const isActive = (href: string) => {
 
     function openMenu() {
       if (!menu) return;
+      menu.removeAttribute('inert');
       menu.classList.add('open');
       menu.setAttribute('aria-hidden', 'false');
       hamburgerBtn?.setAttribute('aria-expanded', 'true');
@@ -653,8 +654,12 @@ const isActive = (href: string) => {
 
     function closeMenu() {
       if (!menu) return;
+      if (document.activeElement && menu.contains(document.activeElement) && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       menu.classList.remove('open');
       menu.setAttribute('aria-hidden', 'true');
+      menu.setAttribute('inert', '');
       hamburgerBtn?.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       stickyCTA?.classList.remove('hidden-by-final-cta');

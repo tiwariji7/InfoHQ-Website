@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "generate:favicons": "node scripts/generate-favicons.mjs",
     "generate:og": "node scripts/generate-og.mjs",
     "build": "node scripts/generate-og.mjs && astro build",
     "preview": "astro preview",

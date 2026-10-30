@@ -75,14 +75,14 @@ if (customSchema) {
   // 1. Top-Level Organization Schema
   schemas.push(organizationBase);
 
-  // 2. WebSite Schema (Homepage)
+  // 2. WebSite Schema (Homepage - Google Search Site Name)
   schemas.push({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': 'https://infohq.in/#website',
     name: 'InfoHQ',
-    alternateName: 'Info HQ',
-    url: 'https://infohq.in',
+    alternateName: ['InfoHQ Pvt Ltd'],
+    url: 'https://infohq.in/',
     publisher: {
       '@id': 'https://infohq.in/#organization'
     },
