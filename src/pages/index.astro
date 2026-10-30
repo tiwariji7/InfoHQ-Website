@@ -696,8 +696,7 @@ const faqs = [
     <section class="section home-blog-section" aria-labelledby="home-blog-heading">
       <div class="container">
         <div class="section-header">
-          <span class="text-eyebrow">Engineering Insights</span>
-          <h2 id="home-blog-heading">Latest Guides, Teardowns &amp; Research</h2>
+          <h2 id="home-blog-heading">Latest Guides, <span class="text-gradient">Teardowns &amp; Research</span></h2>
           <p>Practical writing on AI agents, modern web platforms, automation playbooks, and digital growth from our engineers.</p>
         </div>
 
@@ -707,13 +706,13 @@ const faqs = [
           ))}
         </div>
 
-        <div class="section-cta-wrap" style="margin-top: 2.5rem; text-align: center;">
+        <div class="home-blog-cta">
           <Button
             variant="secondary"
             tone="light"
             size="md"
             href="/blogs/"
-            label="View All 13+ Guides & Articles"
+            label="View All Guides &amp; Articles"
             icon="arrow"
           />
         </div>
@@ -1958,6 +1957,21 @@ const faqs = [
     font-size: var(--text-sm);
     color: var(--color-text-body);
     line-height: 1.6;
+  }
+
+  /* 9b. Home Blog Section (Optimized Spacing) */
+  .home-blog-section {
+    padding-top: clamp(1.25rem, 2vw, 1.75rem);
+    padding-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
+  }
+
+  .home-blog-section .section-header {
+    margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .home-blog-cta {
+    margin-top: 1.5rem;
+    text-align: center;
   }
 
   /* 10. Final CTA Card */
