@@ -1,0 +1,287 @@
+---
+// NetworkStatus.astro - Premium Floating Offline / Online Connectivity Indicator
+---
+
+<div 
+  class="network-toast" 
+  id="network-toast" 
+  role="status" 
+  aria-live="polite" 
+  aria-atomic="true"
+  aria-hidden="true"
+>
+  <div class="network-toast-card">
+    <div class="toast-dot-wrap">
+      <span class="toast-dot-pulse" aria-hidden="true"></span>
+      <span class="toast-dot" aria-hidden="true"></span>
+    </div>
+    <div class="toast-content">
+      <span class="toast-title" id="network-toast-title">Offline Mode</span>
+      <span class="toast-msg" id="network-toast-msg">No internet connection. Browsing cached pages.</span>
+    </div>
+    <button type="button" class="toast-action-btn" id="network-toast-action" aria-label="Retry connection">
+      <span>Reconnect</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .network-toast {
+    position: fixed;
+    top: clamp(80px, 10.5vw, 92px);
+    left: 50%;
+    transform: translate(-50%, -24px) scale(0.96);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: 
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.35s ease;
+    max-width: calc(100vw - 28px);
+  }
+
+  .network-toast.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .network-toast-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem 0.65rem 0.95rem;
+    background: rgba(18, 10, 42, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 9999px;
+    box-shadow: 
+      0 12px 36px -4px rgba(10, 4, 30, 0.4),
+      0 4px 12px -2px rgba(10, 4, 30, 0.2),
+      inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Pulse Dot */
+  .toast-dot-wrap {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .toast-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #F59E0B;
+    box-shadow: 0 0 10px #F59E0B;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .toast-dot-pulse {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background-color: rgba(245, 158, 11, 0.4);
+    animation: toast-pulse 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    transition: background-color 0.3s ease;
+  }
+
+  @keyframes toast-pulse {
+    0% { transform: scale(0.6); opacity: 0.9; }
+    80%, 100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  .toast-content {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .toast-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #FBBF24;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+  }
+
+  .toast-msg {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #D1D5DB;
+  }
+
+  .toast-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.28rem 0.75rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    color: #FFFFFF;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    margin-left: 0.25rem;
+  }
+
+  .toast-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .toast-action-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Online Mode (Green Success) */
+  .network-toast.is-online .network-toast-card {
+    border-color: rgba(16, 185, 129, 0.45);
+    box-shadow: 
+      0 12px 36px -4px rgba(6, 78, 59, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  }
+
+  .network-toast.is-online .toast-dot {
+    background-color: #10B981;
+    box-shadow: 0 0 10px #10B981;
+  }
+
+  .network-toast.is-online .toast-dot-pulse {
+    background-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .network-toast.is-online .toast-title {
+    color: #34D399;
+  }
+
+  .network-toast.is-online .toast-action-btn {
+    display: none;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    .network-toast {
+      top: clamp(68px, 13vw, 76px);
+      width: calc(100vw - 20px);
+    }
+
+    .network-toast-card {
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.55rem 0.85rem;
+      border-radius: 16px;
+    }
+
+    .toast-content {
+      flex-direction: column;
+      gap: 0.1rem;
+      align-items: flex-start;
+      overflow: hidden;
+    }
+
+    .toast-msg {
+      font-size: 0.74rem;
+      max-width: 190px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast-title {
+      font-size: 0.8rem;
+    }
+
+    .toast-action-btn {
+      padding: 0.24rem 0.6rem;
+      font-size: 0.72rem;
+    }
+  }
+</style>
+
+<script>
+  function initNetworkEngine() {
+    const toast = document.getElementById('network-toast');
+    const toastTitle = document.getElementById('network-toast-title');
+    const toastMsg = document.getElementById('network-toast-msg');
+    const actionBtn = document.getElementById('network-toast-action');
+
+    let dismissTimeout: any = null;
+
+    function showOfflineToast() {
+      if (!toast) return;
+      clearTimeout(dismissTimeout);
+
+      toast.classList.remove('is-online');
+      if (toastTitle) toastTitle.textContent = 'Offline';
+      if (toastMsg) toastMsg.textContent = 'No connection. Browsing cached pages.';
+      toast.classList.add('visible');
+      toast.setAttribute('aria-hidden', 'false');
+    }
+
+    function showOnlineToast() {
+      if (!toast) return;
+      clearTimeout(dismissTimeout);
+
+      toast.classList.add('is-online');
+      if (toastTitle) toastTitle.textContent = 'Back Online';
+      if (toastMsg) toastMsg.textContent = 'Connection restored.';
+      toast.classList.add('visible');
+      toast.setAttribute('aria-hidden', 'false');
+
+      dismissTimeout = setTimeout(() => {
+        toast.classList.remove('visible');
+        toast.setAttribute('aria-hidden', 'true');
+      }, 3200);
+    }
+
+    function handleActionClick() {
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        if (actionBtn) {
+          actionBtn.innerHTML = '<span>Checking...</span>';
+          setTimeout(() => {
+            if (actionBtn) actionBtn.innerHTML = '<span>Reconnect</span>';
+          }, 800);
+        }
+      }
+    }
+
+    actionBtn?.addEventListener('click', handleActionClick);
+
+    window.addEventListener('offline', showOfflineToast);
+    window.addEventListener('online', showOnlineToast);
+
+    // Initial check on page load
+    if (!navigator.onLine) {
+      showOfflineToast();
+    }
+
+    // Register Service Worker for offline resilience
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+          // SW registration silent fallback
+        });
+      });
+    }
+  }
+
+  // Run on initial load and view transitions
+  initNetworkEngine();
+  document.addEventListener('astro:page-load', initNetworkEngine);
+</script>
+

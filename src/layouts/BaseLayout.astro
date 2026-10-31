@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import SchemaJsonLd from '../components/SchemaJsonLd.astro';
+import NetworkStatus from '../components/NetworkStatus.astro';
 
 interface Props {
   title: string;
@@ -198,6 +199,7 @@ const resolvedOgAlt = ogImageAlt || `${title} — InfoHQ`;
 
     <StickyMobileCTA show={showMobileCTA && currentPath !== '/contact'} />
     <CookieBanner />
+    <NetworkStatus />
 
     {/* Motion Engine & Smooth Scroll */}
     <script>
