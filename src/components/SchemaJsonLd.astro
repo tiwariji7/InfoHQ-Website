@@ -26,18 +26,21 @@ const organizationBase = {
   '@type': 'Organization',
   '@id': 'https://infohq.in/#organization',
   name: 'InfoHQ',
-  alternateName: 'Info HQ',
-  url: 'https://infohq.in',
+  legalName: 'InfoHQ Pvt Ltd',
+  alternateName: ['InfoHQ Pvt Ltd', 'Info HQ'],
+  url: 'https://infohq.in/',
   logo: 'https://infohq.in/images/infohq-brandlogo.webp',
-  description: 'InfoHQ is a Pune & Prayagraj-based AI and software engineering studio helping startups and enterprises across India build, automate, and grow — from custom AI systems to full-scale digital products.',
+  description: 'InfoHQ is an AI and software engineering studio helping businesses build, automate, and grow through AI solutions, custom software, web and mobile applications.',
   email: 'contact@infohq.in',
   foundingDate: '2025',
   founder: {
     '@type': 'Person',
-    name: 'Shivam Tiwari'
+    name: 'Shivam Tiwari',
+    jobTitle: 'Founder & Lead Engineer',
+    url: 'https://infohq.in/company/'
   },
   sameAs: [
-    'https://linkedin.com/company/infohq',
+    'https://www.linkedin.com/company/infohq/',
     'https://www.instagram.com/infohq.in/',
     'https://www.youtube.com/@infohq28'
   ],
@@ -483,31 +486,63 @@ if (customSchema) {
         name: 'What is InfoHQ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'InfoHQ is an AI and software engineering studio based in Pune and Prayagraj, India. We build AI systems, custom software, web and mobile apps, automation, cloud and security work, and design and marketing for businesses across India.'
+          text: 'InfoHQ is an Indian AI and software engineering studio founded in 2025 by Shivam Tiwari. Operating from Pune, Maharashtra and Prayagraj, Uttar Pradesh, InfoHQ designs, engineers, and operates production-grade AI systems, custom SaaS platforms, modern web and mobile applications, and enterprise automations for businesses across India.'
         }
       },
       {
         '@type': 'Question',
-        name: 'When was InfoHQ founded, and by whom?',
+        name: 'Who founded InfoHQ and who leads engineering?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'InfoHQ was founded in 2025 by Shivam Tiwari.'
+          text: 'InfoHQ was founded in 2025 by Shivam Tiwari, who acts as Founder and Lead Engineer. Shivam oversees every layer of product architecture — frontend, backend, databases, security, and AI integrations — working hands-on with the InfoHQ engineering team.'
         }
       },
       {
         '@type': 'Question',
-        name: 'Where is InfoHQ based?',
+        name: 'What services does InfoHQ provide?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'We are based in Pune, Maharashtra and Prayagraj, Uttar Pradesh. We deliver remotely to clients anywhere in India.'
+          text: 'InfoHQ provides end-to-end technology solutions: Autonomous AI Agents & RAG Knowledge Systems, Custom Software & SaaS Platforms, Web & Mobile App Development (Next.js, Astro, React Native), Business Process Automation (n8n, Make, Custom APIs), Cloud DevOps & Cybersecurity, and SEO/AEO/GEO optimization.'
         }
       },
       {
         '@type': 'Question',
-        name: 'Who owns the code and design?',
+        name: 'Does InfoHQ develop AI agents and business automations?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'You do. All code, design, database schemas and assets are handed over to your own repositories.'
+          text: 'Yes. InfoHQ develops conversational AI voice agents, autonomous lead qualification bots, RAG document search pipelines, and multi-step CRM/ERP workflow automations built for real-world enterprise operations.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does InfoHQ build custom CRM and internal software?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. InfoHQ engineers bespoke CRM software, client portals, billing platforms, inventory management tools, and internal dashboards tailored specifically to each business workflow, without template limitations.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Where is InfoHQ located?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'InfoHQ is dual-headquartered in Pune, Maharashtra and Prayagraj, Uttar Pradesh, delivering remote-first engineering and on-ground technical support to startups and enterprises pan-India.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who owns the code, design, and intellectual property?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You do. 100% of all source code, Figma design systems, database architectures, and API keys are handed over directly to your own repositories and cloud accounts — zero lock-in.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does InfoHQ optimize for SEO, AEO, and GEO?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Every digital product built by InfoHQ incorporates technical SEO, Answer Engine Optimization (AEO for Google AI Overviews and Perplexity), and Generative Engine Optimization (GEO for ChatGPT, Claude, and Gemini) with clean JSON-LD structured data and verified Google Business Profile setup.'
         }
       },
       {
@@ -515,15 +550,7 @@ if (customSchema) {
         name: 'How can I work with InfoHQ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'There are two ways: a fixed-scope one-time project, or a monthly retainer with a dedicated engineer or team. You can see both on our pricing page.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'Do I have to take a monthly plan?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `No. If your needs are light, we also offer custom plans. You can discuss them directly with us at ${contactConfig.businessEmail}.`
+          text: 'Businesses can engage InfoHQ via fixed-scope project sprints (built from scratch to launch) or ongoing monthly engineering retainers with dedicated engineers who know your codebase.'
         }
       },
       {
@@ -531,7 +558,7 @@ if (customSchema) {
         name: 'How do I contact InfoHQ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `Write to ${contactConfig.businessEmail} or use the contact form on our contact page.`
+          text: `You can email contact@infohq.in, message on WhatsApp at +91 8381835420, or submit a request directly via the contact form on https://infohq.in/contact/.`
         }
       }
     ]
