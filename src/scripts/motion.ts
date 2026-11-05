@@ -4,19 +4,94 @@ import { animate, inView, stagger } from 'motion';
  * InfoHQ Motion Engine
  * Ultra-smooth, natural spatial animations built with Motion.
  * Features:
- * 1. Global Hero Entrance on every page (H1, eyebrow, description, CTAs, visual)
- * 2. Stagger Card Reveal across all card grids (including Blog cards & category tiles)
- * 3. Pricing Page Animations (One-Time Projects, Comparison Matrix, Systems We Manage, Requests Card)
- * 4. Company Page Animations (Who We Are, Why InfoHQ Exists, Where We Work, India Map)
- * 5. Unified Site-Wide FAQ Accordion Card Motion
- * 6. Footer Staggered Reveal
- * 7. Soft Directional Scroll Reveal
+ * 1. Global Hero Entrance on every page (Automatic word-by-word H1 cascade, eyebrow, description, CTAs, visual)
+ * 2. Section Titles Word-by-Word Reveal on scroll
+ * 3. Stagger Card Reveal across all card grids (including Blog, Portfolio, Services, Pricing, Company cards)
+ * 4. Large Cards Internal Text Hierarchy Reveal (Problem/Solution, Retainer, Service detail, Final CTA)
+ * 5. Pricing Page Dedicated Motion (One-Time Projects, Comparison Matrix, Systems We Manage, Requests Card)
+ * 6. Company Page Dedicated Motion (Narrative Boxes, Presence, India Map)
+ * 7. Unified Site-Wide FAQ Accordion Card Motion
+ * 8. Footer Staggered Reveal
+ * 9. Soft Directional Scroll Reveal
  * 
  * Respects prefers-reduced-motion, provides clean fallbacks, and runs smoothly on View Transitions.
  */
 
 // Luxury ease-out curve (smooth deceleration, zero mechanical snap or bounce)
 const LUXURY_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/**
+ * Safely splits text within an element into word spans for cinematic word-by-word reveal.
+ * Preserves inner tags (like <span class="text-gradient">) and attributes.
+ * Sets aria-label so screen readers read the full text seamlessly.
+ */
+function splitElementIntoWords(element: HTMLElement): HTMLElement[] {
+  // If already split, return existing words
+  const existingWords = element.querySelectorAll<HTMLElement>('.motion-word');
+  if (existingWords.length > 0) {
+    return Array.from(existingWords);
+  }
+
+  function walk(node: Node): Node[] {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent || '';
+      if (!text.trim()) {
+        return [document.createTextNode(text)];
+      }
+
+      // Split by whitespace boundaries while preserving whitespace tokens
+      const tokens = text.split(/(\s+)/);
+      const fragments: Node[] = [];
+
+      for (const token of tokens) {
+        if (!token) continue;
+        if (/^\s+$/.test(token)) {
+          fragments.push(document.createTextNode(token));
+        } else {
+          const wrap = document.createElement('span');
+          wrap.className = 'motion-word-wrap';
+          wrap.setAttribute('aria-hidden', 'true');
+
+          const word = document.createElement('span');
+          word.className = 'motion-word';
+          word.textContent = token;
+
+          wrap.appendChild(word);
+          fragments.push(wrap);
+        }
+      }
+      return fragments;
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const el = node as HTMLElement;
+      if (el.classList.contains('motion-word-wrap') || el.classList.contains('motion-word')) {
+        return [el];
+      }
+
+      const childNodes = Array.from(el.childNodes);
+      el.innerHTML = '';
+      for (const child of childNodes) {
+        const replacement = walk(child);
+        replacement.forEach((r) => el.appendChild(r));
+      }
+      return [el];
+    }
+    return [node];
+  }
+
+  // Preserve original text for screen readers using aria-label
+  if (!element.getAttribute('aria-label')) {
+    element.setAttribute('aria-label', element.textContent?.trim() || '');
+  }
+
+  const childNodes = Array.from(element.childNodes);
+  element.innerHTML = '';
+  for (const child of childNodes) {
+    const replacement = walk(child);
+    replacement.forEach((r) => element.appendChild(r));
+  }
+
+  return Array.from(element.querySelectorAll<HTMLElement>('.motion-word'));
+}
 
 export function initMotion(): void {
   // 1. Accessibility: Check user preference for reduced motion
@@ -28,37 +103,40 @@ export function initMotion(): void {
 
   document.documentElement.classList.add('has-motion');
 
-  // 2. Hero Entrance Animation (All Pages)
+  // 2. Hero Entrance Animation (All Pages with word-by-word reveal)
   initHeroEntrance();
 
-  // 3. Stagger Card Reveal (Grids & Blogs)
+  // 3. Section Titles Word-by-Word Reveal on Scroll
+  initSectionTitlesWordMotion();
+
+  // 4. Stagger Card Reveal (Every Card Grid across the site)
   initStaggerCards();
 
-  // 4. Large Cards Internal Text Hierarchy Reveal
+  // 5. Large Cards Internal Text Hierarchy Reveal
   initLargeCardInnerMotion();
 
-  // 5. Pricing Page Dedicated Motion (One-Time Projects, Matrix, Systems We Manage, Typical Requests)
+  // 6. Pricing Page Dedicated Motion
   initPricingMotion();
 
-  // 6. Company Page Dedicated Motion (Narrative Boxes, Presence, India Map)
+  // 7. Company Page Dedicated Motion
   initCompanyMotion();
 
-  // 7. Site-Wide FAQ Cards Motion
+  // 8. Site-Wide FAQ Cards Motion
   initFaqMotion();
 
-  // 8. Footer Reveal Motion
+  // 9. Footer Reveal Motion
   initFooterMotion();
 
-  // 9. Soft Scroll Reveal (Left / Right / Up / Split)
+  // 10. Soft Scroll Reveal (Left / Right / Up / Split)
   initScrollReveal();
 }
 
 /**
  * 1. Hero Entrance Animation (Works across every page)
- * - Heading text softly floats in (y: 10-14px -> 0, opacity: 0 -> 1)
- * - Description fades up with natural ease
- * - CTAs and highlights appear with slight delayed cadence
- * - No overflow-hidden clipping — feels 100% organic and seamless
+ * - Heading text reveals word-by-word with staggered luxury ease
+ * - Eyebrow badge softly fades in
+ * - Description fades up with natural cadence
+ * - CTAs and visual column appear smoothly
  */
 function initHeroEntrance(): void {
   const heroContainer = document.querySelector<HTMLElement>(
@@ -80,21 +158,20 @@ function initHeroEntrance(): void {
     );
   }
 
-  // Primary Headline (H1)
+  // Primary Headline (H1) with Word-by-Word Stagger
   const h1 = heroContainer.querySelector<HTMLElement>('h1');
   if (h1) {
-    const words = h1.querySelectorAll<HTMLElement>('.motion-word');
+    const words = splitElementIntoWords(h1);
     if (words.length > 0) {
-      // Natural spatial reveal for pre-split words (e.g. Home Hero)
       const anim = animate(
         words,
         {
           opacity: [0, 1],
-          y: [12, 0]
+          y: [14, 0]
         },
         {
-          duration: 0.65,
-          delay: stagger(0.038, { start: 0.08 }),
+          duration: 0.62,
+          delay: stagger(0.035, { start: 0.08 }),
           easing: LUXURY_EASE
         }
       );
@@ -105,7 +182,6 @@ function initHeroEntrance(): void {
         });
       });
     } else {
-      // Direct smooth entrance for all other page H1 headlines
       const anim = animate(
         h1,
         { opacity: [0, 1], y: [16, 0] },
@@ -126,7 +202,7 @@ function initHeroEntrance(): void {
     const anim = animate(
       subheadline,
       { opacity: [0, 1], y: [14, 0] },
-      { duration: 0.68, delay: 0.26, easing: LUXURY_EASE }
+      { duration: 0.68, delay: 0.24, easing: LUXURY_EASE }
     );
     anim.then(() => {
       subheadline.style.transform = '';
@@ -142,7 +218,7 @@ function initHeroEntrance(): void {
     const anim = animate(
       ctas,
       { opacity: [0, 1], y: [10, 0] },
-      { duration: 0.55, delay: stagger(0.07, { start: 0.4 }), easing: LUXURY_EASE }
+      { duration: 0.55, delay: stagger(0.065, { start: 0.38 }), easing: LUXURY_EASE }
     );
     anim.then(() => {
       ctas.forEach((c) => {
@@ -158,11 +234,11 @@ function initHeroEntrance(): void {
     animate(
       highlights,
       { opacity: [0, 1], y: [8, 0] },
-      { duration: 0.5, delay: stagger(0.06, { start: 0.52 }), easing: LUXURY_EASE }
+      { duration: 0.5, delay: stagger(0.06, { start: 0.48 }), easing: LUXURY_EASE }
     );
   }
 
-  // Hero Visual Column (e.g. Code composition or graphic)
+  // Hero Visual Column (e.g. Code editor workstation or graphic)
   const visualCol = heroContainer.querySelector<HTMLElement>(
     '.hero-visual-col, .service-hero-visual, .contact-card-wrap'
   );
@@ -170,7 +246,7 @@ function initHeroEntrance(): void {
     const anim = animate(
       visualCol,
       { opacity: [0, 1], y: [18, 0], scale: [0.985, 1] },
-      { duration: 0.8, delay: 0.18, easing: LUXURY_EASE }
+      { duration: 0.8, delay: 0.16, easing: LUXURY_EASE }
     );
     anim.then(() => {
       visualCol.style.transform = '';
@@ -180,10 +256,53 @@ function initHeroEntrance(): void {
 }
 
 /**
- * 2. Stagger Card Reveal
- * - Cards appear sequentially when scrolled into view
- * - Soft fade + 16px gentle upward glide (grounded & natural, not abrupt)
- * - Explicitly covers blog articles grids, category tiles, portfolio, and service cards
+ * 2. Section Titles Word-by-Word Motion
+ * - As users scroll down the page, section headers reveal word-by-word
+ */
+function initSectionTitlesWordMotion(): void {
+  const headings = document.querySelectorAll<HTMLElement>(
+    '.section-header h2, .section-title, .ps-title, [data-motion="word-split"]'
+  );
+
+  headings.forEach((heading) => {
+    if (heading.hasAttribute('data-words-bound')) return;
+    heading.setAttribute('data-words-bound', 'true');
+
+    // Split words
+    const words = splitElementIntoWords(heading);
+    if (!words.length) return;
+
+    inView(
+      heading,
+      () => {
+        const anim = animate(
+          words,
+          {
+            opacity: [0, 1],
+            y: [12, 0]
+          },
+          {
+            duration: 0.58,
+            delay: stagger(0.03, { start: 0.04 }),
+            easing: LUXURY_EASE
+          }
+        );
+        anim.then(() => {
+          words.forEach((w) => {
+            w.style.transform = '';
+            w.style.opacity = '';
+          });
+        });
+      },
+      { amount: 0.2 }
+    );
+  });
+}
+
+/**
+ * 3. Stagger Card Reveal
+ * - Every card grid across the entire website reveals with soft, luxury staggered cascade
+ * - Once revealed, inline transform/opacity are cleared so hover physics runs with 100% purity
  */
 function initStaggerCards(): void {
   const gridSelectors = [
@@ -193,6 +312,7 @@ function initStaggerCards(): void {
     '.portfolio-cards-grid',
     '.why-grid',
     '.engagement-grid',
+    '.engage-grid',
     '.home-blog-grid',
     '.articles-grid',
     '.category-tiles-grid',
@@ -200,11 +320,20 @@ function initStaggerCards(): void {
     '.service-items-grid',
     '.retainer-cards-grid',
     '.systems-grid',
+    '.systems-list',
     '.values-grid',
     '.diff-grid',
     '.deliverables-grid',
     '.insights-grid',
-    '.standards-grid'
+    '.standards-grid',
+    '.presence-cards',
+    '.channel-cards-grid',
+    '.narrative-grid',
+    '.faq-accordion',
+    '.faq-accordion-list',
+    '.faq-container',
+    '.contact-split-grid',
+    '.consultation-form-wrap'
   ].join(', ');
 
   const grids = document.querySelectorAll<HTMLElement>(gridSelectors);
@@ -214,7 +343,7 @@ function initStaggerCards(): void {
     grid.setAttribute('data-motion-bound', 'true');
 
     const cards = grid.querySelectorAll<HTMLElement>(
-      ':scope > article, :scope > .card, :scope > .blog-card, :scope > .category-tile, :scope > [class*="-card"], :scope > .diff-card, :scope > .model-card, :scope > .why-card, :scope > .engagement-card, :scope > .value-card, :scope > .deliverable-card'
+      ':scope > article, :scope > .card, :scope > .blog-card, :scope > .category-tile, :scope > [class*="-card"], :scope > .diff-card, :scope > .model-card, :scope > .why-card, :scope > .engagement-card, :scope > .engage-card, :scope > .value-card, :scope > .deliverable-card, :scope > .standard-card, :scope > .system-item-card, :scope > .faq-item, :scope > .faq-accordion-item, :scope > .channel-card, :scope > .narrative-col'
     );
     if (!cards.length) return;
 
@@ -230,7 +359,7 @@ function initStaggerCards(): void {
           },
           {
             duration: 0.65,
-            delay: stagger(0.065, { start: 0.04 }),
+            delay: stagger(0.055, { start: 0.03 }),
             easing: LUXURY_EASE
           }
         );
@@ -271,13 +400,13 @@ function initStaggerCards(): void {
 }
 
 /**
- * 3. Large Card Internal Text Reveal
+ * 4. Large Card Internal Text Reveal
  * - For prominent/large cards (Problem/Solution cards, Retainer cards, Service detail cards, Final CTA)
  * - Cascades smoothly: Badge -> Title -> Body -> Bullet list items
  */
 function initLargeCardInnerMotion(): void {
   const largeCards = document.querySelectorAll<HTMLElement>(
-    '.ps-card, .problem-card, .solution-card, .retainer-card, .service-detail-card, .mv-card, .final-cta-card, .contact-split-grid > *'
+    '.ps-card, .problem-card, .solution-card, .retainer-card, .service-detail-card, .mv-card, .final-cta-card, .consultation-form-card'
   );
 
   largeCards.forEach((card) => {
@@ -293,27 +422,27 @@ function initLargeCardInnerMotion(): void {
           animate(
             badge,
             { opacity: [0, 1], y: [8, 0] },
-            { duration: 0.5, delay: 0.08, easing: LUXURY_EASE }
+            { duration: 0.5, delay: 0.06, easing: LUXURY_EASE }
           );
         }
 
         // B. Title / Heading
-        const title = card.querySelector<HTMLElement>('.ps-title, .service-title, .retainer-name, h3, h2');
+        const title = card.querySelector<HTMLElement>('.ps-title, .service-title, .retainer-name, .form-card-title, h3, h2');
         if (title) {
           animate(
             title,
             { opacity: [0, 1], y: [10, 0] },
-            { duration: 0.55, delay: 0.14, easing: LUXURY_EASE }
+            { duration: 0.55, delay: 0.12, easing: LUXURY_EASE }
           );
         }
 
         // C. Body / Description
-        const body = card.querySelector<HTMLElement>('.ps-body, .service-desc, .retainer-desc, .final-cta-desc, p');
+        const body = card.querySelector<HTMLElement>('.ps-body, .service-desc, .retainer-desc, .final-cta-desc, .form-card-subtext, p');
         if (body && body !== title) {
           animate(
             body,
             { opacity: [0, 1], y: [10, 0] },
-            { duration: 0.55, delay: 0.20, easing: LUXURY_EASE }
+            { duration: 0.55, delay: 0.18, easing: LUXURY_EASE }
           );
         }
 
@@ -323,7 +452,7 @@ function initLargeCardInnerMotion(): void {
           const a = animate(
             listItems,
             { opacity: [0, 1], y: [8, 0] },
-            { duration: 0.45, delay: stagger(0.05, { start: 0.25 }), easing: LUXURY_EASE }
+            { duration: 0.45, delay: stagger(0.045, { start: 0.22 }), easing: LUXURY_EASE }
           );
           a.then(() => {
             listItems.forEach((li) => {
@@ -339,7 +468,7 @@ function initLargeCardInnerMotion(): void {
 }
 
 /**
- * 4. Pricing Page Dedicated Motion
+ * 5. Pricing Page Dedicated Motion
  * - "One-Time Projects": Desktop table rows stagger + Mobile project cards stagger
  * - "Plan Comparison Matrix": Matrix container smooth reveal
  * - "Typical Requests You Can Assign": Intro + quotes stagger + action
@@ -384,7 +513,7 @@ function initPricingMotion(): void {
           const anim = animate(
             cards,
             { opacity: [0, 1], y: [16, 0], scale: [0.985, 1] },
-            { duration: 0.6, delay: stagger(0.06), easing: LUXURY_EASE }
+            { duration: 0.6, delay: stagger(0.055), easing: LUXURY_EASE }
           );
           anim.then(() => {
             cards.forEach((c) => {
@@ -419,7 +548,7 @@ function initPricingMotion(): void {
     );
   }
 
-  // D. Systems We Manage (Small cards load one-by-one from below)
+  // D. Systems We Manage
   const systemsList = document.querySelector<HTMLElement>('.systems-list');
   if (systemsList && !systemsList.hasAttribute('data-motion-bound')) {
     systemsList.setAttribute('data-motion-bound', 'true');
@@ -431,7 +560,7 @@ function initPricingMotion(): void {
           const anim = animate(
             systemCards,
             { opacity: [0, 1], y: [18, 0] },
-            { duration: 0.55, delay: stagger(0.06, { start: 0.05 }), easing: LUXURY_EASE }
+            { duration: 0.55, delay: stagger(0.055, { start: 0.05 }), easing: LUXURY_EASE }
           );
           anim.then(() => {
             systemCards.forEach((sc) => {
@@ -491,13 +620,12 @@ function initPricingMotion(): void {
 }
 
 /**
- * 5. Company Page Dedicated Motion
+ * 6. Company Page Dedicated Motion
  * - "Who we are" & "Why InfoHQ exists" narrative cards with inner text hierarchy
  * - "Where we work" presence section
- * - India Vector Map premium animation
+ * - India Vector Map animation
  */
 function initCompanyMotion(): void {
-  // A. Narrative Boxes ("Who we are" & "Why InfoHQ exists")
   const narrativeGrid = document.querySelector<HTMLElement>('.narrative-grid');
   if (narrativeGrid && !narrativeGrid.hasAttribute('data-motion-bound')) {
     narrativeGrid.setAttribute('data-motion-bound', 'true');
@@ -506,7 +634,6 @@ function initCompanyMotion(): void {
       inView(
         narrativeGrid,
         () => {
-          // Card containers
           const anim = animate(
             cols,
             { opacity: [0, 1], y: [16, 0] },
@@ -519,7 +646,6 @@ function initCompanyMotion(): void {
             });
           });
 
-          // Inner Headings & Paragraphs
           cols.forEach((col) => {
             const heading = col.querySelector<HTMLElement>('.col-header h2');
             if (heading) {
@@ -560,14 +686,12 @@ function initCompanyMotion(): void {
     }
   }
 
-  // B. "Where we work" Presence & India Vector Map
   const presenceGrid = document.querySelector<HTMLElement>('.presence-grid');
   if (presenceGrid && !presenceGrid.hasAttribute('data-motion-bound')) {
     presenceGrid.setAttribute('data-motion-bound', 'true');
     inView(
       presenceGrid,
       () => {
-        // Presence header
         const pHeader = presenceGrid.querySelector<HTMLElement>('.presence-header');
         if (pHeader) {
           animate(
@@ -577,7 +701,6 @@ function initCompanyMotion(): void {
           );
         }
 
-        // Headquarters card
         const hqCard = presenceGrid.querySelector<HTMLElement>('.hq-card');
         if (hqCard) {
           animate(
@@ -587,7 +710,6 @@ function initCompanyMotion(): void {
           );
         }
 
-        // Service Area delivery card
         const deliveryCard = presenceGrid.querySelector<HTMLElement>('.delivery-card');
         if (deliveryCard) {
           animate(
@@ -596,7 +718,6 @@ function initCompanyMotion(): void {
             { duration: 0.65, delay: 0.18, easing: LUXURY_EASE }
           );
 
-          // Stats boxes stagger
           const statBoxes = deliveryCard.querySelectorAll<HTMLElement>('.stats-row .stat-box');
           if (statBoxes.length > 0) {
             const aStats = animate(
@@ -613,7 +734,6 @@ function initCompanyMotion(): void {
           }
         }
 
-        // India Map Graphic (Premium reveal: gentle scale + soft lift + continuous signal beams)
         const mapWrapper = presenceGrid.querySelector<HTMLElement>('.india-map-wrapper');
         if (mapWrapper) {
           const aMap = animate(
@@ -633,9 +753,8 @@ function initCompanyMotion(): void {
 }
 
 /**
- * 6. Site-Wide FAQ Cards Motion
+ * 7. Site-Wide FAQ Cards Motion
  * - Unifies all FAQ accordions across the entire website
- * - Cards cascade gracefully with soft spatial lift
  */
 function initFaqMotion(): void {
   const faqContainers = document.querySelectorAll<HTMLElement>(
@@ -670,9 +789,7 @@ function initFaqMotion(): void {
 }
 
 /**
- * 7. Footer Reveal Motion
- * - Staggers footer brand block, services, company links, and contacts
- * - Bottom credits bar softly lifts into place
+ * 8. Footer Reveal Motion
  */
 function initFooterMotion(): void {
   const footer = document.querySelector<HTMLElement>('#site-footer, .infohq-footer');
@@ -682,7 +799,6 @@ function initFooterMotion(): void {
   inView(
     footer,
     () => {
-      // Main columns
       const cols = footer.querySelectorAll<HTMLElement>(
         '.footer-brand-col, .footer-nav-col, .footer-contact-box-col'
       );
@@ -700,7 +816,6 @@ function initFooterMotion(): void {
         });
       }
 
-      // Bottom bar
       const bottom = footer.querySelector<HTMLElement>('.footer-bottom, .footer-bottom-inner');
       if (bottom) {
         animate(
@@ -715,9 +830,7 @@ function initFooterMotion(): void {
 }
 
 /**
- * 8. Soft Directional Scroll Reveal
- * - Soft directional reveal (Left: -16px, Right: 16px, Up: 16px)
- * - Section headers and category headers
+ * 9. Soft Directional Scroll Reveal
  */
 function initScrollReveal(): void {
   // A. Reveal Left
@@ -774,8 +887,8 @@ function initScrollReveal(): void {
     if (section.hasAttribute('data-motion-bound')) return;
     section.setAttribute('data-motion-bound', 'true');
 
-    const leftCol = section.querySelector<HTMLElement>('[data-motion="split-left"]') || (section.children[0] as HTMLElement);
-    const rightCol = section.querySelector<HTMLElement>('[data-motion="split-right"]') || (section.children[1] as HTMLElement);
+    const leftCol = section.querySelector<HTMLElement>('[data-motion="split-left"]') || (section.children?.[0] as HTMLElement | undefined);
+    const rightCol = section.querySelector<HTMLElement>('[data-motion="split-right"]') || (section.children?.[1] as HTMLElement | undefined);
 
     inView(
       section,

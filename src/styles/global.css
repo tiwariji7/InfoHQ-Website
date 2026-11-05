@@ -634,6 +634,7 @@ article.card,
 .motion-word-wrap {
   display: inline-block;
   vertical-align: baseline;
+  white-space: pre-wrap;
 }
 
 .motion-word {
@@ -677,12 +678,66 @@ article.card,
   animation: 240ms cubic-bezier(0, 0, 0.2, 1) 30ms both page-blur-in;
 }
 
-/* Smooth Card Hover Physics */
-.card {
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+/* Universal Pro Card Hover Physics & Micro-interactions */
+.card,
+article[class*="-card"],
+.blog-card,
+.category-tile,
+.service-detail-card,
+.portfolio-card,
+.case-study-card,
+.retainer-card,
+.engage-card,
+.diff-card,
+.value-card,
+.standard-card,
+.system-item-card,
+.channel-card,
+.faq-item,
+.faq-accordion-item {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.25s ease,
+              background-color 0.25s ease;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+}
+
+.card:hover,
+article[class*="-card"]:hover,
+.blog-card:hover,
+.category-tile:hover,
+.service-detail-card:hover,
+.portfolio-card:hover,
+.case-study-card:hover,
+.retainer-card:hover,
+.engage-card:hover,
+.diff-card:hover,
+.value-card:hover,
+.standard-card:hover,
+.system-item-card:hover,
+.channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px -12px rgba(15, 9, 38, 0.09), 
+              0 0 0 1px rgba(99, 102, 241, 0.12);
+}
+
+/* Card Cover Image Subtle Scale on Hover */
+.card-cover-wrap,
+.card-preview-media {
+  overflow: hidden;
+}
+
+.card-cover-image,
+.preview-media-img {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.blog-card:hover .card-cover-image,
+.portfolio-card:hover .preview-media-img {
+  transform: scale(1.035);
 }
 
 /* Accessibility: Reduced motion */

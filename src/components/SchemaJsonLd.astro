@@ -29,12 +29,19 @@ const organizationBase = {
   legalName: 'InfoHQ Pvt Ltd',
   alternateName: ['InfoHQ Pvt Ltd', 'Info HQ'],
   url: 'https://infohq.in/',
-  logo: 'https://infohq.in/images/infohq-brandlogo.webp',
+  logo: {
+    '@type': 'ImageObject',
+    '@id': 'https://infohq.in/#logo',
+    url: 'https://infohq.in/images/infohq-brandlogo.webp',
+    caption: 'InfoHQ AI & Software Engineering Studio'
+  },
+  image: 'https://infohq.in/og/home.webp',
   description: 'InfoHQ is an AI and software engineering studio helping businesses build, automate, and grow through AI solutions, custom software, web and mobile applications.',
   email: 'contact@infohq.in',
   foundingDate: '2025',
   founder: {
     '@type': 'Person',
+    '@id': 'https://infohq.in/company/#shivam-tiwari',
     name: 'Shivam Tiwari',
     jobTitle: 'Founder & Lead Engineer',
     url: 'https://infohq.in/company/'
@@ -44,24 +51,55 @@ const organizationBase = {
     'https://www.instagram.com/infohq.in/',
     'https://www.youtube.com/@infohq28'
   ],
+  knowsAbout: [
+    'Artificial Intelligence',
+    'Autonomous AI Agents',
+    'Retrieval-Augmented Generation (RAG)',
+    'Custom Software Engineering',
+    'Business Process Automation',
+    'Web Development',
+    'Mobile App Development',
+    'Cloud DevOps',
+    'Cybersecurity',
+    'Search Engine Optimization (SEO)',
+    'Answer Engine Optimization (AEO)',
+    'Generative Engine Optimization (GEO)'
+  ],
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Pune',
+      addressRegion: 'Maharashtra',
+      addressCountry: 'IN'
+    },
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Prayagraj',
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN'
+    }
+  ],
   contactPoint: [
     {
       '@type': 'ContactPoint',
       email: contactConfig.businessEmail,
       contactType: 'customer support',
-      areaServed: 'IN'
+      areaServed: 'IN',
+      availableLanguage: ['en', 'hi']
     },
     {
       '@type': 'ContactPoint',
       email: contactConfig.servicesEmail,
       contactType: 'sales',
-      areaServed: 'IN'
+      areaServed: 'IN',
+      availableLanguage: ['en', 'hi']
     },
     {
       '@type': 'ContactPoint',
       telephone: contactConfig.telephone,
       contactType: 'customer support',
-      areaServed: 'IN'
+      areaServed: 'IN',
+      availableLanguage: ['en', 'hi']
     }
   ],
   areaServed: {
@@ -165,7 +203,11 @@ if (customSchema) {
           }
         }))
       },
-      offers: offerPayload
+      offers: offerPayload,
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.service-lead', 'h1', '.service-overview-text']
+      }
     });
   } else {
     // Fallback if slug mapping not found
@@ -704,8 +746,13 @@ if (customSchema) {
     datePublished: postData.datePublished,
     dateModified: postData.dateModified || postData.datePublished,
     author: {
-      '@type': 'Organization',
-      '@id': 'https://infohq.in/#organization'
+      '@type': 'Person',
+      name: postData.author || 'Shivam Tiwari',
+      jobTitle: 'Founder & Lead Engineer',
+      worksFor: {
+        '@id': 'https://infohq.in/#organization'
+      },
+      url: 'https://infohq.in/company/'
     },
     publisher: {
       '@id': 'https://infohq.in/#organization'
@@ -714,7 +761,11 @@ if (customSchema) {
       '@type': 'WebPage',
       '@id': postData.url
     },
-    image: postData.image || 'https://infohq.in/og/default.jpg'
+    image: postData.image || 'https://infohq.in/og/blogs.webp',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.post-excerpt', 'h1', '.blog-lead-text']
+    }
   });
   schemas.push({
     '@context': 'https://schema.org',

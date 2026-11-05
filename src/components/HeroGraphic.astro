@@ -47,7 +47,7 @@
 
       <!-- Code Area with Line Numbers & Syntax Colors -->
       <div class="editor-code-area">
-        <pre class="code-pre"><code><span class="code-line"><span class="ln">1</span><span class="tok-comment">// AI Automation Pipeline</span></span><span class="code-line"><span class="ln">2</span><span class="tok-kw">export async function</span> <span class="tok-fn">processLead</span>(<span class="tok-param">lead</span>: <span class="tok-type">Lead</span>) &#123;</span><span class="code-line"><span class="ln">3</span>  <span class="tok-kw">const</span> <span class="tok-var">qualified</span> = <span class="tok-kw">await</span> <span class="tok-builtin">ai</span>.<span class="tok-fn">qualify</span>(<span class="tok-var">lead</span>);</span><span class="code-line"><span class="ln">4</span>  <span class="tok-kw">await</span> <span class="tok-builtin">crm</span>.<span class="tok-fn">sync</span>(&#123;</span><span class="code-line"><span class="ln">5</span>    ...<span class="tok-var">lead</span>,</span><span class="code-line"><span class="ln">6</span>    <span class="tok-prop">score</span>: <span class="tok-var">qualified</span>.<span class="tok-prop">score</span></span><span class="code-line"><span class="ln">7</span>  &#125;);</span><span class="code-line"><span class="ln">8</span>  <span class="tok-kw">await</span> <span class="tok-fn">notifyTeam</span>(&#123; <span class="tok-prop">id</span>: <span class="tok-var">lead</span>.<span class="tok-prop">id</span> &#125;);</span><span class="code-line"><span class="ln">9</span>  <span class="tok-kw">return</span> &#123; <span class="tok-prop">status</span>: <span class="tok-str">"ready"</span> &#125;;</span><span class="code-line"><span class="ln">10</span>&#125;</span></code></pre>
+        <pre class="code-pre" id="hero-code-pre"><code id="hero-code-stream"><div class="code-line"><span class="ln">1</span><span class="tok-comment">// AI Automation Pipeline</span></div><div class="code-line"><span class="ln">2</span><span class="tok-kw">export async function</span> <span class="tok-fn">processLead</span><span class="tok-punct">(</span><span class="tok-param">lead</span><span class="tok-punct">: </span><span class="tok-type">Lead</span><span class="tok-punct">) &#123;</span></div><div class="code-line"><span class="ln">3</span>  <span class="tok-kw">const</span> <span class="tok-var">qualified</span> <span class="tok-punct">= </span><span class="tok-kw">await</span> <span class="tok-builtin">ai</span><span class="tok-punct">.</span><span class="tok-fn">qualify</span><span class="tok-punct">(</span><span class="tok-var">lead</span><span class="tok-punct">);</span></div><div class="code-line"><span class="ln">4</span>  <span class="tok-kw">await</span> <span class="tok-builtin">crm</span><span class="tok-punct">.</span><span class="tok-fn">sync</span><span class="tok-punct">(&#123;</span></div><div class="code-line"><span class="ln">5</span>    <span class="tok-punct">...</span><span class="tok-var">lead</span><span class="tok-punct">,</span></div><div class="code-line"><span class="ln">6</span>    <span class="tok-prop">score</span><span class="tok-punct">: </span><span class="tok-var">qualified</span><span class="tok-punct">.</span><span class="tok-prop">score</span></div><div class="code-line"><span class="ln">7</span>  <span class="tok-punct">&#125;);</span></div><div class="code-line"><span class="ln">8</span>  <span class="tok-kw">await</span> <span class="tok-fn">notifyTeam</span><span class="tok-punct">(&#123; </span><span class="tok-prop">id</span><span class="tok-punct">: </span><span class="tok-var">lead</span><span class="tok-punct">.</span><span class="tok-prop">id</span><span class="tok-punct"> &#125;);</span></div><div class="code-line"><span class="ln">9</span>  <span class="tok-kw">return</span> <span class="tok-punct">&#123; </span><span class="tok-prop">status</span><span class="tok-punct">: </span><span class="tok-str">"ready"</span><span class="tok-punct"> &#125;;</span></div><div class="code-line"><span class="ln">10</span><span class="tok-punct">&#125;</span></div></code></pre>
       </div>
     </div>
 
@@ -182,7 +182,7 @@
     display: grid;
     grid-template-columns: 84px 1fr;
     background: #0B0F19;
-    min-height: 220px;
+    min-height: 240px;
   }
 
   .editor-sidebar {
@@ -243,51 +243,6 @@
     line-height: 1;
   }
 
-  /* Code Area */
-  .editor-code-area {
-    padding: 10px 12px;
-    overflow: hidden;
-  }
-
-  .code-pre {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
-    font-size: clamp(0.72rem, 1.8vw, 0.77rem);
-    line-height: 1.5;
-    color: #E2E8F0;
-    overflow: hidden;
-  }
-
-  .code-line {
-    display: block;
-    white-space: pre;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .ln {
-    display: inline-block;
-    width: 14px;
-    color: #475569;
-    user-select: none;
-    text-align: right;
-    margin-right: 8px;
-    font-size: 0.64rem;
-  }
-
-  /* Syntax Highlighting */
-  .tok-comment { color: #64748B; font-style: italic; }
-  .tok-kw { color: #C084FC; font-weight: 600; }
-  .tok-fn { color: #60A5FA; }
-  .tok-param { color: #FDA4AF; }
-  .tok-type { color: #38BDF8; }
-  .tok-var { color: #E2E8F0; }
-  .tok-prop { color: #93C5FD; }
-  .tok-str { color: #34D399; }
-  .tok-builtin { color: #FBBF24; }
-
   /* Status Bar */
   .editor-status-bar {
     display: flex;
@@ -331,7 +286,7 @@
     color: #94A3B8;
   }
 
-  @media (max-width: 440px) {
+  @media (max-width: 480px) {
     .editor-body {
       grid-template-columns: 1fr;
     }
@@ -339,13 +294,324 @@
     .editor-sidebar {
       display: none;
     }
+  }
+</style>
 
-    .editor-code-area {
+<style is:global>
+  /* Hero Code Editor Window Styles (Global so dynamically typed elements receive full styling) */
+  .hero-code-wrapper .editor-code-area {
+    padding: 10px 12px;
+    overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .hero-code-wrapper .code-pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, Menlo, Monaco, Consolas, monospace !important;
+    font-size: clamp(0.64rem, 2.1vw, 0.77rem);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    color: #E2E8F0;
+    overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease;
+  }
+
+  .hero-code-wrapper .code-pre.is-fading-out {
+    opacity: 0;
+    transform: translateY(-5px);
+    filter: blur(2px);
+  }
+
+  .hero-code-wrapper .code-line {
+    display: flex !important;
+    align-items: baseline !important;
+    white-space: pre !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-height: 1.55em !important;
+    line-height: 1.55 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+  }
+
+  .hero-code-wrapper .ln {
+    display: inline-block !important;
+    width: 16px !important;
+    color: #475569 !important;
+    user-select: none !important;
+    text-align: right !important;
+    margin-right: 10px !important;
+    font-size: 0.65rem !important;
+    flex-shrink: 0 !important;
+    font-family: inherit !important;
+  }
+
+  /* Code Syntax Highlighting */
+  .hero-code-wrapper .tok-comment { color: #64748B !important; font-style: italic !important; }
+  .hero-code-wrapper .tok-kw { color: #C084FC !important; font-weight: 600 !important; }
+  .hero-code-wrapper .tok-fn { color: #60A5FA !important; }
+  .hero-code-wrapper .tok-param { color: #FDA4AF !important; }
+  .hero-code-wrapper .tok-type { color: #38BDF8 !important; }
+  .hero-code-wrapper .tok-var { color: #F1F5F9 !important; }
+  .hero-code-wrapper .tok-prop { color: #93C5FD !important; }
+  .hero-code-wrapper .tok-str { color: #34D399 !important; }
+  .hero-code-wrapper .tok-builtin { color: #FBBF24 !important; }
+  .hero-code-wrapper .tok-punct { color: #94A3B8 !important; }
+
+  /* Blinking Neon Cursor */
+  .hero-code-wrapper .typing-cursor {
+    display: inline-block !important;
+    width: 2px !important;
+    height: 1.15em !important;
+    vertical-align: -0.15em !important;
+    margin-left: 2px !important;
+    background-color: #38BDF8 !important;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.9) !important;
+    border-radius: 1px !important;
+    animation: heroCodeCursorBlink 0.85s step-start infinite !important;
+    flex-shrink: 0 !important;
+  }
+
+  @keyframes heroCodeCursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-code-wrapper .editor-code-area {
       padding: 8px 10px;
     }
+  }
 
-    .code-pre {
-      font-size: 0.7rem;
+  @media (prefers-reduced-motion: reduce) {
+    .hero-code-wrapper .typing-cursor {
+      display: none !important;
+    }
+    .hero-code-wrapper .code-pre {
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
     }
   }
 </style>
+
+<script>
+  interface Token {
+    cls?: string;
+    text: string;
+  }
+
+  interface LineData {
+    ln: number;
+    tokens: Token[];
+  }
+
+  const CODE_LINES: LineData[] = [
+    {
+      ln: 1,
+      tokens: [
+        { cls: 'tok-comment', text: '// AI Automation Pipeline' }
+      ]
+    },
+    {
+      ln: 2,
+      tokens: [
+        { cls: 'tok-kw', text: 'export async function ' },
+        { cls: 'tok-fn', text: 'processLead' },
+        { cls: 'tok-punct', text: '(' },
+        { cls: 'tok-param', text: 'lead' },
+        { cls: 'tok-punct', text: ': ' },
+        { cls: 'tok-type', text: 'Lead' },
+        { cls: 'tok-punct', text: ') {' }
+      ]
+    },
+    {
+      ln: 3,
+      tokens: [
+        { cls: 'tok-punct', text: '  ' },
+        { cls: 'tok-kw', text: 'const ' },
+        { cls: 'tok-var', text: 'qualified' },
+        { cls: 'tok-punct', text: ' = ' },
+        { cls: 'tok-kw', text: 'await ' },
+        { cls: 'tok-builtin', text: 'ai' },
+        { cls: 'tok-punct', text: '.' },
+        { cls: 'tok-fn', text: 'qualify' },
+        { cls: 'tok-punct', text: '(' },
+        { cls: 'tok-var', text: 'lead' },
+        { cls: 'tok-punct', text: ');' }
+      ]
+    },
+    {
+      ln: 4,
+      tokens: [
+        { cls: 'tok-punct', text: '  ' },
+        { cls: 'tok-kw', text: 'await ' },
+        { cls: 'tok-builtin', text: 'crm' },
+        { cls: 'tok-punct', text: '.' },
+        { cls: 'tok-fn', text: 'sync' },
+        { cls: 'tok-punct', text: '({' }
+      ]
+    },
+    {
+      ln: 5,
+      tokens: [
+        { cls: 'tok-punct', text: '    ...' },
+        { cls: 'tok-var', text: 'lead' },
+        { cls: 'tok-punct', text: ',' }
+      ]
+    },
+    {
+      ln: 6,
+      tokens: [
+        { cls: 'tok-punct', text: '    ' },
+        { cls: 'tok-prop', text: 'score' },
+        { cls: 'tok-punct', text: ': ' },
+        { cls: 'tok-var', text: 'qualified' },
+        { cls: 'tok-punct', text: '.' },
+        { cls: 'tok-prop', text: 'score' }
+      ]
+    },
+    {
+      ln: 7,
+      tokens: [
+        { cls: 'tok-punct', text: '  });' }
+      ]
+    },
+    {
+      ln: 8,
+      tokens: [
+        { cls: 'tok-punct', text: '  ' },
+        { cls: 'tok-kw', text: 'await ' },
+        { cls: 'tok-fn', text: 'notifyTeam' },
+        { cls: 'tok-punct', text: '({ ' },
+        { cls: 'tok-prop', text: 'id' },
+        { cls: 'tok-punct', text: ': ' },
+        { cls: 'tok-var', text: 'lead' },
+        { cls: 'tok-punct', text: '.' },
+        { cls: 'tok-prop', text: 'id' },
+        { cls: 'tok-punct', text: ' });' }
+      ]
+    },
+    {
+      ln: 9,
+      tokens: [
+        { cls: 'tok-punct', text: '  ' },
+        { cls: 'tok-kw', text: 'return ' },
+        { cls: 'tok-punct', text: '{ ' },
+        { cls: 'tok-prop', text: 'status' },
+        { cls: 'tok-punct', text: ': ' },
+        { cls: 'tok-str', text: '"ready"' },
+        { cls: 'tok-punct', text: ' };' }
+      ]
+    },
+    {
+      ln: 10,
+      tokens: [
+        { cls: 'tok-punct', text: '}' }
+      ]
+    }
+  ];
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function getCharDelay(char: string, prevChar: string): number {
+    if (char === ' ' && prevChar === ' ') return 8;
+    if (char === ' ') return 20 + Math.random() * 15;
+    if (char === ';' || char === '{' || char === '}') return 70 + Math.random() * 40;
+    if (char === '.' || char === ':' || char === ',') return 40 + Math.random() * 25;
+    return 18 + Math.random() * 22;
+  }
+
+  async function runHeroTypingAnimation() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const preBox = document.getElementById('hero-code-pre');
+    const codeStream = document.getElementById('hero-code-stream');
+    if (!preBox || !codeStream) return;
+
+    // Small delay so initial page render is settled
+    await sleep(600);
+
+    while (true) {
+      codeStream.innerHTML = '';
+      preBox.classList.remove('is-fading-out');
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+      cursor.setAttribute('aria-hidden', 'true');
+
+      let prevChar = '';
+
+      for (let lineIndex = 0; lineIndex < CODE_LINES.length; lineIndex++) {
+        const lineData = CODE_LINES[lineIndex];
+
+        // Each line is a DIV (guaranteed block, zero inline wrap bugs)
+        const lineEl = document.createElement('div');
+        lineEl.className = 'code-line';
+
+        const lnSpan = document.createElement('span');
+        lnSpan.className = 'ln';
+        lnSpan.textContent = String(lineData.ln);
+        lineEl.appendChild(lnSpan);
+
+        lineEl.appendChild(cursor);
+        codeStream.appendChild(lineEl);
+
+        for (const token of lineData.tokens) {
+          const tokenSpan = document.createElement('span');
+          if (token.cls) tokenSpan.className = token.cls;
+          lineEl.insertBefore(tokenSpan, cursor);
+
+          for (let i = 0; i < token.text.length; i++) {
+            const char = token.text[i];
+            tokenSpan.textContent += char;
+            const delay = getCharDelay(char, prevChar);
+            prevChar = char;
+            await sleep(delay);
+          }
+        }
+
+        // Realistic pause at line break
+        await sleep(80 + Math.random() * 60);
+      }
+
+      // Code typing complete: Pause for 3 seconds so user can read cleanly
+      await sleep(3000);
+
+      // Smooth fade out
+      preBox.classList.add('is-fading-out');
+      await sleep(500);
+
+      // Reset content while invisible
+      codeStream.innerHTML = '';
+
+      // Fade back in
+      preBox.classList.remove('is-fading-out');
+      await sleep(300);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runHeroTypingAnimation);
+  } else {
+    runHeroTypingAnimation();
+  }
+</script>

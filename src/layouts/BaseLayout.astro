@@ -100,8 +100,21 @@ const ogImageType = 'image/webp';
     <title>{title}</title>
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Google Search Central, AI Overviews & Generative Engine (GEO/AEO) Directives -->
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    <meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    <meta name="bingbot" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+
+    <!-- Canonical URL -->
     {!noCanonical && <link rel="canonical" href={canonicalURL} />}
+
+    <!-- E-E-A-T & Geographic / Entity Metadata -->
+    <meta name="author" content="Shivam Tiwari, InfoHQ" />
+    <meta name="publisher" content="InfoHQ" />
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="Pune, Maharashtra; Prayagraj, Uttar Pradesh, India" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- Favicon & Brand Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -213,23 +226,28 @@ const ogImageType = 'image/webp';
         initMotion();
 
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!prefersReducedMotion && !lenisInstance) {
-          lenisInstance = new Lenis({
-            duration: 1.1,
-            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            smoothWheel: true,
-            touchMultiplier: 1.5,
-          });
+        if (!prefersReducedMotion) {
+          if (!lenisInstance) {
+            lenisInstance = new Lenis({
+              duration: 1.1,
+              easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              orientation: 'vertical',
+              smoothWheel: true,
+              touchMultiplier: 1.5,
+            });
 
-          (window as any).lenis = lenisInstance;
-          (window as any).Lenis = Lenis;
+            (window as any).lenis = lenisInstance;
+            (window as any).Lenis = Lenis;
 
-          function raf(time: number) {
-            lenisInstance?.raf(time);
+            function raf(time: number) {
+              lenisInstance?.raf(time);
+              requestAnimationFrame(raf);
+            }
             requestAnimationFrame(raf);
+          } else {
+            lenisInstance.resize();
+            setTimeout(() => lenisInstance?.resize(), 120);
           }
-          requestAnimationFrame(raf);
         }
       }
 
