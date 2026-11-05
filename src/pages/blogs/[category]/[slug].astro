@@ -17,7 +17,7 @@ import {
   extractFaqsFromBody,
   type BlogCategory 
 } from '../../../utils/blog';
-import { Brain, Globe, Workflow, Cloud, PenTool } from 'lucide-astro';
+import { Brain, Globe, Workflow, Cloud, PenTool, Rocket } from 'lucide-astro';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -104,6 +104,11 @@ const blogServiceMap: Record<string, { title: string; desc: string; href: string
     title: 'Cloud, DevOps & Security',
     desc: 'Zero-downtime CI/CD, AWS/GCP architecture, and OWASP security audits.',
     href: '/services/cloud-devops/'
+  },
+  startups: {
+    title: 'Custom Software & Growth Systems for Startups',
+    desc: 'MVP product engineering, automated CRM lead capture, and client onboarding workflows.',
+    href: '/services/custom-software/'
   },
   design: {
     title: 'UI/UX & Brand Design',
@@ -209,7 +214,7 @@ const meta = {
             </p>
             <div class="cta-sidebar-action">
               <Button
-                variant="gradient"
+                variant="primary"
                 size="md"
                 href="/contact/"
                 label="Book Free Consultation"
@@ -243,14 +248,7 @@ const meta = {
                 return (
                   <li>
                     <a href={`/blogs/${catKey}/`} class={`category-item-link ${isCurrentCat ? 'active' : ''}`}>
-                      <span class="cat-link-left">
-                        {catKey === 'ai' && <Brain size={16} class="cat-link-icon" />}
-                        {catKey === 'web' && <Globe size={16} class="cat-link-icon" />}
-                        {catKey === 'automation' && <Workflow size={16} class="cat-link-icon" />}
-                        {catKey === 'cloud' && <Cloud size={16} class="cat-link-icon" />}
-                        {catKey === 'design' && <PenTool size={16} class="cat-link-icon" />}
-                        <span class="cat-link-name">{catInfo.name}</span>
-                      </span>
+                      <span class="cat-link-left"><span class="cat-link-name">{catInfo.name}</span></span>
                       <span class={`cat-badge ${count === 0 ? 'badge-soon' : 'badge-count'}`}>
                         {count === 0 ? 'Soon' : count}
                       </span>
@@ -263,7 +261,7 @@ const meta = {
 
           <!-- Card 3: Newsletter -->
           <div class="card sidebar-card newsletter-sidebar-card">
-            <h3 class="newsletter-sidebar-title">Engineering Notes</h3>
+            <h3 class="newsletter-sidebar-title">Engineering Notes in <span class="text-gradient">Your Inbox</span></h3>
             <p class="newsletter-sidebar-desc">
               Architecture breakdowns, automation playbooks, and production AI notes in your inbox. No spam.
             </p>
@@ -361,7 +359,7 @@ const meta = {
   .category-pill-link {
     display: inline-block;
     padding: 4px 12px;
-    border-radius: var(--radius-full);
+    border-radius: 6px;
     background-color: #F1EDFA;
     color: var(--color-primary);
     font-size: 0.75rem;
@@ -445,7 +443,7 @@ const meta = {
     background: #FFFFFF;
     border: 1px solid var(--color-border-card);
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 24px rgba(124, 92, 232, 0.04);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   }
 
   .sidebar-card-title {
@@ -536,7 +534,7 @@ const meta = {
     font-size: 0.72rem;
     font-weight: 700;
     padding: 2px 7px;
-    border-radius: var(--radius-full);
+    border-radius: 6px;
   }
 
   .badge-count {
@@ -645,21 +643,22 @@ const meta = {
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    padding: 0.875rem 1.65rem;
-    background: linear-gradient(135deg, #E8604E 0%, #DD4985 30%, #914FBB 65%, #5782E0 100%);
+    padding: 0.8rem 1.6rem;
+    background: #4F46E5;
     color: #FFFFFF !important;
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 8px;
     text-decoration: none !important;
-    box-shadow: 0 4px 18px rgba(221, 73, 133, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.15s ease, transform 0.15s ease;
     margin: 1.5rem 0;
   }
 
   .prose-body :global(.article-cta-btn:hover) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.4);
+    background: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
     color: #FFFFFF !important;
     text-decoration: none !important;
   }

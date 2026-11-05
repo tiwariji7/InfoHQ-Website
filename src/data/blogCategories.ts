@@ -1,5 +1,5 @@
 export interface BlogCategoryInfo {
-  slug: 'ai' | 'web' | 'automation' | 'cloud' | 'design';
+  slug: 'ai' | 'web' | 'automation' | 'cloud' | 'startups';
   label: string;
   title: string;
   description: string;
@@ -45,14 +45,14 @@ export const BLOG_CATEGORIES_DATA: Record<string, BlogCategoryInfo> = {
     heroSubtitle: 'Resilient cloud infrastructure, continuous deployment, and proactive security auditing.',
     emptyMessage: 'More Cloud, DevOps & Security articles coming soon. Architectural teardowns and cloud optimization guides are currently in review.'
   },
-  design: {
-    slug: 'design',
-    label: 'Design & Digital Marketing',
-    title: 'Design & Digital Marketing Articles | InfoHQ Blog',
-    description: 'Guides on UI/UX design, brand identity, social media management and digital marketing.',
-    heroHeading: 'Design & Digital Marketing',
-    heroSubtitle: 'High-fidelity Figma prototypes, modern brand identity systems, and high-intent growth.',
-    emptyMessage: 'More Design & Digital Marketing articles coming soon. Deep dives into design tokens, accessibility, and UI engineering are on the way.'
+  startups: {
+    slug: 'startups',
+    label: 'Startups & Business Growth',
+    title: 'Startups & Business Growth Articles | InfoHQ Blog',
+    description: 'Practical guides on getting clients, startup customer acquisition, founder-led sales, and business growth.',
+    heroHeading: 'Startups & Business Growth',
+    heroSubtitle: 'Practical customer acquisition, founder-led sales, unit economics, and scaling playbooks.',
+    emptyMessage: 'More Startups & Business Growth articles coming soon. Practical playbooks from real customer acquisitions are being published.'
   }
 };
 
@@ -61,5 +61,5 @@ export const BLOG_CATEGORY_LIST = [
   BLOG_CATEGORIES_DATA.web,
   BLOG_CATEGORIES_DATA.automation,
   BLOG_CATEGORIES_DATA.cloud,
-  BLOG_CATEGORIES_DATA.design
+  BLOG_CATEGORIES_DATA.startups
 ];

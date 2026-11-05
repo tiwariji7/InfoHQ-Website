@@ -50,7 +50,7 @@
     width: 100%;
     min-height: 44px;
     padding: 0.625rem 1rem;
-    border-radius: var(--radius-full);
+    border-radius: 8px;
     border: 1.5px solid var(--color-border-card);
     background: #FFFFFF;
     color: var(--color-text-heading);
@@ -64,8 +64,8 @@
   }
 
   .newsletter-input:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.15);
+    border-color: #1A085C;
+    box-shadow: 0 0 0 2px rgba(26, 8, 92, 0.12);
   }
 
   .newsletter-submit {
@@ -109,7 +109,8 @@
 <script>
   function setupNewsletter() {
     const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
-    if (!form) return;
+    if (!form || form.dataset.formBound === 'true') return;
+    form.dataset.formBound = 'true';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

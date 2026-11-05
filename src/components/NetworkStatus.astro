@@ -58,7 +58,7 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(245, 158, 11, 0.35);
-    border-radius: 9999px;
+    border-radius: 10px;
     box-shadow: 
       0 12px 36px -4px rgba(10, 4, 30, 0.4),
       0 4px 12px -2px rgba(10, 4, 30, 0.2),
@@ -129,7 +129,7 @@
     padding: 0.28rem 0.75rem;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 9999px;
+    border-radius: 10px;
     color: #FFFFFF;
     font-size: 0.76rem;
     font-weight: 600;
@@ -214,6 +214,8 @@
 <script>
   function initNetworkEngine() {
     const toast = document.getElementById('network-toast');
+    if (!toast || toast.dataset.networkBound === 'true') return;
+    toast.dataset.networkBound = 'true';
     const toastTitle = document.getElementById('network-toast-title');
     const toastMsg = document.getElementById('network-toast-msg');
     const actionBtn = document.getElementById('network-toast-action');

@@ -33,8 +33,7 @@ const isActive = (href: string) => {
         <img 
           src="/images/infohq-brandlogo.webp" 
           alt="InfoHQ Logo - AI & Software Engineering Studio" 
-          width="160" 
-          height="80" 
+          width="160" height="47" 
           class="brand-logo"
           loading="eager"
           decoding="async"
@@ -99,8 +98,7 @@ const isActive = (href: string) => {
           <img 
             src="/images/infohq-brandlogo.webp" 
             alt="InfoHQ" 
-            width="116" 
-            height="58" 
+            width="116" height="34" 
             class="drawer-logo"
           />
         </a>
@@ -198,21 +196,21 @@ const isActive = (href: string) => {
     background: rgba(255, 255, 255, 0.84);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 26px; /* 24-28px rounded corners */
-    border: 1px solid rgba(120, 110, 220, 0.16);
+    border-radius: 12px;
+    border: 1px solid rgba(20, 15, 60, 0.1);
     box-shadow: 
-      0 12px 32px -4px rgba(20, 10, 60, 0.08),
-      0 4px 12px -2px rgba(20, 10, 60, 0.03),
-      inset 0 1px 1px rgba(255, 255, 255, 0.95);
-    transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      0 4px 20px -2px rgba(15, 10, 40, 0.05),
+      0 1px 3px rgba(15, 10, 40, 0.03),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
   .header-container:hover {
-    border-color: rgba(120, 110, 220, 0.24);
+    border-color: rgba(20, 15, 60, 0.18);
     box-shadow: 
-      0 16px 36px -4px rgba(20, 10, 60, 0.1),
-      0 6px 16px -2px rgba(20, 10, 60, 0.04),
-      inset 0 1px 1px rgba(255, 255, 255, 1);
+      0 8px 24px -2px rgba(15, 10, 40, 0.07),
+      0 2px 4px rgba(15, 10, 40, 0.03),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
   }
 
   /* Brand Logo - Crisp Modern Dimensions */
@@ -255,24 +253,24 @@ const isActive = (href: string) => {
   .nav-link {
     font-size: 14px;
     font-weight: 500;
-    color: var(--nav-link-color, #14143C);
+    color: #4B5565;
     padding: 6px clamp(8px, 0.85vw, 13px);
-    border-radius: var(--radius-full);
+    border-radius: 6px;
     text-decoration: none;
     position: relative;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    transition: color 0.15s ease, background-color 0.15s ease;
     white-space: nowrap;
   }
 
   .nav-link:hover {
-    color: var(--nav-link-hover, #5B4BF0);
-    background-color: rgba(91, 75, 240, 0.06);
+    color: #1A085C;
+    background-color: rgba(26, 8, 92, 0.04);
   }
 
   .nav-link.active {
-    color: var(--nav-link-active, #5B4BF0);
+    color: #1A085C;
     font-weight: 600;
-    background-color: rgba(91, 75, 240, 0.09);
+    background-color: rgba(26, 8, 92, 0.07);
   }
 
   @media (min-width: 1024px) and (max-width: 1180px) {
@@ -303,27 +301,32 @@ const isActive = (href: string) => {
 
   :global(#nav-header-cta),
   :global(.mobile-drawer-cta) {
-    background: linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%) !important;
-    background-color: #5B4CF5 !important;
+    background: #1A085C !important;
+    background-color: #1A085C !important;
     color: #FFFFFF !important;
     font-size: 13.5px !important;
     font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
     height: 38px !important;
     min-height: 38px !important;
-    padding: 0 18px !important;
-    border-radius: var(--radius-full) !important;
-    box-shadow: 0 4px 14px rgba(99, 88, 240, 0.3) !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
     white-space: nowrap !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
   }
 
   :global(#nav-header-cta:hover),
   :global(.mobile-drawer-cta:hover) {
-    transform: translateY(-1.5px) !important;
-    box-shadow: 0 6px 18px rgba(99, 88, 240, 0.42) !important;
-    filter: brightness(1.06) !important;
+    background: #28107A !important;
+    background-color: #28107A !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(26, 8, 92, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+    filter: none !important;
   }
 
   :global(#nav-header-cta .btn-label),
@@ -352,7 +355,7 @@ const isActive = (href: string) => {
     padding: 0;
     background: rgba(91, 75, 240, 0.06);
     border: 1px solid rgba(120, 110, 220, 0.2);
-    border-radius: 11px;
+    border-radius: 8px;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
@@ -408,12 +411,13 @@ const isActive = (href: string) => {
     z-index: 1200;
     visibility: hidden;
     pointer-events: none;
-    transition: visibility 0.38s ease;
+    transition: visibility 0s linear 0.38s;
   }
 
   .mobile-menu.open {
     visibility: visible;
     pointer-events: auto;
+    transition: visibility 0s linear 0s;
   }
 
   .mobile-menu-backdrop {
@@ -449,6 +453,7 @@ const isActive = (href: string) => {
     transform: translateX(100%);
     transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -539,8 +544,8 @@ const isActive = (href: string) => {
   .mobile-nav-list li {
     opacity: 0;
     transform: translateX(16px);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: calc(0.05s + var(--item-index, 0) * 0.035s);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    transition-delay: 0s;
   }
 
   .mobile-menu.open .mobile-nav-list li {
@@ -602,18 +607,19 @@ const isActive = (href: string) => {
   }
 
   .mobile-nav-link.active {
-    background: linear-gradient(90deg, rgba(91, 75, 240, 0.09) 0%, rgba(232, 90, 160, 0.05) 100%);
-    color: #5B4CF5;
+    background: rgba(79, 70, 229, 0.08);
+    color: #4F46E5;
     font-weight: 700;
+    border-radius: 6px;
   }
 
   .mobile-nav-link.active .mobile-nav-indicator {
-    background: linear-gradient(135deg, #5B4CF5, #E85AA0);
-    box-shadow: 0 0 6px rgba(91, 75, 240, 0.5);
+    background: #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.4);
   }
 
   .mobile-nav-link.active .mobile-nav-arrow {
-    color: #5B4CF5;
+    color: #4F46E5;
   }
 
   /* Drawer Footer */
@@ -755,11 +761,12 @@ const isActive = (href: string) => {
       padding: 0 13px !important;
       font-size: 12.5px !important;
       font-weight: 600 !important;
-      border-radius: var(--radius-full) !important;
-      background: linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%) !important;
-      background-color: #5B4CF5 !important;
+      border-radius: 8px !important;
+      background: #1A085C !important;
+      background-color: #1A085C !important;
       color: #FFFFFF !important;
-      box-shadow: 0 3px 10px rgba(99, 88, 240, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
       white-space: nowrap !important;
       letter-spacing: -0.01em;
     }
@@ -858,6 +865,12 @@ const isActive = (href: string) => {
       }
     }
 
+    function handleEscapeKey(e) {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        closeMenu();
+      }
+    }
+
     function openMenu() {
       if (!menu) return;
       initialScrollY = window.scrollY;
@@ -870,11 +883,13 @@ const isActive = (href: string) => {
 
       // Auto close smoothly on scroll
       window.addEventListener('scroll', handleScrollClose, { passive: true });
+      document.addEventListener('keydown', handleEscapeKey);
     }
 
     function closeMenu() {
       if (!menu) return;
       window.removeEventListener('scroll', handleScrollClose);
+      document.removeEventListener('keydown', handleEscapeKey);
 
       if (document.activeElement && menu.contains(document.activeElement) && document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
@@ -907,13 +922,6 @@ const isActive = (href: string) => {
     backdrop?.addEventListener('click', (e) => {
       e.preventDefault();
       closeMenu();
-    });
-
-    // Close on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menu.classList.contains('open')) {
-        closeMenu();
-      }
     });
 
     // Close menu when clicking any nav link

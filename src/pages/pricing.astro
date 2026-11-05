@@ -185,7 +185,7 @@ const faqs = [
   <section class="section pricing-hero" aria-labelledby="pricing-heading">
     <div class="container text-center">
       <h1 id="pricing-heading" class="pricing-headline">
-        Transparent Pricing. <span class="text-gradient">Real Ownership.</span> No Surprises.
+        Transparent Pricing. <span style="color: #4F46E5;">Real Ownership.</span> No Surprises.
       </h1>
       <p class="pricing-subheadline">
         Whether you need something built from scratch or a dedicated team to run what already exists &mdash; pick the model that fits.
@@ -371,7 +371,7 @@ const faqs = [
       <div class="grid-2 systems-grid">
         <!-- Systems We Manage -->
         <div>
-          <h2 id="systems-heading" class="systems-sec-title">Systems We Manage</h2>
+          <h2 id="systems-heading" class="systems-sec-title">Systems We <span class="text-gradient">Manage</span></h2>
           <div class="systems-list">
             {systemsManaged.map((sys, idx) => (
               <div class="system-item-card">
@@ -387,7 +387,7 @@ const faqs = [
 
         <!-- Typical Requests -->
         <div>
-          <h2 class="systems-sec-title">Typical Requests You Can Assign</h2>
+          <h2 class="systems-sec-title">Typical Requests You Can <span class="text-gradient">Assign</span></h2>
           <div class="card requests-card">
             <p class="requests-intro">
               On retainer plans, simply dispatch tasks directly to your assigned senior engineer or squad via chat/email:
@@ -416,7 +416,7 @@ const faqs = [
   <section class="section section-alt" id="faqs" aria-labelledby="pricing-faqs-heading">
     <div class="container faq-container">
       <div class="section-header">
-        <h2 id="pricing-faqs-heading">Frequently Asked Questions</h2>
+        <h2 id="pricing-faqs-heading">Frequently Asked <span class="text-gradient">Questions</span></h2>
         <p>Everything you need to know about contracts, ownership, billing, and code handover.</p>
       </div>
 
@@ -562,16 +562,16 @@ const faqs = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 0.8rem 2rem;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, #F43F5E 0%, #E11D48 20%, #7C3AED 70%, #2563EB 100%);
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    background: #1A085C;
     color: #FFFFFF !important;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
     text-decoration: none;
-    box-shadow: 0 4px 18px rgba(225, 29, 72, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.15s ease, transform 0.15s ease;
     cursor: pointer;
     border: none;
   }
@@ -593,15 +593,12 @@ const faqs = [
   }
 
   .btn-arrow-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    color: #4F46E5;
+    background: transparent;
+    color: inherit;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-weight: 700;
     line-height: 1;
     margin-left: 6px;
@@ -609,7 +606,7 @@ const faqs = [
   }
 
   .pricing-pill-btn:hover .btn-arrow-circle {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
 
   /* Utility for Responsive Button Spans */
@@ -693,7 +690,7 @@ const faqs = [
 
   .popular-card {
     border-color: #C7D2FE;
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
     transform: translateY(-6px);
   }
 
@@ -703,16 +700,17 @@ const faqs = [
 
   .popular-ribbon {
     position: absolute;
-    top: -12px;
+    top: -11px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--brand-gradient);
+    background: #1A085C;
     color: #FFFFFF;
-    font-size: var(--text-xs);
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: var(--radius-full);
-    box-shadow: 0 4px 12px rgba(221, 73, 133, 0.35);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
     white-space: nowrap;
     z-index: 2;
   }
@@ -731,10 +729,7 @@ const faqs = [
   }
 
   .popular-card .retainer-plan-name {
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #0F172A;
     display: inline-block;
   }
 
@@ -973,7 +968,7 @@ const faqs = [
   .system-item-card:hover {
     border-color: #C7D2FE;
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.08);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
   }
 
   .system-num-box {
@@ -1100,7 +1095,7 @@ const faqs = [
 
   .faq-item[open] {
     border-color: #C7D2FE;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.06);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
   }
 
   .faq-question {
@@ -1256,7 +1251,7 @@ const faqs = [
       background: #EEF2FF;
       color: #4F46E5;
       padding: 5px 12px;
-      border-radius: var(--radius-full);
+      border-radius: 8px;
       font-size: 0.75rem;
       font-weight: 600;
       margin-top: 0.65rem;

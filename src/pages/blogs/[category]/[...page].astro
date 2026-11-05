@@ -17,7 +17,8 @@ import {
   Globe, 
   Workflow, 
   Cloud, 
-  PenTool, 
+  PenTool,
+  Rocket, 
   LayoutGrid, 
   Clock, 
   ChevronLeft, 
@@ -111,26 +112,15 @@ const ogImageUrl = `/og/blogs/${category}.webp`;
         <a href="/blogs/" class="back-link">&larr; All Articles</a>
       </div>
 
-      <div class="cat-icon-badge" aria-hidden="true">
-        {category === 'ai' && <Brain size={28} />}
-        {category === 'web' && <Globe size={28} />}
-        {category === 'automation' && <Workflow size={28} />}
-        {category === 'cloud' && <Cloud size={28} />}
-        {category === 'design' && <PenTool size={28} />}
-      </div>
+      
 
       <span class="text-eyebrow">Category Archive</span>
-      <h1 id="cat-heading" class="cat-hero-title">
-        {categoryInfo.name}
-      </h1>
+      <h1 id="cat-heading" class="cat-hero-title">{categoryInfo.name} <span class="text-gradient">Guides &amp; Insights</span></h1>
       <p class="cat-hero-tagline">{categoryInfo.tagline}</p>
 
       <!-- Category Filter Navigation Chips (Real <a> Links) -->
       <nav class="category-nav-bar" aria-label="Blog categories">
-        <a href="/blogs/" class="cat-chip">
-          <LayoutGrid size={15} class="chip-icon" />
-          <span>All Posts</span>
-        </a>
+        <a href="/blogs/" class="cat-chip"><span>All Posts</span></a>
         {CATEGORY_KEYS.map((catKey) => {
           const info = BLOG_CATEGORIES[catKey];
           const isActive = catKey === category;
@@ -140,11 +130,7 @@ const ogImageUrl = `/og/blogs/${category}.webp`;
               class={`cat-chip ${isActive ? 'active' : ''}`}
               aria-current={isActive ? 'page' : undefined}
             >
-              {catKey === 'ai' && <Brain size={15} class="chip-icon" />}
-              {catKey === 'web' && <Globe size={15} class="chip-icon" />}
-              {catKey === 'automation' && <Workflow size={15} class="chip-icon" />}
-              {catKey === 'cloud' && <Cloud size={15} class="chip-icon" />}
-              {catKey === 'design' && <PenTool size={15} class="chip-icon" />}
+              
               <span>{info.name}</span>
             </a>
           );
@@ -267,16 +253,16 @@ const ogImageUrl = `/og/blogs/${category}.webp`;
   }
 
   .cat-icon-badge {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1rem auto;
-    display: flex;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, rgba(124, 92, 232, 0.12) 0%, rgba(145, 79, 187, 0.18) 100%);
-    color: var(--color-primary);
-    border: 1px solid var(--color-border-card);
+    border-radius: 8px;
+    background: rgba(26, 8, 92, 0.05);
+    border: 1px solid rgba(26, 8, 92, 0.12);
+    color: #1A085C;
+    margin-bottom: 12px;
   }
 
   .cat-hero-title {
@@ -310,7 +296,7 @@ const ogImageUrl = `/og/blogs/${category}.webp`;
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    border-radius: var(--radius-full);
+    border-radius: 8px;
     background: var(--color-surface-white);
     border: 1px solid var(--color-border-card);
     color: #4A4268;
@@ -396,7 +382,7 @@ const ogImageUrl = `/og/blogs/${category}.webp`;
     padding: 10px 24px;
     background: var(--color-primary);
     color: #FFFFFF;
-    border-radius: var(--radius-full);
+    border-radius: 8px; background: #1A085C;
     font-weight: 600;
     font-size: 0.9375rem;
     text-decoration: none;

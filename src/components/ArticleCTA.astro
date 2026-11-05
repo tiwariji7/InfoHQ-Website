@@ -24,20 +24,21 @@ const { href = '/contact/', label } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    padding: 0.875rem 1.65rem;
-    background: linear-gradient(135deg, #E8604E 0%, #DD4985 30%, #914FBB 65%, #5782E0 100%);
+    padding: 0.8rem 1.6rem;
+    background: #4F46E5;
     color: #FFFFFF !important;
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 8px;
     text-decoration: none !important;
-    box-shadow: 0 4px 18px rgba(221, 73, 133, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .article-cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.4);
+    background: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
     color: #FFFFFF !important;
     text-decoration: none !important;
   }

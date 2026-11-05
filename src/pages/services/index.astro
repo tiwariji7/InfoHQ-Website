@@ -70,9 +70,7 @@ const categories = [
   <section class="section services-hero" aria-labelledby="services-hub-heading">
     <div class="container services-hero-container">
       <div class="services-hero-content">
-        <h1 id="services-hub-heading" class="services-headline">
-          Every Service You Need to <span class="text-gradient">Build, Run, and Grow</span> Your Digital Business
-        </h1>
+        <h1 id="services-hub-heading" class="services-headline">Every Service You Need to <span class="text-gradient">Build, Run, and Grow</span></h1>
         <p class="services-subheadline">
           From AI systems to social media &mdash; pick one service or let us run your entire digital stack. Dedicated engineers, full code ownership, and zero agency fluff.
         </p>
@@ -162,7 +160,7 @@ const categories = [
   <section class="section section-alt engage-section" aria-labelledby="engage-heading">
     <div class="container">
       <div class="section-header">
-        <h2 id="engage-heading">Every Service, Delivered Two Ways</h2>
+        <h2 id="engage-heading">Every Service, Delivered <span class="text-gradient">Two Ways</span></h2>
         <p>
           Need it built from scratch? Choose a <strong>One-Time Project</strong>. Already live and need ongoing engineering? Choose a <strong>Monthly Retainer</strong>.
         </p>
@@ -212,7 +210,7 @@ const categories = [
 <style>
   .services-hero {
     background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(15, 23, 42, 0.02) 0%, transparent 50%);
     margin-top: calc(-1 * clamp(72px, 7vw, 84px));
     padding-top: calc(clamp(3rem, 5vw, 4.5rem) + clamp(72px, 7vw, 84px));
     padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
@@ -272,7 +270,7 @@ const categories = [
     padding: 4px 12px;
     background: #FFFFFF;
     border: 1px solid var(--color-border-card);
-    border-radius: var(--radius-full);
+    border-radius: 6px;
     color: var(--color-text-heading);
     font-weight: 500;
     transition: all 0.2s ease;
@@ -334,10 +332,8 @@ const categories = [
   }
 
   .category-heading-gradient {
-    background: linear-gradient(90deg, #E11D48 0%, #7C3AED 50%, #2563EB 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #4F46E5;
+    display: inline;
   }
 
   .category-desc {
@@ -387,7 +383,7 @@ const categories = [
     background: #EEF2FF;
     color: #4F46E5;
     padding: 4px 10px;
-    border-radius: 9999px;
+    border-radius: 6px;
     line-height: 1.2;
     letter-spacing: 0.01em;
   }
@@ -477,7 +473,7 @@ const categories = [
     justify-content: center;
     gap: 8px;
     padding: 0.55rem 1.15rem;
-    border-radius: 9999px;
+    border-radius: 6px;
     border: 1px solid #0F172A;
     color: #0F172A;
     background: transparent;
@@ -502,24 +498,24 @@ const categories = [
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 0.55rem 1.35rem;
-    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
     border: none;
     color: #FFFFFF;
-    background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #E11D48 100%);
+    background: #4F46E5;
     font-size: 0.8125rem;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
-    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.15s ease, transform 0.15s ease;
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
   }
 
   .service-btn-gradient:hover {
+    background: #4338CA;
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.35);
   }
 
   .btn-arrow {
@@ -546,10 +542,8 @@ const categories = [
   }
 
   .engage-card-featured h3 {
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1A085C;
+    
     color: var(--color-text-heading);
     display: inline-block;
   }

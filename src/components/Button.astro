@@ -130,7 +130,7 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-full);
+    border-radius: 8px;
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 16px;
@@ -159,22 +159,14 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
     padding: 0 24px;
   }
 
-  /* When button contains arrow circle, adjust right padding to balance visually */
-  .btn-primary.size-lg {
-    padding-right: 8px;
-    padding-left: 24px;
-  }
-
-  .btn-primary.size-md {
-    padding-right: 6px;
-    padding-left: 20px;
-  }
-
+  /* Balanced Button Padding */
+  .btn-primary.size-lg,
   .btn-primary.has-no-icon.size-lg {
     padding-left: 24px;
     padding-right: 24px;
   }
 
+  .btn-primary.size-md,
   .btn-primary.has-no-icon.size-md {
     padding-left: 20px;
     padding-right: 20px;
@@ -182,25 +174,35 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
   /* Primary Variant */
   .btn-primary {
-    background: var(--btn-cta-bg, linear-gradient(90deg, #5B4CF5 0%, #E85AA0 100%));
-    color: var(--color-text-white);
-    box-shadow: var(--btn-cta-shadow, 0 8px 20px rgba(99, 88, 240, 0.35));
-    font-size: 16px;
+    background: #1A085C;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    font-size: 15px;
     font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-primary:hover {
+    background: #28107A;
+    box-shadow: 0 4px 14px rgba(26, 8, 92, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
   }
 
   /* Gradient Variant (Coral to Pink to Purple) */
   .btn-gradient {
-    background: linear-gradient(90deg, #E8604E 0%, #DD4985 45%, #914FBB 80%, #7C5CE8 100%);
+    background: #4F46E5;
     color: var(--color-text-white);
-    box-shadow: 0 8px 24px rgba(221, 73, 133, 0.35);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
+    border-radius: 8px;
   }
 
   .btn-gradient:hover {
-    box-shadow: 0 10px 28px rgba(221, 73, 133, 0.45);
-    filter: brightness(1.05);
+    background: #4338CA;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+    transform: translateY(-1px);
   }
 
   .btn-full {
@@ -240,7 +242,7 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
   }
 
   .btn-primary:hover {
-    box-shadow: 0 10px 24px rgba(99, 88, 240, 0.45);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
     filter: brightness(1.05);
   }
 
@@ -252,24 +254,23 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
     transform: translateY(0);
   }
 
-  /* Arrow Circle in Primary */
+  /* Arrow in Primary & CTA Buttons (Clean, background-free, matching button color) */
   .btn-icon-circle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-full);
-    background-color: var(--color-surface-white);
-    color: var(--color-primary);
-    margin-left: 14px;
+    background: transparent;
+    background-color: transparent;
+    color: currentColor;
+    margin-left: 8px;
     flex-shrink: 0;
     z-index: 2;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .infohq-btn:hover .btn-icon-circle,
   .btn-primary:hover .btn-icon-circle {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
 
   /* Chat icon in Primary */
@@ -320,14 +321,17 @@ const computedRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
   /* Secondary Variant - Light Tone */
   .btn-secondary.tone-light {
-    background: transparent;
-    border: 1.5px solid var(--color-primary);
-    color: var(--color-text-heading);
+    background: #FFFFFF;
+    border: 1px solid rgba(20, 15, 60, 0.15);
+    color: #1A085C;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
   .btn-secondary.tone-light:hover {
-    background: var(--color-primary-light);
-    box-shadow: 0 4px 16px rgba(124, 92, 232, 0.15);
+    background: #F8F8FC;
+    border-color: rgba(20, 15, 60, 0.28);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
   }
 
   /* Focus-visible ring */

@@ -73,9 +73,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
       <div class="service-hero-grid">
         <div class="service-hero-content">
           <span class="text-eyebrow">{service.category}</span>
-          <h1 id="service-title-heading" class="service-h1">
-            {service.title}
-          </h1>
+          <h1 id="service-title-heading" class="service-h1">{service.title.split(' ')[0]} <span class="text-gradient">{service.title.split(' ').slice(1).join(' ')}</span></h1>
           <p class="service-lead">
             {service.fullDesc}
           </p>
@@ -138,7 +136,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
     <div class="container">
       <div class="section-header">
         <span class="text-eyebrow">Deliverables &amp; Scope</span>
-        <h2 id="deliverables-heading">What We Build &amp; Deliver</h2>
+        <h2 id="deliverables-heading">What We Build &amp; <span class="text-gradient">Deliver</span></h2>
         <p>Comprehensive engineering execution without shortcuts or unmaintained code.</p>
       </div>
 
@@ -162,7 +160,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
       <div class="container">
         <div class="section-header">
           <span class="text-eyebrow">Frequently Asked Questions</span>
-          <h2 id="service-faqs-heading">Questions About {service.title}?</h2>
+          <h2 id="service-faqs-heading">Questions About <span class="text-gradient">{service.title}</span>?</h2>
           <p>Key information regarding architecture, development timeline, technology stack, and deliverables.</p>
         </div>
 
@@ -189,7 +187,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
       <div class="container">
         <div class="section-header">
           <span class="text-eyebrow">Engineering Insights</span>
-          <h2 id="insights-heading">Related Technical Articles &amp; Guides</h2>
+          <h2 id="insights-heading">Related Technical <span class="text-gradient">Articles &amp; Guides</span></h2>
           <p>Practical teardowns, architectural guides, and benchmarks authored by our engineering team.</p>
         </div>
 
@@ -207,7 +205,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
     <div class="container">
       <div class="section-header">
         <span class="text-eyebrow">Explore Next</span>
-        <h2 id="related-heading">Complementary Services</h2>
+        <h2 id="related-heading">Complementary <span class="text-gradient">Services</span></h2>
       </div>
 
       <div class="grid-3 related-grid">
@@ -299,10 +297,8 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
   .sidebar-tech-card h3 {
     font-size: var(--text-xl);
     margin-bottom: 0.5rem;
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1A085C;
+    
     color: var(--color-text-heading);
     display: inline-block;
   }
@@ -323,7 +319,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
   .chip-accent {
     background: #FAF9FE;
     color: var(--color-primary);
-    border: 1px solid rgba(124, 92, 232, 0.2);
+    border: 1px solid rgba(26, 8, 92, 0.12);
     font-size: var(--text-sm);
     padding: 6px 12px;
   }
@@ -366,7 +362,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
   .deliv-num {
     font-size: 2rem;
     font-weight: 800;
-    color: rgba(124, 92, 232, 0.2);
+    color: rgba(26, 8, 92, 0.12);
     margin-bottom: 0.75rem;
   }
 
@@ -419,7 +415,7 @@ const relatedBlogs = publishedPosts.filter(p => p.data.category === targetBlogCa
 
   .faq-accordion-item[open] {
     border-color: var(--color-primary, #7C5CE8);
-    box-shadow: 0 4px 20px -2px rgba(124, 92, 232, 0.08);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
   }
 
   .faq-accordion-summary {

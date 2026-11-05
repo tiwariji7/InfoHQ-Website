@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid, ArrowRight } from 'lucide-astro';
+import { Brain, Globe, Workflow, Cloud, PenTool, LayoutGrid, ArrowRight, Rocket } from 'lucide-astro';
 import { BLOG_CATEGORIES, calculateReadingTime, formatDate, getPostUrl, type BlogCategory } from '../utils/blog';
 
 interface Props {
@@ -46,6 +46,7 @@ const authorName = post.data.author || 'InfoHQ Team';
           {categoryKey === 'web' && <Globe size={44} class="cover-icon" />}
           {categoryKey === 'automation' && <Workflow size={44} class="cover-icon" />}
           {categoryKey === 'cloud' && <Cloud size={44} class="cover-icon" />}
+          {categoryKey === 'startups' && <Rocket size={44} class="cover-icon" />}
           {categoryKey === 'design' && <PenTool size={44} class="cover-icon" />}
           {!['ai', 'web', 'automation', 'cloud', 'design'].includes(categoryKey) && <LayoutGrid size={44} class="cover-icon" />}
         </div>
@@ -107,19 +108,19 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     flex-direction: column;
     background-color: var(--color-surface-white, #FFFFFF);
-    border-radius: 20px;
-    border: 1px solid var(--color-border-card, #EBE8F4);
-    box-shadow: 0 4px 20px rgba(124, 92, 232, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-    padding: 16px 16px 20px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02);
+    padding: 14px 14px 16px 14px;
     overflow: hidden;
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
     height: 100%;
   }
 
   .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 32px rgba(124, 92, 232, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-    border-color: rgba(124, 92, 232, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    border-color: rgba(26, 8, 92, 0.22);
   }
 
   .card-link-overlay {
@@ -133,9 +134,10 @@ const authorName = post.data.author || 'InfoHQ Team';
     position: relative;
     width: 100%;
     height: 220px;
-    border-radius: 16px;
+    border-radius: 10px;
     overflow: hidden;
-    background: #F4F0FA;
+    background: #F8FAFC;
+    border: 1px solid rgba(15, 23, 42, 0.06);
     flex-shrink: 0;
   }
 
@@ -145,12 +147,12 @@ const authorName = post.data.author || 'InfoHQ Team';
     object-fit: cover;
     object-position: center;
     display: block;
-    border-radius: 16px;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 9px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .blog-card:hover .card-cover-image {
-    transform: scale(1.04);
+    transform: scale(1.02);
   }
 
   .card-cover-fallback {
@@ -160,22 +162,19 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
+    border-radius: 9px;
     overflow: hidden;
   }
 
-  .cat-ai { background: linear-gradient(135deg, #FAF6FD 0%, #EDE5F9 100%); }
-  .cat-web { background: linear-gradient(135deg, #F5F8FE 0%, #E3EDFB 100%); }
-  .cat-automation { background: linear-gradient(135deg, #FBF6FA 0%, #F6E7F2 100%); }
-  .cat-cloud { background: linear-gradient(135deg, #F4F8FC 0%, #E1EFF9 100%); }
-  .cat-design { background: linear-gradient(135deg, #FDF7F5 0%, #FAECE7 100%); }
+  .cat-ai { background: #F1F5F9; }
+  .cat-web { background: #F8FAFC; }
+  .cat-automation { background: #F1F5F9; }
+  .cat-cloud { background: #F8FAFC; }
+  .cat-startups { background: #F1F5F9; }
+  .cat-design { background: #F8FAFC; }
 
   .fallback-glow {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124, 92, 232, 0.12) 0%, transparent 70%);
+    display: none;
   }
 
   .fallback-icon-wrap {
@@ -183,13 +182,13 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary, #7C5CE8);
-    opacity: 0.85;
-    transition: transform 0.3s ease;
+    color: #1A085C;
+    opacity: 0.75;
+    transition: transform 0.2s ease;
   }
 
   .blog-card:hover .fallback-icon-wrap {
-    transform: scale(1.06);
+    transform: scale(1.04);
   }
 
   /* Card Content & Consistent Spacing */
@@ -197,46 +196,46 @@ const authorName = post.data.author || 'InfoHQ Team';
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding-top: 16px;
+    padding-top: 14px;
   }
 
   .card-header-meta {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .card-date-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 10px;
-    border-radius: 9999px;
+    padding: 3px 8px;
+    border-radius: 6px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1;
-    background: #F4F0FA;
-    color: #5B4A80;
-    border: 1px solid rgba(124, 92, 232, 0.15);
+    background: #F8FAFC;
+    color: #475569;
+    border: 1px solid #E2E8F0;
   }
 
   .date-icon {
     flex-shrink: 0;
-    color: var(--color-primary, #7C5CE8);
+    color: #64748B;
   }
 
   .card-title {
-    margin: 0 0 10px 0;
-    font-size: 1.22rem;
-    font-weight: 800;
+    margin: 0 0 8px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
     line-height: 1.35;
-    color: var(--color-text-heading, #0F0926);
+    color: #0F172A;
     letter-spacing: -0.015em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
   }
 
   .card-title a {
@@ -245,14 +244,14 @@ const authorName = post.data.author || 'InfoHQ Team';
   }
 
   .blog-card:hover .card-title {
-    color: var(--color-primary, #7C5CE8);
+    color: #1A085C;
   }
 
   .card-description {
-    margin: 0 0 18px 0;
-    font-size: 0.9375rem;
+    margin: 0 0 14px 0;
+    font-size: 0.9rem;
     line-height: 1.55;
-    color: #6E6888;
+    color: #64748B;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -262,8 +261,8 @@ const authorName = post.data.author || 'InfoHQ Team';
   /* 2. Premium Footer */
   .card-footer {
     margin-top: auto;
-    padding-top: 14px;
-    border-top: 1px solid rgba(124, 92, 232, 0.07);
+    padding-top: 12px;
+    border-top: 1px solid rgba(15, 23, 42, 0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -275,99 +274,89 @@ const authorName = post.data.author || 'InfoHQ Team';
     align-items: center;
     gap: 6px;
     font-size: 0.8125rem;
-    color: #6E6888;
+    color: #64748B;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .meta-author-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
     object-fit: contain;
     flex-shrink: 0;
   }
 
   .meta-author {
     font-weight: 600;
-    color: var(--color-text-heading, #0F0926);
+    color: #0F172A;
   }
 
   .meta-sep {
-    color: #9CA3AF;
+    color: #CBD5E1;
     font-weight: 400;
   }
 
   .meta-date,
   .meta-read-time {
-    color: #6E6888;
+    color: #64748B;
   }
 
   /* Read Article Action */
   .card-read-action {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   .read-article-text {
-    font-size: 0.84rem;
-    font-weight: 700;
-    color: var(--color-primary, #7C5CE8);
-    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: opacity 0.2s ease;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1A085C;
+    transition: opacity 0.15s ease;
   }
 
   .read-arrow-badge {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(124, 92, 232, 0.08);
-    border: 1px solid rgba(124, 92, 232, 0.2);
-    color: var(--color-primary, #7C5CE8);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(26, 8, 92, 0.05);
+    border: 1px solid rgba(26, 8, 92, 0.12);
+    color: #1A085C;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .read-svg-arrow {
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .blog-card:hover .read-article-text {
-    opacity: 0.85;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .blog-card:hover .read-arrow-badge {
-    background: var(--brand-gradient, linear-gradient(135deg, #7C5CE8 0%, #2563EB 100%));
-    border-color: transparent;
+    background: #1A085C;
+    border-color: #1A085C;
     color: #FFFFFF;
-    transform: translateX(3px);
-    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.35);
-  }
-
-  .blog-card:hover .read-svg-arrow {
-    transform: translateX(1px);
+    transform: translateX(2px);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
   }
 
   /* Featured Card Variant */
   .blog-card.featured {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     height: auto;
-    gap: 24px;
-    padding: 24px;
+    gap: 20px;
+    padding: 18px;
+    border-radius: 14px;
   }
 
   .blog-card.featured .card-cover-wrap {
     height: 100%;
-    min-height: 280px;
+    min-height: 260px;
   }
 
   .blog-card.featured .card-content {
@@ -376,67 +365,54 @@ const authorName = post.data.author || 'InfoHQ Team';
   }
 
   .blog-card.featured .card-title {
-    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
     line-height: 1.25;
   }
 
   .blog-card.featured .card-description {
-    font-size: 1.0625rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.55;
     -webkit-line-clamp: 3;
   }
 
   @media (max-width: 900px) {
     .blog-card.featured {
       grid-template-columns: 1fr;
-      padding: 16px 16px 20px 16px;
+      padding: 14px 14px 16px 14px;
     }
 
     .blog-card.featured .card-cover-wrap {
-      height: 220px;
+      height: 200px;
       min-height: unset;
     }
 
     .blog-card.featured .card-content {
-      padding-top: 16px;
+      padding-top: 14px;
     }
   }
 
   @media (max-width: 640px) {
     .blog-card {
-      padding: 14px 14px 18px 14px;
-      border-radius: 18px;
+      padding: 12px 12px 14px 12px;
+      border-radius: 12px;
     }
 
     .card-cover-wrap {
-      height: 200px;
-      border-radius: 14px;
+      height: 180px;
+      border-radius: 8px;
     }
 
     .card-cover-image {
-      border-radius: 14px;
+      border-radius: 8px;
     }
 
     .card-title {
-      font-size: 1.125rem;
+      font-size: 1.05rem;
     }
 
     .card-footer-meta {
       font-size: 0.75rem;
       gap: 4px;
-    }
-
-    .card-read-action {
-      gap: 6px;
-    }
-
-    .read-article-text {
-      font-size: 0.8rem;
-    }
-
-    .read-arrow-badge {
-      width: 24px;
-      height: 24px;
     }
   }
 </style>

@@ -9,7 +9,7 @@ import path from 'node:path';
 
 function getEmptyBlogCategories() {
   const contentDir = path.resolve('src/content/blog');
-  const allCategories = ['ai', 'web', 'automation', 'cloud', 'design'];
+  const allCategories = ['ai', 'web', 'automation', 'cloud', 'startups'];
   if (!fs.existsSync(contentDir)) return allCategories;
 
   const files = fs.readdirSync(contentDir);
@@ -31,6 +31,10 @@ const emptyCategories = getEmptyBlogCategories();
 export default defineConfig({
   site: 'https://infohq.in',
   trailingSlash: 'ignore',
+  redirects: {
+    '/blogs/design': '/blogs/startups/',
+    '/blogs/growth': '/blogs/startups/',
+  },
   prefetch: {
     prefetchAll: false,
     defaultStrategy: 'tap'

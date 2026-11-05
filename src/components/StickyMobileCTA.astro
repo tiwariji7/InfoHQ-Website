@@ -118,7 +118,8 @@ const { show = true } = Astro.props;
 <script>
   function setupStickyCTA() {
     const cta = document.getElementById('sticky-mobile-cta');
-    if (!cta) return;
+    if (!cta || cta.dataset.ctaBound === 'true') return;
+    cta.dataset.ctaBound = 'true';
 
     let hasScrolled = false;
     let isOverFooter = false;

@@ -38,7 +38,7 @@ const serviceSlugs = [
 ];
 
 // Category slugs
-const categorySlugs = ['ai', 'automation', 'web', 'cloud', 'design'];
+const categorySlugs = ['ai', 'automation', 'web', 'cloud', 'startups'];
 
 // Static core pages
 const corePages = [

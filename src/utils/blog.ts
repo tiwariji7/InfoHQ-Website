@@ -1,6 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 
-export type BlogCategory = 'ai' | 'web' | 'automation' | 'cloud' | 'design';
+export type BlogCategory = 'ai' | 'web' | 'automation' | 'cloud' | 'startups';
 
 export interface CategoryInfo {
   id: BlogCategory;
@@ -44,17 +44,17 @@ export const BLOG_CATEGORIES: Record<BlogCategory, CategoryInfo> = {
     description: 'Guides on cloud infrastructure, DevOps, cybersecurity and website maintenance, from the InfoHQ team.',
     icon: 'Cloud'
   },
-  design: {
-    id: 'design',
-    name: 'Design & Digital Marketing',
-    tagline: 'High-fidelity Figma prototypes, modern brand identity systems, and high-intent growth.',
-    title: 'Design & Digital Marketing Articles | InfoHQ Blog',
-    description: 'Guides on UI/UX design, brand identity, social media management and digital marketing.',
-    icon: 'PenTool'
+  startups: {
+    id: 'startups',
+    name: 'Startups & Business Growth',
+    tagline: 'Practical customer acquisition, founder-led sales, unit economics, and scaling playbooks.',
+    title: 'Startups & Business Growth Articles | InfoHQ Blog',
+    description: 'Practical guides on getting clients, startup customer acquisition, founder-led sales, and business growth.',
+    icon: 'Rocket'
   }
 };
 
-export const CATEGORY_KEYS: BlogCategory[] = ['ai', 'web', 'automation', 'cloud', 'design'];
+export const CATEGORY_KEYS: BlogCategory[] = ['ai', 'web', 'automation', 'cloud', 'startups'];
 
 /**
  * Number of posts per paginated page across the blog.

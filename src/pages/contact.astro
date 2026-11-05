@@ -34,7 +34,7 @@ const meta = {
           <!-- Main H1 Headline -->
           <h1 id="contact-heading" class="contact-hero-title">
             <span class="title-line-solid">Let's Talk About</span>
-            <span class="text-gradient">Your Idea.</span>
+            <span style="color: #4F46E5;">Your Idea.</span>
           </h1>
 
           <!-- Subtext -->
@@ -90,7 +90,7 @@ const meta = {
             
             <!-- Card Header -->
             <div class="form-card-header">
-              <h2 class="form-card-title">Book a Free Consultation</h2>
+              <h2 class="form-card-title">Book a <span class="text-gradient">Free Consultation</span></h2>
               <p class="form-card-subtext">
                 Tell us a little about your project. We'll get back to you soon.
               </p>
@@ -323,7 +323,7 @@ const meta = {
                 <button
                   type="submit"
                   id="contact-submit-btn"
-                  class="submit-gradient-btn"
+                  class="contact-submit-btn"
                 >
                   Book Free Consultation
                 </button>
@@ -356,7 +356,7 @@ const meta = {
     padding-top: calc(clamp(72px, 7vw, 84px) + clamp(1.5rem, 2.8vw, 2.5rem));
     padding-bottom: clamp(2.5rem, 4vw, 4rem);
     background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 50%, rgba(124, 92, 232, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(15, 23, 42, 0.02) 0%, transparent 50%),
                 var(--color-bg-page, #FAF8FD);
     overflow: hidden;
     z-index: 1;
@@ -383,7 +383,7 @@ const meta = {
     right: -100px;
     width: 580px;
     height: 580px;
-    background: radial-gradient(circle, rgba(124, 92, 232, 0.09) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(15, 23, 42, 0.03) 0%, transparent 70%);
   }
 
   .contact-container {
@@ -434,6 +434,7 @@ const meta = {
   }
 
   .contact-hero-title .text-gradient {
+    color: #4F46E5;
     display: block;
   }
 
@@ -477,7 +478,7 @@ const meta = {
 
   .feature-row-divider {
     height: 1px;
-    background: rgba(124, 92, 232, 0.12);
+    background: rgba(26, 8, 92, 0.06);
     width: 100%;
   }
 
@@ -514,10 +515,10 @@ const meta = {
   .consultation-form-card {
     background: #FFFFFF;
     border-radius: 20px;
-    border: 1px solid rgba(124, 92, 232, 0.16);
+    border: 1px solid rgba(26, 8, 92, 0.12);
     box-shadow: 
       0 16px 40px -4px rgba(26, 8, 92, 0.08),
-      0 4px 12px -2px rgba(124, 92, 232, 0.04),
+      0 4px 12px -2px rgba(15, 23, 42, 0.03),
       0 1px 2px rgba(26, 8, 92, 0.02);
     padding: clamp(1.4rem, 2.4vw, 2.15rem);
   }
@@ -598,8 +599,8 @@ const meta = {
   .field-select:focus,
   .field-textarea:focus {
     outline: none;
-    border-color: #7C5CE8;
-    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
   }
 
   .field-input::placeholder,
@@ -732,13 +733,13 @@ const meta = {
   }
 
   .pill-chip-label:hover .pill-chip-box {
-    border-color: rgba(124, 92, 232, 0.45);
-    background: rgba(124, 92, 232, 0.03);
+    border-color: rgba(79, 70, 229, 0.35);
+    background: rgba(79, 70, 229, 0.04);
     color: #1A085C;
   }
 
   .pill-chip-label:hover .pill-icon {
-    color: #7C5CE8;
+    color: #4F46E5;
   }
 
   .pill-chip-label:hover .whatsapp-icon {
@@ -746,20 +747,20 @@ const meta = {
   }
 
   .pill-chip-label:focus-within .pill-chip-box {
-    outline: 2px solid #7C5CE8;
+    outline: 2px solid #4F46E5;
     outline-offset: 1px;
   }
 
   .sr-only-radio:checked + .pill-chip-box {
-    border-color: #7C5CE8;
-    background: rgba(124, 92, 232, 0.08);
+    border-color: #4F46E5;
+    background: rgba(79, 70, 229, 0.08);
     color: #1A085C;
     font-weight: 600;
-    box-shadow: 0 0 0 1px #7C5CE8;
+    box-shadow: 0 0 0 1px #4F46E5;
   }
 
   .sr-only-radio:checked + .pill-chip-box .pill-icon {
-    color: #7C5CE8;
+    color: #4F46E5;
   }
 
   .sr-only-radio:checked + .pill-chip-box .whatsapp-icon {
@@ -812,34 +813,34 @@ const meta = {
     margin-top: 0.35rem;
   }
 
-  .submit-gradient-btn {
+  .contact-submit-btn {
     width: 100%;
-    height: 46px;
+    height: 44px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #DD4985 0%, #7C5CE8 50%, #5782E0 100%);
+    border-radius: 8px;
+    background: #4F46E5;
     color: #FFFFFF;
-    font-weight: 700;
-    font-size: 0.95rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(124, 92, 232, 0.22);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .submit-gradient-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(124, 92, 232, 0.32);
-    filter: brightness(1.03);
+  .contact-submit-btn:hover {
+    background: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
   }
 
-  .submit-gradient-btn:active {
+  .contact-submit-btn:active {
     transform: translateY(0);
   }
 
-  .submit-gradient-btn:disabled {
+  .contact-submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
@@ -936,7 +937,8 @@ const meta = {
 <script>
   function setupConsultationForm() {
     const form = document.getElementById('consultation-form') as HTMLFormElement | null;
-    if (!form) return;
+    if (!form || form.dataset.formBound === 'true') return;
+    form.dataset.formBound = 'true';
 
     const textarea = document.getElementById('contact-brief') as HTMLTextAreaElement | null;
     const charCounter = document.getElementById('char-counter');

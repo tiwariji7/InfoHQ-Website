@@ -65,6 +65,8 @@ function initHeroEntrance(): void {
     '.hero-section, .services-hero, .service-hero, .pricing-hero, .portfolio-hero, .company-hero, .contact-hero, .blogs-hero, .cat-hero, .post-hero, .legal-hero, main > section:first-of-type'
   );
   if (!heroContainer) return;
+  if (heroContainer.hasAttribute('data-motion-bound')) return;
+  heroContainer.setAttribute('data-motion-bound', 'true');
 
   // Eyebrow badge
   const eyebrow = heroContainer.querySelector<HTMLElement>(

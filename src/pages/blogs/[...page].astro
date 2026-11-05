@@ -21,7 +21,8 @@ import {
   Globe, 
   Workflow, 
   Cloud, 
-  PenTool, 
+  PenTool,
+  Rocket, 
   Search, 
   ArrowRight, 
   ChevronLeft, 
@@ -52,7 +53,8 @@ const categoryCounts: Record<BlogCategory, number> = {
   web: 0,
   automation: 0,
   cloud: 0,
-  design: 0
+  design: 0,
+  startups: 0
 };
 publishedPosts.forEach((post) => {
   const cat = post.data.category as BlogCategory;
@@ -108,9 +110,7 @@ const meta = {
   <!-- 1. Hero Section -->
   <section class="section blogs-hero" aria-labelledby="blogs-heading">
     <div class="container text-center blogs-hero-container">
-      <h1 id="blogs-heading" class="blogs-headline">
-        Practical Guides to <span class="text-gradient">AI, Software Systems</span> &amp; Automation
-      </h1>
+      <h1 id="blogs-heading" class="blogs-headline">Practical Guides to <span class="text-gradient">AI, Software Systems</span> &amp; Automation</h1>
       <p class="blogs-subheadline">
         In-depth architectural breakdowns, production notes, and hands-on tutorials from the InfoHQ engineering team in Pune &amp; Prayagraj. Learn how we build, automate, and scale real digital products.
       </p>
@@ -164,9 +164,7 @@ const meta = {
   <section id="search-results-section" class="section search-results-section" style="display: none;" aria-label="Search Results">
     <div class="container">
       <div class="search-results-header">
-        <h2 class="search-results-title">
-          Search Results for <span id="search-query-text" class="text-gradient"></span>
-        </h2>
+        <h2 class="search-results-title">Search Results for <span id="search-query-text" class="text-gradient"></span></h2>
         <p id="search-count-text" class="search-count-text"></p>
       </div>
       <div id="search-results-grid" class="search-results-grid"></div>
@@ -198,9 +196,7 @@ const meta = {
           <!-- Left Column: Articles Grid -->
           <div class="articles-main-col">
             <div class="articles-col-header">
-              <h2 id="latest-articles-heading" class="section-title">
-                Latest <span class="text-gradient">Articles</span>
-              </h2>
+              <h2 id="latest-articles-heading" class="section-title">Latest <span class="text-gradient">Articles</span></h2>
             </div>
 
             <div class="articles-grid">
@@ -259,14 +255,7 @@ const meta = {
                   return (
                     <li>
                       <a href={`/blogs/${catKey}/`} class="category-item-link">
-                        <span class="cat-link-left">
-                          {catKey === 'ai' && <Brain size={16} class="cat-link-icon" />}
-                          {catKey === 'web' && <Globe size={16} class="cat-link-icon" />}
-                          {catKey === 'automation' && <Workflow size={16} class="cat-link-icon" />}
-                          {catKey === 'cloud' && <Cloud size={16} class="cat-link-icon" />}
-                          {catKey === 'design' && <PenTool size={16} class="cat-link-icon" />}
-                          <span class="cat-link-name">{catInfo.name}</span>
-                        </span>
+                        <span class="cat-link-left"><span class="cat-link-name">{catInfo.name}</span></span>
                         <span class={`cat-badge ${count === 0 ? 'badge-soon' : 'badge-count'}`}>
                           {count === 0 ? 'Soon' : count}
                         </span>
@@ -291,9 +280,7 @@ const meta = {
 
             <!-- Sidebar Card C: Project Scoping CTA -->
             <div class="card sidebar-card cta-sidebar-card">
-              <h3 class="cta-sidebar-title">
-                Have a Project That Needs <span class="text-gradient">Real Engineering?</span>
-              </h3>
+              <h3 class="cta-sidebar-title">Have a Project That Needs <span class="text-gradient">Real Engineering?</span></h3>
               <p class="cta-sidebar-desc">
                 From fast MVPs to enterprise AI systems and continuous retainers — let's build your next success story.
               </p>
@@ -332,6 +319,8 @@ const meta = {
     const dataScript = document.getElementById('blog-search-data');
 
     if (!input || !resultsSection || !mainContent || !resultsGrid || !dataScript) return;
+    if (input.dataset.searchBound === 'true') return;
+    input.dataset.searchBound = 'true';
 
     let searchData: any[] = [];
     try {
@@ -441,11 +430,8 @@ const meta = {
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBlogSearch);
-  } else {
-    initBlogSearch();
-  }
+  initBlogSearch();
+  document.addEventListener('astro:page-load', initBlogSearch);
 </script>
 
 <style>
@@ -527,7 +513,7 @@ const meta = {
     align-items: center;
     background: var(--color-surface-white);
     border: 1px solid var(--color-border-card);
-    border-radius: var(--radius-full);
+    border-radius: 8px;
     padding: 6px 16px 6px 44px;
     box-shadow: var(--shadow-sm);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -535,7 +521,7 @@ const meta = {
 
   .blogs-search-form:focus-within {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(124, 92, 232, 0.12);
+    box-shadow: 0 0 0 2px rgba(26, 8, 92, 0.12); border-color: #1A085C;
   }
 
   .search-input-icon {
@@ -607,8 +593,12 @@ const meta = {
   }
 
   .category-tile.active {
-    border-color: var(--color-primary);
-    background: linear-gradient(180deg, #FAF8FD 0%, #FFFFFF 100%);
+    border-color: #1A085C;
+    background: #1A085C;
+  }
+
+  .category-tile.active .tile-name {
+    color: #FFFFFF;
   }
 
   .tile-icon-wrap {
@@ -681,14 +671,14 @@ const meta = {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 10px;
-    border-radius: 9999px;
+    padding: 3px 8px;
+    border-radius: 6px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1;
-    background: #F4F0FA;
-    color: #5B4A80;
-    border: 1px solid rgba(124, 92, 232, 0.15);
+    background: #F8FAFC;
+    color: #475569;
+    border: 1px solid #E2E8F0;
   }
 
   .search-results-grid :global(.date-icon) {
@@ -705,26 +695,21 @@ const meta = {
   }
 
   .search-results-grid :global(.read-article-text) {
-    font-size: 0.84rem;
-    font-weight: 700;
-    color: var(--color-primary, #7C5CE8);
-    background: linear-gradient(135deg, #7C5CE8 0%, #B845ED 50%, #DD4985 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: opacity 0.2s ease;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1A085C;
   }
 
   .search-results-grid :global(.read-arrow-badge) {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(124, 92, 232, 0.08);
-    border: 1px solid rgba(124, 92, 232, 0.2);
-    color: var(--color-primary, #7C5CE8);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(26, 8, 92, 0.05);
+    border: 1px solid rgba(26, 8, 92, 0.12);
+    color: #1A085C;
   }
 
   .search-results-grid :global(.read-svg-arrow) {
@@ -736,11 +721,11 @@ const meta = {
   }
 
   .search-results-grid :global(.blog-card:hover .read-arrow-badge) {
-    background: var(--brand-gradient, linear-gradient(135deg, #7C5CE8 0%, #2563EB 100%));
-    border-color: transparent;
+    background: #1A085C;
+    border-color: #1A085C;
     color: #FFFFFF;
-    transform: translateX(3px);
-    box-shadow: 0 4px 12px rgba(124, 92, 232, 0.35);
+    transform: translateX(2px);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
   }
 
   .search-results-grid :global(.blog-card:hover .read-svg-arrow) {
@@ -860,7 +845,7 @@ const meta = {
     font-size: 0.75rem;
     font-weight: 700;
     padding: 2px 8px;
-    border-radius: var(--radius-full);
+    border-radius: 6px;
   }
 
   .badge-count {
@@ -883,14 +868,7 @@ const meta = {
   }
 
   .newsletter-card-glow {
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124, 92, 232, 0.08) 0%, transparent 70%);
-    pointer-events: none;
+    display: none;
   }
 
   .newsletter-badge {
@@ -903,8 +881,7 @@ const meta = {
     text-transform: uppercase;
     color: var(--color-primary);
     background: var(--color-primary-light);
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
+    padding: 3px 8px; border-radius: 6px;
     margin-bottom: 12px;
   }
 

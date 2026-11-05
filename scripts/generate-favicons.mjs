@@ -34,126 +34,205 @@ function createIco(pngBuffers, sizes) {
   return Buffer.concat([header, ...dirEntries, ...pngBuffers]);
 }
 
-async function run() {
-  const inputPath = 'public/images/favicon.png';
-  if (!fs.existsSync(inputPath)) {
-    console.error('Source favicon.png not found at ' + inputPath);
-    return;
+async function buildBrandAssets() {
+  const sourceImage = 'C:/Users/tiwar/.gemini/antigravity/brain/3ab35662-9bc0-4970-a12a-9690c5bbdafc/.user_uploaded/media_1793862517495_ab5541b5.jpg';
+  
+  if (!fs.existsSync(sourceImage)) {
+    throw new Error('Source image not found at ' + sourceImage);
   }
 
-  console.log('Loading source image from ' + inputPath + '...');
-  const size = 1024;
-  const radius = size / 2;
+  console.log('Loading source image:', sourceImage);
+  const { data, info } = await sharp(sourceImage).raw().toBuffer({ resolveWithObject: true });
+  const w = info.width;
+  const h = info.height;
 
-  // 1. Resize source to high-res master square (1024x1024)
-  const masterRaw = await sharp(inputPath)
-    .resize(size, size, { fit: 'fill' })
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+  // 1. Process alpha channel and un-premultiply white background
+  // Preserve white LED indicator lights on server blades:
+  const isLedDot = (x, y) => {
+    return x >= 267 && x <= 278 && y >= 267 && y <= 323;
+  };
 
-  const data = masterRaw.data;
-  const channels = masterRaw.info.channels;
+  const rgba = Buffer.alloc(w * h * 4);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 3;
+      const j = (y * w + x) * 4;
+      const r = data[i], g = data[i+1], b = data[i+2];
 
-  // 2. Clean near-white background to pure #FFFFFF
-  for (let i = 0; i < data.length; i += channels) {
-    if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) {
-      data[i] = 255;
-      data[i + 1] = 255;
-      data[i + 2] = 255;
+      if (isLedDot(x, y) && (r > 200 || g > 200 || b > 200)) {
+        rgba[j] = 255;
+        rgba[j+1] = 255;
+        rgba[j+2] = 255;
+        rgba[j+3] = 255;
+        continue;
+      }
+
+      const delta = Math.max(255 - r, 255 - g, 255 - b);
+      if (delta <= 10) {
+        rgba[j] = 255;
+        rgba[j+1] = 255;
+        rgba[j+2] = 255;
+        rgba[j+3] = 0;
+      } else if (delta >= 45) {
+        rgba[j] = r;
+        rgba[j+1] = g;
+        rgba[j+2] = b;
+        rgba[j+3] = 255;
+      } else {
+        const alphaNorm = (delta - 10) / 35;
+        const a = Math.round(alphaNorm * 255);
+        const unR = Math.min(255, Math.max(0, Math.round((r - (1 - alphaNorm) * 255) / alphaNorm)));
+        const unG = Math.min(255, Math.max(0, Math.round((g - (1 - alphaNorm) * 255) / alphaNorm)));
+        const unB = Math.min(255, Math.max(0, Math.round((b - (1 - alphaNorm) * 255) / alphaNorm)));
+        rgba[j] = unR;
+        rgba[j+1] = unG;
+        rgba[j+2] = unB;
+        rgba[j+3] = a;
+      }
     }
   }
 
-  const cleanedRgb = await sharp(data, {
-    raw: { width: size, height: size, channels: 3 }
-  }).png().toBuffer();
+  const fullTransparent = sharp(rgba, {
+    raw: { width: w, height: h, channels: 4 }
+  });
 
-  // 3. Create smooth anti-aliased circular mask SVG
-  const maskSvg = Buffer.from(`
-    <svg width="${size}" height="${size}">
-      <circle cx="${radius}" cy="${radius}" r="${radius - 1}" fill="#ffffff" />
-    </svg>
-  `);
+  // 2. Crop Brand Logo (Full lockup: Icon | InfoHQ)
+  const logoMinX = 84;
+  const logoMaxX = 920;
+  const logoMinY = 116;
+  const logoMaxY = 362;
+  const logoW = logoMaxX - logoMinX;
+  const logoH = logoMaxY - logoMinY;
 
-  const masterCirclePng = await sharp(cleanedRgb)
-    .composite([
-      {
-        input: maskSvg,
-        blend: 'dest-in'
-      }
-    ])
+  console.log(`Generating Brand Logo (${logoW}x${logoH})...`);
+  const croppedLogo = fullTransparent.clone().extract({
+    left: logoMinX,
+    top: logoMinY,
+    width: logoW,
+    height: logoH
+  });
+
+  const brandLogoPng = await croppedLogo.png().toBuffer();
+  const brandLogoWebp = await croppedLogo.webp({ quality: 98, effort: 6 }).toBuffer();
+
+  fs.writeFileSync('public/images/infohq-brandlogo.webp', brandLogoWebp);
+  fs.writeFileSync('public/images/infohq-brandlogo.png', brandLogoPng);
+  console.log('Saved public/images/infohq-brandlogo.webp and infohq-brandlogo.png');
+
+  // 3. Extract Design Icon Mark for Favicon
+  const iconMinX = 88;
+  const iconMaxX = 356;
+  const iconMinY = 120;
+  const iconMaxY = 358;
+  const iconW = iconMaxX - iconMinX;
+  const iconH = iconMaxY - iconMinY;
+
+  console.log(`Extracting Design Icon Mark (${iconW}x${iconH})...`);
+  const croppedIcon = fullTransparent.clone().extract({
+    left: iconMinX,
+    top: iconMinY,
+    width: iconW,
+    height: iconH
+  });
+
+  // Fit icon mark inside 512x512 master square canvas with comfortable margins
+  const masterSize = 512;
+  const targetIconW = 420;
+  const targetIconH = Math.round(iconH * (targetIconW / iconW)); // ~373px
+
+  const resizedIconBuf = await croppedIcon
+    .resize(targetIconW, targetIconH, { fit: 'contain', kernel: sharp.kernel.lanczos3 })
     .png()
     .toBuffer();
 
-  console.log('Master circular PNG created.');
+  const padX = Math.round((masterSize - targetIconW) / 2); // 46px
+  const padY = Math.round((masterSize - targetIconH) / 2); // 70px
 
-  // 4. Generate various sizes
-  console.log('Generating favicon sizes...');
+  const emptySquare = Buffer.alloc(masterSize * masterSize * 4, 0);
+  const masterFaviconBuf = await sharp(emptySquare, {
+    raw: { width: masterSize, height: masterSize, channels: 4 }
+  })
+    .composite([{ input: resizedIconBuf, left: padX, top: padY, blend: 'over' }])
+    .png()
+    .toBuffer();
+
+  // Save master favicon PNG & WebP
+  fs.writeFileSync('public/images/favicon.png', masterFaviconBuf);
+  console.log('Saved master public/images/favicon.png (512x512)');
+
+  // 4. Generate all favicon resolutions
+  console.log('Generating favicon suite...');
 
   // 16x16 PNG
-  const p16 = await sharp(masterCirclePng)
+  const p16 = await sharp(masterFaviconBuf)
     .resize(16, 16, { kernel: sharp.kernel.lanczos3 })
     .png()
     .toBuffer();
+  fs.writeFileSync('public/favicon-16x16.png', p16);
 
   // 32x32 PNG
-  const p32 = await sharp(masterCirclePng)
+  const p32 = await sharp(masterFaviconBuf)
     .resize(32, 32, { kernel: sharp.kernel.lanczos3 })
     .png()
     .toBuffer();
+  fs.writeFileSync('public/favicon-32x32.png', p32);
 
-  // 48x48 PNG
-  const p48 = await sharp(masterCirclePng)
+  // 48x48 PNG for ICO
+  const p48 = await sharp(masterFaviconBuf)
     .resize(48, 48, { kernel: sharp.kernel.lanczos3 })
     .png()
     .toBuffer();
 
-  // 180x180 Apple Touch Icon (iOS home screen)
-  const p180 = await sharp(masterCirclePng)
-    .resize(180, 180, { kernel: sharp.kernel.lanczos3 })
-    .png()
-    .toBuffer();
+  // Multi-resolution favicon.ico (16, 32, 48)
+  const icoBuffer = createIco([p16, p32, p48], [16, 32, 48]);
+  fs.writeFileSync('public/favicon.ico', icoBuffer);
+  console.log('Saved public/favicon.ico');
 
-  // 192x192 Android / Chrome
-  const p192 = await sharp(masterCirclePng)
-    .resize(192, 192, { kernel: sharp.kernel.lanczos3 })
-    .png()
-    .toBuffer();
-
-  // 512x512 Large Icon
-  const p512 = await sharp(masterCirclePng)
-    .resize(512, 512, { kernel: sharp.kernel.lanczos3 })
-    .png()
-    .toBuffer();
-
-  // High-res WebP for modern browsers (256x256)
-  const webpFavicon = await sharp(masterCirclePng)
+  // 256x256 WebP favicon (used by modern browsers & BlogCard avatars)
+  const webpFavicon = await sharp(masterFaviconBuf)
     .resize(256, 256, { kernel: sharp.kernel.lanczos3 })
     .webp({ quality: 95, effort: 6 })
     .toBuffer();
-
-  // 5. Generate Multi-size ICO (16, 32, 48)
-  const icoBuffer = createIco([p16, p32, p48], [16, 32, 48]);
-
-  // 6. Write files to public/
-  fs.writeFileSync('public/favicon.ico', icoBuffer);
   fs.writeFileSync('public/favicon.webp', webpFavicon);
   fs.writeFileSync('public/images/favicon.webp', webpFavicon);
-  fs.writeFileSync('public/favicon-32x32.png', p32);
-  fs.writeFileSync('public/favicon-16x16.png', p16);
-  fs.writeFileSync('public/apple-touch-icon.png', p180);
-  fs.writeFileSync('public/android-chrome-192x192.png', p192);
-  fs.writeFileSync('public/android-chrome-512x512.png', p512);
+  console.log('Saved public/favicon.webp and public/images/favicon.webp');
 
-  console.log('All favicon assets generated successfully:');
-  console.log('  - public/favicon.ico (16x16, 32x32, 48x48)');
-  console.log('  - public/favicon.webp (256x256 circular)');
-  console.log('  - public/images/favicon.webp (256x256 circular)');
-  console.log('  - public/favicon-32x32.png');
-  console.log('  - public/favicon-16x16.png');
-  console.log('  - public/apple-touch-icon.png (180x180)');
-  console.log('  - public/android-chrome-192x192.png');
-  console.log('  - public/android-chrome-512x512.png');
+  // 192x192 Android Chrome
+  const p192 = await sharp(masterFaviconBuf)
+    .resize(192, 192, { kernel: sharp.kernel.lanczos3 })
+    .png()
+    .toBuffer();
+  fs.writeFileSync('public/android-chrome-192x192.png', p192);
+
+  // 512x512 Android Chrome
+  fs.writeFileSync('public/android-chrome-512x512.png', masterFaviconBuf);
+  console.log('Saved Android Chrome icons (192x192, 512x512)');
+
+  // 180x180 Apple Touch Icon
+  // For iOS springboard, Apple guidelines require solid non-alpha background
+  // We place the crisp design icon centered on a clean pure white background
+  const p180Icon = await croppedIcon.clone()
+    .resize(140, Math.round(iconH * (140 / iconW)), { fit: 'contain', kernel: sharp.kernel.lanczos3 })
+    .png()
+    .toBuffer();
+  const p180Meta = await sharp(p180Icon).metadata();
+  const applePadX = Math.round((180 - p180Meta.width) / 2);
+  const applePadY = Math.round((180 - p180Meta.height) / 2);
+
+  const white180 = Buffer.alloc(180 * 180 * 4, 255);
+  const appleTouchBuf = await sharp(white180, {
+    raw: { width: 180, height: 180, channels: 4 }
+  })
+    .composite([{ input: p180Icon, left: applePadX, top: applePadY, blend: 'over' }])
+    .png()
+    .toBuffer();
+  fs.writeFileSync('public/apple-touch-icon.png', appleTouchBuf);
+  console.log('Saved public/apple-touch-icon.png (180x180 with clean solid background for iOS)');
+
+  console.log('All brand assets and favicons generated successfully!');
 }
 
-run().catch(console.error);
-
+buildBrandAssets().catch(err => {
+  console.error('Error generating brand assets:', err);
+  process.exit(1);
+});

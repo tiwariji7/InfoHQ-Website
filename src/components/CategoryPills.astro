@@ -37,64 +37,63 @@ const items = [
 <style>
   .category-pills-nav {
     width: 100%;
-    margin: 2rem 0 3rem;
+    margin: 1.5rem 0 2.5rem;
   }
 
   .category-pills-scroll {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     overflow-x: auto;
-    padding: 0.5rem 0.25rem;
+    padding: 0.25rem;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
 
   .category-pills-scroll::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
   }
 
   .cat-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 1.25rem;
-    border-radius: 9999px;
-    font-size: var(--text-sm);
-    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
     text-decoration: none;
-    color: var(--color-text-muted);
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border-card);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #475569;
+    background: #FFFFFF;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    transition: all 0.15s ease;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   .cat-pill:hover {
-    color: var(--color-text-heading);
-    border-color: rgba(124, 92, 232, 0.4);
-    background: rgba(124, 92, 232, 0.08);
-    transform: translateY(-1px);
+    color: #0F172A;
+    border-color: rgba(26, 8, 92, 0.25);
+    background: rgba(26, 8, 92, 0.03);
   }
 
   .cat-pill.active {
     color: #FFFFFF;
-    background: var(--brand-gradient);
-    border-color: transparent;
-    box-shadow: 0 4px 16px -2px rgba(124, 92, 232, 0.45);
+    background: #1A085C;
+    border-color: #1A085C;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
   }
 
   .cat-pill:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid #1A085C;
     outline-offset: 2px;
   }
 
   @media (max-width: 767px) {
     .category-pills-scroll {
       justify-content: flex-start;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
     }
   }
 </style>

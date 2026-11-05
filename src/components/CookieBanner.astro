@@ -284,6 +284,8 @@
 
   function initCookieSystem() {
     const wrapper = document.getElementById('cookie-banner-wrapper');
+    if (!wrapper || wrapper.dataset.cookieBound === 'true') return;
+    wrapper.dataset.cookieBound = 'true';
     const banner = document.getElementById('cookie-banner');
     const modalBackdrop = document.getElementById('cookie-modal-backdrop');
     const btnAcceptAll = document.getElementById('btn-cookie-accept-all');
