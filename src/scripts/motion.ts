@@ -20,79 +20,6 @@ import { animate, inView, stagger } from 'motion';
 // Luxury ease-out curve (smooth deceleration, zero mechanical snap or bounce)
 const LUXURY_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/**
- * Safely splits text within an element into word spans for cinematic word-by-word reveal.
- * Preserves inner tags (like <span class="text-gradient">) and attributes.
- * Sets aria-label so screen readers read the full text seamlessly.
- */
-function splitElementIntoWords(element: HTMLElement): HTMLElement[] {
-  // If already split, return existing words
-  const existingWords = element.querySelectorAll<HTMLElement>('.motion-word');
-  if (existingWords.length > 0) {
-    return Array.from(existingWords);
-  }
-
-  function walk(node: Node): Node[] {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent || '';
-      if (!text.trim()) {
-        return [document.createTextNode(text)];
-      }
-
-      // Split by whitespace boundaries while preserving whitespace tokens
-      const tokens = text.split(/(\s+)/);
-      const fragments: Node[] = [];
-
-      for (const token of tokens) {
-        if (!token) continue;
-        if (/^\s+$/.test(token)) {
-          fragments.push(document.createTextNode(token));
-        } else {
-          const wrap = document.createElement('span');
-          wrap.className = 'motion-word-wrap';
-          wrap.setAttribute('aria-hidden', 'true');
-
-          const word = document.createElement('span');
-          word.className = 'motion-word';
-          word.textContent = token;
-
-          wrap.appendChild(word);
-          fragments.push(wrap);
-        }
-      }
-      return fragments;
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      const el = node as HTMLElement;
-      if (el.classList.contains('motion-word-wrap') || el.classList.contains('motion-word')) {
-        return [el];
-      }
-
-      const childNodes = Array.from(el.childNodes);
-      el.innerHTML = '';
-      for (const child of childNodes) {
-        const replacement = walk(child);
-        replacement.forEach((r) => el.appendChild(r));
-      }
-      return [el];
-    }
-    return [node];
-  }
-
-  // Preserve original text for screen readers using aria-label
-  if (!element.getAttribute('aria-label')) {
-    element.setAttribute('aria-label', element.textContent?.trim() || '');
-  }
-
-  const childNodes = Array.from(element.childNodes);
-  element.innerHTML = '';
-  for (const child of childNodes) {
-    const replacement = walk(child);
-    replacement.forEach((r) => element.appendChild(r));
-  }
-
-  return Array.from(element.querySelectorAll<HTMLElement>('.motion-word'));
-}
-
 export function initMotion(): void {
   // 1. Accessibility: Check user preference for reduced motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -103,11 +30,11 @@ export function initMotion(): void {
 
   document.documentElement.classList.add('has-motion');
 
-  // 2. Hero Entrance Animation (All Pages with word-by-word reveal)
+  // 2. Hero Entrance Animation (All Pages)
   initHeroEntrance();
 
-  // 3. Section Titles Word-by-Word Reveal on Scroll
-  initSectionTitlesWordMotion();
+  // 3. Section Titles Reveal on Scroll
+  initSectionTitlesMotion();
 
   // 4. Stagger Card Reveal (Every Card Grid across the site)
   initStaggerCards();
@@ -158,40 +85,18 @@ function initHeroEntrance(): void {
     );
   }
 
-  // Primary Headline (H1) with Word-by-Word Stagger
+  // Primary Headline (H1)
   const h1 = heroContainer.querySelector<HTMLElement>('h1');
   if (h1) {
-    const words = splitElementIntoWords(h1);
-    if (words.length > 0) {
-      const anim = animate(
-        words,
-        {
-          opacity: [0, 1],
-          y: [14, 0]
-        },
-        {
-          duration: 0.62,
-          delay: stagger(0.035, { start: 0.08 }),
-          easing: LUXURY_EASE
-        }
-      );
-      anim.then(() => {
-        words.forEach((w) => {
-          w.style.transform = '';
-          w.style.opacity = '';
-        });
-      });
-    } else {
-      const anim = animate(
-        h1,
-        { opacity: [0, 1], y: [16, 0] },
-        { duration: 0.7, delay: 0.08, easing: LUXURY_EASE }
-      );
-      anim.then(() => {
-        h1.style.transform = '';
-        h1.style.opacity = '';
-      });
-    }
+    const anim = animate(
+      h1,
+      { opacity: [0, 1], y: [16, 0] },
+      { duration: 0.68, delay: 0.08, easing: LUXURY_EASE }
+    );
+    anim.then(() => {
+      h1.style.transform = '';
+      h1.style.opacity = '';
+    });
   }
 
   // Description / Subheadline (P)
@@ -256,42 +161,36 @@ function initHeroEntrance(): void {
 }
 
 /**
- * 2. Section Titles Word-by-Word Motion
- * - As users scroll down the page, section headers reveal word-by-word
+ * 2. Section Titles Reveal Motion
+ * - As users scroll down the page, section headers reveal with soft upward lift
  */
-function initSectionTitlesWordMotion(): void {
+function initSectionTitlesMotion(): void {
   const headings = document.querySelectorAll<HTMLElement>(
-    '.section-header h2, .section-title, .ps-title, [data-motion="word-split"]'
+    '.section-header h2, .section-title, .ps-title, [data-motion="title"]'
   );
 
   headings.forEach((heading) => {
-    if (heading.hasAttribute('data-words-bound')) return;
-    heading.setAttribute('data-words-bound', 'true');
-
-    // Split words
-    const words = splitElementIntoWords(heading);
-    if (!words.length) return;
+    if (heading.hasAttribute('data-motion-bound')) return;
+    heading.setAttribute('data-motion-bound', 'true');
 
     inView(
       heading,
       () => {
         const anim = animate(
-          words,
+          heading,
           {
             opacity: [0, 1],
-            y: [12, 0]
+            y: [14, 0]
           },
           {
             duration: 0.58,
-            delay: stagger(0.03, { start: 0.04 }),
+            delay: 0.04,
             easing: LUXURY_EASE
           }
         );
         anim.then(() => {
-          words.forEach((w) => {
-            w.style.transform = '';
-            w.style.opacity = '';
-          });
+          heading.style.transform = '';
+          heading.style.opacity = '';
         });
       },
       { amount: 0.2 }
@@ -419,31 +318,43 @@ function initLargeCardInnerMotion(): void {
         // A. Badge / Top bar
         const badge = card.querySelector<HTMLElement>('.ps-badge, .service-pill, .badge, .retainer-badge, .final-cta-badge');
         if (badge) {
-          animate(
+          const a = animate(
             badge,
             { opacity: [0, 1], y: [8, 0] },
             { duration: 0.5, delay: 0.06, easing: LUXURY_EASE }
           );
+          a.then(() => {
+            badge.style.transform = '';
+            badge.style.opacity = '';
+          });
         }
 
         // B. Title / Heading
         const title = card.querySelector<HTMLElement>('.ps-title, .service-title, .retainer-name, .form-card-title, h3, h2');
         if (title) {
-          animate(
+          const a = animate(
             title,
             { opacity: [0, 1], y: [10, 0] },
             { duration: 0.55, delay: 0.12, easing: LUXURY_EASE }
           );
+          a.then(() => {
+            title.style.transform = '';
+            title.style.opacity = '';
+          });
         }
 
         // C. Body / Description
         const body = card.querySelector<HTMLElement>('.ps-body, .service-desc, .retainer-desc, .final-cta-desc, .form-card-subtext, p');
         if (body && body !== title) {
-          animate(
+          const a = animate(
             body,
             { opacity: [0, 1], y: [10, 0] },
             { duration: 0.55, delay: 0.18, easing: LUXURY_EASE }
           );
+          a.then(() => {
+            body.style.transform = '';
+            body.style.opacity = '';
+          });
         }
 
         // D. Bullet items / Feature checklist / Deliverable pills
