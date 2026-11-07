@@ -101,7 +101,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
 <!doctype html>
 <html lang="en-IN">
   <head>
-    <ClientRouter fallback="animate" />
+    <ClientRouter fallback="swap" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
@@ -311,6 +311,17 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
       import { initMotion } from '../scripts/motion';
 
       let lenisInstance: any = null;
+      let isHistoryNavigation = false;
+
+      window.addEventListener('popstate', () => {
+        isHistoryNavigation = true;
+      });
+
+      document.addEventListener('astro:before-preparation', (e: any) => {
+        if (e.navigationType === 'traverse') {
+          isHistoryNavigation = true;
+        }
+      });
 
       function setupScrollAndMotion() {
         initMotion();
@@ -319,11 +330,11 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
         if (!prefersReducedMotion) {
           if (!lenisInstance) {
             lenisInstance = new Lenis({
-              duration: 1.1,
+              duration: 1.05,
               easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
               orientation: 'vertical',
               smoothWheel: true,
-              touchMultiplier: 1.5,
+              touchMultiplier: 1.3,
             });
 
             (window as any).lenis = lenisInstance;
@@ -336,7 +347,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
             requestAnimationFrame(raf);
           } else {
             lenisInstance.resize();
-            setTimeout(() => lenisInstance?.resize(), 120);
+            setTimeout(() => lenisInstance?.resize(), 100);
           }
         }
       }
@@ -346,7 +357,14 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
       });
 
       document.addEventListener('astro:after-swap', () => {
-        if (!window.location.hash) {
+        if (isHistoryNavigation) {
+          // On back/forward navigation, preserve browser restored position without scroll collision
+          isHistoryNavigation = false;
+          lenisInstance?.resize();
+          requestAnimationFrame(() => {
+            lenisInstance?.scrollTo(window.scrollY, { immediate: true });
+          });
+        } else if (!window.location.hash) {
           window.scrollTo(0, 0);
           lenisInstance?.scrollTo(0, { immediate: true });
         }

@@ -755,7 +755,7 @@ function initScrollReveal(): void {
       () => {
         const anim = animate(
           el,
-          { opacity: [0, 1], x: [-16, 0] },
+          { opacity: [0, 1], y: [12, 0] },
           { duration: 0.65, easing: LUXURY_EASE }
         );
         anim.then(() => {
@@ -779,7 +779,7 @@ function initScrollReveal(): void {
       () => {
         const anim = animate(
           el,
-          { opacity: [0, 1], x: [16, 0] },
+          { opacity: [0, 1], y: [12, 0] },
           { duration: 0.65, easing: LUXURY_EASE }
         );
         anim.then(() => {
@@ -807,7 +807,7 @@ function initScrollReveal(): void {
         if (leftCol) {
           const a1 = animate(
             leftCol,
-            { opacity: [0, 1], x: [-16, 0] },
+            { opacity: [0, 1], y: [12, 0] },
             { duration: 0.65, easing: LUXURY_EASE }
           );
           a1.then(() => {
@@ -818,7 +818,7 @@ function initScrollReveal(): void {
         if (rightCol) {
           const a2 = animate(
             rightCol,
-            { opacity: [0, 1], x: [16, 0] },
+            { opacity: [0, 1], y: [12, 0] },
             { duration: 0.65, delay: 0.08, easing: LUXURY_EASE }
           );
           a2.then(() => {

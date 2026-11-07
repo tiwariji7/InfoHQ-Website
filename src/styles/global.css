@@ -654,12 +654,43 @@ article.card,
   to { opacity: 1; }
 }
 
-::view-transition-old(root) {
-  animation: 140ms ease-out both page-fade-out;
+/* ==========================================================================
+   Universal Silky Page Transitions (Stripe & Linear Quality)
+   - Eliminates all horizontal slides/shifts across page switches
+   - Pure, seamless opacity cross-fade (130ms / 160ms)
+   - Zero layout jump or scroll fighting
+   ========================================================================== */
+::view-transition-group(root) {
+  animation-duration: 200ms;
 }
 
-::view-transition-new(root) {
-  animation: 160ms ease-in both page-fade-in;
+html[data-astro-transition] ::view-transition-old(root),
+html[data-astro-transition] ::view-transition-new(root),
+html[data-astro-transition="back"] ::view-transition-old(root),
+html[data-astro-transition="back"] ::view-transition-new(root),
+html[data-astro-transition="forward"] ::view-transition-old(root),
+html[data-astro-transition="forward"] ::view-transition-new(root),
+::view-transition-old(root),
+::view-transition-new(root),
+[data-astro-transition-fallback="old"],
+[data-astro-transition-fallback="new"] {
+  transform: none !important;
+}
+
+html[data-astro-transition="back"] ::view-transition-old(root),
+html[data-astro-transition="forward"] ::view-transition-old(root),
+html[data-astro-transition] ::view-transition-old(root),
+::view-transition-old(root),
+[data-astro-transition-fallback="old"] {
+  animation: 130ms cubic-bezier(0.4, 0, 1, 1) both page-fade-out !important;
+}
+
+html[data-astro-transition="back"] ::view-transition-new(root),
+html[data-astro-transition="forward"] ::view-transition-new(root),
+html[data-astro-transition] ::view-transition-new(root),
+::view-transition-new(root),
+[data-astro-transition-fallback="new"] {
+  animation: 160ms cubic-bezier(0, 0, 0.2, 1) both page-fade-in !important;
 }
 
 /* Universal Pro Card Hover Physics & Micro-interactions */
