@@ -20,7 +20,14 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;
 
     <div class="wa-bubble-header">
       <div class="wa-agent-avatar">
-        <span class="avatar-initials">HQ</span>
+        <img
+          src="/favicon.webp"
+          alt="InfoHQ"
+          width="38"
+          height="38"
+          class="avatar-favicon"
+          loading="eager"
+        />
         <span class="online-pulse" aria-label="Online"></span>
       </div>
       <div class="wa-agent-meta">
@@ -254,19 +261,21 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #7C5CE8, #4F46E5);
+    background: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 13px;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(124, 92, 232, 0.3);
+    box-shadow: 0 2px 8px rgba(124, 92, 232, 0.2);
+    border: 1px solid rgba(124, 92, 232, 0.16);
   }
 
-  .avatar-initials {
-    letter-spacing: 0.02em;
+  .avatar-favicon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
   }
 
   .online-pulse {
