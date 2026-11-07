@@ -30,7 +30,7 @@ const whatsappNumber = contactConfig.whatsappNumber;
     </h3>
 
     <p class="exit-modal-desc">
-      Skip the long forms. Drop your WhatsApp or phone number below &mdash; Shivam from our engineering team will send you a tailored architecture scope and cost estimate directly.
+      Skip the long forms. Drop your WhatsApp or phone number below &mdash; the InfoHQ engineering team will send you a tailored architecture scope and cost estimate directly.
     </p>
 
     <!-- 1-Field Fast Form -->
@@ -464,7 +464,7 @@ const whatsappNumber = contactConfig.whatsappNumber;
 
       // 3. Open WhatsApp pre-filled with the scope request
       const scopeMsg = encodeURIComponent(
-        `Hi Shivam! I requested a free 15-minute technical scope & cost estimate for my project on InfoHQ (My phone: +91 ${rawPhone}).`
+        `Hi InfoHQ! I requested a free 15-minute technical scope & cost estimate for my project (My phone: +91 ${rawPhone}).`
       );
       const targetUrl = `https://wa.me/${whatsappNumber}?text=${scopeMsg}`;
 
@@ -478,3 +478,4 @@ const whatsappNumber = contactConfig.whatsappNumber;
   initExitIntentModal();
   document.addEventListener('astro:page-load', initExitIntentModal);
 </script>
+
