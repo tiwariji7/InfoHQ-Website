@@ -1262,6 +1262,9 @@ const meta = {
         const data = await response.json().catch(() => ({}));
 
         if (response.ok) {
+          if (typeof (window as any).infohqTrackLead === 'function') {
+            (window as any).infohqTrackLead(selectedServiceText || 'General Consultation');
+          }
           if (feedbackBanner) {
             feedbackBanner.className = 'feedback-banner success';
             feedbackBanner.style.display = 'block';
