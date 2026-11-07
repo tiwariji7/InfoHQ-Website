@@ -220,15 +220,18 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
         }
       }
 
-      // Check current consent from localStorage
+      // Immediate initialization on first visit (unless explicitly rejected in cookie settings)
       try {
         var rawConsent = localStorage.getItem('infohq_cookie_consent_v1');
-        if (rawConsent) {
-          var consent = JSON.parse(rawConsent);
-          if (consent.analytics) initAnalyticsTracking();
-          if (consent.marketing) initMarketingPixel();
-        }
-      } catch (err) {}
+        var consent = rawConsent ? JSON.parse(rawConsent) : null;
+        var allowAnalytics = !consent || consent.analytics !== false;
+        var allowMarketing = !consent || consent.marketing !== false;
+
+        if (allowAnalytics) initAnalyticsTracking();
+        if (allowMarketing) initMarketingPixel();
+      } catch (err) {
+        initMarketingPixel();
+      }
 
       // Listen for cookie consent changes
       window.addEventListener('infohq_consent_changed', function(e) {

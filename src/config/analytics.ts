@@ -12,10 +12,9 @@
 export const ANALYTICS_CONFIG = {
   /**
    * Meta (Facebook / Instagram) Pixel ID
-   * Get it from: https://adsmanager.facebook.com -> Events Manager -> Data Sources
-   * e.g. '1234567890123456'
+   * Active InfoHQ Pixel
    */
-  metaPixelId: import.meta.env.PUBLIC_META_PIXEL_ID || '',
+  metaPixelId: import.meta.env.PUBLIC_META_PIXEL_ID || '1786810120113651',
 
   /**
    * Google Analytics 4 Measurement ID
@@ -29,3 +28,4 @@ export const ANALYTICS_CONFIG = {
    */
   linkedInPartnerId: import.meta.env.PUBLIC_LINKEDIN_PARTNER_ID || '',
 };
+
