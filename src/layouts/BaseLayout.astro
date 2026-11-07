@@ -164,10 +164,27 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
     <!-- Structured Data (JSON-LD) -->
     <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} />
 
-    {/* Cookie-consent controlled analytics & retargeting pixel scripts */}
-    <script is:inline define:vars={{ gaMeasurementId, metaPixelId, linkedInPartnerId }}>
+    <!-- Meta Pixel Code -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1786810120113651');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1786810120113651&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    {/* Analytics & ViewTransitions helpers */}
+    <script is:inline define:vars={{ gaMeasurementId, linkedInPartnerId }}>
       window.GA_MEASUREMENT_ID = window.GA_MEASUREMENT_ID || gaMeasurementId || '';
-      window.META_PIXEL_ID = window.META_PIXEL_ID || metaPixelId || '';
       window.LINKEDIN_PARTNER_ID = window.LINKEDIN_PARTNER_ID || linkedInPartnerId || '';
 
       function initAnalyticsTracking() {
@@ -189,21 +206,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
         }
       }
 
-      function initMarketingPixel() {
-        if (!window._pixelLoaded && window.META_PIXEL_ID) {
-          window._pixelLoaded = true;
-          !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', window.META_PIXEL_ID);
-          fbq('track', 'PageView');
-        }
-
+      function initLinkedInTag() {
         if (!window._linkedinLoaded && window.LINKEDIN_PARTNER_ID) {
           window._linkedinLoaded = true;
           window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
@@ -220,29 +223,22 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
         }
       }
 
-      // Immediate initialization on first visit (unless explicitly rejected in cookie settings)
       try {
         var rawConsent = localStorage.getItem('infohq_cookie_consent_v1');
         var consent = rawConsent ? JSON.parse(rawConsent) : null;
-        var allowAnalytics = !consent || consent.analytics !== false;
-        var allowMarketing = !consent || consent.marketing !== false;
+        if (!consent || consent.analytics !== false) initAnalyticsTracking();
+        if (!consent || consent.marketing !== false) initLinkedInTag();
+      } catch (err) {}
 
-        if (allowAnalytics) initAnalyticsTracking();
-        if (allowMarketing) initMarketingPixel();
-      } catch (err) {
-        initMarketingPixel();
-      }
-
-      // Listen for cookie consent changes
       window.addEventListener('infohq_consent_changed', function(e) {
         var consent = e.detail;
         if (consent && consent.analytics) initAnalyticsTracking();
-        if (consent && consent.marketing) initMarketingPixel();
+        if (consent && consent.marketing) initLinkedInTag();
       });
 
-      // Track ViewTransitions client-side navigation
+      // Track ViewTransitions client-side navigation for Meta Pixel & Google Analytics
       document.addEventListener('astro:page-load', function() {
-        if (window._pixelLoaded && typeof window.fbq === 'function') {
+        if (typeof window.fbq === 'function') {
           window.fbq('track', 'PageView');
         }
         if (window._gaLoaded && typeof window.gtag === 'function' && window.GA_MEASUREMENT_ID) {
@@ -256,7 +252,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
       // Global Retargeting Conversion Helpers (e.g. Form Submits / Consultation Leads)
       window.infohqTrackLead = function(serviceName) {
         try {
-          if (window._pixelLoaded && typeof window.fbq === 'function') {
+          if (typeof window.fbq === 'function') {
             window.fbq('track', 'Lead', {
               content_name: serviceName || 'General Consultation',
               currency: 'INR',
@@ -277,7 +273,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
 
       window.infohqTrackEvent = function(eventName, params) {
         try {
-          if (window._pixelLoaded && typeof window.fbq === 'function') {
+          if (typeof window.fbq === 'function') {
             window.fbq('trackCustom', eventName, params || {});
           }
           if (window._gaLoaded && typeof window.gtag === 'function') {
@@ -286,13 +282,6 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
         } catch (err) {}
       };
     </script>
-    {metaPixelId && (
-      <noscript>
-        <img height="1" width="1" style="display:none"
-          src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
-          alt="" />
-      </noscript>
-    )}
   </head>
   <body class={schemaType === 'home' ? 'page-home' : schemaType === 'contact' ? 'page-contact' : ''}>
     <!-- Skip to main content for accessibility -->
