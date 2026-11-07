@@ -1,0 +1,459 @@
+---
+import { contactConfig } from '../data/contactConfig';
+
+const whatsappNumber = contactConfig.whatsappNumber;
+const defaultMessage = encodeURIComponent(
+  "Hi Shivam! I was browsing InfoHQ and wanted to discuss building a project / AI system."
+);
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;
+---
+
+<div class="wa-quick-connect" id="wa-quick-connect" aria-label="WhatsApp Quick Connect">
+  <!-- Proactive Chat Speech Bubble -->
+  <div class="wa-speech-bubble" id="wa-speech-bubble" role="dialog" aria-modal="false" aria-labelledby="wa-agent-name" style="display: none;">
+    <button type="button" class="wa-bubble-close" id="wa-bubble-close" aria-label="Dismiss message">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="wa-bubble-header">
+      <div class="wa-agent-avatar">
+        <span class="avatar-initials">ST</span>
+        <span class="online-pulse" aria-label="Online"></span>
+      </div>
+      <div class="wa-agent-meta">
+        <span class="wa-agent-name" id="wa-agent-name">Shivam Tiwari</span>
+        <span class="wa-agent-status">
+          <span class="status-dot"></span>
+          Engineering Lead &bull; Online
+        </span>
+      </div>
+    </div>
+
+    <div class="wa-bubble-body">
+      <p class="wa-bubble-text">
+        Hi! Looking to build custom software or an AI agent? Chat directly with Shivam on WhatsApp.
+      </p>
+    </div>
+
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="wa-bubble-action-btn"
+      id="wa-bubble-cta"
+    >
+      <svg class="wa-btn-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.25-1.5-1.4-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08s.89 2.42 1.01 2.58c.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.29"/>
+      </svg>
+      <span>Start WhatsApp Chat</span>
+    </a>
+  </div>
+
+  <!-- Main Floating Trigger Button -->
+  <a
+    href={whatsappUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="wa-float-btn"
+    id="wa-float-btn"
+    aria-label="Chat on WhatsApp with Shivam"
+    title="Chat on WhatsApp"
+  >
+    <span class="wa-float-pulse"></span>
+    <svg class="wa-float-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.25-1.5-1.4-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08s.89 2.42 1.01 2.58c.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.29"/>
+    </svg>
+    <span class="wa-tooltip">Direct Chat</span>
+  </a>
+</div>
+
+<style>
+  .wa-quick-connect {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    z-index: 880;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: inherit;
+  }
+
+  /* Floating Trigger Button */
+  .wa-float-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25D366;
+    color: #FFFFFF;
+    box-shadow: 0 8px 24px -4px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(15, 9, 38, 0.12);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, background 0.2s ease;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .wa-float-btn:hover {
+    background: #20BD5A;
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 12px 30px -4px rgba(37, 211, 102, 0.55), 0 4px 12px rgba(15, 9, 38, 0.16);
+  }
+
+  .wa-float-btn:active {
+    transform: scale(0.96);
+  }
+
+  .wa-float-icon {
+    width: 30px;
+    height: 30px;
+    fill: #FFFFFF;
+    transition: transform 0.25s ease;
+  }
+
+  .wa-float-btn:hover .wa-float-icon {
+    transform: scale(1.05);
+  }
+
+  /* Pulsing radar ring */
+  .wa-float-pulse {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid rgba(37, 211, 102, 0.7);
+    animation: wa-radar-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+
+  @keyframes wa-radar-ping {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.9;
+    }
+    70% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  /* Floating Tooltip */
+  .wa-tooltip {
+    position: absolute;
+    right: calc(100% + 12px);
+    background: #0F0926;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(15, 9, 38, 0.2);
+  }
+
+  .wa-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #0F0926;
+  }
+
+  .wa-float-btn:hover .wa-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Speech Bubble Modal Card */
+  .wa-speech-bubble {
+    position: relative;
+    width: 310px;
+    margin-bottom: 14px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid rgba(124, 92, 232, 0.16);
+    box-shadow: 0 16px 36px -8px rgba(15, 9, 38, 0.16), 0 4px 12px rgba(15, 9, 38, 0.06);
+    padding: 16px 18px 18px;
+    transform-origin: bottom right;
+    animation: wa-bubble-slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes wa-bubble-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Speech bubble tail pointer */
+  .wa-speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 22px;
+    width: 16px;
+    height: 16px;
+    background: #FFFFFF;
+    border-right: 1px solid rgba(124, 92, 232, 0.16);
+    border-bottom: 1px solid rgba(124, 92, 232, 0.16);
+    transform: rotate(45deg);
+  }
+
+  .wa-bubble-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #6E6A82;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .wa-bubble-close:hover {
+    background: rgba(15, 9, 38, 0.06);
+    color: #0F0926;
+  }
+
+  .wa-bubble-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(124, 92, 232, 0.08);
+  }
+
+  .wa-agent-avatar {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C5CE8, #4F46E5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(124, 92, 232, 0.3);
+  }
+
+  .avatar-initials {
+    letter-spacing: 0.02em;
+  }
+
+  .online-pulse {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #25D366;
+    border: 2px solid #FFFFFF;
+  }
+
+  .wa-agent-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wa-agent-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F0926;
+    line-height: 1.25;
+  }
+
+  .wa-agent-status {
+    font-size: 11px;
+    font-weight: 500;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 1px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #25D366;
+  }
+
+  .wa-bubble-body {
+    padding: 12px 0 14px;
+  }
+
+  .wa-bubble-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #374151;
+    margin: 0;
+  }
+
+  .wa-bubble-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #25D366;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  }
+
+  .wa-bubble-action-btn:hover {
+    background: #20BD5A;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+  }
+
+  .wa-btn-icon {
+    flex-shrink: 0;
+  }
+
+  /* Mobile viewport adjustments (< 768px) */
+  @media (max-width: 767px) {
+    .wa-quick-connect {
+      bottom: 84px; /* Sits right above StickyMobileCTA */
+      right: 16px;
+    }
+
+    .wa-float-btn {
+      width: 50px;
+      height: 50px;
+    }
+
+    .wa-float-icon {
+      width: 26px;
+      height: 26px;
+    }
+
+    .wa-speech-bubble {
+      width: 285px;
+      margin-bottom: 10px;
+      padding: 14px 15px 15px;
+    }
+
+    .wa-tooltip {
+      display: none; /* Hide hover tooltip on touch devices */
+    }
+  }
+</style>
+
+<script>
+  function initWhatsAppWidget() {
+    const bubble = document.getElementById('wa-speech-bubble');
+    const floatBtn = document.getElementById('wa-float-btn');
+    const bubbleCta = document.getElementById('wa-bubble-cta');
+    const closeBtn = document.getElementById('wa-bubble-close');
+
+    if (!floatBtn) return;
+
+    const DISMISS_KEY = 'infohq_wa_bubble_dismissed';
+
+    // Check if dismissed in this session
+    const isDismissed = sessionStorage.getItem(DISMISS_KEY) === 'true';
+
+    let timer: any = null;
+    let scrollTriggered = false;
+
+    function showBubble() {
+      if (sessionStorage.getItem(DISMISS_KEY) === 'true') return;
+      if (bubble && bubble.style.display === 'none') {
+        bubble.style.display = 'block';
+      }
+    }
+
+    function hideBubble() {
+      if (bubble) bubble.style.display = 'none';
+      sessionStorage.setItem(DISMISS_KEY, 'true');
+    }
+
+    if (!isDismissed) {
+      // 1. Proactive time trigger (12 seconds)
+      timer = setTimeout(() => {
+        showBubble();
+      }, 12000);
+
+      // 2. Proactive scroll trigger (25% down the page)
+      const handleScroll = () => {
+        if (scrollTriggered) return;
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if (scrollPercent > 25) {
+          scrollTriggered = true;
+          window.removeEventListener('scroll', handleScroll);
+          setTimeout(showBubble, 1000);
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    // Dismiss button
+    closeBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      clearTimeout(timer);
+      hideBubble();
+    });
+
+    // Tracking on click (Meta Pixel + GA4)
+    function handleWhatsAppClick() {
+      try {
+        if (typeof (window as any).infohqTrackLead === 'function') {
+          (window as any).infohqTrackLead('WhatsApp Quick-Connect');
+        }
+        if (typeof (window as any).infohqTrackEvent === 'function') {
+          (window as any).infohqTrackEvent('WhatsAppClick', {
+            channel: 'WhatsApp Quick-Connect Widget',
+            url: window.location.pathname
+          });
+        }
+      } catch (err) {}
+      sessionStorage.setItem(DISMISS_KEY, 'true');
+    }
+
+    floatBtn.addEventListener('click', handleWhatsAppClick);
+    bubbleCta?.addEventListener('click', handleWhatsAppClick);
+  }
+
+  // Support Astro View Transitions
+  initWhatsAppWidget();
+  document.addEventListener('astro:page-load', initWhatsAppWidget);
+</script>

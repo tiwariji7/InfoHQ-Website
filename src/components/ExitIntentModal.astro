@@ -1,0 +1,480 @@
+---
+import { contactConfig } from '../data/contactConfig';
+
+const whatsappNumber = contactConfig.whatsappNumber;
+---
+
+<div class="exit-modal-backdrop" id="exit-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title" style="display: none;">
+  <div class="exit-modal-card" id="exit-modal-card">
+    <!-- Close button -->
+    <button type="button" class="exit-modal-close" id="exit-modal-close" aria-label="Close modal">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Top Badge -->
+    <div class="exit-badge-wrap">
+      <span class="exit-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="badge-icon">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        Free 15-Min Technical Scope
+      </span>
+    </div>
+
+    <!-- Title & Subtitle -->
+    <h3 class="exit-modal-title" id="exit-modal-title">
+      Leaving so soon? Get a <span class="text-gradient">Technical Scope</span> &amp; Estimate.
+    </h3>
+
+    <p class="exit-modal-desc">
+      Skip the long forms. Drop your WhatsApp or phone number below &mdash; Shivam from our engineering team will send you a tailored architecture scope and cost estimate directly.
+    </p>
+
+    <!-- 1-Field Fast Form -->
+    <form class="exit-modal-form" id="exit-modal-form" novalidate>
+      <div class="exit-input-group">
+        <span class="country-prefix" aria-label="Country Code India">+91</span>
+        <input
+          type="tel"
+          id="exit-intent-phone"
+          name="phone"
+          class="exit-phone-input"
+          placeholder="Enter 10-digit Mobile Number"
+          maxlength="10"
+          pattern="[0-9]{10}"
+          inputmode="numeric"
+          autocomplete="tel-national"
+          required
+        />
+      </div>
+
+      <div class="exit-error-msg" id="exit-error-msg" style="display: none;">
+        Please enter a valid 10-digit mobile number.
+      </div>
+
+      <button type="submit" class="exit-submit-btn" id="exit-submit-btn">
+        <span class="btn-text">Send My Free Scope on WhatsApp</span>
+        <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+
+      <!-- Success Feedback State -->
+      <div class="exit-success-state" id="exit-success-state" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span>Opening WhatsApp with your scope request...</span>
+      </div>
+
+      <!-- Trust Microcopy -->
+      <p class="exit-microcopy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        100% confidential. No spam, directly from engineering.
+      </p>
+
+      <!-- Dismiss link -->
+      <button type="button" class="exit-dismiss-link" id="exit-dismiss-link">
+        No thanks, I'll explore on my own
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .exit-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: rgba(15, 9, 38, 0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    animation: exit-fade-in 0.25s ease-out both;
+  }
+
+  @keyframes exit-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exit-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    border: 1px solid rgba(124, 92, 232, 0.18);
+    box-shadow: 0 24px 50px -12px rgba(15, 9, 38, 0.28), 0 8px 24px -4px rgba(124, 92, 232, 0.12);
+    padding: 32px 30px;
+    animation: exit-card-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes exit-card-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  .exit-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(15, 9, 38, 0.05);
+    border: none;
+    color: #6E6A82;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .exit-modal-close:hover {
+    background: rgba(15, 9, 38, 0.1);
+    color: #0F0926;
+  }
+
+  .exit-badge-wrap {
+    margin-bottom: 12px;
+  }
+
+  .exit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(124, 92, 232, 0.1);
+    color: #7C5CE8;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .badge-icon {
+    stroke: #7C5CE8;
+  }
+
+  .exit-modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #0F0926;
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .exit-modal-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #4A4560;
+    margin: 0 0 20px;
+  }
+
+  .exit-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .exit-input-group {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid rgba(124, 92, 232, 0.25);
+    border-radius: 12px;
+    background: #FAFAFD;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    overflow: hidden;
+  }
+
+  .exit-input-group:focus-within {
+    border-color: #7C5CE8;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(124, 92, 232, 0.12);
+  }
+
+  .country-prefix {
+    padding: 12px 14px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #0F0926;
+    background: rgba(124, 92, 232, 0.06);
+    border-right: 1.5px solid rgba(124, 92, 232, 0.15);
+    user-select: none;
+  }
+
+  .exit-phone-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: #0F0926;
+    background: transparent;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .exit-phone-input::placeholder {
+    color: #9CA3AF;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .exit-error-msg {
+    font-size: 12px;
+    color: #DC2626;
+    font-weight: 600;
+    margin-top: -6px;
+  }
+
+  .exit-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+    color: #FFFFFF;
+    font-size: 14.5px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px -4px rgba(37, 211, 102, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .exit-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 26px -4px rgba(37, 211, 102, 0.55);
+    filter: brightness(1.03);
+  }
+
+  .exit-submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .exit-submit-btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  .exit-success-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    color: #065F46;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .exit-microcopy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 11.5px;
+    color: #6E6A82;
+    margin: 4px 0 0;
+  }
+
+  .exit-dismiss-link {
+    background: transparent;
+    border: none;
+    color: #6E6A82;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-top: 4px;
+    padding: 4px;
+    transition: color 0.15s ease;
+  }
+
+  .exit-dismiss-link:hover {
+    color: #0F0926;
+  }
+
+  @media (max-width: 480px) {
+    .exit-modal-card {
+      padding: 24px 20px;
+    }
+
+    .exit-modal-title {
+      font-size: 19px;
+    }
+
+    .exit-submit-btn {
+      font-size: 13.5px;
+    }
+  }
+</style>
+
+<script define:vars={{ whatsappNumber }}>
+  function initExitIntentModal() {
+    const backdrop = document.getElementById('exit-modal-backdrop');
+    const closeBtn = document.getElementById('exit-modal-close');
+    const dismissBtn = document.getElementById('exit-dismiss-link');
+    const form = document.getElementById('exit-modal-form');
+    const phoneInput = document.getElementById('exit-intent-phone');
+    const errorMsg = document.getElementById('exit-error-msg');
+    const submitBtn = document.getElementById('exit-submit-btn');
+    const successState = document.getElementById('exit-success-state');
+
+    if (!backdrop || backdrop.dataset.bound === 'true') return;
+    backdrop.dataset.bound = 'true';
+
+    const SHOWN_KEY = 'infohq_exit_intent_shown_v1';
+
+    function showModal() {
+      if (sessionStorage.getItem(SHOWN_KEY) === 'true') return;
+      sessionStorage.setItem(SHOWN_KEY, 'true');
+      backdrop.style.display = 'flex';
+      setTimeout(() => phoneInput?.focus(), 100);
+    }
+
+    function closeModal() {
+      backdrop.style.display = 'none';
+    }
+
+    // 1. Desktop Exit Intent (Mouse moves towards browser top / tab close)
+    const handleMouseLeave = (e) => {
+      if (e.clientY <= 15) {
+        showModal();
+        document.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+
+    // Attach after a short 6-second delay so it doesn't trigger instantly on load
+    setTimeout(() => {
+      document.addEventListener('mouseleave', handleMouseLeave);
+    }, 6000);
+
+    // 2. Mobile Exit Intent Fallback (Trigger after 35 seconds of reading if scrolling up towards top)
+    let lastScrollY = window.scrollY;
+    let mobileTimerStarted = false;
+
+    setTimeout(() => {
+      mobileTimerStarted = true;
+    }, 30000);
+
+    const handleMobileScroll = () => {
+      if (!mobileTimerStarted) return;
+      const currentY = window.scrollY;
+      // User scrolled up quickly when reading deep in the page
+      if (lastScrollY - currentY > 120 && currentY < 600 && lastScrollY > 1000) {
+        showModal();
+        window.removeEventListener('scroll', handleMobileScroll);
+      }
+      lastScrollY = currentY;
+    };
+
+    window.addEventListener('scroll', handleMobileScroll, { passive: true });
+
+    // Close actions
+    closeBtn?.addEventListener('click', closeModal);
+    dismissBtn?.addEventListener('click', closeModal);
+
+    // Click outside modal card to close
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop.style.display === 'flex') {
+        closeModal();
+      }
+    });
+
+    // Form Submission
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rawPhone = phoneInput?.value.replace(/\D/g, '') || '';
+
+      if (rawPhone.length !== 10) {
+        if (errorMsg) errorMsg.style.display = 'block';
+        phoneInput?.focus();
+        return;
+      }
+
+      if (errorMsg) errorMsg.style.display = 'none';
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (successState) successState.style.display = 'flex';
+
+      // 1. Track Meta Pixel & Google Analytics Lead Conversion
+      try {
+        if (typeof window.infohqTrackLead === 'function') {
+          window.infohqTrackLead('Exit Intent Technical Scope');
+        }
+        if (typeof window.infohqTrackEvent === 'function') {
+          window.infohqTrackEvent('ExitIntentLead', {
+            phone: rawPhone,
+            url: window.location.pathname
+          });
+        }
+      } catch (err) {}
+
+      // 2. Send payload to API backend in the background
+      try {
+        fetch('https://api.infohq.in/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: 'Exit Intent Visitor (' + rawPhone + ')',
+            phone: '+91' + rawPhone,
+            email: 'exit-intent@infohq.in',
+            serviceType: 'Technical Scope & Cost Estimate',
+            timeline: 'Immediate',
+            preferredContact: 'WhatsApp',
+            message: 'User requested free 15-min technical scope & cost estimate via exit-intent popup on page: ' + window.location.pathname
+          })
+        }).catch(() => {});
+      } catch (err) {}
+
+      // 3. Open WhatsApp pre-filled with the scope request
+      const scopeMsg = encodeURIComponent(
+        `Hi Shivam! I requested a free 15-minute technical scope & cost estimate for my project on InfoHQ (My phone: +91 ${rawPhone}).`
+      );
+      const targetUrl = `https://wa.me/${whatsappNumber}?text=${scopeMsg}`;
+
+      setTimeout(() => {
+        window.open(targetUrl, '_blank');
+        setTimeout(closeModal, 1200);
+      }, 800);
+    });
+  }
+
+  initExitIntentModal();
+  document.addEventListener('astro:page-load', initExitIntentModal);
+</script>
