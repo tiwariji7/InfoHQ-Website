@@ -768,7 +768,16 @@ article[class*="-card"]:hover,
   }
 
   ::view-transition-old(root),
-  ::view-transition-new(root) {
+  ::view-transition-new(root),
+  html[data-astro-transition] ::view-transition-old(root),
+  html[data-astro-transition] ::view-transition-new(root),
+  html[data-astro-transition="back"] ::view-transition-old(root),
+  html[data-astro-transition="back"] ::view-transition-new(root),
+  html[data-astro-transition="forward"] ::view-transition-old(root),
+  html[data-astro-transition="forward"] ::view-transition-new(root),
+  [data-astro-transition-fallback="old"],
+  [data-astro-transition-fallback="new"] {
     animation: none !important;
+    transition: none !important;
   }
 }

@@ -355,16 +355,24 @@ const whatsappNumber = contactConfig.whatsappNumber;
     backdrop.dataset.bound = 'true';
 
     const SHOWN_KEY = 'infohq_exit_intent_shown_v1';
+    let previouslyFocusedElement = null;
+    let desktopTimer = null;
+    let mobileTimer = null;
+    let focusTimer = null;
 
     function showModal() {
       if (sessionStorage.getItem(SHOWN_KEY) === 'true') return;
       sessionStorage.setItem(SHOWN_KEY, 'true');
+      previouslyFocusedElement = document.activeElement;
       backdrop.style.display = 'flex';
-      setTimeout(() => phoneInput?.focus(), 100);
+      focusTimer = setTimeout(() => phoneInput?.focus(), 100);
     }
 
     function closeModal() {
       backdrop.style.display = 'none';
+      if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === 'function') {
+        previouslyFocusedElement.focus();
+      }
     }
 
     // 1. Desktop Exit Intent (Mouse moves towards browser top / tab close)
@@ -376,15 +384,15 @@ const whatsappNumber = contactConfig.whatsappNumber;
     };
 
     // Attach after a short 6-second delay so it doesn't trigger instantly on load
-    setTimeout(() => {
+    desktopTimer = setTimeout(() => {
       document.addEventListener('mouseleave', handleMouseLeave);
     }, 6000);
 
-    // 2. Mobile Exit Intent Fallback (Trigger after 35 seconds of reading if scrolling up towards top)
+    // 2. Mobile Exit Intent Fallback (Trigger after 30 seconds of reading if scrolling up towards top)
     let lastScrollY = window.scrollY;
     let mobileTimerStarted = false;
 
-    setTimeout(() => {
+    mobileTimer = setTimeout(() => {
       mobileTimerStarted = true;
     }, 30000);
 
@@ -401,6 +409,52 @@ const whatsappNumber = contactConfig.whatsappNumber;
 
     window.addEventListener('scroll', handleMobileScroll, { passive: true });
 
+    // Focus Trap & Keyboard Handling inside Modal
+    const handleKeyDown = (e) => {
+      if (backdrop.style.display !== 'flex') return;
+
+      if (e.key === 'Escape') {
+        closeModal();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusableElements = backdrop.querySelectorAll(
+          'button:not([disabled]), input:not([disabled]), a[href]:not([disabled])'
+        );
+        if (!focusableElements.length) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup listeners and timers before next page swap in View Transitions
+    const cleanup = () => {
+      if (desktopTimer) clearTimeout(desktopTimer);
+      if (mobileTimer) clearTimeout(mobileTimer);
+      if (focusTimer) clearTimeout(focusTimer);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('scroll', handleMobileScroll);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('astro:before-swap', cleanup);
+    };
+    document.addEventListener('astro:before-swap', cleanup);
+
     // Close actions
     closeBtn?.addEventListener('click', closeModal);
     dismissBtn?.addEventListener('click', closeModal);
@@ -408,13 +462,6 @@ const whatsappNumber = contactConfig.whatsappNumber;
     // Click outside modal card to close
     backdrop.addEventListener('click', (e) => {
       if (e.target === backdrop) closeModal();
-    });
-
-    // ESC key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && backdrop.style.display === 'flex') {
-        closeModal();
-      }
     });
 
     // Form Submission
@@ -432,20 +479,20 @@ const whatsappNumber = contactConfig.whatsappNumber;
       if (submitBtn) submitBtn.style.display = 'none';
       if (successState) successState.style.display = 'flex';
 
-      // 1. Track Meta Pixel & Google Analytics Lead Conversion
+      // 1. Track Meta Pixel & Google Analytics Lead Conversion (Zero PII forwarded)
       try {
         if (typeof window.infohqTrackLead === 'function') {
           window.infohqTrackLead('Exit Intent Technical Scope');
         }
         if (typeof window.infohqTrackEvent === 'function') {
           window.infohqTrackEvent('ExitIntentLead', {
-            phone: rawPhone,
-            url: window.location.pathname
+            lead_type: 'Technical Scope & Cost Estimate',
+            page_path: window.location.pathname
           });
         }
       } catch (err) {}
 
-      // 2. Send payload to API backend in the background
+      // 2. Send payload to API backend in the background (Phone securely transferred to API only)
       try {
         fetch('https://api.infohq.in/contact', {
           method: 'POST',
