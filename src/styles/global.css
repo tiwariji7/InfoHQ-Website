@@ -42,6 +42,9 @@
   --color-surface-card: #FFFFFF;
   --color-border-subtle: rgba(15, 23, 42, 0.08);
   --color-border-card: #EAE6F7;
+  --color-surface: var(--color-surface-white);
+  --color-bg: var(--color-bg-page);
+  --color-border: var(--color-border-card);
 
   /* 🪻 Light Lavender-White Navbar & Theme Tokens */
   --navbar-bg: rgba(255, 255, 255, 0.85);

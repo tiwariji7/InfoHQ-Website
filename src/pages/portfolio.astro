@@ -299,13 +299,13 @@ const deliveryStandards = [
           </div>
 
           <div class="portfolio-card-actions">
+            <a href="/portfolio/alpha-studio-tech/" class="btn-card-case-study">
+              <span>Project Case Study</span>
+              <span class="arrow-icon">&rarr;</span>
+            </a>
             <a href="https://alphastudiotech.online" target="_blank" rel="noopener noreferrer" class="btn-card-live">
               <span>Visit Live Website</span>
               <span class="arrow-icon">&nearr;</span>
-            </a>
-            <a href="/contact" class="btn-card-case-study">
-              <span>Inquire Similar Build</span>
-              <span class="arrow-icon">&rarr;</span>
             </a>
           </div>
         </article>
@@ -364,22 +364,19 @@ const deliveryStandards = [
           </div>
 
           <div class="portfolio-card-actions">
-            <button
-              type="button"
-              class="btn-card-showcase open-showcase-btn"
-              data-target="showcase-modal-sehat"
-            >
-              <span>Internal Production Showcase</span>
-              <span class="sparkle-icon">✦</span>
-            </button>
-            <button
-              type="button"
-              class="btn-card-case-study open-showcase-btn"
-              data-target="showcase-modal-sehat"
-            >
-              <span>View Case Study &amp; Screens</span>
+            <a href="/portfolio/sehat-smartcare/" class="btn-card-case-study">
+              <span>Project Case Study</span>
               <span class="arrow-icon">&rarr;</span>
-            </button>
+            </a>
+            <a
+              href="/portfolio/sehat-smartcare/#screens"
+              class="btn-card-live open-showcase-btn"
+              data-target="showcase-modal-sehat"
+              data-astro-reload
+            >
+              <span>Live App Showcase</span>
+              <span class="sparkle-icon">✦</span>
+            </a>
           </div>
         </article>
 
@@ -446,13 +443,14 @@ const deliveryStandards = [
           </div>
 
           <div class="portfolio-card-actions">
-            <a href="/contact" class="btn-card-live">
-              <span>Inquire Early Access</span>
+            <a href="/contact" class="btn-card-case-study">
+              <span>System Architecture Scope</span>
               <span class="arrow-icon">&rarr;</span>
             </a>
-            <div class="card-status-badge">
-              <span>Official Announcement Coming Soon</span>
-            </div>
+            <a href="/contact" class="btn-card-live">
+              <span>Request Early Access</span>
+              <span class="arrow-icon">&nearr;</span>
+            </a>
           </div>
         </article>
       </div>
@@ -1139,30 +1137,54 @@ const deliveryStandards = [
     color: #FDE047;
   }
 
-  .btn-card-case-study,
+  .btn-card-case-study {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 14px;
+    background: #1A085C;
+    color: #FFFFFF !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius-md, 10px);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(26, 8, 92, 0.18);
+    text-decoration: none;
+  }
+
+  .btn-card-case-study:hover {
+    background: #2D1485;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 8, 92, 0.25);
+  }
+
   .btn-card-live {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     width: 100%;
-    padding: 8px 14px;
+    padding: 8.5px 14px;
     background: #F8FAFC;
-    color: #1E293B;
+    color: #0F172A !important;
     border: 1px solid #E2E8F0;
     font-size: 0.82rem;
     font-weight: 600;
     border-radius: var(--radius-md, 10px);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     text-decoration: none;
   }
 
-  .btn-card-case-study:hover,
   .btn-card-live:hover {
     background: #EFF6FF;
-    border-color: #BFDBFE;
-    color: #2563EB;
+    border-color: #93C5FD;
+    color: #2563EB !important;
+    transform: translateY(-1px);
   }
 
   .arrow-icon {
@@ -2712,6 +2734,7 @@ const deliveryStandards = [
     document.addEventListener('click', (e) => {
       const openBtn = (e.target as HTMLElement)?.closest('.open-showcase-btn');
       if (openBtn) {
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
         const targetId = openBtn.getAttribute('data-target');
         if (!targetId) return;

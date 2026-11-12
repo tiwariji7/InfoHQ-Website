@@ -22,6 +22,7 @@ interface Props {
   schemaType?: 'home' | 'services' | 'service-detail' | 'pricing' | 'company' | 'blogs' | 'blog-category' | 'blog-post' | 'contact' | 'legal' | 'portfolio';
   serviceData?: any;
   postData?: any;
+  customSchema?: any;
   showMobileCTA?: boolean;
   noindex?: boolean;
   noCanonical?: boolean;
@@ -38,6 +39,7 @@ const {
   schemaType = 'home',
   serviceData,
   postData,
+  customSchema,
   showMobileCTA = true,
   noindex = false,
   noCanonical = false
@@ -167,7 +169,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
     <meta property="telegram:image" content={absoluteOgImage} />
 
     <!-- Structured Data (JSON-LD) -->
-    <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} />
+    <SchemaJsonLd type={schemaType} serviceData={serviceData} postData={postData} customSchema={customSchema} />
 
     <!-- Meta Pixel Code -->
     <script is:inline>
