@@ -26,12 +26,23 @@ desktop.ini
 # IDE & Editor files
 .idea/
 .vscode/
+.cursor/
 *.sublime-project
 *.sublime-workspace
 
-# Internal project documentation & prompts (not deployed)
+# Internal project documentation, strategy audits & notes (not deployed to GitHub)
 websiteDocs/
 development-master-prompt.md
+COMPETITOR-ANALYSIS.md
+SEO-AUDIT.md
+AEO-GEO-AUDIT.md
+KEYWORD-GAP-ANALYSIS.md
+PRIORITY-ACTION-PLAN.md
+design.md
+CRM_design.md
+*-AUDIT.md
+*-ANALYSIS.md
+*-PLAN.md
 
 # Scratch scripts & temporary test artifacts
 scratch/
