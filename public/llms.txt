@@ -1,5 +1,5 @@
 # InfoHQ
-> InfoHQ is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow — operating a hybrid model of B2B client engineering and proprietary AI SaaS products. Headquartered in Pune and Prayagraj, India, delivering pan-India and globally.
+> InfoHQ is an AI and software engineering studio helping startups and enterprises across India build, automate, and grow — operating a hybrid model of B2B client engineering and proprietary AI SaaS products. Headquartered in Prayagraj, Uttar Pradesh, with an active operational presence also working in Pune, Maharashtra, delivering pan-India and globally.
 
 ## Full Context & Deep Reasoning
 - [Full Knowledge Base & Specs](https://infohq.in/llms-full.txt): Complete unabridged documentation of all services, pricing models, architecture, and case studies.

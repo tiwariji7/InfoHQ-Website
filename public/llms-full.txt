@@ -1,12 +1,13 @@
 # InfoHQ — Complete Knowledge Base & Services Documentation
 
 ## Company Overview
-InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineering studio and AI technology company based in Pune (Maharashtra) and Prayagraj (Uttar Pradesh), India. InfoHQ operates a hybrid model of high-standard B2B client engineering and proprietary AI SaaS products. InfoHQ delivers end-to-end digital solutions pan-India and globally, with a firm principle of 100% client code and IP ownership.
+InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineering studio and AI technology company headquartered in Prayagraj (Uttar Pradesh), with an active operational presence also working in Pune (Maharashtra), India. InfoHQ operates a hybrid model of high-standard B2B client engineering and proprietary AI SaaS products. InfoHQ delivers end-to-end digital solutions pan-India and globally, with a firm principle of 100% client code and IP ownership.
 
 - Website: https://infohq.in/
 - Official Inquiries: contact@infohq.in
 - Phone / WhatsApp: +91 93353 72441
-- Headquarters: Pune & Prayagraj, India
+- Headquarters: Prayagraj, Uttar Pradesh, India
+- Operational Presence: Pune, Maharashtra, India
 - Founder & Engineering Lead: Shivam Tiwari
 
 ---
