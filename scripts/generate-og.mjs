@@ -362,6 +362,24 @@ export async function main() {
     console.log(`✓ Generated Light Category Card: ${outBase} (.webp)`);
   }
 
+  // 5. Specific Blog Posts
+  const blogCards = [
+    {
+      slug: 'zero-downtime-deployment-docker-github-actions-og',
+      badge: 'CLOUD & DEVOPS',
+      eyebrow: 'DOCKER • GITHUB ACTIONS • NGINX',
+      title: 'Zero-Downtime Deployment with Docker and GitHub Actions',
+      description: 'A practical production guide for startups: automated CI/CD pipelines, health checks, and zero-downtime deployments.',
+      chips: ['Zero-Downtime', 'Docker & CI/CD', 'GitHub Actions']
+    }
+  ];
+
+  for (const post of blogCards) {
+    const outBase = 'public/og/blogs/' + post.slug;
+    await renderCardToFile(post, outBase, brandLogoBuffer);
+    console.log('✓ Generated Light Blog Card: ' + outBase + ' (.webp)');
+  }
+
   console.log('\n🎉 All Light Theme 1200x630 OG Cards (WebP only) successfully generated!');
 }
 
