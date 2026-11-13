@@ -32,7 +32,7 @@ To achieve this, your deployment pipeline must satisfy four strict conditions:
 3. **Atomic Traffic Switching**: The reverse proxy must shift incoming public requests from the old container to the new container instantaneously without dropping packets.
 4. **Automated Rollback**: If the new container crashes or fails its health check within a designated threshold (e.g., 30 seconds), the deployment must abort, keep the old container running, and alert the team.
 
-```
+```text
 ┌────────────────────────────────────────────────────────────────────────┐
 │               ZERO-DOWNTIME BLUE-GREEN ARCHITECTURE                     │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -480,3 +480,4 @@ Deployment downtime leads to lost conversions, customer frustration, and unneces
 At **InfoHQ**, our engineering team designs and maintains production cloud infrastructure, automated CI/CD pipelines, and application security architectures for startups and growing enterprises across India. 
 
 Explore our [Cloud & DevOps Services](/services/cloud-devops/) to modernize your hosting infrastructure, or read our breakdown on [Website Development Costs in India](/blogs/web/website-development-cost-india/) to understand how modern engineering architecture impacts product ROI.
+

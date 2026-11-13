@@ -663,13 +663,47 @@ const meta = {
     text-decoration: none !important;
   }
 
-  .prose-body :global(code) {
-    font-family: monospace;
-    font-size: 0.9em;
+  /* Inline code snippets only (outside pre) */
+  .prose-body :global(:not(pre) > code) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-size: 0.88em;
     background: #F1EDFA;
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
+    padding: 2px 7px;
+    border-radius: 6px;
     color: var(--color-primary-dark);
+    font-weight: 600;
+    border: 1px solid rgba(124, 92, 232, 0.15);
+  }
+
+  /* Code blocks & Preformatted containers */
+  .prose-body :global(pre) {
+    margin: 1.75rem 0;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: #0F172A !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Reset inner code and line spans inside <pre> so no white/light stripes occur */
+  .prose-body :global(pre code) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: #E2E8F0;
+    display: block;
+    box-shadow: none !important;
+  }
+
+  .prose-body :global(pre code span),
+  .prose-body :global(pre span) {
+    background-color: transparent !important;
   }
 
   .prose-body :global(blockquote) {
