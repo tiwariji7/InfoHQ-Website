@@ -1,11 +1,66 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Mail, Phone } from 'lucide-astro';
+import { contactConfig } from '../data/contactConfig';
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  ShieldCheck,
+  CheckCircle2,
+  Code2,
+  Sparkles,
+  ArrowRight,
+  Calendar,
+  FileCheck,
+  Lock,
+  Cpu
+} from 'lucide-astro';
 
 const meta = {
   title: 'Contact InfoHQ — Start Your Software or AI Project',
   description: 'Consult InfoHQ for custom AI systems, enterprise RAG, SaaS platforms, or mobile apps. Headquartered in Prayagraj with operations in Pune, serving clients pan-India.',
-  keywords: 'contact software development company India, hire AI developers India, AI development consultation, software engineering studio India'
+  keywords: 'contact software development company India, hire AI developers India, AI development consultation, software engineering studio India, hire software engineers Pune, hire developers Prayagraj'
+};
+
+const consultationFaqs = [
+  {
+    q: 'How quickly will I hear back from InfoHQ?',
+    a: 'Every inquiry submitted through our consultation form or email is reviewed by a senior engineer within 24 hours (Monday to Saturday, excluding national holidays). We do not use automated sales queues — you receive direct technical feedback and next steps.'
+  },
+  {
+    q: 'Can we sign an NDA before sharing confidential project details?',
+    a: 'Yes, absolutely. We regularly execute standard bilateral Non-Disclosure Agreements (NDAs) with founders and enterprise clients before reviewing proprietary code, internal documents, or product architectures.'
+  },
+  {
+    q: 'Do you work with early-stage startups and MVP builds?',
+    a: 'Yes. We specialize in taking concepts from zero to production-grade launch. Our startup MVP sprints begin at ₹14,999 for web apps and ₹39,999 for mobile apps, engineered with clean code and zero technical debt.'
+  },
+  {
+    q: 'How are project payments and milestones structured?',
+    a: 'We operate on milestone-based billing tied to verified deliverables (e.g., Sprint Planning, Architecture, Development, Staging Review, and Final Production Launch). You only pay as milestones are demonstrated and accepted.'
+  },
+  {
+    q: 'Can we hire engineers on a monthly retainer plan?',
+    a: 'Yes. For ongoing feature development, performance tuning, and technical operations, we offer predictable monthly engineering retainers starting at ₹9,999/month with direct Slack/WhatsApp collaboration.'
+  },
+  {
+    q: 'Can we arrange an in-person meeting in Pune or Prayagraj?',
+    a: 'Yes. While we operate remote-first across India and global time zones, in-person technical workshops and discovery sessions can be scheduled at our headquarters in Prayagraj or our tech operations hub in Pune.'
+  }
+];
+
+const contactFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: consultationFaqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a
+    }
+  }))
 };
 ---
 
@@ -17,89 +72,151 @@ const meta = {
   ogImage="/og/contact.webp"
   showMobileCTA={false}
 >
-  <!-- Main Two-Column Contact Section -->
-  <section class="section contact-section" aria-labelledby="contact-heading">
-    <!-- Ambient Edge Glows (Matching Reference Screenshot) -->
-    <div class="contact-ambient-glow glow-left" aria-hidden="true"></div>
-    <div class="contact-ambient-glow glow-right" aria-hidden="true"></div>
+  <!-- Dedicated FAQPage JSON-LD Schema (Appended alongside ContactPage Schema) -->
+  <script type="application/ld+json" set:html={JSON.stringify(contactFaqSchema)} />
+  <!-- Ambient Edge Glows -->
+  <div class="contact-ambient-glow glow-left" aria-hidden="true"></div>
+  <div class="contact-ambient-glow glow-right" aria-hidden="true"></div>
 
+  <!-- Main Section: Two-Column Consultation Desk -->
+  <section class="section contact-section" aria-labelledby="contact-heading">
     <div class="container contact-container">
+      
+      <!-- Top Breadcrumb & Live SLA Pill -->
+      <div class="contact-header-meta">
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <a href="/" class="crumb-link">Home</a>
+          <span class="crumb-sep" aria-hidden="true">&gt;</span>
+          <span class="crumb-current" aria-current="page">Contact &amp; Architecture Desk</span>
+        </nav>
+        
+        <div class="live-sla-badge" title="Response time for submitted technical inquiries">
+          <span class="sla-pulse" aria-hidden="true"></span>
+          <span class="sla-text">24-Hour Review SLA (Mon–Sat)</span>
+        </div>
+      </div>
+
       <div class="contact-split-grid">
         
-        <!-- LEFT COLUMN: Studio Info & Value Propositions -->
+        <!-- LEFT COLUMN: Studio Authority, Direct Channels & Trust -->
         <div class="contact-info-column">
-          <!-- Top Eyebrow -->
-          <p class="contact-eyebrow">HEADQUARTERS: PRAYAGRAJ &middot; PUNE HUB &middot; PAN-INDIA</p>
+          <!-- Eyebrow -->
+          <p class="contact-eyebrow">HEADQUARTERS: PRAYAGRAJ &middot; PUNE HUB &middot; PAN-INDIA &amp; GLOBAL</p>
 
           <!-- Main H1 Headline -->
           <h1 id="contact-heading" class="contact-hero-title">
-            <span class="title-line-solid">Let's Talk About</span>
-            <span style="color: #4F46E5;">Your Idea.</span>
+            <span class="title-line-solid">Let's Architect Your</span>
+            <span class="text-gradient">Next Digital System.</span>
           </h1>
 
           <!-- Subtext -->
           <p class="contact-hero-subtext">
-            Tell us what you're building or trying to solve. We'll help you find the right approach, define a practical scope, and plan the next steps.
+            Skip the aggressive sales pitches. Speak directly with software architects and AI engineers who evaluate your technical requirements, scope practical milestones, and build production systems.
           </p>
 
-          <!-- 3 Feature Rows with subtle dividers -->
-          <div class="feature-rows-list">
-            <!-- Row 1: Free Consultation -->
-            <div class="feature-row-item">
-              <h2 class="feature-row-title">Free Consultation</h2>
-              <p class="feature-row-desc">
-                A direct conversation with engineers, not a sales pitch.
-              </p>
+          <!-- Direct Communication Channels Cards -->
+          <div class="direct-channels-grid" role="region" aria-label="Direct Communication Channels">
+            
+            <!-- Channel 1: Direct Email -->
+            <div class="channel-card">
+              <div class="channel-icon-box" aria-hidden="true">
+                <Mail size={18} stroke-width={2.2} />
+              </div>
+              <div class="channel-details">
+                <span class="channel-label">Direct Engineering Inquiries</span>
+                <a href={`mailto:${contactConfig.businessEmail}`} class="channel-value channel-link" title="Send email to InfoHQ engineering">
+                  {contactConfig.businessEmail}
+                </a>
+                <span class="channel-sub">General &amp; Architecture Inquiries</span>
+              </div>
             </div>
 
-            <div class="feature-row-divider" aria-hidden="true"></div>
-
-            <!-- Row 2: Right Solution -->
-            <div class="feature-row-item">
-              <h2 class="feature-row-title">Right Solution</h2>
-              <p class="feature-row-desc">
-                Clear guidance on the right approach, stack and roadmap.
-              </p>
+            <!-- Channel 2: WhatsApp & Direct Phone -->
+            <div class="channel-card">
+              <div class="channel-icon-box whatsapp-box" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+              </div>
+              <div class="channel-details">
+                <span class="channel-label">Direct WhatsApp &amp; Voice</span>
+                <div class="channel-actions-row">
+                  <a href={`tel:${contactConfig.telephone}`} class="channel-value channel-link">
+                    {contactConfig.displayPhone}
+                  </a>
+                  <a
+                    href={`https://wa.me/${contactConfig.whatsappNumber}?text=Hi%20InfoHQ%2C%20I%20would%20like%20to%20discuss%20a%20software%20or%20AI%20project.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="quick-wa-btn"
+                    title="Open chat on WhatsApp"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                </div>
+                <span class="channel-sub">Mon &ndash; Sat, 9:30 AM &ndash; 7:30 PM IST</span>
+              </div>
             </div>
 
-            <div class="feature-row-divider" aria-hidden="true"></div>
-
-            <!-- Row 3: Practical Plan -->
-            <div class="feature-row-item">
-              <h2 class="feature-row-title">Practical Plan</h2>
-              <p class="feature-row-desc">
-                Scope, timeline and cost based on your requirements.
-              </p>
+            <!-- Channel 3: Engineering Locations & Hubs -->
+            <div class="channel-card">
+              <div class="channel-icon-box" aria-hidden="true">
+                <MapPin size={18} stroke-width={2.2} />
+              </div>
+              <div class="channel-details">
+                <span class="channel-label">Locations &amp; Hubs</span>
+                <p class="channel-value channel-text">
+                  <strong>Headquarters:</strong> Prayagraj, UP, India<br />
+                  <strong>Active Operations Hub:</strong> Pune, MH, India
+                </p>
+                <span class="channel-sub">Remote-first delivery across India, US, UK &amp; APAC</span>
+              </div>
             </div>
+
           </div>
 
-          <!-- Bottom Row: 3-Item Trust Bar -->
-          <div class="trust-bar-row">
-            <span class="trust-item">Client-focused</span>
-            <span class="trust-sep" aria-hidden="true"></span>
-            <span class="trust-item">Dedicated engineers</span>
-            <span class="trust-sep" aria-hidden="true"></span>
-            <span class="trust-item">Response within one business day</span>
+          <!-- Enterprise Trust Assurances Bar -->
+          <div class="trust-guarantees-card">
+            <h2 class="guarantees-title">The InfoHQ Engineering Standard</h2>
+            <ul class="guarantees-list">
+              <li class="guarantee-item">
+                <CheckCircle2 size={16} class="check-icon" aria-hidden="true" />
+                <span><strong>100% Code &amp; IP Ownership:</strong> Complete source code, schemas, and Git repos transferred to your control.</span>
+              </li>
+              <li class="guarantee-item">
+                <ShieldCheck size={16} class="check-icon" aria-hidden="true" />
+                <span><strong>Mutual NDA Protection:</strong> Bilateral confidentiality agreements executed before reviewing proprietary workflows.</span>
+              </li>
+              <li class="guarantee-item">
+                <Code2 size={16} class="check-icon" aria-hidden="true" />
+                <span><strong>Direct Engineer Access:</strong> Collaborate directly with the engineers authoring your codebase via Slack or WhatsApp.</span>
+              </li>
+            </ul>
           </div>
+
         </div>
 
 
-        <!-- RIGHT COLUMN: Consultation Form Card -->
+        <!-- RIGHT COLUMN: Interactive Consultation Form Card -->
         <div class="contact-form-column">
-          <div class="card consultation-form-card">
+          <div class="card consultation-form-card" id="consultation-desk">
             
             <!-- Card Header -->
             <div class="form-card-header">
-              <h2 class="form-card-title">Book a <span class="text-gradient">Free Consultation</span></h2>
+              <div class="form-card-badge">
+                <Sparkles size={13} aria-hidden="true" />
+                <span>Free Technical Scoping</span>
+              </div>
+              <h2 class="form-card-title">Book an <span class="text-gradient">Architecture Consultation</span></h2>
               <p class="form-card-subtext">
-                Tell us a little about your project. We'll get back to you soon.
+                Fill in your project requirements. A senior engineer will review your specifications and follow up within 24 hours (Mon–Sat, excluding national holidays).
               </p>
             </div>
 
             <!-- Form -->
             <form id="consultation-form" class="consultation-form" novalidate>
 
-              <!-- Anti-spam honeypot: hidden from normal visitors -->
+              <!-- Anti-spam honeypot: hidden from visitors -->
               <div
                 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
                 aria-hidden="true"
@@ -155,70 +272,83 @@ const meta = {
                     name="phone" 
                     required
                     class="field-input" 
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 98765 01234 or +1 (555) 012-3456"
                     autocomplete="tel"
+                    aria-describedby="phone-hint"
                   />
+                  <span id="phone-hint" class="field-hint-text">India mobile or international with country code</span>
                   <span class="field-error-message" id="phone-error" role="alert"></span>
                 </div>
 
                 <div class="form-field-group">
-                  <label for="contact-company" class="field-label">Company Name <span class="optional-tag">(Optional)</span></label>
+                  <label for="contact-company" class="field-label">Company / Project Name <span class="optional-tag">(Optional)</span></label>
                   <input 
                     type="text" 
                     id="contact-company" 
                     name="company" 
                     class="field-input" 
-                    placeholder="e.g. Acme Tech Solutions"
+                    placeholder="e.g. Acme Tech Innovations"
                     autocomplete="organization"
                   />
                 </div>
               </div>
 
-              <!-- 3. What do you need help with? * (Pills Wrap) -->
+              <!-- 3. What do you need engineered? * (Pills Wrap) -->
               <div class="form-field-group">
                 <fieldset class="selectable-fieldset">
-                  <legend class="field-label">What do you need help with? <span class="req" aria-hidden="true">*</span></legend>
+                  <legend class="field-label">What do you need engineered? <span class="req" aria-hidden="true">*</span></legend>
                   
                   <div class="service-pills-wrap" role="radiogroup">
                     
-                    <label class="pill-chip-label" for="service-web">
-                      <input type="radio" id="service-web" name="serviceType" value="Website / Web App" class="sr-only-radio" required />
-                      <span class="pill-chip-box">Website / Web App</span>
-                    </label>
-
-                    <label class="pill-chip-label" for="service-mobile">
-                      <input type="radio" id="service-mobile" name="serviceType" value="Mobile App" class="sr-only-radio" />
-                      <span class="pill-chip-box">Mobile App</span>
-                    </label>
-
                     <label class="pill-chip-label" for="service-ai">
-                      <input type="radio" id="service-ai" name="serviceType" value="AI / Automation" class="sr-only-radio" />
-                      <span class="pill-chip-box">AI / Automation</span>
+                      <input type="radio" id="service-ai" name="serviceType" value="AI / Automation" class="sr-only-radio" required />
+                      <span class="pill-chip-box">
+                        <Cpu size={13} class="chip-icon" aria-hidden="true" />
+                        <span>Autonomous AI &amp; RAG</span>
+                      </span>
                     </label>
 
                     <label class="pill-chip-label" for="service-software">
                       <input type="radio" id="service-software" name="serviceType" value="Custom Software" class="sr-only-radio" />
-                      <span class="pill-chip-box">Custom Software</span>
+                      <span class="pill-chip-box">
+                        <Code2 size={13} class="chip-icon" aria-hidden="true" />
+                        <span>Custom Software / SaaS</span>
+                      </span>
                     </label>
 
-                    <label class="pill-chip-label" for="service-crm">
-                      <input type="radio" id="service-crm" name="serviceType" value="Business Process / CRM" class="sr-only-radio" />
-                      <span class="pill-chip-box">Business Process / CRM</span>
+                    <label class="pill-chip-label" for="service-web">
+                      <input type="radio" id="service-web" name="serviceType" value="Website / Web App" class="sr-only-radio" />
+                      <span class="pill-chip-box">
+                        <span>Web Platform</span>
+                      </span>
+                    </label>
+
+                    <label class="pill-chip-label" for="service-mobile">
+                      <input type="radio" id="service-mobile" name="serviceType" value="Mobile App" class="sr-only-radio" />
+                      <span class="pill-chip-box">
+                        <span>Mobile App (iOS/Android)</span>
+                      </span>
+                    </label>
+
+                    <label class="pill-chip-label" for="service-automation">
+                      <input type="radio" id="service-automation" name="serviceType" value="Business Process / CRM" class="sr-only-radio" />
+                      <span class="pill-chip-box">
+                        <span>Workflow &amp; CRM Automation</span>
+                      </span>
                     </label>
 
                     <label class="pill-chip-label" for="service-cloud">
                       <input type="radio" id="service-cloud" name="serviceType" value="Cloud / DevOps" class="sr-only-radio" />
-                      <span class="pill-chip-box">Cloud / DevOps</span>
-                    </label>
-
-                    <label class="pill-chip-label" for="service-design">
-                      <input type="radio" id="service-design" name="serviceType" value="Design & Marketing" class="sr-only-radio" />
-                      <span class="pill-chip-box">Design &amp; Marketing</span>
+                      <span class="pill-chip-box">
+                        <span>Cloud, DevOps &amp; Security</span>
+                      </span>
                     </label>
 
                     <label class="pill-chip-label" for="service-guidance">
                       <input type="radio" id="service-guidance" name="serviceType" value="Not Sure Yet" class="sr-only-radio" />
-                      <span class="pill-chip-box">Not Sure Yet</span>
+                      <span class="pill-chip-box">
+                        <span>Not Sure Yet / Guidance</span>
+                      </span>
                     </label>
 
                   </div>
@@ -226,10 +356,10 @@ const meta = {
                 <span class="field-error-message" id="service-error" role="alert"></span>
               </div>
 
-              <!-- 4. Tell us about your idea or requirement (Optional) -->
+              <!-- 4. Project Brief / Problem Statement (Optional) -->
               <div class="form-field-group">
                 <label for="contact-brief" class="field-label">
-                  Tell us about your idea or requirement <span class="optional-tag">(Optional)</span>
+                  Project Brief or Problem Statement <span class="optional-tag">(Optional)</span>
                 </label>
                 <div class="textarea-wrapper">
                   <textarea 
@@ -238,7 +368,7 @@ const meta = {
                     rows="3" 
                     maxlength="1000" 
                     class="field-textarea" 
-                    placeholder="Share a few details about your project, goals, or challenges..."
+                    placeholder="Briefly describe what you're looking to build, existing bottlenecks, or target milestones..."
                   ></textarea>
                   <div class="textarea-bottom-row">
                     <span class="field-error-message" id="brief-error" role="alert"></span>
@@ -251,25 +381,32 @@ const meta = {
               <div class="form-fields-row-2">
                 <div class="form-field-group">
                   <label for="contact-budget" class="field-label">Estimated Budget <span class="optional-tag">(Optional)</span></label>
-                  <input
-                    type="text"
-                    id="contact-budget"
-                    name="budget"
-                    class="field-input"
-                    placeholder="e.g. ₹50,000"
-                    autocomplete="off"
-                  />
+                  <div class="select-wrapper">
+                    <select id="contact-budget" name="budget" class="field-select">
+                      <option value="" selected>Select budget bracket</option>
+                      <option value="Starter MVP (₹14,999 - ₹49,999)">Starter MVP (₹14,999 &ndash; ₹49,999)</option>
+                      <option value="Growth Platform (₹50,000 - ₹1,49,999)">Growth Platform (₹50,000 &ndash; ₹1,49,999)</option>
+                      <option value="Enterprise System (₹1,50,000+)">Enterprise System (₹1,50,000+)</option>
+                      <option value="Monthly Retainer (from ₹9,999/mo)">Monthly Retainer (from ₹9,999/mo)</option>
+                      <option value="Undecided / Need Guidance">Undecided / Need Guidance</option>
+                    </select>
+                    <span class="select-chevron" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </span>
+                  </div>
                 </div>
 
                 <div class="form-field-group">
-                  <label for="contact-timeline" class="field-label">Preferred Timeline <span class="optional-tag">(Optional)</span></label>
+                  <label for="contact-timeline" class="field-label">Target Launch Timeline <span class="optional-tag">(Optional)</span></label>
                   <div class="select-wrapper">
                     <select id="contact-timeline" name="timeline" class="field-select">
                       <option value="" selected>Select timeline</option>
-                      <option value="Immediately">Immediately</option>
+                      <option value="Immediately (within 2 weeks)">Immediately (within 2 weeks)</option>
                       <option value="Within 1 month">Within 1 month</option>
-                      <option value="1-3 months">1-3 months</option>
-                      <option value="Just exploring">Just exploring</option>
+                      <option value="1-3 months">1 &ndash; 3 months</option>
+                      <option value="Flexible / Just exploring">Flexible / Just exploring</option>
                     </select>
                     <span class="select-chevron" aria-hidden="true">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -325,13 +462,15 @@ const meta = {
                   id="contact-submit-btn"
                   class="contact-submit-btn"
                 >
-                  Book Free Consultation
+                  <span>Book Free Consultation</span>
+                  <ArrowRight size={16} aria-hidden="true" />
                 </button>
               </div>
 
               <!-- 8. Microcopy -->
               <p class="form-microcopy">
-                No commitment. Your information stays private.
+                <Lock size={12} class="lock-icon" aria-hidden="true" />
+                <span>Zero spam. Share a high-level summary; mutual NDA executed on request before technical deep-dives.</span>
               </p>
 
               <!-- Feedback Banner -->
@@ -346,23 +485,152 @@ const meta = {
     </div>
   </section>
 
+
+  <!-- SECTION 2: "What Happens Next?" (The 3-Step Tech Consultation Roadmap) -->
+  <section class="section section-alt process-roadmap-section" aria-labelledby="roadmap-heading">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="text-eyebrow">OUR ENGAGEMENT PROTOCOL</span>
+        <h2 id="roadmap-heading" class="section-title">
+          What Happens After You <span class="text-gradient">Submit Your Brief?</span>
+        </h2>
+        <p class="section-lead">
+          We treat every inquiry as a serious technical problem, not an aggressive sales conversion. Here is our step-by-step engagement process.
+        </p>
+      </div>
+
+      <div class="roadmap-cards-grid">
+        
+        <!-- Step 1 -->
+        <div class="card roadmap-card">
+          <div class="roadmap-card-top">
+            <span class="step-number">01</span>
+            <div class="step-icon-wrap" aria-hidden="true">
+              <Clock size={20} />
+            </div>
+          </div>
+          <h3 class="roadmap-step-title">Technical Review (Within 24 Hours, Mon–Sat)</h3>
+          <p class="roadmap-step-desc">
+            An engineering lead analyzes your requirements, assesses system feasibility, and checks architectural trade-offs against your timeline.
+          </p>
+          <ul class="step-features">
+            <li>Review of technical stack &amp; data models</li>
+            <li>Feasibility &amp; complexity estimation</li>
+            <li>Mutual NDA execution on request</li>
+          </ul>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card roadmap-card">
+          <div class="roadmap-card-top">
+            <span class="step-number">02</span>
+            <div class="step-icon-wrap" aria-hidden="true">
+              <Calendar size={20} />
+            </div>
+          </div>
+          <h3 class="roadmap-step-title">Architecture Discovery Call</h3>
+          <p class="roadmap-step-desc">
+            A focused 30-minute video or phone consultation with the developers who will architect your platform. No slides, no sales pressure.
+          </p>
+          <ul class="step-features">
+            <li>Clarify core system user journeys</li>
+            <li>Determine API &amp; cloud infrastructure</li>
+            <li>Define MVP vs long-term scope</li>
+          </ul>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card roadmap-card">
+          <div class="roadmap-card-top">
+            <span class="step-number">03</span>
+            <div class="step-icon-wrap" aria-hidden="true">
+              <FileCheck size={20} />
+            </div>
+          </div>
+          <h3 class="roadmap-step-title">Fixed Scope &amp; Milestone Roadmap</h3>
+          <p class="roadmap-step-desc">
+            You receive a transparent, itemized proposal detailing sprint milestones, transparent costs, delivery timelines, and 100% IP ownership.
+          </p>
+          <ul class="step-features">
+            <li>Itemized deliverables &amp; milestone schedule</li>
+            <li>Fixed pricing or dedicated retainer scope</li>
+            <li>Direct Slack/WhatsApp onboarding</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 3: Consultation FAQs -->
+  <section class="section faq-section" aria-labelledby="contact-faq-heading">
+    <div class="container faq-container">
+      <div class="section-header text-center">
+        <span class="text-eyebrow">CLEAR ANSWERS</span>
+        <h2 id="contact-faq-heading" class="section-title">
+          Frequently Asked <span class="text-gradient">Questions</span>
+        </h2>
+        <p class="section-lead">
+          Everything you need to know about initiating a project, NDA terms, and engineering collaboration with InfoHQ.
+        </p>
+      </div>
+
+      <div class="faq-accordion">
+        {consultationFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary class="faq-question">
+              <strong>{faq.q}</strong>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>{faq.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <!-- Bottom Direct Contact Reassurance -->
+      <div class="faq-bottom-cta">
+        <p class="faq-bottom-text">
+          Have a specialized question or need immediate architecture feedback?
+        </p>
+        <div class="faq-bottom-actions">
+          <a href={`mailto:${contactConfig.businessEmail}`} class="btn btn-secondary btn-sm">
+            Email Us Directly
+          </a>
+          <a
+            href={`https://wa.me/${contactConfig.whatsappNumber}?text=Hi%20InfoHQ%2C%20I%20have%20a%20question%20regarding%20an%20engineering%20project.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary btn-sm"
+          >
+            Chat on WhatsApp ({contactConfig.displayPhone})
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  /* Contact Page Base Section - Matching Home Hero Section Background Exactly */
+  /* ==========================================================================
+     BASE SECTION & AMBIENT GLOWS
+     ========================================================================== */
   .contact-section {
     position: relative;
     margin-top: calc(-1 * clamp(72px, 7vw, 84px));
     padding-top: calc(clamp(72px, 7vw, 84px) + clamp(1.5rem, 2.8vw, 2.5rem));
-    padding-bottom: clamp(2.5rem, 4vw, 4rem);
-    background: radial-gradient(circle at 80% 20%, rgba(221, 73, 133, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 50%, rgba(15, 23, 42, 0.02) 0%, transparent 50%),
+    padding-bottom: clamp(3rem, 5vw, 5rem);
+    background: radial-gradient(circle at 80% 15%, rgba(124, 92, 232, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 15% 45%, rgba(79, 70, 229, 0.04) 0%, transparent 50%),
                 var(--color-bg-page, #FAF8FD);
     overflow: hidden;
     z-index: 1;
   }
 
-  /* Ambient subtle background glow effects matching Home Hero section */
   .contact-ambient-glow {
     position: absolute;
     border-radius: 50%;
@@ -371,32 +639,116 @@ const meta = {
   }
 
   .glow-left {
-    top: 25%;
-    left: -120px;
-    width: 480px;
-    height: 480px;
-    background: radial-gradient(circle, rgba(221, 73, 133, 0.07) 0%, transparent 70%);
+    top: 20%;
+    left: -150px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(124, 92, 232, 0.08) 0%, transparent 70%);
   }
 
   .glow-right {
-    top: 5%;
-    right: -100px;
-    width: 580px;
-    height: 580px;
-    background: radial-gradient(circle, rgba(15, 23, 42, 0.03) 0%, transparent 70%);
+    top: 8%;
+    right: -120px;
+    width: 620px;
+    height: 620px;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
   }
 
   .contact-container {
     position: relative;
     z-index: 1;
-    max-width: 1260px;
+    max-width: 1280px;
+  }
+
+  /* Top Meta Row: Breadcrumbs + Live SLA */
+  .contact-header-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(1.25rem, 2vw, 1.85rem);
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .crumb-link {
+    color: #64748B;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .crumb-link:hover {
+    color: var(--color-primary);
+  }
+
+  .crumb-sep {
+    color: #CBD5E1;
+  }
+
+  .crumb-current {
+    color: #1A085C;
+    font-weight: 600;
+  }
+
+  .live-sla-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.08);
+  }
+
+  .sla-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: pulse-green 2s ease-out 2 forwards;
+  }
+
+  @keyframes pulse-green {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sla-pulse {
+      animation: none;
+    }
+  }
+
+  .sla-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #065F46;
+    letter-spacing: 0.02em;
   }
 
   /* Two Column Split Grid */
   .contact-split-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
-    gap: clamp(1.5rem, 3vw, 3.25rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(1.75rem, 3.5vw, 3.5rem);
     align-items: start;
   }
 
@@ -406,24 +758,22 @@ const meta = {
   .contact-info-column {
     display: flex;
     flex-direction: column;
-    padding-top: 0.5rem;
+    padding-top: 0.25rem;
   }
 
-  /* Top Eyebrow */
   .contact-eyebrow {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: #7C5CE8;
+    color: var(--color-primary);
     text-transform: uppercase;
     margin: 0 0 0.85rem;
   }
 
-  /* H1 Headline */
   .contact-hero-title {
-    font-size: clamp(2rem, 3.5vw, 2.85rem);
+    font-size: clamp(2.15rem, 3.8vw, 3.1rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.12;
     letter-spacing: -0.03em;
     margin: 0 0 1.15rem;
   }
@@ -433,75 +783,159 @@ const meta = {
     color: #1A085C;
   }
 
-  .contact-hero-title .text-gradient {
-    color: #4F46E5;
-    display: block;
-  }
-
-  /* Subtext */
   .contact-hero-subtext {
-    font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+    font-size: clamp(0.95rem, 1.15vw, 1.08rem);
     color: #475569;
-    line-height: 1.6;
+    line-height: 1.65;
     margin: 0 0 1.85rem;
-    max-width: 500px;
+    max-width: 520px;
   }
 
-  /* 3 Feature Rows with subtle dividers */
-  .feature-rows-list {
+  /* Direct Channels Grid */
+  .direct-channels-grid {
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
-    margin-bottom: 2rem;
+    gap: 0.85rem;
+    margin-bottom: 1.85rem;
   }
 
-  .feature-row-item {
+  .channel-card {
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.15rem;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(26, 8, 92, 0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .feature-row-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #1A085C;
-    margin: 0;
-    line-height: 1.25;
+  .channel-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(124, 92, 232, 0.35);
+    box-shadow: 0 6px 18px rgba(26, 8, 92, 0.06);
   }
 
-  .feature-row-desc {
-    font-size: 0.92rem;
-    color: #64748B;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .feature-row-divider {
-    height: 1px;
-    background: rgba(26, 8, 92, 0.06);
-    width: 100%;
-  }
-
-  /* Bottom Row: 3-Item Trust Bar */
-  .trust-bar-row {
+  .channel-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(124, 92, 232, 0.08);
+    color: var(--color-primary);
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    padding-top: 0.5rem;
-  }
-
-  .trust-item {
-    font-size: 0.82rem;
-    color: #64748B;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  .trust-sep {
-    width: 1px;
-    height: 14px;
-    background: #CBD5E1;
+    justify-content: center;
     flex-shrink: 0;
+  }
+
+  .whatsapp-box {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+  }
+
+  .channel-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .channel-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748B;
+  }
+
+  .channel-value {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #1A085C;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .channel-link {
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .channel-link:hover {
+    color: var(--color-primary);
+  }
+
+  .channel-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .quick-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    background: rgba(16, 185, 129, 0.12);
+    color: #065F46;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .quick-wa-btn:hover {
+    background: #065F46;
+    color: #FFFFFF;
+  }
+
+  .channel-sub {
+    font-size: 0.8rem;
+    color: #64748B;
+  }
+
+  /* Trust Guarantees Card */
+  .trust-guarantees-card {
+    padding: 1.25rem 1.35rem;
+    background: linear-gradient(135deg, rgba(124, 92, 232, 0.04) 0%, rgba(79, 70, 229, 0.02) 100%);
+    border: 1px solid rgba(124, 92, 232, 0.16);
+    border-radius: var(--radius-lg);
+  }
+
+  .guarantees-title {
+    font-size: 0.84rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1A085C;
+    margin: 0 0 0.75rem;
+  }
+
+  .guarantees-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .guarantee-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.86rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  .check-icon {
+    color: #10B981;
+    flex-shrink: 0;
+    margin-top: 3px;
   }
 
   /* ==========================================================================
@@ -517,30 +951,43 @@ const meta = {
     border-radius: 20px;
     border: 1px solid rgba(26, 8, 92, 0.12);
     box-shadow: 
-      0 16px 40px -4px rgba(26, 8, 92, 0.08),
-      0 4px 12px -2px rgba(15, 23, 42, 0.03),
-      0 1px 2px rgba(26, 8, 92, 0.02);
-    padding: clamp(1.4rem, 2.4vw, 2.15rem);
+      0 18px 45px -4px rgba(26, 8, 92, 0.08),
+      0 4px 14px -2px rgba(15, 23, 42, 0.03);
+    padding: clamp(1.4rem, 2.5vw, 2.25rem);
   }
 
-  /* Header inside card */
+  .form-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    background: rgba(124, 92, 232, 0.08);
+    color: var(--color-primary);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
   .form-card-header {
-    margin-bottom: 1.15rem;
+    margin-bottom: 1.25rem;
   }
 
   .form-card-title {
-    font-size: clamp(1.4rem, 2vw, 1.7rem);
+    font-size: clamp(1.45rem, 2.2vw, 1.85rem);
     font-weight: 800;
     color: #1A085C;
     line-height: 1.2;
-    margin: 0 0 0.35rem;
+    margin: 0 0 0.45rem;
     letter-spacing: -0.015em;
   }
 
   .form-card-subtext {
     font-size: 0.88rem;
     color: #64748B;
-    line-height: 1.45;
+    line-height: 1.5;
     margin: 0;
   }
 
@@ -548,7 +995,7 @@ const meta = {
   .consultation-form {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.95rem;
   }
 
   .form-fields-row-2 {
@@ -560,7 +1007,7 @@ const meta = {
   .form-field-group {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
 
   .field-label {
@@ -621,6 +1068,12 @@ const meta = {
     line-height: 1.25;
   }
 
+  .field-hint-text {
+    font-size: 0.72rem;
+    color: #64748B;
+    line-height: 1.25;
+  }
+
   /* Select Dropdowns */
   .select-wrapper {
     position: relative;
@@ -663,10 +1116,9 @@ const meta = {
   }
 
   .selectable-fieldset legend {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.4rem;
   }
 
-  /* Hidden native radios */
   .sr-only-radio {
     position: absolute;
     width: 1px;
@@ -693,17 +1145,6 @@ const meta = {
     width: 100%;
   }
 
-  .preferred-pills-wrap .pill-chip-label {
-    min-width: 0;
-    width: 100%;
-  }
-
-  .preferred-pills-wrap .pill-chip-box {
-    width: 100%;
-    box-sizing: border-box;
-    white-space: nowrap;
-  }
-
   .pill-chip-label {
     display: block;
     cursor: pointer;
@@ -724,6 +1165,10 @@ const meta = {
     font-weight: 500;
     line-height: 1.25;
     transition: all 0.16s ease;
+  }
+
+  .chip-icon {
+    color: var(--color-primary);
   }
 
   .pill-icon {
@@ -784,8 +1229,8 @@ const meta = {
     font-family: inherit;
     font-size: 0.88rem;
     line-height: 1.5;
-    min-height: 78px;
-    max-height: 115px;
+    min-height: 80px;
+    max-height: 120px;
     resize: vertical;
     transition: border-color 0.18s ease, box-shadow 0.18s ease;
   }
@@ -810,30 +1255,31 @@ const meta = {
 
   /* Submit Button */
   .form-submit-wrapper {
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
   }
 
   .contact-submit-btn {
     width: 100%;
-    height: 44px;
+    height: 46px;
     border: none;
     border-radius: 8px;
-    background: #4F46E5;
+    background: linear-gradient(135deg, #1A085C 0%, #4F46E5 100%);
     color: #FFFFFF;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 6px rgba(26, 8, 92, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
   }
 
   .contact-submit-btn:hover {
-    background: #4338CA;
+    background: linear-gradient(135deg, #240c7d 0%, #4338CA 100%);
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+    box-shadow: 0 4px 12px rgba(26, 8, 92, 0.2);
   }
 
   .contact-submit-btn:active {
@@ -848,10 +1294,19 @@ const meta = {
 
   /* Microcopy */
   .form-microcopy {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: #64748B;
     margin: 0.25rem 0 0;
+    text-align: center;
+  }
+
+  .lock-icon {
+    color: #10B981;
+    flex-shrink: 0;
   }
 
   /* Feedback Banner */
@@ -876,20 +1331,258 @@ const meta = {
   }
 
   /* ==========================================================================
+     SECTION 2: "WHAT HAPPENS NEXT?" ROADMAP CARDS
+     ========================================================================== */
+  .process-roadmap-section {
+    padding-top: clamp(3.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5rem);
+    background: #FFFFFF;
+    border-top: 1px solid var(--color-border-card);
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .section-header {
+    max-width: 760px;
+    margin: 0 auto clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .text-eyebrow {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    font-weight: 800;
+    color: #1A085C;
+    line-height: 1.2;
+    margin: 0 0 0.85rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-lead {
+    font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+    color: #475569;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .roadmap-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .roadmap-card {
+    background: #FAF8FD;
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 2.2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .roadmap-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124, 92, 232, 0.35);
+    box-shadow: 0 10px 25px rgba(26, 8, 92, 0.06);
+    background: #FFFFFF;
+  }
+
+  .roadmap-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    letter-spacing: -0.03em;
+    opacity: 0.85;
+  }
+
+  .step-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(26, 8, 92, 0.04);
+  }
+
+  .roadmap-step-title {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #1A085C;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .roadmap-step-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.55;
+    margin: 0 0 0.5rem;
+  }
+
+  .step-features {
+    list-style: none;
+    padding: 0;
+    margin: auto 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    border-top: 1px solid rgba(26, 8, 92, 0.08);
+    padding-top: 0.85rem;
+  }
+
+  .step-features li {
+    font-size: 0.82rem;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .step-features li::before {
+    content: "•";
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+
+  /* ==========================================================================
+     SECTION 3: FAQ SECTION
+     ========================================================================== */
+  .faq-section {
+    padding-top: clamp(3.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5rem);
+    background: var(--color-bg-page, #FAF8FD);
+  }
+
+  .faq-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .faq-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .faq-item {
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(124, 92, 232, 0.35);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.35rem;
+    font-size: 1rem;
+    color: var(--color-text-heading);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-question strong {
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+    font-weight: 500;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.35rem 1.15rem;
+    font-size: 0.9rem;
+    color: var(--color-text-body);
+    line-height: 1.65;
+  }
+
+  .faq-answer p {
+    margin: 0;
+  }
+
+  .faq-bottom-cta {
+    padding: 1.5rem 1.75rem;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(26, 8, 92, 0.03);
+  }
+
+  .faq-bottom-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1A085C;
+    margin: 0 0 1rem;
+  }
+
+  .faq-bottom-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ==========================================================================
      RESPONSIVE BREAKPOINTS
      ========================================================================== */
   @media (max-width: 1023px) {
     .contact-split-grid {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 2.5rem;
+    }
+
+    .roadmap-cards-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
 
     .preferred-pills-wrap {
       gap: 0.5rem;
-    }
-
-    .preferred-pills-wrap .pill-chip-box {
-      padding: 0.5rem 0.5rem;
     }
   }
 
@@ -899,8 +1592,14 @@ const meta = {
       padding-bottom: 2.5rem;
     }
 
+    .contact-header-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
     .contact-hero-title {
-      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      font-size: clamp(1.85rem, 6.5vw, 2.4rem);
     }
 
     .consultation-form-card {
@@ -917,19 +1616,18 @@ const meta = {
     }
 
     .preferred-pills-wrap .pill-chip-box {
-      padding: 0.5rem 0.3rem;
+      padding: 0.5rem 0.35rem;
       font-size: 0.78rem;
-      gap: 4px;
     }
 
-    .trust-bar-row {
+    .channel-card {
+      padding: 0.85rem 1rem;
+    }
+
+    .channel-actions-row {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.4rem;
-    }
-
-    .trust-sep {
-      display: none;
+      gap: 0.35rem;
     }
   }
 </style>
@@ -949,7 +1647,7 @@ const meta = {
     const emailInput = document.getElementById('contact-email') as HTMLInputElement | null;
     const phoneInput = document.getElementById('contact-phone') as HTMLInputElement | null;
     const companyInput = document.getElementById('contact-company') as HTMLInputElement | null;
-    const budgetInput = document.getElementById('contact-budget') as HTMLInputElement | null;
+    const budgetSelect = document.getElementById('contact-budget') as HTMLSelectElement | null;
     const timelineSelect = document.getElementById('contact-timeline') as HTMLSelectElement | null;
     const websiteInput = document.getElementById('website') as HTMLInputElement | null;
 
@@ -1010,47 +1708,27 @@ const meta = {
       });
     }
 
-    // 3. Live Phone Formatting: Only numbers, auto-add +91, max 10 mobile digits
+    // 3. Live Phone Sanitization: Allow single leading +, digits, spaces, hyphens, parentheses (E.164 compatible)
     if (phoneInput) {
-      phoneInput.addEventListener('focus', () => {
-        if (!phoneInput.value.trim()) {
-          phoneInput.value = '+91 ';
-        }
-      });
-
       phoneInput.addEventListener('input', () => {
         const val = phoneInput.value;
-        let rawDigits = val.replace(/\D/g, '');
+        const trimmedVal = val.trimStart();
+        const hasLeadingPlus = trimmedVal.startsWith('+');
 
-        if (rawDigits.startsWith('91')) {
-          rawDigits = rawDigits.slice(2);
-        } else if (rawDigits.startsWith('0')) {
-          rawDigits = rawDigits.slice(1);
+        if (/(?:ext|extension|\bx\b|\bext\b)/i.test(val)) {
+          if (phoneError) phoneError.textContent = 'Please enter your direct mobile/phone number without extensions.';
+        } else if (phoneError) {
+          phoneError.textContent = '';
         }
 
-        rawDigits = rawDigits.slice(0, 10);
-
-        if (rawDigits.length > 0) {
-          if (rawDigits.length > 5) {
-            phoneInput.value = `+91 ${rawDigits.slice(0, 5)} ${rawDigits.slice(5)}`;
-          } else {
-            phoneInput.value = `+91 ${rawDigits}`;
-          }
-        } else if (val.includes('+')) {
-          phoneInput.value = '+91 ';
-        } else {
-          phoneInput.value = '';
+        let sanitized = trimmedVal.replace(/[^0-9\s\-()]/g, '');
+        if (hasLeadingPlus) {
+          sanitized = '+' + sanitized.replace(/^\+*/, '');
         }
-
-        if (phoneError) phoneError.textContent = '';
+        if (sanitized !== val) {
+          phoneInput.value = sanitized;
+        }
         phoneInput.classList.remove('has-error');
-      });
-
-      phoneInput.addEventListener('blur', () => {
-        const rawDigits = phoneInput.value.replace(/\D/g, '').replace(/^91/, '');
-        if (!rawDigits) {
-          phoneInput.value = '';
-        }
       });
     }
 
@@ -1173,32 +1851,85 @@ const meta = {
         hasError = true;
       }
 
-      // 3. Validate Phone / WhatsApp
-      const phone = phoneInput?.value.trim() || '';
-      const rawPhoneDigits = phone.replace(/\D/g, '').replace(/^91/, '');
-      const isRepeatedPhone = /^(\d)\1{9}$/.test(rawPhoneDigits);
-      const isSequentialPhone = rawPhoneDigits === '1234567890' || rawPhoneDigits === '9876543210' || rawPhoneDigits === '0123456789';
-      const isValidIndianMobile = /^[6-9]\d{9}$/.test(rawPhoneDigits);
+      // 3. Validate Phone / WhatsApp (Indian & International E.164)
+      const rawPhone = phoneInput?.value.trim() || '';
+      const allDigits = rawPhone.replace(/\D/g, '');
+      const plusCount = (rawPhone.match(/\+/g) || []).length;
+      const startsWithPlus = rawPhone.startsWith('+');
 
-      if (!phone || rawPhoneDigits.length === 0) {
+      // Check if user entered an unsupported extension syntax
+      if (/(?:ext|extension|\bx\b|\bext\b)/i.test(phoneInput?.value || '')) {
+        if (phoneError) phoneError.textContent = 'Please enter your direct phone number without extensions.';
+        phoneInput?.classList.add('has-error');
+        hasError = true;
+      }
+
+      if (plusCount > 1 || (plusCount === 1 && !startsWithPlus)) {
+        if (phoneError) phoneError.textContent = 'Phone number should only contain a single leading + for country code.';
+        phoneInput?.classList.add('has-error');
+        hasError = true;
+      }
+
+      // Identify Indian number vs International number:
+      // An Indian number either begins with '+' and allDigits starts with '91', is a bare 12-digit number starting with '91', or is a bare 10-digit number.
+      const isExplicitPlus91 = startsWithPlus && allDigits.startsWith('91');
+      const isBare12Digit91 = !startsWithPlus && allDigits.length === 12 && allDigits.startsWith('91');
+      const isBare10Digit = !startsWithPlus && allDigits.length === 10;
+      const isIndianNumber = isExplicitPlus91 || isBare12Digit91 || isBare10Digit;
+
+      let nationalIndianMobile = '';
+      if (isExplicitPlus91) {
+        nationalIndianMobile = allDigits.slice(2);
+      } else if (isBare12Digit91) {
+        nationalIndianMobile = allDigits.slice(2);
+      } else if (isBare10Digit) {
+        nationalIndianMobile = allDigits;
+      }
+
+      if (!rawPhone || allDigits.length === 0) {
         if (phoneError) phoneError.textContent = 'Phone / WhatsApp number is required.';
         phoneInput?.classList.add('has-error');
         hasError = true;
-      } else if (rawPhoneDigits.length !== 10 || !isValidIndianMobile) {
-        if (phoneError) phoneError.textContent = 'Please enter a valid 10-digit mobile number.';
-        phoneInput?.classList.add('has-error');
-        hasError = true;
-      } else if (isRepeatedPhone || isSequentialPhone) {
-        if (phoneError) phoneError.textContent = 'Please enter a real, active mobile number.';
-        phoneInput?.classList.add('has-error');
-        hasError = true;
+      } else if (isIndianNumber) {
+        const isRepeated = /^(\d)\1{9}$/.test(nationalIndianMobile);
+        const isSequential = ['1234567890', '9876543210', '0123456789'].includes(nationalIndianMobile);
+        const isValidIndianMobile = /^[6-9]\d{9}$/.test(nationalIndianMobile);
+
+        if (nationalIndianMobile.length !== 10 || !isValidIndianMobile) {
+          if (phoneError) phoneError.textContent = 'Please enter a valid 10-digit Indian mobile number (starts with 6–9).';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        } else if (isRepeated || isSequential) {
+          if (phoneError) phoneError.textContent = 'Please enter a real, active mobile number.';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        }
+      } else {
+        // International number validation
+        if (!startsWithPlus || plusCount !== 1) {
+          if (phoneError) phoneError.textContent = 'International numbers must start with a + country code (e.g. +1, +44).';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        } else if (allDigits.startsWith('0')) {
+          if (phoneError) phoneError.textContent = 'Country code cannot start with 0. Please enter a valid country code (e.g. +1, +44).';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        } else if (allDigits.length < 7 || allDigits.length > 15) {
+          if (phoneError) phoneError.textContent = 'Please enter a valid international number (7–15 digits).';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        } else if (/^(\d)\1{6,}$/.test(allDigits)) {
+          if (phoneError) phoneError.textContent = 'Please enter a real, active phone number.';
+          phoneInput?.classList.add('has-error');
+          hasError = true;
+        }
       }
 
       // 4. Validate Service Selection
       const selectedServiceRadio = form.querySelector('input[name="serviceType"]:checked') as HTMLInputElement | null;
       const serviceType = selectedServiceRadio ? selectedServiceRadio.value : '';
       if (!serviceType) {
-        if (serviceError) serviceError.textContent = 'Please select what you need help with.';
+        if (serviceError) serviceError.textContent = 'Please select what you need engineered.';
         hasError = true;
       }
 
@@ -1229,7 +1960,7 @@ const meta = {
       }
 
       const company = companyInput?.value.trim() || '';
-      const budget = budgetInput?.value.trim() || '';
+      const budget = budgetSelect?.value || '';
       const timeline = timelineSelect?.value || '';
 
       const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Book Free Consultation';
@@ -1239,10 +1970,14 @@ const meta = {
         submitBtn.textContent = 'Booking Consultation...';
       }
 
+      const normalizedPhone = isIndianNumber
+        ? `+91 ${nationalIndianMobile.slice(0, 5)} ${nationalIndianMobile.slice(5)}`
+        : (rawPhone.startsWith('+') ? rawPhone : `+${allDigits}`);
+
       const payload = {
         fullName,
         email,
-        phone,
+        phone: normalizedPhone,
         company,
         serviceType,
         projectBrief,
@@ -1262,16 +1997,27 @@ const meta = {
         const data = await response.json().catch(() => ({}));
 
         if (response.ok) {
-          if (typeof (window as any).infohqTrackLead === 'function') {
-            (window as any).infohqTrackLead(selectedServiceText || 'General Consultation');
+          try {
+            if (typeof (window as any).infohqTrackLead === 'function') {
+              (window as any).infohqTrackLead(serviceType || 'General Consultation');
+            }
+          } catch {
+            // Non-blocking telemetry tracking
           }
           if (feedbackBanner) {
             feedbackBanner.className = 'feedback-banner success';
             feedbackBanner.style.display = 'block';
-            feedbackBanner.innerHTML = `
-              <strong>✓ Free Consultation Booked!</strong><br />
-              Thank you, <strong>${fullName}</strong>. Your consultation details have been sent to our engineering team at <code>${data.targetEmail || 'contact@infohq.in'}</code>. We will review your idea and get back to you within 1 business day.
-            `;
+            feedbackBanner.textContent = '';
+
+            const titleEl = document.createElement('strong');
+            titleEl.textContent = '✓ Free Consultation Request Received!';
+
+            const bodyEl = document.createElement('p');
+            bodyEl.style.margin = '0.35rem 0 0';
+            const targetEmail = (data && data.targetEmail) ? String(data.targetEmail) : 'contact@infohq.in';
+            bodyEl.textContent = `Thank you, ${fullName}. Your consultation request has been dispatched directly to our engineering desk at ${targetEmail}. An engineering lead will review your specifications and contact you via ${preferredContact} within 24 hours (Mon–Sat, excluding national holidays).`;
+
+            feedbackBanner.append(titleEl, bodyEl);
             feedbackBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
           form.reset();
@@ -1280,14 +2026,14 @@ const meta = {
           if (feedbackBanner) {
             feedbackBanner.className = 'feedback-banner error';
             feedbackBanner.style.display = 'block';
-            feedbackBanner.textContent = data.error || 'Submission failed. Please email us directly at contact@infohq.in.';
+            feedbackBanner.textContent = (data && data.error) ? String(data.error) : 'Submission failed. Please reach our engineering desk directly at contact@infohq.in.';
           }
         }
       } catch (err) {
         if (feedbackBanner) {
           feedbackBanner.className = 'feedback-banner error';
           feedbackBanner.style.display = 'block';
-          feedbackBanner.textContent = 'Network transmission error. Please check your connection or email contact@infohq.in directly.';
+          feedbackBanner.textContent = 'Network transmission error. Please check your connection or reach us directly at contact@infohq.in.';
         }
       } finally {
         if (submitBtn) {
