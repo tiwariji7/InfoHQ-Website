@@ -178,3 +178,7 @@ InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineeri
     - URL: https://infohq.in/blogs/startups/how-to-get-your-first-client/
     - Key Insight: Actionable outbound and inbound client acquisition playbooks for early-stage B2B startups and service studios without large advertising budgets.
 
+21. **SeHAT SmartCare AI: Building an AI-Powered Healthcare Assistant with Android, Medical LLMs and RAG**
+    - URL: https://infohq.in/blogs/ai/sehat-smartcare-ai-healthcare-assistant/
+    - Key Insight: Full architectural teardown of an Android healthcare assistant integrating II-Medical-8B LLM, FAISS dense vector search, RAG, Tesseract OCR medical lab report parsing, and multilingual Hindi/English speech interaction.
+
