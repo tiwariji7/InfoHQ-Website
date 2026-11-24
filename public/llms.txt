@@ -20,7 +20,9 @@
 
 ## Portfolio & Case Studies
 - [Portfolio Overview](https://infohq.in/portfolio/): Real-world shipped projects across web applications, mobile platforms, enterprise AI, and workflow automation.
-- [SeHAT SmartCare AI](https://infohq.in/portfolio/#sehat): Intelligent Android healthcare assistance platform combining medical language models, RAG (Retrieval-Augmented Generation), semantic search, report OCR, and multilingual support (English, Hindi, Hinglish).
+- [SeHAT SmartCare AI](https://infohq.in/portfolio/sehat-smartcare/): Intelligent Android healthcare assistance platform combining medical language models, RAG (Retrieval-Augmented Generation), semantic search, report OCR, and multilingual support (English, Hindi, Hinglish).
+- [Alpha Studio Tech](https://infohq.in/portfolio/alpha-studio-tech/): High-performance digital agency web platform engineered for sub-second speeds, Core Web Vitals, and responsive media delivery.
+- [Tiwari Enterprises](https://infohq.in/portfolio/tiwari-enterprises/): Premier architectural aluminium and glass solutions platform in Pune, featuring localized SEO, sub-second edge performance, and direct WhatsApp lead routing.
 
 ## Engineering Blog & Guides
 - [Blog Hub](https://infohq.in/blogs/): In-depth technical articles, architectural teardowns, and actionable guides on AI, software engineering, automation, and digital growth.

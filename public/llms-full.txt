@@ -89,10 +89,23 @@ InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineeri
 
 ---
 
-## Featured Case Study: SeHAT SmartCare AI
-- Case Study URL: https://infohq.in/portfolio/#sehat
-- Industry: Healthcare & Clinical AI
-- Overview: An intelligent Android healthcare platform combining fine-tuned medical language models, Retrieval-Augmented Generation (RAG) for medical knowledge bases, semantic search, lab report OCR extraction, and multilingual support (English, Hindi, Hinglish). Designed for high-volume accessibility across urban and rural patient populations.
+## Featured Projects & Case Studies
+1. **SeHAT SmartCare AI**
+   - Case Study URL: https://infohq.in/portfolio/sehat-smartcare/
+   - Industry: Healthcare & Clinical AI
+   - Overview: An intelligent Android healthcare platform combining fine-tuned medical language models, Retrieval-Augmented Generation (RAG) for medical knowledge bases, semantic search, lab report OCR extraction, and multilingual support (English, Hindi, Hinglish).
+
+2. **Tiwari Enterprises**
+   - Case Study URL: https://infohq.in/portfolio/tiwari-enterprises/
+   - Live Website: https://tiwarienterprises.co.in/
+   - Industry: Architectural Glazing & Aluminium Solutions (Pune)
+   - Overview: A high-performance architectural web platform engineered for sub-second speeds, localized SEO across prime Pune micro-markets (Baner, Koregaon Park, Wakad), and high-conversion WhatsApp lead routing.
+
+3. **Alpha Studio Tech**
+   - Case Study URL: https://infohq.in/portfolio/alpha-studio-tech/
+   - Live Website: https://alphastudiotech.online/
+   - Industry: Digital Media & Creative Production
+   - Overview: Sub-second creative agency platform engineered on Astro and Cloudflare Pages with dark/light aesthetics, high-res media delivery, and 99+ Lighthouse performance.
 
 ---
 

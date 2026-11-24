@@ -443,68 +443,41 @@ const faqs = [
           </div>
         </article>
 
-        <!-- In-Progress SaaS -->
-        <article class="card portfolio-card coming-soon-card">
+        <!-- Tiwari Enterprises -->
+        <article class="card portfolio-card">
           <div class="card-top-bar">
-            <div class="portfolio-badge in-progress">
+            <div class="portfolio-badge live">
               <span class="badge-dot"></span>
-              <span>IN-PROGRESS SAAS</span>
+              <span>CLIENT PROJECT &bull; DELIVERED</span>
             </div>
+            <a href="https://tiwarienterprises.co.in" target="_blank" rel="noopener noreferrer" class="card-ext-btn" aria-label="Open Tiwari Enterprises in new tab">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
           </div>
 
-          <div class="card-preview-media preview-saas">
-            <div class="saas-left">
-              <span class="saas-title">SaaS Platform</span>
-              <span class="saas-desc">Building the next generation AI-powered platform at InfoHQ.</span>
-            </div>
-            <div class="saas-right">
-              <div class="saas-feature-pill">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="11" width="18" height="10" rx="2"></rect>
-                  <circle cx="12" cy="5" r="2"></circle>
-                  <path d="M12 7v4"></path>
-                  <line x1="8" y1="16" x2="8" y2="16"></line>
-                  <line x1="16" y1="16" x2="16" y2="16"></line>
-                </svg>
-                <span>AI Agents</span>
-              </div>
-              <div class="saas-feature-pill">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-                <span>Multi-Tenant</span>
-              </div>
-              <div class="saas-feature-pill">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                </svg>
-                <span>Edge Computing</span>
-              </div>
-            </div>
+          <div class="card-preview-media preview-tiwari">
+            <img src="/projects_images/tiwari-enterprises/hero-sliding.webp" alt="Tiwari Enterprises Architectural Aluminium & Glass Solutions website" class="preview-img" loading="lazy" />
           </div>
 
-          <h3 class="card-project-title">In-House SaaS Platform</h3>
+          <h3 class="card-project-title">Tiwari Enterprises &mdash; Architectural Platform</h3>
           <p class="card-project-desc">
-            InfoHQ is currently building its own SaaS product in-house &mdash; dogfooding modern AI agent architectures, multi-tenancy, and edge computing.
+            A high-speed architectural aluminium &amp; glass showcase platform engineered for Tiwari Enterprises in Pune, with sub-second edge delivery, local SEO, and WhatsApp lead routing.
           </p>
 
           <div class="card-tags">
-            <span class="chip-tag chip-blue">AI Systems</span>
-            <span class="chip-tag chip-purple">Multi-Tenant SaaS</span>
-            <span class="chip-tag chip-orange">Cloudflare Edge</span>
+            <span class="chip-tag chip-blue">Web Platform</span>
+            <span class="chip-tag chip-purple">Astro &bull; TS</span>
+            <span class="chip-tag chip-orange">Local SEO (Pune)</span>
           </div>
 
           <div class="portfolio-footer">
-            <div class="card-footer-status">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="status-icon" aria-hidden="true">
-                <path d="m3 11 18-5v12L3 14v-3z"></path>
-                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-              </svg>
-              <span>Official Announcement Coming Soon</span>
-            </div>
+            <a href="https://tiwarienterprises.co.in" target="_blank" rel="noopener noreferrer" class="card-footer-link">
+              tiwarienterprises.co.in &nearr;
+            </a>
           </div>
         </article>
       </div>
@@ -1507,12 +1480,18 @@ const faqs = [
     background: #F1F5F9;
   }
 
-  .preview-alpha .preview-img {
+  .preview-alpha .preview-img,
+  .preview-tiwari .preview-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card:hover .preview-tiwari .preview-img {
+    transform: scale(1.02);
   }
 
   /* SeHAT Preview */

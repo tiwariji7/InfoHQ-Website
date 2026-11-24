@@ -415,6 +415,205 @@ export const caseStudies: CaseStudy[] = [
       'Git CI/CD'
     ],
     impact: 'Alpha Studio Tech gained a striking, modern web platform that positions them as a top-tier creative studio. The sub-second speed and clean aesthetics provide their clients with an effortless browsing experience.'
+  },
+  {
+    id: 'tiwari-enterprises',
+    slug: 'tiwari-enterprises',
+    category: 'web',
+    categoryLabel: 'Architectural Web & Lead Generation',
+    badge: 'CLIENT PROJECT • DELIVERED & LIVE',
+    badgeType: 'live',
+    client: 'Tiwari Enterprises',
+    engagement: 'Architectural Platform & Lead Gen Architecture',
+    industry: 'Architectural Aluminium & Glass Solutions',
+    timeline: '2-Week Delivery Sprint',
+    platform: 'Astro + TypeScript + Cloudflare Pages Edge',
+    title: 'Tiwari Enterprises — Premium Aluminium & Glass Solutions Web Platform',
+    shortTitle: 'Tiwari Enterprises',
+    oneLiner: 'A high-conversion architectural showcase platform engineered with sub-second performance, local Pune SEO, and streamlined WhatsApp lead routing.',
+    summary: 'Tiwari Enterprises is a premier architectural aluminium and glass fabrication studio based in Pune, specializing in slimline sliding systems, structural glazing, frameless glass railings, and acoustic office partitions. InfoHQ engineered an ultra-fast, visually immersive web platform tailored to convert architects, interior designers, and luxury homeowners.',
+    subSummary: 'The platform features an interactive project showcase across prime Pune micro-markets (Baner, Koregaon Park, Wakad), a transparent 5-phase execution framework, mobile-first responsiveness, and frictionless 1-tap WhatsApp consultation routing.',
+    heroImage: '/projects_images/tiwari-enterprises/hero-sliding.webp',
+    liveUrl: 'https://tiwarienterprises.co.in',
+    liveUrlLabel: 'Visit Live Website',
+    hasShowcaseModal: false,
+    problem: {
+      badge: 'The Architectural Lead Generation Challenge',
+      headline: 'High-Ticket Architectural Fabrication Demands Visual Authority & Local Prominence',
+      description: 'Architectural glass and aluminium projects involve significant budgets. Architects, luxury villa owners, and commercial builders require immediate visual proof of craftsmanship, profile precision, and past site execution before initiating inquiries.',
+      points: [
+        {
+          title: 'Sluggish High-Res Image Delivery',
+          desc: 'Large architectural photos on traditional CMS platforms caused slow load times and high bounce rates on mobile devices.'
+        },
+        {
+          title: 'Missed High-Intent Local Searches',
+          desc: 'Without structured local SEO and schema markup, lucrative searches for aluminium sliding windows and structural glazing in Pune were lost to aggregators.'
+        },
+        {
+          title: 'High-Friction Lead Capture',
+          desc: 'Lengthy contact forms discouraged busy on-site architects, contractors, and builders who prefer immediate WhatsApp and direct phone consultation.'
+        }
+      ]
+    },
+    solution: {
+      badge: 'The Engineered Solution',
+      headline: 'Sub-Second Edge Architecture with Local SEO & Direct WhatsApp Ingestion',
+      description: 'InfoHQ engineered a modern static Astro web application hosted on Cloudflare Pages. By pairing high-definition WebP image delivery with localized schema markup and streamlined communication channels, the platform turns organic local traffic into direct client conversations.',
+      points: [
+        {
+          title: 'Sub-Second Edge Rendering',
+          desc: 'Static HTML and pre-optimized WebP visual assets load in under 350ms across Pune and Maharashtra through Cloudflare global edge points.'
+        },
+        {
+          title: 'Local SEO & Micro-Market Geo-Targeting',
+          desc: 'Embedded Schema.org LocalBusiness structured data and targeted keyword architecture optimized for Baner, Koregaon Park, Wakad, Kothrud, and Kalyani Nagar.'
+        },
+        {
+          title: '1-Tap WhatsApp Lead Pipeline',
+          desc: 'Floating and contextual CTA buttons pre-fill specific project inquiry details, routing leads directly into sales WhatsApp threads.'
+        }
+      ]
+    },
+    workflowWalkthrough: {
+      headline: 'The 4-Stage Architectural Web Blueprint',
+      subheadline: 'How InfoHQ designed, developed, and deployed Tiwari Enterprises from discovery to production.',
+      steps: [
+        {
+          step: '01',
+          title: 'Asset Curation & Design System',
+          desc: 'Structured high-definition architectural photography across four core disciplines: sliding systems, structural glazing, balustrades, and partitions.',
+          icon: '📐'
+        },
+        {
+          step: '02',
+          title: 'Astro Edge-Native Development',
+          desc: 'Built modular, zero-runtime JavaScript components ensuring optimal mobile fluidity and instantaneous page transitions.',
+          icon: '⚡'
+        },
+        {
+          step: '03',
+          title: 'Local SEO & Schema Markup',
+          desc: 'Injected comprehensive LocalBusiness and Service JSON-LD schemas targeting Pune architectural and glazing searches.',
+          icon: '📍'
+        },
+        {
+          step: '04',
+          title: 'Cloudflare Deployment & Launch',
+          desc: 'Configured custom domain routing, automated SSL termination, and immutable caching on Cloudflare Pages.',
+          icon: '🚀'
+        }
+      ]
+    },
+    screenshots: [
+      {
+        id: 'screen-sliding',
+        tabLabel: '🚪 Sliding Systems',
+        title: 'Premium Slimline Aluminium Sliding Systems',
+        workflowRole: 'Architectural Glazing Showcase & Residential Installations',
+        caption: 'High-definition showcase of minimal sightline aluminium sliding doors and windows designed for seamless transitions, thermal efficiency, and smooth everyday operation.',
+        underTheHood: [
+          'High-density WebP image compression preserves micro-profile details while maintaining under-200KB payload sizes.',
+          'Responsive picture markup dynamically serves appropriate resolutions across mobile screens and high-DPI desktop displays.',
+          'Direct inquiry triggers route interested architects immediately into WhatsApp conversation channels.'
+        ],
+        keyCapabilities: [
+          'Slimline minimal sightlines',
+          'Heavy-duty hardware profiling',
+          'Smooth multi-track sliding mechanics',
+          'Weather & acoustic sealing'
+        ],
+        src: '/projects_images/tiwari-enterprises/hero-sliding.webp'
+      },
+      {
+        id: 'screen-baner',
+        tabLabel: '🏡 Baner Villa',
+        title: 'Baner Luxury Residence Sliding Installation',
+        workflowRole: 'Real-World Pune Site Case Study',
+        caption: 'On-site execution study in Baner, Pune, demonstrating floor-to-ceiling slimline aluminium profiles engineered for panoramic natural light and high wind resistance.',
+        underTheHood: [
+          'Localized location-specific metadata reinforces topical relevance for high-value residential developments in Baner.',
+          'Lazy-loaded progressive image rendering prevents layout shifts (CLS 0.0) during vertical scrolling.',
+          'Structured project specifications detail glass thickness, coating, and aluminium grade.'
+        ],
+        keyCapabilities: [
+          'Floor-to-ceiling architectural glass',
+          'Powder-coated aluminium finish',
+          'Smooth corner sliding integration',
+          'Precision site leveling'
+        ],
+        src: '/projects_images/tiwari-enterprises/baner-sliding.webp'
+      },
+      {
+        id: 'screen-acoustic',
+        tabLabel: '🏢 Acoustic Partitions',
+        title: 'Koregaon Park Acoustic Glass Office Partitions',
+        workflowRole: 'Commercial Office Space Division & Sound Insulation',
+        caption: 'Demountable acoustic glass partition systems engineered for corporate boardrooms and executive cabins in Koregaon Park, ensuring acoustic privacy and visual openness.',
+        underTheHood: [
+          'Modular CSS grid layout pairs technical sound transmission class (STC) specifications with clean photography.',
+          'Direct consultation anchor links prompt corporate workspace planners to request layout estimations.',
+          'Schema.org Service entity markup identifies commercial interior glazing offerings.'
+        ],
+        keyCapabilities: [
+          'Acoustic sound insulation',
+          'Sleek aluminium perimeter trims',
+          'Toughened safety glass panels',
+          'Integrated pivot glass doors'
+        ],
+        src: '/projects_images/tiwari-enterprises/koregaon-acoustic.webp'
+      },
+      {
+        id: 'screen-railings',
+        tabLabel: '🛡️ Glass Railings',
+        title: 'Wakad High-Rise Balustrades & Glass Railings',
+        workflowRole: 'Safety Engineering & Exterior Balcony Glass',
+        caption: 'Heavy-duty frameless glass railing systems featuring base-shoe channel anchoring, laminated toughened safety glass, and slimline aluminium top profiles for modern balconies.',
+        underTheHood: [
+          'Structural safety specifications outline glass lamination standards (PVB/SentryGlas) and load-bearing wind tests.',
+          'Mobile-first responsive presentation allows field supervisors and architects to view details directly on smartphones.',
+          'Fast tap-to-call intent connects directly with senior fabrication engineers.'
+        ],
+        keyCapabilities: [
+          'Laminated toughened safety glass',
+          'Concealed base shoe channels',
+          'Continuous handrail options',
+          'High wind-load certified'
+        ],
+        src: '/projects_images/tiwari-enterprises/wakad-railings.webp'
+      }
+    ],
+    techLayers: [
+      { layer: 'Astro 5.x Static Engine', detail: 'Zero-JavaScript by default architecture delivering lightweight, high-speed HTML output.', tech: 'Astro 5.x' },
+      { layer: 'TypeScript Strict Logic', detail: 'Type-safe component properties and structured project data validation.', tech: 'TypeScript' },
+      { layer: 'Vanilla CSS & BEM Architecture', detail: 'Custom CSS variables with fluid responsive typography, micro-interactions, and dark/light contrast.', tech: 'CSS3, BEM' },
+      { layer: 'Cloudflare Pages Edge', detail: 'Automated CI/CD deployments and distributed CDN caching across 300+ edge data centers.', tech: 'Cloudflare Pages, Git CI/CD' }
+    ],
+    keyFeatures: [
+      'Interactive architectural portfolio showcasing sliding systems, facades, railings, and partitions',
+      'Sub-second page transitions and 99+ Google Lighthouse performance score',
+      'Direct WhatsApp integration with pre-filled quote inquiry messages',
+      'Location-based Pune project case studies (Baner, Koregaon Park, Wakad)',
+      'Structured JSON-LD schema for LocalBusiness and Architectural Glazing',
+      'Full responsive optimization for mobile devices, tablets, and high-DPI displays',
+      'Automated SSL, custom domain routing, and global CDN delivery'
+    ],
+    results: [
+      { metric: '< 350ms', label: 'First Contentful Paint', sublabel: 'Instant edge delivery' },
+      { metric: '100%', label: 'Mobile Responsive', sublabel: 'Fluid on all phones & tablets' },
+      { metric: '4 Core', label: 'Architectural Disciplines', sublabel: 'Sliding, Glazing, Railings, Partitions' },
+      { metric: '1-Tap', label: 'Direct WhatsApp Inquiries', sublabel: 'Zero-friction lead routing' }
+    ],
+    techStack: [
+      'Astro',
+      'TypeScript',
+      'Cloudflare Pages',
+      'WebP Imaging',
+      'Local SEO',
+      'CSS Grid & Flexbox',
+      'Git CI/CD'
+    ],
+    impact: 'Tiwari Enterprises now commands a modern, high-speed digital storefront that reflects their craftsmanship. The platform drives verified homeowner and architect inquiries via WhatsApp while establishing localized search prominence across Pune.'
   }
 ];
 

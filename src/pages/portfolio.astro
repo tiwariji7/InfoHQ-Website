@@ -310,6 +310,50 @@ const deliveryStandards = [
           </div>
         </article>
 
+        <!-- 2. Tiwari Enterprises -->
+        <article class="card portfolio-card case-study-card" data-category="web" id="tiwari-enterprises">
+          <div class="card-top-bar">
+            <div class="portfolio-badge live">
+              <span class="badge-dot"></span>
+              <span>CLIENT PROJECT &bull; DELIVERED</span>
+            </div>
+            <a href="https://tiwarienterprises.co.in" target="_blank" rel="noopener noreferrer" class="card-ext-btn" aria-label="Open Tiwari Enterprises in new tab" title="Open live website">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+
+          <div class="card-preview-media preview-tiwari">
+            <img src="/projects_images/tiwari-enterprises/hero-sliding.webp" alt="Tiwari Enterprises Architectural Aluminium & Glass Solutions website" class="preview-img" loading="lazy" />
+          </div>
+
+          <h3 class="card-project-title">Tiwari Enterprises &mdash; Architectural Platform</h3>
+          <p class="card-project-desc">
+            A high-speed architectural aluminium &amp; glass showcase platform engineered for Tiwari Enterprises in Pune, featuring local SEO, sub-second edge delivery, and 1-tap WhatsApp lead routing.
+          </p>
+
+          <div class="card-tags">
+            <span class="chip-tag chip-blue">Web Platform</span>
+            <span class="chip-tag chip-purple">Astro &bull; TS</span>
+            <span class="chip-tag chip-orange">Local SEO (Pune)</span>
+            <span class="chip-tag chip-green">Cloudflare Pages</span>
+          </div>
+
+          <div class="portfolio-card-actions">
+            <a href="/portfolio/tiwari-enterprises/" class="btn-card-case-study">
+              <span>Project Case Study</span>
+              <span class="arrow-icon">&rarr;</span>
+            </a>
+            <a href="https://tiwarienterprises.co.in" target="_blank" rel="noopener noreferrer" class="btn-card-live">
+              <span>Visit Live Website</span>
+              <span class="arrow-icon">&nearr;</span>
+            </a>
+          </div>
+        </article>
+
         <!-- 2. SeHAT SmartCare AI -->
         <article class="card portfolio-card case-study-card" data-category="mobile ai" id="sehat">
           <div class="card-top-bar">
@@ -897,8 +941,9 @@ const deliveryStandards = [
     background: #F1F5F9;
   }
 
-  /* Alpha Studio Mockup */
-  .preview-alpha .preview-img {
+  /* Alpha Studio & Tiwari Enterprises Mockups */
+  .preview-alpha .preview-img,
+  .preview-tiwari .preview-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -907,7 +952,8 @@ const deliveryStandards = [
     transition: transform 0.3s ease;
   }
 
-  .portfolio-card:hover .preview-alpha .preview-img {
+  .portfolio-card:hover .preview-alpha .preview-img,
+  .portfolio-card:hover .preview-tiwari .preview-img {
     transform: scale(1.02);
   }
 
