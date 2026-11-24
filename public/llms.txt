@@ -37,6 +37,7 @@
 - [Website Development Cost in India (2026 Guide)](https://infohq.in/blogs/web/website-development-cost-india/): Transparent price breakdown across landing pages, custom business websites, and SaaS web apps.
 - [Mobile App Development Cost in India (2026 Guide)](https://infohq.in/blogs/web/mobile-app-development-cost-india/): Budgeting guide for Android, iOS, and cross-platform apps with feature cost factors.
 - [Next.js vs WordPress](https://infohq.in/blogs/web/nextjs-vs-wordpress/): Comprehensive technical and business comparison for modern business websites.
+- [How to Improve Core Web Vitals](https://infohq.in/blogs/web/improve-core-web-vitals/): Step-by-step engineering techniques to score 95+ on Google PageSpeed (LCP, FID/INP, CLS).
 
 ### Business Automation & Integrations
 - [Leads Not Converting into Sales? Fix Your Follow-Up System](https://infohq.in/blogs/automation/leads-not-converting-into-sales/): Practical sales follow-up cadences, CRM pipeline stages, and automated lead reminders for small businesses.
@@ -48,8 +49,11 @@
 - [n8n vs Make vs Zapier](https://infohq.in/blogs/automation/n8n-vs-make-vs-zapier/): Detailed breakdown of features, self-hosting advantages, API costs, and team suitability.
 - [Workflow Automation for Real Estate Agencies](https://infohq.in/blogs/automation/real-estate-automation/): Solving buyer lead leakage, site visit scheduling, and CRM syncing for Indian property developers.
 
-### Cloud, DevOps & Performance
-- [How to Improve Core Web Vitals](https://infohq.in/blogs/cloud/improve-core-web-vitals/): Step-by-step engineering techniques to score 95+ on Google PageSpeed (LCP, FID/INP, CLS).
+### Cloud, DevOps & Security
+- [Zero-Downtime Deployment with Docker and GitHub Actions](https://infohq.in/blogs/cloud/zero-downtime-deployment-docker-github-actions/): Production guide to Blue-Green deployments, Docker containerization, health checks, and automated CI/CD pipelines.
+
+### Startups & Growth
+- [How to Get Your First Client as a Startup](https://infohq.in/blogs/startups/how-to-get-your-first-client/): 12 practical ways to find paying customers without an ad budget.
 
 ## Pricing Models
 InfoHQ offers two distinct engagement models:

@@ -34,6 +34,8 @@ export default defineConfig({
   redirects: {
     '/blogs/design': '/blogs/startups/',
     '/blogs/growth': '/blogs/startups/',
+    '/privacy-policy': '/privacy/',
+    '/terms-of-service': '/terms/',
   },
   prefetch: {
     prefetchAll: false,

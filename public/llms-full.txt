@@ -147,7 +147,7 @@ InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineeri
     - Key Insight: Handling portal leads (99acres, MagicBricks), automated site visit reminders, and CRM synchronization.
 
 13. **How to Improve Core Web Vitals for Modern Web Applications**
-    - URL: https://infohq.in/blogs/cloud/improve-core-web-vitals/
+    - URL: https://infohq.in/blogs/web/improve-core-web-vitals/
     - Key Insight: Practical frontend engineering fixes to achieve green 95+ scores on Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP).
 
 14. **Why Is My Website Not Getting Customers? 9 Problems and How to Fix Them**
@@ -169,4 +169,12 @@ InfoHQ (legal identifier: InfoHQ, founded 2025 by Shivam Tiwari) is an engineeri
 18. **AI Voice Agents for Business: Can AI Answer Calls and Book Appointments?**
     - URL: https://infohq.in/blogs/ai/ai-voice-agents-for-business/
     - Key Insight: In-depth architectural analysis of sub-second conversational voicebots handling 24/7 inbound calls, bilingual Hindi/English/Hinglish speech, live calendar appointment booking, CRM lead qualification, and intelligent warm transfers to human agents.
+
+19. **Zero-Downtime Deployment with Docker and GitHub Actions: A Production Guide for Startups**
+    - URL: https://infohq.in/blogs/cloud/zero-downtime-deployment-docker-github-actions/
+    - Key Insight: Engineering guide to automated CI/CD pipelines, containerization, multi-stage Docker builds, Nginx reverse proxy Blue-Green deployments, and native health check validation.
+
+20. **How to Get Your First Client as a Startup: 12 Practical Ways to Find Paying Customers**
+    - URL: https://infohq.in/blogs/startups/how-to-get-your-first-client/
+    - Key Insight: Actionable outbound and inbound client acquisition playbooks for early-stage B2B startups and service studios without large advertising budgets.
 

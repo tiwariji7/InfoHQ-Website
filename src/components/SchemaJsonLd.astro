@@ -26,8 +26,8 @@ const organizationBase = {
   '@type': 'Organization',
   '@id': 'https://infohq.in/#organization',
   name: 'InfoHQ',
-  legalName: 'InfoHQ Pvt Ltd',
-  alternateName: ['InfoHQ Pvt Ltd', 'Info HQ'],
+  legalName: 'InfoHQ',
+  alternateName: ['InfoHQ India', 'Info HQ'],
   url: 'https://infohq.in/',
   logo: {
     '@type': 'ImageObject',
@@ -44,7 +44,11 @@ const organizationBase = {
     '@id': 'https://infohq.in/company/#shivam-tiwari',
     name: 'Shivam Tiwari',
     jobTitle: 'Founder & Lead Engineer',
-    url: 'https://infohq.in/company/'
+    url: 'https://infohq.in/company/',
+    sameAs: [
+      'https://x.com/CodeWithTiwari',
+      'https://github.com/tiwariji7'
+    ]
   },
   sameAs: [
     'https://www.linkedin.com/company/infohq/',
@@ -122,7 +126,7 @@ if (customSchema) {
     '@type': 'WebSite',
     '@id': 'https://infohq.in/#website',
     name: 'InfoHQ',
-    alternateName: ['InfoHQ India', 'Info HQ'],
+    alternateName: ['InfoHQ India', 'Info HQ', 'infohq.in'],
     url: 'https://infohq.in/',
     publisher: {
       '@id': 'https://infohq.in/#organization'
@@ -745,15 +749,26 @@ if (customSchema) {
     inLanguage: 'en-IN',
     datePublished: postData.datePublished,
     dateModified: postData.dateModified || postData.datePublished,
-    author: {
-      '@type': 'Person',
-      name: postData.author || 'Shivam Tiwari',
-      jobTitle: 'Founder & Lead Engineer',
-      worksFor: {
-        '@id': 'https://infohq.in/#organization'
-      },
-      url: 'https://infohq.in/company/'
-    },
+    author: postData.author === 'InfoHQ Team' || postData.author === 'InfoHQ'
+      ? {
+          '@type': 'Organization',
+          '@id': 'https://infohq.in/#organization',
+          name: 'InfoHQ',
+          url: 'https://infohq.in/'
+        }
+      : {
+          '@type': 'Person',
+          name: postData.author || 'Shivam Tiwari',
+          jobTitle: 'Founder & Lead Engineer',
+          worksFor: {
+            '@id': 'https://infohq.in/#organization'
+          },
+          url: 'https://infohq.in/company/',
+          sameAs: [
+            'https://x.com/CodeWithTiwari',
+            'https://github.com/tiwariji7'
+          ]
+        },
     publisher: {
       '@id': 'https://infohq.in/#organization'
     },
