@@ -784,3 +784,33 @@ article[class*="-card"]:hover,
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   Skeleton Shimmer Global Utility
+   ========================================================================== */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #E8E5F3 !important;
+  background-image: linear-gradient(
+    90deg,
+    #E8E5F3 0%,
+    #F5F4FB 40%,
+    #FFFFFF 50%,
+    #F5F4FB 60%,
+    #E8E5F3 100%
+  ) !important;
+  background-size: 250% 100% !important;
+  animation: skeleton-wave 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  color: transparent !important;
+  border-color: transparent !important;
+}
+
+@keyframes skeleton-wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -9,6 +9,7 @@ import SchemaJsonLd from '../components/SchemaJsonLd.astro';
 import NetworkStatus from '../components/NetworkStatus.astro';
 import WhatsAppQuickConnect from '../components/WhatsAppQuickConnect.astro';
 import ExitIntentModal from '../components/ExitIntentModal.astro';
+import PageLoadingShimmer from '../components/PageLoadingShimmer.astro';
 import { ANALYTICS_CONFIG } from '../config/analytics';
 
 interface Props {
@@ -309,6 +310,7 @@ const linkedInPartnerId = ANALYTICS_CONFIG.linkedInPartnerId;
     <ExitIntentModal />
     <CookieBanner />
     <NetworkStatus />
+    <PageLoadingShimmer />
 
     {/* Motion Engine & Smooth Scroll */}
     <script>

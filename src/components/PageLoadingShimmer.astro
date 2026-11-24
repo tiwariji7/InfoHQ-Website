@@ -1,0 +1,432 @@
+---
+// PageLoadingShimmer.astro - Premium Skeleton Shimmer & Top Progress Loader for Slow Networks & Page Navigation
+---
+
+<!-- Top Edge Shimmer Progress Bar -->
+<div 
+  id="page-shimmer-progress" 
+  class="shimmer-progress-bar" 
+  role="progressbar" 
+  aria-hidden="true"
+  aria-valuemin="0" 
+  aria-valuemax="100" 
+  aria-valuenow="0"
+>
+  <div class="shimmer-progress-inner"></div>
+</div>
+
+<!-- Full-Page Skeleton Shimmer Screen for Slow Transitions -->
+<div 
+  id="page-skeleton-overlay" 
+  class="page-skeleton-overlay" 
+  aria-hidden="true"
+>
+  <div class="skeleton-container">
+    <!-- Skeleton Header Placeholder -->
+    <div class="skeleton-header">
+      <div class="skeleton-pill skeleton-logo"></div>
+      <div class="skeleton-nav-items">
+        <div class="skeleton-pill skeleton-nav-item"></div>
+        <div class="skeleton-pill skeleton-nav-item"></div>
+        <div class="skeleton-pill skeleton-nav-item"></div>
+        <div class="skeleton-pill skeleton-nav-item"></div>
+        <div class="skeleton-pill skeleton-btn"></div>
+      </div>
+    </div>
+
+    <!-- Skeleton Hero Section -->
+    <div class="skeleton-hero">
+      <div class="skeleton-pill skeleton-eyebrow"></div>
+      <div class="skeleton-bar skeleton-title-lg"></div>
+      <div class="skeleton-bar skeleton-title-md"></div>
+      <div class="skeleton-bar skeleton-subtext"></div>
+      <div class="skeleton-bar skeleton-subtext short"></div>
+      <div class="skeleton-cta-row">
+        <div class="skeleton-pill skeleton-cta-btn"></div>
+        <div class="skeleton-pill skeleton-cta-btn secondary"></div>
+      </div>
+    </div>
+
+    <!-- Skeleton Card Grid -->
+    <div class="skeleton-grid">
+      <div class="skeleton-card">
+        <div class="skeleton-card-icon"></div>
+        <div class="skeleton-bar skeleton-card-title"></div>
+        <div class="skeleton-bar skeleton-card-text"></div>
+        <div class="skeleton-bar skeleton-card-text short"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-card-icon"></div>
+        <div class="skeleton-bar skeleton-card-title"></div>
+        <div class="skeleton-bar skeleton-card-text"></div>
+        <div class="skeleton-bar skeleton-card-text short"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-card-icon"></div>
+        <div class="skeleton-bar skeleton-card-title"></div>
+        <div class="skeleton-bar skeleton-card-text"></div>
+        <div class="skeleton-bar skeleton-card-text short"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Page Transition & Slow Network Skeleton Shimmer Controller
+  let showTimer: any = null;
+  let progressInterval: any = null;
+
+  const progressBar = document.getElementById('page-shimmer-progress');
+  const skeletonOverlay = document.getElementById('page-skeleton-overlay');
+
+  function startLoading() {
+    // 1. Immediately start subtle top shimmer progress bar
+    if (progressBar) {
+      progressBar.classList.remove('finished');
+      progressBar.classList.add('loading');
+      progressBar.style.width = '25%';
+      
+      let progress = 25;
+      clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        if (progress < 85) {
+          progress += Math.random() * 8 + 3;
+          if (progressBar) progressBar.style.width = `${Math.min(progress, 85)}%`;
+        }
+      }, 120);
+    }
+
+    // 2. Debounce full skeleton shimmer by 120ms so instant loads don't flash,
+    // but on slower networks (>120ms latency) the skeleton appears smoothly.
+    clearTimeout(showTimer);
+    showTimer = setTimeout(() => {
+      if (skeletonOverlay) {
+        skeletonOverlay.classList.add('visible');
+      }
+    }, 120);
+  }
+
+  function finishLoading() {
+    clearTimeout(showTimer);
+    clearInterval(progressInterval);
+
+    // 1. Finish progress bar
+    if (progressBar) {
+      progressBar.style.width = '100%';
+      progressBar.classList.add('finished');
+      setTimeout(() => {
+        progressBar.classList.remove('loading', 'finished');
+        progressBar.style.width = '0%';
+      }, 350);
+    }
+
+    // 2. Gracefully fade out skeleton overlay
+    if (skeletonOverlay) {
+      skeletonOverlay.classList.remove('visible');
+    }
+  }
+
+  // Hook into Astro View Transitions / ClientRouter events
+  document.addEventListener('astro:before-preparation', () => {
+    startLoading();
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    finishLoading();
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    finishLoading();
+  });
+
+  // Handle standard browser unload or navigation fallbacks
+  window.addEventListener('beforeunload', () => {
+    startLoading();
+  });
+</script>
+
+<style>
+  /* ==========================================================================
+     Top Edge Shimmer Progress Bar
+     ========================================================================== */
+  .shimmer-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    width: 0%;
+    z-index: 999999;
+    pointer-events: none;
+    opacity: 0;
+    transition: width 0.25s ease-out, opacity 0.2s ease;
+    background: linear-gradient(
+      90deg, 
+      #7C5CE8 0%, 
+      #DD4985 35%, 
+      #E8604E 70%, 
+      #5782E0 100%
+    );
+    box-shadow: 0 0 12px rgba(124, 92, 232, 0.65), 0 0 4px rgba(221, 73, 133, 0.8);
+  }
+
+  .shimmer-progress-bar.loading {
+    opacity: 1;
+  }
+
+  .shimmer-progress-bar.finished {
+    opacity: 0;
+    transition: width 0.15s ease-out, opacity 0.3s ease 0.1s;
+  }
+
+  .shimmer-progress-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.85) 50%, 
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: bar-shimmer-sweep 1.2s infinite linear;
+  }
+
+  @keyframes bar-shimmer-sweep {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ==========================================================================
+     Full-Screen Skeleton Shimmer Overlay
+     ========================================================================== */
+  .page-skeleton-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background-color: var(--color-bg-page, #F8F8FF);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
+    overflow: hidden;
+  }
+
+  .page-skeleton-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .skeleton-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 3rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  /* Shimmer Wave Core Animation */
+  .skeleton-pill,
+  .skeleton-bar,
+  .skeleton-card-icon {
+    position: relative;
+    overflow: hidden;
+    background-color: #E8E5F3;
+    background-image: linear-gradient(
+      90deg,
+      #E8E5F3 0%,
+      #F5F4FB 40%,
+      #FFFFFF 50%,
+      #F5F4FB 60%,
+      #E8E5F3 100%
+    );
+    background-size: 250% 100%;
+    animation: skeleton-wave 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes skeleton-wave {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Header Placeholders */
+  .skeleton-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+  }
+
+  .skeleton-logo {
+    width: 140px;
+    height: 38px;
+    border-radius: 9999px;
+  }
+
+  .skeleton-nav-items {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .skeleton-nav-item {
+    width: 75px;
+    height: 22px;
+    border-radius: 9999px;
+  }
+
+  .skeleton-btn {
+    width: 130px;
+    height: 40px;
+    border-radius: 9999px;
+    margin-left: 0.5rem;
+  }
+
+  /* Hero Section Placeholders */
+  .skeleton-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    max-width: 820px;
+    margin-top: 1rem;
+  }
+
+  .skeleton-eyebrow {
+    width: 160px;
+    height: 26px;
+    border-radius: 9999px;
+  }
+
+  .skeleton-title-lg {
+    width: 90%;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .skeleton-title-md {
+    width: 65%;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .skeleton-subtext {
+    width: 85%;
+    height: 18px;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .skeleton-subtext.short {
+    width: 55%;
+    margin-top: -0.25rem;
+  }
+
+  .skeleton-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .skeleton-cta-btn {
+    width: 175px;
+    height: 52px;
+    border-radius: 9999px;
+  }
+
+  .skeleton-cta-btn.secondary {
+    width: 145px;
+  }
+
+  /* Card Grid Placeholders */
+  .skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .skeleton-card {
+    background: #FFFFFF;
+    border: 1px solid #EAE6F7;
+    border-radius: 20px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 4px 20px rgba(120, 100, 220, 0.04);
+  }
+
+  .skeleton-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .skeleton-card-title {
+    width: 70%;
+    height: 24px;
+    border-radius: 8px;
+  }
+
+  .skeleton-card-text {
+    width: 100%;
+    height: 14px;
+    border-radius: 6px;
+  }
+
+  .skeleton-card-text.short {
+    width: 60%;
+    margin-top: -0.25rem;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .skeleton-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .skeleton-nav-item {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .skeleton-grid {
+      grid-template-columns: 1fr;
+    }
+    .skeleton-header {
+      padding-top: 0.25rem;
+    }
+    .skeleton-title-lg {
+      width: 100%;
+      height: 38px;
+    }
+    .skeleton-title-md {
+      width: 80%;
+      height: 38px;
+    }
+    .skeleton-btn {
+      display: none;
+    }
+  }
+
+  /* Respect User Reduced Motion Preference */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-pill,
+    .skeleton-bar,
+    .skeleton-card-icon,
+    .shimmer-progress-inner {
+      animation: none !important;
+      background-position: 0 0 !important;
+    }
+  }
+</style>
